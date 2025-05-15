@@ -1,1 +1,68 @@
 @import 'tailwindcss';
+
+@theme {
+    /* Black & White */
+    --color-black: #000000;
+    --color-white: #ffffff;
+
+    /* Orange */
+    --color-orange-50: #fff7ea;
+    --color-orange-100: #ffedd5;
+    --color-orange-200: #ffe2b4;
+    --color-orange-300: #ffd67a;
+    --color-orange-400: #f9ab3c;
+    --color-orange-500: #f97316;
+    --color-orange-600: #ea580c;
+    --color-orange-700: #c2410c;
+    --color-orange-800: #a03412;
+    --color-orange-900: #7c1d12;
+    --color-orange-950: #431407;
+
+    /* Gray */
+    --color-gray-50: #f9fafb;
+    --color-gray-100: #f3f4f6;
+    --color-gray-200: #e5e7eb;
+    --color-gray-300: #d1d5db;
+    --color-gray-400: #9ca3af;
+    --color-gray-500: #6b7280;
+    --color-gray-600: #585e65;
+    --color-gray-700: #374151;
+    --color-gray-800: #1f2937;
+    --color-gray-900: #111827;
+    --color-gray-950: #030712;
+
+    /* Red */
+    --color-red-600: #dc2626;
+
+    /* Font Family */
+    --font-family-sans: 'Pretendard', 'system-ui', 'sans-serif';
+
+    /* Font Weights */
+    --font-weight-light: 300;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
+    /* Font Sizes & Line Heights */
+    --font-size-xs: 12px;
+    --line-height-xs: 16px;
+    --font-size-sm: 14px;
+    --line-height-sm: 20px;
+    --font-size-base: 16px;
+    --line-height-base: 24px;
+    --font-size-lg: 18px;
+    --line-height-lg: 28px;
+    --font-size-xl: 20px;
+    --line-height-xl: 30px;
+    --font-size-2xl: 24px;
+    --line-height-2xl: 32px;
+    --font-size-3xl: 30px;
+    --line-height-3xl: 36px;
+}
+
+@layer base {
+    html {
+        font-family: var(--font-family-sans);
+    }
+}
