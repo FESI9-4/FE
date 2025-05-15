@@ -1,16 +1,16 @@
 import clsx from 'clsx';
 
-interface TapProps {
+interface ChipProps {
     children: React.ReactNode;
     size?: 'small' | 'large';
     status?: 'default' | 'active';
 }
 
-export default function Tap({
+export default function Chip({
     children,
     size = 'small',
     status = 'default',
-}: TapProps) {
+}: ChipProps) {
     const className = clsx(
         'rounded-xl flex justify-center items-center text-sm font-medium hover:cursor-pointer',
         {
