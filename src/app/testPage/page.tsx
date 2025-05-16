@@ -9,7 +9,7 @@ export default function DropdownTestPage() {
     const [selectedDeadline, setSelectedDeadline] = useState('');
 
     const locationOptions = ['건대입구', '을지로 3가', '신림', '홍대입구'];
-    const deadlineOptions = ['마감임박순', '최신순'];
+    const deadlineOptions = ['마감 임박', '최신순'];
 
     return (
         <div className="min-h-screen flex flex-col gap-10 items-center justify-center p-10 bg-gray-50">
@@ -68,7 +68,7 @@ export default function DropdownTestPage() {
                         - 추가적으로, 상단에 전체로 돌리는 메뉴가 있어야 함.
                     </p>
 
-                    <p className="mt-4 text-sm text-red-600"> 작업중 반응형</p>
+                    <p className="mt-4 text-sm text-red-600"> 작업완료</p>
                 </div>
 
                 <div className="bg-white p-6 rounded-lg shadow-sm">
