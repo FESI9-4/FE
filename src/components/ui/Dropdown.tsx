@@ -44,43 +44,39 @@ export default function Dropdown({
     };
 
     const getDropdownStyles = () => {
-    const sharedStyles = {
-        containerBase:
-            'relative h-9 md:h-10 rounded-lg border border-gray-200 flex justify-center items-center',
-        buttonBase: 'h-6 text-left flex items-center',
-        textBase: 'text-gray-700 text-sm font-medium',
-        menuBase:
-            'absolute left-0 top-12 bg-white max-h-36 md:max-h-40 border rounded-lg shadow-md z-10 overflow-y-auto',
-        item: 'h-9 md:h-10 px-4 py-2 md:py-2.5 cursor-pointer text-sm hover:bg-gray-50',
-    };
+        const sharedStyles = {
+            containerBase:
+                'relative h-9 md:h-10 rounded-lg border border-gray-200 flex justify-center items-center',
+            buttonBase: 'h-6 text-left flex items-center',
+            textBase: 'text-gray-700 text-sm font-medium',
+            menuBase:
+                'absolute left-0 top-12 bg-white max-h-36 md:max-h-40 border rounded-lg shadow-md z-10 ',
+            item: 'h-9 md:h-10 px-4 py-2 md:py-2.5 cursor-pointer text-sm',
+        };
 
-    switch (type) {
-        case '모달':
-            return {
-                container:
-                    'relative w-85.75 md:w-118 md:h-11 h-10 rounded-xl border border-gray-50 bg-gray-50 flex justify-center items-center',
-                button:
-                    'w-77.75 md:w-110 h-6 text-left flex items-center justify-between',
-                text:
-                    'w-40 h-5 object-cover text-gray-400 text-sm font-medium md:text-base flex items-center',
-                menu:
-                    'absolute left-0 top-13 bg-white md:w-118 md:max-h-44 w-85.75 max-h-40 border rounded-xl shadow-sm z-10 overflow-y-auto',
-                item: 'h-10 md:h-11 md:py-3 px-4 py-2.5 cursor-pointer text-sm hover:bg-gray-100',
-            };
-        case '필터':
-        case '정렬': {
-            const isSort = type === '정렬';
-            return {
-                container: `${sharedStyles.containerBase} ${isSort ? 'w-9 md:w-27.5' : 'w-27.5'}`,
-                button: `${sharedStyles.buttonBase} ${isSort ? 'w-21.5 justify-center md:justify-between' : 'w-21.5 justify-between'}`,
-                text: sharedStyles.textBase,
-                menu: `${sharedStyles.menuBase} ${isSort ? 'w-27.5 md:w-full' : 'w-full'}`,
-                item: sharedStyles.item,
-            };
+        switch (type) {
+            case '모달':
+                return {
+                    container:
+                        'relative w-85.75 md:w-118 md:h-11 h-10 rounded-xl border border-gray-50 bg-gray-50 flex justify-center items-center',
+                    button: 'w-77.75 md:w-110 h-6 text-left flex items-center justify-between',
+                    text: 'w-40 h-5 object-cover text-gray-400 text-sm font-medium md:text-base flex items-center',
+                    menu: 'absolute left-0 top-13 bg-white md:w-118 md:max-h-44 w-85.75 max-h-40 border rounded-xl shadow-sm z-10 overflow-y-auto',
+                    item: 'h-10 md:h-11 md:py-3 px-4 py-2.5 cursor-pointer text-sm',
+                };
+            case '필터':
+            case '정렬': {
+                const isSort = type === '정렬';
+                return {
+                    container: `${sharedStyles.containerBase} ${isSort ? 'w-9 md:w-27.5' : 'w-27.5'}`,
+                    button: `${sharedStyles.buttonBase} ${isSort ? 'w-21.5 justify-center md:justify-between' : 'w-21.5 justify-between'}`,
+                    text: sharedStyles.textBase,
+                    menu: `${sharedStyles.menuBase} ${isSort ? 'w-27.5 md:w-full' : 'w-full'}`,
+                    item: sharedStyles.item,
+                };
+            }
         }
-    }
-};
-
+    };
 
     const isFilterSelected =
         type === '필터' && selected && selected !== placeholder;
