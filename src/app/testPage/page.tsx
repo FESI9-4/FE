@@ -1,6 +1,6 @@
 'use client';
 
-import Dropdown from '@/components/ui/Dropdwon';
+import Dropdown from '@/components/ui/Dropdown';
 import { useState } from 'react';
 
 export default function DropdownTestPage() {
@@ -90,7 +90,7 @@ export default function DropdownTestPage() {
                     <p className="mt-4 text-sm text-blue-600">
                         - icon 추가와 size 수정 필요
                     </p>
-                    <p className="mt-4 text-sm text-red-600">- 작업완료</p> 
+                    <p className="mt-4 text-sm text-red-600">- 작업완료</p>
                 </div>
             </div>
         </div>
