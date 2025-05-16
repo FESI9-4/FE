@@ -41,6 +41,7 @@ export default function DropdownTestPage() {
                     <p className="mt-4 text-sm text-blue-600">
                         - mobile만 다름 343x40
                     </p>
+                    <p className="mt-4 text-sm text-red-600">- 작업완료</p>
                 </div>
 
                 <div className="bg-white p-6 rounded-lg shadow-sm">
@@ -63,6 +64,11 @@ export default function DropdownTestPage() {
                     <p className="mt-4 text-sm text-blue-600">
                         - 모바일(디폴트)시에만 110x36, 나머진 110x40 - md: 처리
                     </p>
+                    <p className="mt-4 text-sm text-blue-600">
+                        - 추가적으로, 상단에 전체로 돌리는 메뉴가 있어야 함.
+                    </p>
+
+                    <p className="mt-4 text-sm text-red-600"> 작업중 반응형</p>
                 </div>
 
                 <div className="bg-white p-6 rounded-lg shadow-sm">
