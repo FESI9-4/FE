@@ -72,16 +72,6 @@ export default function Dropdown({
                     menu: 'absolute left-0 top-12 bg-white w-27.5 md:w-full max-h-36 md:max-h-40 border rounded-lg shadow-md z-10 overflow-y-auto',
                     item: 'h-9 md:h-10 px-4 py-2 md:py-2.5 cursor-pointer text-sm hover:bg-gray-50',
                 };
-
-            default:
-                return {
-                    container:
-                        'relative w-118 h-11 rounded-xl border border-gray-50 bg-gray-50 flex justify-center items-center',
-                    button: 'w-110 h-6 text-left flex items-center justify-between',
-                    text: 'w-41.5 h-6 object-cover text-gray-400',
-                    menu: 'absolute left-0 top-15 bg-white w-118 h-44 border rounded-xl shadow-sm z-10 overflow-y-auto',
-                    item: 'h-11 px-4 py-3 cursor-pointer text-sm hover:bg-gray-100',
-                };
         }
     };
 
