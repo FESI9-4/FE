@@ -82,7 +82,7 @@ export default function Dropdown({
         type === '필터' && selected && selected !== placeholder;
     const styles = getDropdownStyles();
 
-    const isActive = type === '필터' && (isFilterSelected || isOpen);
+    const isActive = type === '필터' && isFilterSelected; 
     const containerClass = `${styles.container} ${isActive ? 'bg-black border-black' : ''}`;
     const buttonClass = `${styles.button} ${isActive ? 'bg-black text-white' : ''}`;
     const textClass = `${styles.text} ${isActive ? 'text-white' : ''}`;
