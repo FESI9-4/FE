@@ -1,4 +1,12 @@
-import { ChipInfo, ChipState, ChipTime, Chip, IcCheck } from '@/components/ui';
+import {
+    ChipInfo,
+    ChipState,
+    ChipTime,
+    Chip,
+    Tab,
+    Tag,
+    ContainerProgress,
+} from '@/components/ui';
 
 export default function Home() {
     return (
@@ -31,7 +39,22 @@ export default function Home() {
                 <ChipState status="waiting" check>
                     개설대기
                 </ChipState>
-                <IcCheck />
+            </div>
+            <div className="flex gap-2 p-10 bg-orange-500">
+                <Tab active icon="do">
+                    <div>같이 가요</div>
+                </Tab>
+                <Tab icon="go">
+                    <div>같이 해요</div>
+                </Tab>
+            </div>
+            <div className="flex gap-2 p-10 bg-green-500">
+                <Tag size="large">오늘 21시 마감</Tag>
+                <Tag size="small">오늘 21시 마감</Tag>
+            </div>
+            <div className="flex flex-col gap-2 p-10 bg-purple-500">
+                <ContainerProgress max={100} current={50} openStatus={true} />
+                <ContainerProgress max={20} current={7} openStatus={false} />
             </div>
         </div>
     );
