@@ -7,8 +7,8 @@ export default function Nav() {
     const isDesktop = useMediaQuery('(min-width: 768px)');
 
     return (
-        <nav className="w-full h-14 md:h-15 bg-black flex items-center justify-center min-w-75">
-            <div className="w-[calc(100%-32px)] md:w-[calc(100%-46px)] h-full  flex justify-between items-center">
+        <nav className="w-full h-14 md:h-15  bg-black flex items-center justify-center min-w-75">
+            <div className="w-[calc(100%-32px)] md:w-[calc(100%-46px)] xl:w-[calc(100%-722px)] h-full flex justify-between items-center">
                 <div className="w-57 md:w-97 h-full flex items-center justify-between">
                     <Link href="/">
                         <Image
