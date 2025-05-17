@@ -1,14 +1,38 @@
 'use client';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Nav() {
     return (
-        <nav className="w-full h-14 md:h-15 bg-yellow-300 flex justify-between">
-            <div className="w-full-32px">
-                <div className="bg-black w-57 h-14">
-                    <div>이미지로대체 근데 md:부터 이미지 다른걸로 교체됨.</div>
-                    <div>목록들</div>
+        <nav className="w-full h-14 md:h-15 bg-black flex items-center justify-center min-w-75">
+            <div className="w-[calc(100%-32px)] md:w-[calc(100%-46px)] h-full  flex justify-between items-center">
+                <div className="w-57 md:w-97 h-full flex items-center justify-between">
+                    <Link href="/">
+                        <Image
+                            src="/icons/nav.svg"
+                            alt="navLogo"
+                            width={32}
+                            height={32}
+                            className="cursor-pointer"
+                        />
+                    </Link>
+                    <div className="w-45 md:w-57 h-full text-sm md:text-base font-semibold md:font-mold text-orange-50 flex items-center whitespace-nowrap gap-3 md:gap-10">
+                        <Link href="/search">
+                            <p className="w-13 md:15 h-5 md:6 ">팬팔 찾기</p>
+                        </Link>
+                        <Link href="/wishlist">
+                            <p className="w-13 md:15 h-5 md:6">찜한 팬팔</p>
+                        </Link>
+                        <Link href="/review">
+                            <p className="w-13 md:15 h-5 md:6">모든 리뷰</p>
+                        </Link>
+                    </div>
                 </div>
-                <p>로그인</p>
+                <Link href="/login">
+                    <p className="text-sm md:text-base font-semibold text-white h-5 md:h-6">
+                        로그인
+                    </p>
+                </Link>
             </div>
         </nav>
     );
