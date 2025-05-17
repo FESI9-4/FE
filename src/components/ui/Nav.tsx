@@ -1,17 +1,24 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
+import useMediaQuery from '@/hooks/useMediaQuery';
 
 export default function Nav() {
+    const isDesktop = useMediaQuery('(min-width: 768px)');
+
     return (
         <nav className="w-full h-14 md:h-15 bg-black flex items-center justify-center min-w-75">
             <div className="w-[calc(100%-32px)] md:w-[calc(100%-46px)] h-full  flex justify-between items-center">
                 <div className="w-57 md:w-97 h-full flex items-center justify-between">
                     <Link href="/">
                         <Image
-                            src="/icons/nav.svg"
+                            src={
+                                isDesktop
+                                    ? '/icons/navDesktop.svg'
+                                    : '/icons/navMobile.svg'
+                            }
                             alt="navLogo"
-                            width={32}
+                            width={isDesktop ? 131.32 : 32}
                             height={32}
                             className="cursor-pointer"
                         />
