@@ -37,7 +37,7 @@ export default function Nav() {
                             <p className="w-13 md:15 h-5 md:6 ">팬팔 찾기</p>
                         </Link>
                         <Link href="/wishlist">
-                            <p className="w-13 md:15 h-5 md:6">찜한 팬팔</p>
+                            <p className="w-13 md:15 h-5 md:6">찜한 팬팔</p>
                         </Link>
                         <Link href="/review">
                             <p className="w-13 md:15 h-5 md:6">모든 리뷰</p>
@@ -71,7 +71,7 @@ export default function Nav() {
                                 <button
                                     className="w-full h-10 xl:h-11 rounded-b-xl  hover:bg-gray-100 flex items-center pl-3 "
                                     onClick={() => {
-                                        // 로그아웃 처리 (임시: localStorage 삭제)
+                                        // 로그아웃 처리 임시처리값
                                         localStorage.removeItem('token');
                                         window.location.reload();
                                     }}
