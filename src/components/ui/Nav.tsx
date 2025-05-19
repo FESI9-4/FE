@@ -12,7 +12,7 @@ export default function Nav() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const pathname = usePathname();
 
-    const wishlistCount = 1;
+    const wishlistCount = 12;
     //TODO 추후 wishlistCount 가져오는 api 함수연결
 
     const toggleDropdown = () => {
@@ -49,12 +49,14 @@ export default function Nav() {
                                 팬팔 찾기
                             </p>
                         </Link>
-                        <Link href="/wishlist" className='flex '>
+                        <Link href="/wishlist" className="flex ">
                             <p className={getNavLinkClass('/wishlist')}>
                                 찜한 팬팔
                             </p>
                             {isLoggedIn && wishlistCount > 0 && (
-                                <p className='bg-amber-300 ml-1.25 w-6.75 h-5'>{wishlistCount}</p>
+                                <p className="bg-gray-800 ml-1.25 w-6.75 md:mt-0.5 h-5 rounded-2xl text-xs font-semibold flex items-center justify-center">
+                                    {wishlistCount}
+                                </p>
                             )}
                         </Link>
                         <Link href="/review">
