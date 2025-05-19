@@ -5,16 +5,15 @@ import Link from 'next/link';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import useAuth from '@/hooks/useAuth';
 import { usePathname } from 'next/navigation';
+import { useWishlist } from '@/context/WishlistContext';
 
-type NavProps = {
-    wishlistCount: number;
-};
 
-export default function Nav({ wishlistCount }: NavProps) {
+export default function Nav() {
     const isDesktop = useMediaQuery('(min-width: 768px)');
     const { isLoggedIn } = useAuth();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const pathname = usePathname();
+    const { wishlistCount } = useWishlist();
 
     const toggleDropdown = () => {
         setIsDropdownOpen((prev) => !prev);
@@ -84,15 +83,17 @@ export default function Nav({ wishlistCount }: NavProps) {
                             onClick={toggleDropdown}
                         />
                         {isDropdownOpen && (
-                            <div className="absolute right-0 xl:right-auto mt-1.5 xl:mt-2 w-27.5 bg-white rounded-xl shadow-xl h-20 z-50 text-gray-800 font-medium text-sm xl:w-35.5 xl:h-22 xl:text-base ">
+                            <div className="absolute right-0 xl:right-auto mt-1.5 xl:mt-2 w-27.5 bg-gray-800 rounded-xl shadow-xl h-20 z-50 text-white font-medium text-sm xl:w-35.5 xl:h-28 xl:text-base ">
                                 <Link
                                     href="/mypage"
-                                    className="h-10 rounded-t-xl xl:h-11 hover:bg-gray-100 flex items-center pl-3"
+                                    className="h-10 rounded-t-xl xl:h-14 flex items-center justify-center"
                                 >
-                                    마이페이지
+                                    <p className="w-32.5 h-10 hover:bg-gray-600 rounded-xl pl-4 flex items-center">
+                                        마이페이지
+                                    </p>
                                 </Link>
                                 <button
-                                    className="w-full h-10 xl:h-11 rounded-b-xl  hover:bg-gray-100 flex items-center pl-3 "
+                                    className="w-full h-10 xl:h-14 rounded-b-xl flex items-center justify-center    "
                                     onClick={() => {
                                         // 로그아웃 처리 임시처리값
                                         localStorage.removeItem('token');
@@ -102,7 +103,9 @@ export default function Nav({ wishlistCount }: NavProps) {
                                         window.location.reload();
                                     }}
                                 >
-                                    로그아웃
+                                    <p className="w-32.5 h-10 hover:bg-gray-600 rounded-xl pl-4 flex items-center">
+                                        로그아웃
+                                    </p>
                                 </button>
                             </div>
                         )}
