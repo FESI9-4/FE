@@ -8,7 +8,16 @@ export default function DropdownTestPage() {
     const [selectedFull, setSelectedFull] = useState('');
     const [selectedDeadline, setSelectedDeadline] = useState('');
 
-    const locationOptions = ['건대입구', '을지로 3가', '신림', '홍대입구'];
+    const locationOptions = [
+        '건대입구',
+        '을지로 3가',
+        '신림',
+        '홍대입구',
+        '대입구',
+        '을지로 3가',
+        '신림',
+        '홍대입구',
+    ];
     const deadlineOptions = ['마감 임박', '최신순'];
 
     return (
