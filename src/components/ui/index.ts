@@ -20,3 +20,7 @@ export {
 };
 import Input from './Input';
 export { Input };
+import BoxSelectGroup from './BoxSelectGroup';
+import BoxSelect from './BoxSelect';
+
+export { BoxSelectGroup, BoxSelect };
