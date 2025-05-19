@@ -12,19 +12,22 @@ export default function Nav() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const pathname = usePathname();
 
+    const wishlistCount = 1;
+    //TODO 추후 wishlistCount 가져오는 api 함수연결
+
     const toggleDropdown = () => {
         setIsDropdownOpen((prev) => !prev);
     };
     //TODO 추후 드롭다운 컴포넌트에 추가해서 가져오기?
 
     const getNavLinkClass = (path: string) =>
-        `relative w-13 md:15 h-5 md:6 ${
+        `relative w-13 w-auto md:w-15 h-5 md:h-6 ${
             pathname === path ? 'text-orange-300' : 'text-black-50'
         } transition-colors`;
-    //TODO 색상 테이블 추가하면 색상에 맞게 수정하기 
-    
+    //TODO 색상 테이블 추가하면 색상에 맞게 수정하기
+
     return (
-        <nav className="w-full h-14 md:h-15  bg-black flex items-center justify-center min-w-80">
+        <nav className="w-full h-14 md:h-15  bg-black flex items-center justify-center min-w-85.5">
             <div className="w-[calc(100%-32px)] md:w-[calc(100%-46px)] xl:w-[calc(100%-722px)] h-full flex justify-between items-center">
                 <div className="w-57 md:w-97 h-full flex items-center justify-between">
                     <Link href="/">
@@ -42,13 +45,22 @@ export default function Nav() {
                     </Link>
                     <div className="w-45 md:w-57 h-full text-sm md:text-base font-semibold md:font-mold text-orange-50 flex items-center whitespace-nowrap gap-3 md:gap-10">
                         <Link href="/search">
-                             <p className={getNavLinkClass('/search')}>팬팔 찾기</p>
+                            <p className={getNavLinkClass('/search')}>
+                                팬팔 찾기
+                            </p>
                         </Link>
-                        <Link href="/wishlist">
-                             <p className={getNavLinkClass('/wishlist')}>찜한 팬팔</p>
+                        <Link href="/wishlist" className='flex '>
+                            <p className={getNavLinkClass('/wishlist')}>
+                                찜한 팬팔
+                            </p>
+                            {isLoggedIn && wishlistCount > 0 && (
+                                <p className='bg-amber-300 ml-1.25 w-6.75 h-5'>{wishlistCount}</p>
+                            )}
                         </Link>
                         <Link href="/review">
-                             <p className={getNavLinkClass('/review')}>모든 리뷰</p>
+                            <p className={getNavLinkClass('/review')}>
+                                모든 리뷰
+                            </p>
                         </Link>
                     </div>
                 </div>
