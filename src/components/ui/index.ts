@@ -5,8 +5,8 @@ import Chip from './chip';
 import Tab from './tab';
 import Tag from './tag';
 import ContainerProgress from './containerProgress';
-import PaginationButton from './paginationButton';
 import Button from './button';
+import TabContainer from './tabContainer';
 export {
     ChipInfo,
     ChipState,
@@ -15,6 +15,6 @@ export {
     Tab,
     Tag,
     ContainerProgress,
-    PaginationButton,
     Button,
+    TabContainer,
 };
