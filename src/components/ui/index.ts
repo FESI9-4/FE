@@ -5,5 +5,16 @@ import Chip from './chip';
 import Tab from './tab';
 import Tag from './tag';
 import ContainerProgress from './containerProgress';
-
-export { ChipInfo, ChipState, ChipTime, Chip, Tab, Tag, ContainerProgress };
+import PaginationButton from './paginationButton';
+import Button from './button';
+export {
+    ChipInfo,
+    ChipState,
+    ChipTime,
+    Chip,
+    Tab,
+    Tag,
+    ContainerProgress,
+    PaginationButton,
+    Button,
+};
