@@ -1,9 +1,9 @@
 'use client';
-import { useState, useEffect } from 'react';
-import Nav from '@/components/ui/Nav';
+
+import { useWishlist } from '@/context/WishlistContext';
 
 export default function NavTest() {
-    const [wishlistCount, setWishlistCount] = useState(0);
+    const { setWishlistCount } = useWishlist();
 
     const handleAddToWishlist = () => {
         setWishlistCount((prev) => {
@@ -12,18 +12,13 @@ export default function NavTest() {
             return newCount;
         });
     };
-    useEffect(() => {
-        const storedCount = localStorage.getItem('wishlistCount');
-        if (storedCount) {
-            setWishlistCount(parseInt(storedCount, 10));
-        }
-    }, []);
+
+    // TODO 펜팔찾기 페이지에서 useWishlist를 받아오고 버튼에 대한 로직을 다음과 같이 작성 
 
     return (
-        <div className="text-3xl font-bold flex flex-col justify-center items-center gap-10">
-            <Nav wishlistCount={wishlistCount} />
+        <div className="text-3xl font-bold flex flex-col justify-center items-center">
             <button
-                className="w-30 h-10 bg-orange-300 text-white rounded"
+                className="w-30 h-10 bg-orange-300 text-white rounded mt-10"
                 onClick={handleAddToWishlist}
             >
                 찜하기 +1
