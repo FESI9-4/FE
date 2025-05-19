@@ -5,7 +5,7 @@ import Nav from '@/components/ui/Nav';
 export default function NavTest() {
     const [wishlistCount, setWishlistCount] = useState(0);
 
-     const handleAddToWishlist = () => {
+    const handleAddToWishlist = () => {
         setWishlistCount((prev) => {
             const newCount = prev + 1;
             localStorage.setItem('wishlistCount', newCount.toString());
