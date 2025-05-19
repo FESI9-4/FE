@@ -6,14 +6,15 @@ import useMediaQuery from '@/hooks/useMediaQuery';
 import useAuth from '@/hooks/useAuth';
 import { usePathname } from 'next/navigation';
 
-export default function Nav() {
+type NavProps = {
+    wishlistCount: number;
+};
+
+export default function Nav({ wishlistCount }: NavProps) {
     const isDesktop = useMediaQuery('(min-width: 768px)');
     const { isLoggedIn } = useAuth();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const pathname = usePathname();
-
-    const wishlistCount = 12;
-    //TODO 추후 wishlistCount 가져오는 api 함수연결
 
     const toggleDropdown = () => {
         setIsDropdownOpen((prev) => !prev);
@@ -53,11 +54,11 @@ export default function Nav() {
                             <p className={getNavLinkClass('/wishlist')}>
                                 찜한 팬팔
                             </p>
-                            {isLoggedIn && wishlistCount > 0 && (
+                            {isLoggedIn || wishlistCount > 0 ? (
                                 <p className="bg-gray-800 ml-1.25 w-6.75 md:mt-0.5 h-5 rounded-2xl text-xs font-semibold flex items-center justify-center">
                                     {wishlistCount}
                                 </p>
-                            )}
+                            ) : null}
                         </Link>
                         <Link href="/review">
                             <p className={getNavLinkClass('/review')}>
@@ -95,6 +96,7 @@ export default function Nav() {
                                     onClick={() => {
                                         // 로그아웃 처리 임시처리값
                                         localStorage.removeItem('token');
+                                        localStorage.removeItem('wishlist');
                                         window.location.reload();
                                     }}
                                 >
