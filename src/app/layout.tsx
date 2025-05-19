@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { WishlistProvider } from '@/context/WishlistContext'; 
+import { WishlistProvider } from '@/context/WishlistContext';
 import Nav from '@/components/ui/Nav';
 
 export const metadata: Metadata = {

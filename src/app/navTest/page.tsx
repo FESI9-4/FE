@@ -13,7 +13,7 @@ export default function NavTest() {
         });
     };
 
-    // TODO 펜팔찾기 페이지에서 useWishlist를 받아오고 버튼에 대한 로직을 다음과 같이 작성 
+    // TODO 펜팔찾기 페이지에서 useWishlist를 받아오고 버튼에 대한 로직을 다음과 같이 작성
 
     return (
         <div className="text-3xl font-bold flex flex-col justify-center items-center">

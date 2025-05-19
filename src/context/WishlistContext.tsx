@@ -1,13 +1,21 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import {
+    createContext,
+    useContext,
+    useEffect,
+    useState,
+    ReactNode,
+} from 'react';
 
 type WishlistContextType = {
     wishlistCount: number;
     setWishlistCount: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const WishlistContext = createContext<WishlistContextType | undefined>(undefined);
+const WishlistContext = createContext<WishlistContextType | undefined>(
+    undefined
+);
 
 export function WishlistProvider({ children }: { children: ReactNode }) {
     const [wishlistCount, setWishlistCount] = useState(0);

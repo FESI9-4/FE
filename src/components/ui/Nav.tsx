@@ -7,7 +7,6 @@ import useAuth from '@/hooks/useAuth';
 import { usePathname } from 'next/navigation';
 import { useWishlist } from '@/context/WishlistContext';
 
-
 export default function Nav() {
     const isDesktop = useMediaQuery('(min-width: 768px)');
     const { isLoggedIn } = useAuth();
@@ -18,7 +17,6 @@ export default function Nav() {
     const toggleDropdown = () => {
         setIsDropdownOpen((prev) => !prev);
     };
-    //TODO 추후 드롭다운 컴포넌트에 추가해서 가져오기?
 
     const getNavLinkClass = (path: string) =>
         `relative w-13 w-auto md:w-15 h-5 md:h-6 ${
@@ -53,11 +51,11 @@ export default function Nav() {
                             <p className={getNavLinkClass('/wishlist')}>
                                 찜한 팬팔
                             </p>
-                            {isLoggedIn || wishlistCount > 0 ? (
+                            {wishlistCount > 0 && (
                                 <p className="bg-gray-800 ml-1.25 w-6.75 md:mt-0.5 h-5 rounded-2xl text-xs font-semibold flex items-center justify-center">
                                     {wishlistCount}
                                 </p>
-                            ) : null}
+                            )}
                         </Link>
                         <Link href="/review">
                             <p className={getNavLinkClass('/review')}>
@@ -83,7 +81,7 @@ export default function Nav() {
                             onClick={toggleDropdown}
                         />
                         {isDropdownOpen && (
-                            <div className="absolute right-0 xl:right-auto mt-1.5 xl:mt-2 w-27.5 bg-gray-800 rounded-xl shadow-xl h-20 z-50 text-white font-medium text-sm xl:w-35.5 xl:h-28 xl:text-base ">
+                            <div className="absolute right-0 xl:right-auto mt-1.5 xl:mt-2 w-27.5 bg-gray-700 rounded-xl shadow-xl h-20 z-50 text-white font-medium text-sm xl:w-35.5 xl:h-28 xl:text-base ">
                                 <Link
                                     href="/mypage"
                                     className="h-10 rounded-t-xl xl:h-14 flex items-center justify-center"
@@ -103,7 +101,7 @@ export default function Nav() {
                                         window.location.reload();
                                     }}
                                 >
-                                    <p className="w-32.5 h-10 hover:bg-gray-600 rounded-xl pl-4 flex items-center">
+                                    <p className="w-32.5 h-10 hover:bg-gray-700 rounded-xl pl-4 flex items-center">
                                         로그아웃
                                     </p>
                                 </button>
