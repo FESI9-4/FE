@@ -1,13 +1,23 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Nav from '@/components/ui/Nav';
 
 export default function NavTest() {
     const [wishlistCount, setWishlistCount] = useState(0);
 
-    const handleAddToWishlist = () => {
-        setWishlistCount((prev) => prev + 1);
+     const handleAddToWishlist = () => {
+        setWishlistCount((prev) => {
+            const newCount = prev + 1;
+            localStorage.setItem('wishlistCount', newCount.toString());
+            return newCount;
+        });
     };
+    useEffect(() => {
+        const storedCount = localStorage.getItem('wishlistCount');
+        if (storedCount) {
+            setWishlistCount(parseInt(storedCount, 10));
+        }
+    }, []);
 
     return (
         <div className="text-3xl font-bold flex flex-col justify-center items-center gap-10">

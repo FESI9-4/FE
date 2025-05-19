@@ -96,7 +96,9 @@ export default function Nav({ wishlistCount }: NavProps) {
                                     onClick={() => {
                                         // 로그아웃 처리 임시처리값
                                         localStorage.removeItem('token');
-                                        localStorage.removeItem('wishlist');
+                                        localStorage.removeItem(
+                                            'wishlistCount'
+                                        );
                                         window.location.reload();
                                     }}
                                 >
