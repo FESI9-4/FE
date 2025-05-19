@@ -4,12 +4,14 @@ interface ChipProps {
     children: React.ReactNode;
     size?: 'small' | 'large';
     status?: 'default' | 'active';
+    onClick?: () => void;
 }
 
 export default function Chip({
     children,
     size = 'small',
     status = 'default',
+    onClick,
 }: ChipProps) {
     const className = clsx(
         'rounded-xl flex justify-center items-center text-sm font-medium hover:cursor-pointer',
@@ -22,5 +24,9 @@ export default function Chip({
             'bg-gray-900 text-white': status === 'active',
         }
     );
-    return <div className={className}>{children}</div>;
+    return (
+        <div className={className} onClick={onClick}>
+            {children}
+        </div>
+    );
 }
