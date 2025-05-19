@@ -4,17 +4,25 @@ import Image from 'next/image';
 import Link from 'next/link';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import useAuth from '@/hooks/useAuth';
+import { usePathname } from 'next/navigation';
 
 export default function Nav() {
     const isDesktop = useMediaQuery('(min-width: 768px)');
     const { isLoggedIn } = useAuth();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const pathname = usePathname();
 
     const toggleDropdown = () => {
         setIsDropdownOpen((prev) => !prev);
     };
     //TODO 추후 드롭다운 컴포넌트에 추가해서 가져오기?
 
+    const getNavLinkClass = (path: string) =>
+        `relative w-13 md:15 h-5 md:6 ${
+            pathname === path ? 'text-orange-300' : 'text-black-50'
+        } transition-colors`;
+    //TODO 색상 테이블 추가하면 색상에 맞게 수정하기 
+    
     return (
         <nav className="w-full h-14 md:h-15  bg-black flex items-center justify-center min-w-80">
             <div className="w-[calc(100%-32px)] md:w-[calc(100%-46px)] xl:w-[calc(100%-722px)] h-full flex justify-between items-center">
@@ -34,13 +42,13 @@ export default function Nav() {
                     </Link>
                     <div className="w-45 md:w-57 h-full text-sm md:text-base font-semibold md:font-mold text-orange-50 flex items-center whitespace-nowrap gap-3 md:gap-10">
                         <Link href="/search">
-                            <p className="w-13 md:15 h-5 md:6 ">팬팔 찾기</p>
+                             <p className={getNavLinkClass('/search')}>팬팔 찾기</p>
                         </Link>
                         <Link href="/wishlist">
-                            <p className="w-13 md:15 h-5 md:6">찜한 팬팔</p>
+                             <p className={getNavLinkClass('/wishlist')}>찜한 팬팔</p>
                         </Link>
                         <Link href="/review">
-                            <p className="w-13 md:15 h-5 md:6">모든 리뷰</p>
+                             <p className={getNavLinkClass('/review')}>모든 리뷰</p>
                         </Link>
                     </div>
                 </div>
