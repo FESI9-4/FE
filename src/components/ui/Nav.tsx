@@ -20,9 +20,8 @@ export default function Nav() {
 
     const getNavLinkClass = (path: string) =>
         `relative w-13 w-auto md:w-15 h-5 md:h-6 ${
-            pathname === path ? 'text-orange-300' : 'text-black-50'
+            pathname === path ? 'text-green-400' : 'text-white'
         } transition-colors`;
-    //TODO 색상 테이블 추가하면 색상에 맞게 수정하기
 
     return (
         <nav className="w-full h-14 md:h-15  bg-black flex items-center justify-center min-w-85.5">
