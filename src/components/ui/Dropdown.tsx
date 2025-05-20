@@ -46,13 +46,13 @@ export default function Dropdown({
     const getDropdownStyles = () => {
         const sharedStyles = {
             containerBase:
-                'relative h-9 md:h-10 rounded-lg border border-gray-200 flex justify-center items-center',
+                'relative h-9 md:h-10 rounded-lg border border-gray-200 flex justify-center items-center ',
             buttonBase: 'h-6 text-left flex items-center',
             textBase: 'text-gray-700 text-sm font-medium',
             menuBase:
-                'absolute left-0 top-12 bg-white border rounded-lg shadow-md z-10 max-h-40 overflow-y-auto custom-scrollbar',
-            item: 'h-9 md:h-10 px-4 py-2 md:py-2.5 cursor-pointer text-sm whitespace-nowrap',
-            itemText: 'hover:bg-white',
+                'absolute left-0 top-12  bg-gray-800 text-white     border rounded-lg shadow-md z-10 max-h-40 overflow-y-auto custom-scrollbar',
+            item: 'h-9 md:h-10 flex items-center ml-2 cursor-pointer text-sm whitespace-nowrap',
+            itemText: 'hover:bg-gray-700 w-115 h-9 rounded-lg  pl-2 pt-1.5',
         };
 
         switch (type) {
@@ -63,8 +63,9 @@ export default function Dropdown({
                     button: 'w-77.75 md:w-110 h-6 text-left flex items-center justify-between',
                     text: 'w-40 h-5 object-cover text-gray-400 text-sm font-medium md:text-base flex items-center',
                     menu: 'absolute text-white left-0 top-13 bg-gray-800 md:w-118 w-85.75  border rounded-xl shadow-sm z-10 max-h-44 overflow-y-auto custom-scrollbar',
-                    item: 'h-10 md:h-11 md:py-3 px-4 py-2.5 cursor-pointer text-sm  ',
-                    itemText: 'hover:bg-black',
+                    item: 'h-10 md:h-11 cursor-pointer text-sm flex items-center ml-2 ',
+                    itemText:
+                        'hover:bg-gray-700 w-115 h-9 rounded-lg  pl-2 pt-1.5',
                 };
             case '필터':
             case '정렬': {
