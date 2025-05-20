@@ -14,9 +14,9 @@ export default function DropdownTestPage() {
         '신림',
         '홍대입구',
         '대입구',
-        '을지로 3가',
-        '신림',
-        '홍대입구',
+        '을지로가',
+        '신림1',
+        '홍대입구1',
     ];
     const deadlineOptions = ['마감 임박', '최신순'];
 
