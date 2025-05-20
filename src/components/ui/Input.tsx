@@ -241,6 +241,7 @@ export default function Input({
                         >
                             {
                                 <Image
+                                    priority
                                     src={
                                         isVisible
                                             ? '/icons/visibility_on.svg'

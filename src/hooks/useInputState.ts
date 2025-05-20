@@ -52,13 +52,20 @@ export default function useInputState() {
     ) {
         // 넘버 타입일 경우 최대 최소 값 제한
         if (type === 'number') {
-            if (Number(e.target.value) >= 999) setCount?.(String(999));
-            else if (Number(e.target.value) < 0) setCount?.(String(0));
-            else setCount?.(e.target.value);
+            //숫자만 입력되도록 더욱 엄격한 정규식 검사 추가
+            const validValue = e.target.value.replace(/[^0-9]/g, '');
+            if (validValue !== e.target.value) {
+                e.target.value = validValue;
+            }
+            if (validValue === '') setCount?.('0');
+            else if (Number(validValue) >= 999) setCount?.('999');
+            else if (Number(validValue) < 0) setCount?.('0');
+            else setCount?.(validValue);
         }
         setInputState('typing');
         onChange?.(e); // 값 변경은 상위에 위임
     }
+
     return {
         isVisible,
         inputState,
