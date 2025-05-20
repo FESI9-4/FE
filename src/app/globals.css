@@ -74,3 +74,13 @@
         font-family: var(--font-family-sans);
     }
 }
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 18px; 
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #5e6066;
+    border-radius: 100px;
+    border: 6px solid #2b2c30;
+}
