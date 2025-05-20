@@ -15,6 +15,7 @@ import QuestionCard from './QuestionCard';
 import AnswerCard from './AnswerCard';
 import PaginationButton from './PaginationButton';
 import InputText from './InputText';
+import Input from './Input';
 export {
     Button,
     BoxSelect,
@@ -33,4 +34,5 @@ export {
     QuestionCard,
     AnswerCard,
     PaginationButton,
+    Input,
 };
