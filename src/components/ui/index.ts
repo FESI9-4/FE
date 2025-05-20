@@ -1,12 +1,14 @@
-import ChipInfo from './chipInfo';
-import ChipState from './chipState';
-import ChipTime from './chipTime';
-import Chip from './chip';
-import Tab from './tab';
-import Tag from './tag';
-import ContainerProgress from './containerProgress';
-import Button from './button';
-import TabContainer from './tabContainer';
+'use client';
+
+import ChipInfo from './ChipInfo';
+import ChipState from './ChipState';
+import ChipTime from './ChipTime';
+import Chip from './Chip';
+import Tab from './Tab';
+import Tag from './Tag';
+import ContainerProgress from './ContainerProgress';
+import Button from './Button';
+import TabContainer from './TabContainer';
 export {
     ChipInfo,
     ChipState,
@@ -22,5 +24,7 @@ import Input from './Input';
 export { Input };
 import BoxSelectGroup from './BoxSelectGroup';
 import BoxSelect from './BoxSelect';
-
-export { BoxSelectGroup, BoxSelect };
+import Like from './Like';
+import EditButton from './EditButton';
+import Profile from './Profile';
+export { BoxSelectGroup, BoxSelect, Like, EditButton, Profile };
