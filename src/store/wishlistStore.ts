@@ -5,6 +5,7 @@ type WishlistState = {
     wishlistCount: number;
     setWishlistCount: (count: number) => void;
     increment: () => void;
+    decrement: () => void;
     reset: () => void;
 };
 
@@ -15,6 +16,11 @@ export const useWishlistStore = create<WishlistState>()(
             setWishlistCount: (count) => set({ wishlistCount: count }),
             increment: () =>
                 set((state) => ({ wishlistCount: state.wishlistCount + 1 })),
+            decrement: () =>
+                set((state) => ({
+                    wishlistCount:
+                        state.wishlistCount > 0 ? state.wishlistCount - 1 : 0,
+                })),
             reset: () => set({ wishlistCount: 0 }),
         }),
         {
