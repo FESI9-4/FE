@@ -5,6 +5,7 @@ import Link from 'next/link';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import useAuth from '@/hooks/useAuth';
 import { usePathname } from 'next/navigation';
+
 import { useWishlistStore } from '@/store/wishlistStore';
 
 export default function Nav() {
@@ -91,7 +92,7 @@ export default function Nav() {
                                     </p>
                                 </Link>
                                 <button
-                                    className="w-full h-10 xl:h-14 rounded-b-xl flex items-center justify-center    "
+                                    className="w-full h-10 xl:h-14 rounded-b-xl flex items-center justify-center"
                                     onClick={() => {
                                         // 로그아웃 처리 임시처리값
                                         localStorage.removeItem('token');
@@ -99,9 +100,9 @@ export default function Nav() {
                                         window.location.reload();
                                     }}
                                 >
-                                    <p className="w-32.5 h-10 hover:bg-gray-700 rounded-xl pl-4 flex items-center">
+                                    <div className="w-32.5 h-10 rounded-xl pl-4 flex hover:bg-gray-600 items-center">
                                         로그아웃
-                                    </p>
+                                    </div>
                                 </button>
                             </div>
                         )}

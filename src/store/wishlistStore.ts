@@ -13,11 +13,12 @@ export const useWishlistStore = create<WishlistState>()(
         (set) => ({
             wishlistCount: 0,
             setWishlistCount: (count) => set({ wishlistCount: count }),
-            increment: () => set((state) => ({ wishlistCount: state.wishlistCount + 1 })),
+            increment: () =>
+                set((state) => ({ wishlistCount: state.wishlistCount + 1 })),
             reset: () => set({ wishlistCount: 0 }),
         }),
         {
-            name: 'wishlist-storage', 
+            name: 'wishlist-storage',
         }
     )
 );
