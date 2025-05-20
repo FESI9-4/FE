@@ -53,7 +53,7 @@ export default function Input({
         // 공통 스타일
         baseStyle: `rounded-xl font-medium 
         text-sm leading-5 md:text-base md:leading-6
-        bg-[#2B2C30] outline-none px-3 py-2 sm:py-[10px]`,
+        bg-gray-900 outline-none px-3 py-2 sm:py-[10px] placeholder:text-gray-600`,
         //넘버 타입일 경우 스핀버튼 제거
         numberStyle:
             type !== 'number'
@@ -65,10 +65,10 @@ export default function Input({
         passwordStyle: type === 'password' ? `pr-12` : `pr-4`,
         // 상태 스타일
         state: {
-            default: `border-2 border-transparent text-gray-400`,
-            hover: `border-2 border-orange-300 text-white`,
-            done: `border-2 border-gray-800 text-white`,
-            typing: `border-2 border-orange-600 text-white`,
+            default: `border-2 border-transparent text-white`,
+            hover: `border-2 border-green-900 text-white`,
+            done: `border-2 border-gray-900 text-white`,
+            typing: `border-2 border-green-400 text-white`,
             error: `border-2 border-red-500 text-white`,
         },
         // 트랜지션
@@ -94,16 +94,16 @@ export default function Input({
         // 공통 스타일
         baseStyle: `px-3 py-2 sm:py-[10px] w-full rounded-xl font-medium 
         text-sm leading-5 md:text-base md:leading-6
-        bg-[#2B2C30] flex items-center overflow-hidden
+        bg-gray-900 flex items-center overflow-hidden
         whitespace-nowrap text-ellipsis`,
 
         // 상태 스타일
         state: {
-            default: `border-2 border-transparent text-gray-500`,
-            hover: `border-2 border-orange-300 text-gray-400`,
-            done: `border-2 border-gray-800 text-gray-400`,
-            typing: `border-2 border-orange-600 text-gray-400`,
-            error: `border-2 border-red-500 text-gray-400`,
+            default: `border-2 border-transparent text-gray-600`,
+            hover: `border-2 border-green-900 ${!value ? 'text-gray-600' : 'text-white'}`,
+            done: `border-2 border-gray-900 ${!value ? 'text-gray-600' : 'text-white'}`,
+            typing: `border-2 border-green-400 text-white`,
+            error: `border-2 border-red-500 text-white`,
         },
         // 트랜지션
         transition: `transition-border-color duration-300`,
@@ -132,15 +132,16 @@ export default function Input({
     );
     // 넘버 타입일 경우 +,- 버튼 표시
     const numberButtonClasses = clsx(
-        `h-10 md:h-11 bg-gray-800 rounded-lg text-gray-400 text-center font-pretendard font-bold 
+        `h-10 md:h-11 bg-gray-900 rounded-lg text-gray-400 text-center font-pretendard font-bold 
         font-size-3xl leading-5 md:leading-6 hover:bg-gray-700 hover:scale-110
         transition-all duration-300 min-w-10 max-w-30`
     );
     useEffect(() => {
-        // 상위에서 받은 isValid에 따라 상태 변경
-        setInputState(isValid ? 'done' : 'error');
+        // 유효성 검사 결과 실패
+        if (!isValid) setInputState('error');
+        // 유효성 검사 결과 성공
+        if (isValid) setInputState('done');
     }, [isValid, setInputState]);
-
     return (
         <div className="flex flex-col gap-2 w-full">
             <div className="w-full">
