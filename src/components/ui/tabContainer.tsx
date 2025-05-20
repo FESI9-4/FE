@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import Tab from './tab';
+import Tab from './Tab';
 
 interface TabContainerProps {
     currentCategory: string;
