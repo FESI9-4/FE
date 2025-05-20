@@ -19,5 +19,4 @@ export {
     TabContainer,
 };
 import Input from './Input';
-import InputQnA from './InputQnA';
-export { Input, InputQnA };
+export { Input };
