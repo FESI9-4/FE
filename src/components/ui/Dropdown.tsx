@@ -50,9 +50,10 @@ export default function Dropdown({
             buttonBase: 'h-6 text-left flex items-center',
             textBase: 'text-gray-700 text-sm font-medium',
             menuBase:
-                'absolute left-0 top-12  bg-gray-800 text-white     border rounded-lg shadow-md z-10 max-h-40 overflow-y-auto custom-scrollbar',
-            item: 'h-9 md:h-10 flex items-center ml-2 cursor-pointer text-sm whitespace-nowrap',
-            itemText: 'hover:bg-gray-700 w-115 h-9 rounded-lg  pl-2 pt-1.5',
+                'absolute left-0 top-12  bg-gray-800 text-white border rounded-lg shadow-md z-10 max-h-40 overflow-y-auto custom-scrollbar',
+            item: 'h-9 md:h-10 flex items-center cursor-pointer text-sm whitespace-nowrap w-25.1',
+            itemText: 'hover:bg-gray-700 w-110 h-9 rounded-lg  pl-2 pt-1.5',
+            selectedItemText: 'bg-gray-600',
         };
 
         switch (type) {
@@ -66,6 +67,7 @@ export default function Dropdown({
                     item: 'h-10 md:h-11 cursor-pointer text-sm flex items-center ml-2 ',
                     itemText:
                         'hover:bg-gray-700 w-115 h-9 rounded-lg  pl-2 pt-1.5',
+                    selectedItemText: 'bg-gray-600',
                 };
             case '필터':
             case '정렬': {
@@ -75,15 +77,13 @@ export default function Dropdown({
                     button: `${sharedStyles.buttonBase} ${isSort ? 'w-21.5 justify-center md:justify-between' : 'w-21.5 justify-between'}`,
                     text: sharedStyles.textBase,
                     menu: `${sharedStyles.menuBase} ${isSort ? 'w-27.5 md:w-full' : 'w-full'}`,
-                    item: sharedStyles.item,
+                    item: `${sharedStyles.item}  ${isSort ? 'px-1' : 'ml-1'}`,
                     itemText: sharedStyles.itemText,
+                    selectedItemText: sharedStyles.selectedItemText,
                 };
             }
         }
     };
-
-    //TODO itemText로 hover 시안에 맞게 수정해야하는데 .. 피그마 시안이 아직 다 완성 안된듯?
-    //TODO selected도 구현해야함 .
 
     const isFilterSelected =
         type === '필터' && selected && selected !== placeholder;
@@ -151,7 +151,15 @@ export default function Dropdown({
                             className={styles.item}
                             onClick={() => handleSelect(option)}
                         >
-                            <p className={styles.itemText}>{option}</p>
+                            <p
+                                className={
+                                    selected === option
+                                        ? `${styles.itemText} ${styles.selectedItemText}`
+                                        : styles.itemText
+                                }
+                            >
+                                {option}
+                            </p>
                         </li>
                     ))}
                 </ul>
