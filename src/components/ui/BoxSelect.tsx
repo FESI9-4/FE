@@ -4,11 +4,12 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { Categories } from '@/types/categories';
 interface BoxSelectProps {
-    category: Categories;
+    category: Categories; // 카테고리 정보
+    name: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-function BoxSelect({ category, onChange }: BoxSelectProps) {
+function BoxSelect({ category, name, onChange }: BoxSelectProps) {
     const [isChecked, setIsChecked] = useState(false);
     // 총 박스 크기 및 배경색
     const BOX_STYLE = {
@@ -48,6 +49,7 @@ function BoxSelect({ category, onChange }: BoxSelectProps) {
                     id={category.id}
                     className="hidden peer"
                     onChange={onChange}
+                    name={name}
                 />
                 <label
                     htmlFor={category.id}

@@ -1,8 +1,14 @@
 'use client';
-import { categories } from '@/types/categories';
+import { Categories } from '@/types/categories';
 import BoxSelect from './BoxSelect';
 
-function BoxSelectGroup() {
+function BoxSelectGroup({
+    categories,
+    name,
+}: {
+    categories: Categories[];
+    name: string;
+}) {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, checked } = e.target;
         console.log(id, checked);
@@ -17,6 +23,7 @@ function BoxSelectGroup() {
                     <BoxSelect
                         key={category.id}
                         category={category}
+                        name={name}
                         onChange={handleChange}
                     />
                 ))}
