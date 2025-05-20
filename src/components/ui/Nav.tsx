@@ -5,14 +5,15 @@ import Link from 'next/link';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import useAuth from '@/hooks/useAuth';
 import { usePathname } from 'next/navigation';
-import { useWishlist } from '@/context/WishlistContext';
+import { useWishlistStore } from '@/store/wishlistStore';
 
 export default function Nav() {
     const isDesktop = useMediaQuery('(min-width: 768px)');
     const { isLoggedIn } = useAuth();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const pathname = usePathname();
-    const { wishlistCount } = useWishlist();
+    const wishlistCount = useWishlistStore((state) => state.wishlistCount);
+    const reset = useWishlistStore((state) => state.reset);
 
     const toggleDropdown = () => {
         setIsDropdownOpen((prev) => !prev);
@@ -94,9 +95,7 @@ export default function Nav() {
                                     onClick={() => {
                                         // 로그아웃 처리 임시처리값
                                         localStorage.removeItem('token');
-                                        localStorage.removeItem(
-                                            'wishlistCount'
-                                        );
+                                        reset(); // Zustand 상태 초기화
                                         window.location.reload();
                                     }}
                                 >
