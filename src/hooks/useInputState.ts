@@ -39,6 +39,7 @@ export default function useInputState() {
         value: string,
         onBlur: (e: React.FocusEvent<HTMLInputElement>) => void
     ) {
+        console.log(isValid, value);
         onBlur?.(e);
         if (!isValid) setInputState('error');
         else if (isValid && value.length > 0) setInputState('done');
