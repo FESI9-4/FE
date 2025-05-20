@@ -2,7 +2,7 @@
 import clsx from 'clsx';
 import Image from 'next/image';
 import { useState } from 'react';
-import { Categories } from './BoxSelectGroup';
+import { Categories } from '@/types/categories';
 interface BoxSelectProps {
     category: Categories;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -24,7 +24,7 @@ function BoxSelect({ category, onChange }: BoxSelectProps) {
     const TITLE_STYLE = `w-full font-semibold text-sm leading-5 
     sm:text-base sm:leading-6 whitespace-nowrap`;
     // 박스안 작은 카테고리
-    const SUBTITLE_STYLE = `w-fullfont-medium text-xs leading-4 break-words`;
+    const SUBTITLE_STYLE = `w-full font-medium text-xs leading-4 break-words`;
     //라벨
     const LABEL_STYLE = `h-[18px] w-[18px] border-1 p-[2px] mt-[3px]
                          border-gray-300 rounded-md
@@ -56,7 +56,7 @@ function BoxSelect({ category, onChange }: BoxSelectProps) {
                 >
                     {isChecked && (
                         <Image
-                            src="/icons/check.svg" // 체크 이미지 경로
+                            src="/icons/box_check.svg" // 체크 이미지 경로
                             alt="체크"
                             width={18}
                             height={18}
