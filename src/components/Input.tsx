@@ -1,12 +1,11 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/utils/cn';
-import { InputHTMLAttributes } from 'react';
+import { InputHTMLAttributes, forwardRef } from 'react';
 
 interface InputProps
     extends InputHTMLAttributes<HTMLInputElement>,
         VariantProps<typeof InputVariants> {
-    isError?: boolean;
-    ref?: React.Ref<HTMLInputElement> | null;
+    isError?: boolean | null;
 }
 
 const BASE_STYLE = `rounded-xl font-medium mb-2
@@ -36,30 +35,38 @@ export const InputVariants = cva(BASE_STYLE, {
         inputSize: 'small',
     },
 });
-export default function Input(props: InputProps) {
-    const {
-        value,
-        variant,
-        ref,
-        inputSize,
-        className,
-        isError,
-        onChange,
-        ...rest
-    } = props;
-    // 에러 상태라면 에러 스타일 적용
-    const inputVariant = isError ? 'error' : variant;
 
-    return (
-        <input
-            className={cn(
-                InputVariants({ variant: inputVariant, inputSize }),
-                className
-            )}
-            onChange={onChange}
-            value={value}
-            {...rest}
-            ref={ref}
-        />
-    );
-}
+/* forwardRef을 사용하면
+ 부모 컴포넌트가 자식 컴포넌트의 DOM 요소에 직접 접근할 수 있습니다.*/
+const Input = forwardRef<HTMLInputElement, InputProps>(
+    function Input(props, ref) {
+        const {
+            value,
+            defaultValue,
+            variant,
+            inputSize,
+            className,
+            isError,
+            onChange,
+            ...rest
+        } = props;
+        // 에러 상태라면 에러 스타일 적용
+        const inputVariant = isError ? 'error' : variant;
+
+        return (
+            <input
+                className={cn(
+                    InputVariants({ variant: inputVariant, inputSize }),
+                    className
+                )}
+                onChange={onChange}
+                // value가 제공되면 제어 컴포넌트로, 제공되지 않으면 비제어 컴포넌트로 동작
+                value={value !== undefined ? value : undefined} // 제어 컴포넌트
+                defaultValue={value === undefined ? defaultValue : undefined} // 비제어 컴포넌트                {...rest}
+                ref={ref}
+            />
+        );
+    }
+);
+
+export default Input;
