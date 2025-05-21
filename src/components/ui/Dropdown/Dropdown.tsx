@@ -32,6 +32,8 @@ export default function Dropdown({
         setIsOpen(false);
     };
 
+    //TODO SVGR 로 변경 
+    
     const iconSrc = (() => {
         switch (type) {
             case '필터':
