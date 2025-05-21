@@ -48,7 +48,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             className,
             isError,
             onChange,
-            ...rest
+            //...rest
         } = props;
         // 에러 상태라면 에러 스타일 적용
         const inputVariant = isError ? 'error' : variant;
