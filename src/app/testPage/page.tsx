@@ -2,6 +2,7 @@
 
 import Dropdown from '@/components/ui/Dropdown';
 import { useState } from 'react';
+import Icon from '/icons/do.svg';
 
 export default function DropdownTestPage() {
     const [selectedModal, setSelectedModal] = useState('');
@@ -25,6 +26,7 @@ export default function DropdownTestPage() {
             <h1 className="text-2xl font-bold text-gray-800 mb-6">
                 드롭다운 타입 비교
             </h1>
+            <Icon></Icon>
 
             <div className="w-full max-w-lg grid gap-10">
                 <div className="bg-white p-6 rounded-lg shadow-sm">
