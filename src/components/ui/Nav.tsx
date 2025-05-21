@@ -1,11 +1,10 @@
 'use client';
 import { useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import useAuth from '@/hooks/useAuth';
 import { usePathname } from 'next/navigation';
-
+import { NavDesktopIcon, NavMobileIcon, ProfileIcon } from '@/assets/index';
 import { useWishlistStore } from '@/store/wishlistStore';
 
 export default function Nav() {
@@ -30,17 +29,11 @@ export default function Nav() {
             <div className="w-[calc(100%-32px)] md:w-[calc(100%-46px)] xl:w-[calc(100%-722px)] h-full flex justify-between items-center">
                 <div className="w-57 md:w-97 h-full flex items-center justify-between">
                     <Link href="/">
-                        <Image
-                            src={
-                                isDesktop
-                                    ? '/icons/navDesktop.svg'
-                                    : '/icons/navMobile.svg'
-                            }
-                            alt="navLogo"
-                            width={isDesktop ? 131.32 : 32}
-                            height={32}
-                            className="cursor-pointer"
-                        />
+                        {isDesktop ? (
+                            <NavDesktopIcon className="cursor-pointer w-[131.32px] h-[32px]" />
+                        ) : (
+                            <NavMobileIcon className="cursor-pointer w-8 h-8" />
+                        )}
                     </Link>
                     <div className="w-45 md:w-57 h-full text-sm md:text-base font-semibold md:font-mold text-orange-50 flex items-center whitespace-nowrap gap-3 md:gap-10">
                         <Link href="/search">
@@ -73,12 +66,8 @@ export default function Nav() {
                     </Link>
                 ) : (
                     <div className="relative">
-                        <Image
-                            src="/icons/profile.svg"
-                            alt="User"
-                            width={40}
-                            height={40}
-                            className="cursor-pointer"
+                        <ProfileIcon
+                            className="cursor-pointer w-10 h-10"
                             onClick={toggleDropdown}
                         />
                         {isDropdownOpen && (
