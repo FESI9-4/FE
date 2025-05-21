@@ -11,11 +11,12 @@ export type DropdownProps = {
     selected?: string;
     onSelect: (value: string) => void;
     placeholder?: string;
-};
+
 
 type DropdownType = '필터' | '모달' | '정렬';
 
 interface Props extends DropdownProps {
+
     type: DropdownType;
     placeholder?: string;
 }
