@@ -4,7 +4,7 @@ import { useDropdown } from './useDropdown';
 import { dropdownVariants } from './dropdownStyles';
 import { SortIcon, BlackDownIcon, WhiteDownIcon } from '@/assets';
 
-//TODO 피그마 시안이 바뀜... 따라서 작업해야함.
+//TODO 피그마 시안이 바뀜... 아직 작업중이신 것도 있어보임 따라서  나중에 작업하려고 함.
 
 export type DropdownProps = {
     options: string[];
