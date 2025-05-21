@@ -10,13 +10,15 @@ export default function ModalTestPage() {
     const handleClose = () => setIsOpen(false);
     const handleSubmit = () => {
         console.log('수정 완료!');
-        setIsOpen(false); 
+        setIsOpen(false);
     };
 
     return (
         <div className="text-3xl font-bold">
             <button onClick={handleOpen}>모달 열기</button>
-            {isOpen && <ModalProfile onClose={handleClose} onSubmit={handleSubmit} />}
+            {isOpen && (
+                <ModalProfile onClose={handleClose} onSubmit={handleSubmit} />
+            )}
         </div>
     );
 }
