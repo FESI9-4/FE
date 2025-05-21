@@ -43,13 +43,18 @@ export default function TextField(props: TextFieldProps) {
     // 비제어 컴포넌트를 위한 ref
     const inputRef = useRef<HTMLInputElement>(null);
     // 비제어 컴포넌트에서 사용할 isError 상태
-    const [uncontrolError, setUncontrolError] = useState(false);
+    const [uncontrolError, setUncontrolError] = useState<boolean | null>(null);
     // 비제어 컴포넌트에서 사용되는 changeHandler
     function uncontrolledHandleChange(e: React.ChangeEvent<HTMLInputElement>) {
         const { value, type } = e.target;
-        if (onChange) onChange(e); // 제어일경우 상위에서 제공한 onChange 사용
-
-        if (inputRef.current) {
+        // 제어일경우 상위에서 제공한 onChange 사용
+        if (onChange) {
+            onChange(e);
+            return;
+        }
+        if (inputRef.current !== null) {
+            console.log('uncontroll');
+            inputRef.current.value = value;
             switch (type) {
                 case 'file':
                     const file = e.target.files?.[0]; // 선택된 파일 가져오기
@@ -68,18 +73,17 @@ export default function TextField(props: TextFieldProps) {
                     }
                     break;
                 case 'number':
-                    // 숫자 타입일 경우 0~9의 문자만 허용
-                    if (!/^\d*$/.test(value)) {
-                        // 정규 표현식으로 숫자만 허용
-                        setUncontrolError(true); // 숫자가 아닐 경우 오류 상태 설정
-                        inputRef.current.value = ''; // 입력 필드 초기화
+                    // 숫자 타입인 경우 최대 최소값
+                    if (value && Number(value) < 0) {
+                        setUncontrolError(true);
+                        inputRef.current.value = '0';
+                    } else if (value && Number(value) >= 999) {
+                        setUncontrolError(true);
+                        inputRef.current.value = '999';
                     } else {
-                        setUncontrolError(false); // 유효한 숫자일 경우 오류 상태 해제
-                        inputRef.current.value = value; // 유효한 숫자일 경우 값 설정
+                        //0 ~ 999 사이의 숫자일 경우 오류 상태 해제
+                        setUncontrolError(false);
                     }
-                    break;
-                default:
-                    inputRef.current.value = value;
                     break;
             }
         }
@@ -92,7 +96,7 @@ export default function TextField(props: TextFieldProps) {
         className: slotProps?.input?.className,
         // 제어일 경우 위에서 제공한 isError 사용
         // 비제어일 경우 uncontrolError 사용
-        isError: value === undefined ? uncontrolError : isError,
+        isError: value === null ? uncontrolError : isError,
         // value가 있을 경우에만 설정 (상위에서 값을 줄 경우 제어 안주면 비제어)
         defaultValue: value === undefined ? '' : value,
         // 상위에서 onChange 핸들러를 제공한다면 해당 헨들러 사용
@@ -109,10 +113,8 @@ export default function TextField(props: TextFieldProps) {
     return (
         <div className="flex flex-col w-full ">
             <Label {...labelProps}>{label}</Label>
-            <Input {...inputProps} isError={isError} value={value} />
-            <HelperText {...helperTextProps} isError={isError}>
-                {helperText}
-            </HelperText>
+            <Input {...inputProps} />
+            <HelperText {...helperTextProps}>{helperText}</HelperText>
         </div>
     );
 }
