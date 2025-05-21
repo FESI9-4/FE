@@ -4,6 +4,8 @@ import { useDropdown } from './useDropdown';
 import { dropdownVariants } from './dropdownStyles';
 import { SortIcon, BlackDownIcon, WhiteDownIcon } from '@/assets';
 
+//TODO 피그마 시안이 바뀜... 따라서 작업해야함.
+
 export type DropdownProps = {
     options: string[];
     selected?: string;
@@ -60,7 +62,6 @@ export default function Dropdown({
             >
                 {type === '정렬' ? (
                     <>
-                        {/* 아이콘 크기 조절을 위한 className 추가 */}
                         <IconComponent className="w-5 h-5" />
                         <p
                             className={`${dropdownVariants.text({ type })} hidden md:block`}
@@ -80,7 +81,6 @@ export default function Dropdown({
                         >
                             {selected || placeholder}
                         </p>
-                        {/* 아이콘 크기 조절을 위한 className 추가 */}
                         <IconComponent className="w-3 h-3" />
                     </>
                 )}
