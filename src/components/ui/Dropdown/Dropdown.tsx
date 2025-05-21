@@ -2,7 +2,7 @@
 
 import { useDropdown } from './useDropdown';
 import { dropdownVariants } from './dropdownStyles';
-import Image from 'next/image';
+import { SortIcon, BlackDownIcon, WhiteDownIcon } from '@/assets';
 
 export type DropdownProps = {
     options: string[];
@@ -32,24 +32,21 @@ export default function Dropdown({
         setIsOpen(false);
     };
 
-    //TODO SVGR 로 변경
-
-    const iconSrc = (() => {
+    const IconComponent = (() => {
         switch (type) {
             case '필터':
-                return (Boolean(selected) && selected !== placeholder) || isOpen
-                    ? '/icons/whiteDown.svg'
-                    : '/icons/blackDown.svg';
+                return (selected && selected !== placeholder) || isOpen
+                    ? WhiteDownIcon
+                    : BlackDownIcon;
             case '모달':
-                return '/icons/blackDown.svg';
+                return BlackDownIcon;
             case '정렬':
-                return '/icons/sort.svg';
+                return SortIcon;
             default:
-                return '/icons/blackDown.svg';
+                return BlackDownIcon;
         }
     })();
 
-    // 필터 타입만 placeholder가 메뉴에 들어가도록 (모달/정렬은 옵션만)
     const showPlaceholderInMenu = type === '필터';
 
     return (
@@ -63,13 +60,8 @@ export default function Dropdown({
             >
                 {type === '정렬' ? (
                     <>
-                        <Image
-                            src={iconSrc}
-                            alt="icon"
-                            width={100}
-                            height={100}
-                            className="w-5 h-5 object-contain"
-                        />
+                        {/* 아이콘 크기 조절을 위한 className 추가 */}
+                        <IconComponent className="w-5 h-5" />
                         <p
                             className={`${dropdownVariants.text({ type })} hidden md:block`}
                         >
@@ -88,13 +80,8 @@ export default function Dropdown({
                         >
                             {selected || placeholder}
                         </p>
-                        <Image
-                            src={iconSrc}
-                            alt="arrow icon"
-                            width={100}
-                            height={100}
-                            className="w-3 h-3 object-contain"
-                        />
+                        {/* 아이콘 크기 조절을 위한 className 추가 */}
+                        <IconComponent className="w-3 h-3" />
                     </>
                 )}
             </button>
