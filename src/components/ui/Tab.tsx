@@ -1,50 +1,52 @@
-import clsx from 'clsx';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { cva } from 'class-variance-authority';
+import { DoTogetherIcon, GoTogetherIcon } from '@/assets';
 
-interface TabProps {
+interface TabProps extends React.HTMLAttributes<HTMLButtonElement> {
     children: React.ReactNode;
     icon: 'do' | 'go';
     active: boolean;
-    onClick?: () => void;
 }
 
-export default function Tab({ children, icon, active, onClick }: TabProps) {
-    const className = clsx(
-        'flex items-center gap-1 font-semibold text-lg hover:cursor-pointer'
+export default function Tab({ children, icon, active, ...props }: TabProps) {
+    const buttonClassName = cva(
+        'flex items-center gap-1 font-semibold text-lg hover:cursor-pointer mx-1.5',
+        {
+            variants: {
+                active: {
+                    true: 'text-white',
+                    false: 'text-gray-600',
+                },
+            },
+            defaultVariants: {
+                active: false,
+            },
+        }
     );
+    const hrClassName = cva('w-full h-0.5', {
+        variants: {
+            active: {
+                true: 'bg-white',
+                false: 'bg-gray-600',
+            },
+        },
+        defaultVariants: {
+            active: false,
+        },
+    });
 
     return (
-        <motion.div
-            className={className}
-            animate={{
-                color: active ? '#111827' : '#9CA3AF', // gray-900 : gray-400
-            }}
-            transition={{
-                duration: 0.5,
-                ease: 'easeInOut',
-            }}
-            onClick={onClick}
-        >
-            {children}
-            <motion.div
-                animate={{
-                    filter: active
-                        ? 'none'
-                        : 'invert(70%) sepia(5%) saturate(578%) hue-rotate(179deg) brightness(92%) contrast(92%)',
-                }}
-                transition={{
-                    duration: 0.5,
-                    ease: 'easeInOut',
-                }}
-            >
-                <Image
-                    src={`/icons/${icon}.svg`}
-                    alt={icon}
-                    width={24}
-                    height={24}
-                />
-            </motion.div>
-        </motion.div>
+        <div className="flex flex-col items-center gap-2 ">
+            <button className={buttonClassName({ active })} {...props}>
+                {children}
+                <div>
+                    {icon === 'do' ? (
+                        <DoTogetherIcon width={24} height={24} />
+                    ) : (
+                        <GoTogetherIcon width={24} height={24} />
+                    )}
+                </div>
+            </button>
+            <div className={hrClassName({ active })}></div>
+        </div>
     );
 }

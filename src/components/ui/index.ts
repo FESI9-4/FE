@@ -1,12 +1,12 @@
-import ChipInfo from './chipInfo';
-import ChipState from './chipState';
-import ChipTime from './chipTime';
-import Chip from './chip';
-import Tab from './tab';
-import Tag from './tag';
-import ContainerProgress from './containerProgress';
-import Button from './button';
-import TabContainer from './tabContainer';
+import ChipInfo from './ChipInfo';
+import ChipState from './ChipState';
+import ChipTime from './ChipTime';
+import Chip from './Chip';
+import Tab from './Tab';
+import Tag from './Tag';
+import ContainerProgress from './ContainerProgress';
+import Button from './Button';
+import TabContainer from './TabContainer';
 export {
     ChipInfo,
     ChipState,
