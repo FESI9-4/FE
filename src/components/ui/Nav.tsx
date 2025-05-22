@@ -21,7 +21,7 @@ const iconStyle = cva('cursor-pointer', {
     variants: {
         size: {
             mobile: 'w-8 h-8',
-            desktop: 'w-[131.32px] h-[32px]',
+            desktop: 'w-32.83 h-8',
             profile: 'w-10 h-10',
         },
     },
