@@ -1,4 +1,4 @@
-import CheckIcon from '@public/icons/IcCheck.svg';
+import CheckIcon from '@public/icons/check.svg';
 import AlarmIcon from '@public/icons/alarm.svg';
 import BoxCheckIcon from '@public/icons/boxCheck.svg';
 import BlackDownIcon from '@public/icons/blackDown.svg';
@@ -14,6 +14,7 @@ import WhiteDownIcon from '@public/icons/whiteDown.svg';
 import DoTogetherIcon from '@public/icons/doTogether.svg';
 import GoTogetherIcon from '@public/icons/goTogether.svg';
 import UserIcon from '@public/icons/user.svg';
+import EditIcon from '@public/icons/edit.svg';
 
 export {
     CheckIcon,
@@ -32,4 +33,5 @@ export {
     DoTogetherIcon,
     GoTogetherIcon,
     UserIcon,
+    EditIcon,
 };

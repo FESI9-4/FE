@@ -1,7 +1,7 @@
-import Image from 'next/image';
+import { EditIcon } from '@/assets';
 
-interface EditButtonProps {
-    onClick: () => void;
+interface EditButtonProps
+    extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     size: 'small' | 'large';
 }
 
@@ -11,12 +11,7 @@ export default function EditButton({
 }: EditButtonProps) {
     return (
         <button onClick={onClick} className="hover:cursor-pointer">
-            <Image
-                src={`/icons/edit.svg`}
-                alt="edit"
-                width={size === 'large' ? 32 : 18}
-                height={size === 'large' ? 32 : 18}
-            />
+            <EditIcon width={size === 'large' ? 32 : 18} />
         </button>
     );
 }
