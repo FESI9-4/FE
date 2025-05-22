@@ -1,7 +1,5 @@
 import CheckIcon from '@public/icons/IcCheck.svg';
 import AlarmIcon from '@public/icons/alarm.svg';
-import DoIcon from '@public/icons/do.svg';
-import GoIcon from '@public/icons/go.svg';
 import BoxCheckIcon from '@public/icons/boxCheck.svg';
 import BlackDownIcon from '@public/icons/blackDown.svg';
 import LeftArrowIcon from '@public/icons/leftArrow.svg';
@@ -13,12 +11,12 @@ import SortIcon from '@public/icons/sort.svg';
 import VisibilityOffIcon from '@public/icons/visibilityOff.svg';
 import VisibilityOnIcon from '@public/icons/visibilityOn.svg';
 import WhiteDownIcon from '@public/icons/whiteDown.svg';
+import DoTogetherIcon from '@public/icons/doTogether.svg';
+import GoTogetherIcon from '@public/icons/goTogether.svg';
 
 export {
     CheckIcon,
     AlarmIcon,
-    DoIcon,
-    GoIcon,
     BoxCheckIcon,
     BlackDownIcon,
     LeftArrowIcon,
@@ -30,4 +28,6 @@ export {
     VisibilityOffIcon,
     VisibilityOnIcon,
     WhiteDownIcon,
+    DoTogetherIcon,
+    GoTogetherIcon,
 };
