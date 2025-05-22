@@ -42,8 +42,19 @@ const dropdownVariants = {
         },
     }),
     menu: cva(
-        `absolute z-10 top-full mt-1 left-0 rounded-lg shadow-md bg-gray-800 text-white w-full overflow-y-auto 
-         max-h-50 md:max-h-70 custom-scrollbar min-w-27.5`
+        `absolute z-10 top-full mt-1 rounded-lg shadow-md bg-gray-800 text-white w-full overflow-y-auto 
+   max-h-50 md:max-h-70 custom-scrollbar min-w-27.5`,
+        {
+            variants: {
+                iconType: {
+                    sort: '-left-18 md:left-0',
+                    arrow: 'left-0',
+                },
+            },
+            defaultVariants: {
+                iconType: 'arrow',
+            },
+        }
     ),
 
     itemText: cva(
@@ -162,7 +173,7 @@ export default function Dropdown({
             </button>
 
             {isOpen && (
-                <ul className={dropdownVariants.menu()}>
+                <ul className={dropdownVariants.menu({iconType})}>
                     {showPlaceholderInMenu && (
                         <li
                             key="__placeholder__"
