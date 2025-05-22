@@ -13,6 +13,7 @@ import SortIcon from '@public/icons/sort.svg';
 import VisibilityOffIcon from '@public/icons/visibilityOff.svg';
 import VisibilityOnIcon from '@public/icons/visibilityOn.svg';
 import WhiteDownIcon from '@public/icons/whiteDown.svg';
+import EditIcon from '@public/icons/edit.svg';
 
 export {
     CheckIcon,
@@ -30,4 +31,5 @@ export {
     VisibilityOffIcon,
     VisibilityOnIcon,
     WhiteDownIcon,
+    EditIcon,
 };
