@@ -10,9 +10,9 @@ interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
 
 export default function Button({
     children,
-    size = 'small',
-    styled = 'solid',
-    disabled = false,
+    size,
+    styled,
+    disabled,
     onClick,
     ...props
 }: ButtonProps) {

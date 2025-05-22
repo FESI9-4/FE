@@ -1,32 +1,68 @@
-import clsx from 'clsx';
+import { cva } from 'class-variance-authority';
 
-interface ChipProps {
+interface ChipProps extends React.HTMLAttributes<HTMLButtonElement> {
     children: React.ReactNode;
     size?: 'small' | 'large';
-    status?: 'default' | 'active';
-    onClick?: () => void;
+    active?: boolean;
+    styled?: 'solid' | 'outline';
 }
 
 export default function Chip({
     children,
-    size = 'small',
-    status = 'default',
-    onClick,
+    size,
+    active,
+    styled,
+    ...props
 }: ChipProps) {
-    const className = clsx(
-        'rounded-xl flex justify-center items-center text-sm font-medium hover:cursor-pointer',
+    const className = cva(
+        'rounded-full flex justify-center items-center font-semibold hover:cursor-pointer',
         {
-            'px-4 py-2.5': size === 'large',
-            'px-3 py-2': size === 'small',
-        },
-        {
-            'bg-gray-200 text-gray-900': status === 'default',
-            'bg-gray-900 text-white': status === 'active',
+            variants: {
+                size: {
+                    large: 'px-4 py-2.5 text-base',
+                    small: 'px-3 py-2 text-sm',
+                },
+                styled: {
+                    solid: 'bg-gray-800',
+                    outline: 'bg-green-400',
+                },
+                active: {
+                    false: 'bg-transparent',
+                    true: '',
+                },
+            },
+            compoundVariants: [
+                {
+                    active: false,
+                    styled: 'outline',
+                    className: 'text-gray-300 outline-1 outline-gray-600',
+                },
+                {
+                    active: false,
+                    styled: 'solid',
+                    className: 'text-gray-400',
+                },
+                {
+                    active: true,
+                    styled: 'outline',
+                    className: 'bg-green-400 text-black',
+                },
+                {
+                    active: true,
+                    styled: 'solid',
+                    className: 'bg-gray-800 text-white',
+                },
+            ],
+            defaultVariants: {
+                size: 'small',
+                styled: 'solid',
+                active: false,
+            },
         }
     );
     return (
-        <div className={className} onClick={onClick}>
+        <button className={className({ size, styled, active })} {...props}>
             {children}
-        </div>
+        </button>
     );
 }
