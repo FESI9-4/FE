@@ -34,7 +34,7 @@ export default function Tab({ children, icon, active, ...props }: TabProps) {
     });
 
     return (
-        <div className="flex flex-col items-center gap-2 ">
+        <div className="flex flex-col items-center gap-2">
             <button className={buttonClassName({ active })} {...props}>
                 {children}
                 {icon}
