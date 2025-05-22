@@ -3,9 +3,7 @@
 import {
     Button,
     Chip,
-    ChipInfo,
     ChipState,
-    ChipTime,
     ContainerProgress,
     Tab,
     Tag,
@@ -143,9 +141,10 @@ export default function Home() {
                     </Chip>
                 </div>
             </div>
-            <ChipTime>칩타임</ChipTime>
-            <ChipInfo>칩정보</ChipInfo>
-            <ChipState>칩상태</ChipState>
+            <div className="flex gap-2">
+                <ChipState status="schedule">이용 예정</ChipState>
+                <ChipState status="done">이용 완료</ChipState>
+            </div>
         </div>
     );
 }
