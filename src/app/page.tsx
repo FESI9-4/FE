@@ -38,7 +38,7 @@ export default function Home() {
                 />
             </div>
 
-            <div className="w-9 md:w-26">
+            <div className="ml-20 w-9 md:w-26">
                 <h2 className="text-xl font-semibold mb-2">정렬 타입</h2>
                 <Dropdown
                     options={['내림 차순', '참여 인원', '생성일 ']}
