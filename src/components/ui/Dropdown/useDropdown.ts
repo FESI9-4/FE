@@ -71,6 +71,7 @@ export function useDropdown({
             return buttonState === 'pressed' ? 'text-gray-400' : 'text-white';
         }
         if (!selected || selected === placeholder) return 'text-gray-500';
+        
         return 'text-white';
     };
 
