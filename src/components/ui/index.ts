@@ -6,7 +6,6 @@ import Tab from './Tab';
 import Tag from './Tag';
 import ContainerProgress from './ContainerProgress';
 import Button from './Button';
-import TabContainer from './TabContainer';
 export {
     ChipInfo,
     ChipState,
@@ -16,7 +15,6 @@ export {
     Tag,
     ContainerProgress,
     Button,
-    TabContainer,
 };
 import Input from './Input';
 export { Input };
