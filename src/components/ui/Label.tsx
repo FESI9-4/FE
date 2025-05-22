@@ -1,9 +1,8 @@
 import { cva, type VariantProps } from 'class-variance-authority';
-import { HTMLAttributes } from 'react';
+import { LabelHTMLAttributes } from 'react';
 import { cn } from '@/utils/cn';
-interface LabelProps
-    extends HTMLAttributes<HTMLLabelElement>,
-        VariantProps<typeof LabelVariants> {}
+export type LabelProps = LabelHTMLAttributes<HTMLLabelElement> &
+    VariantProps<typeof LabelVariants>;
 // 레이블 스타일
 export const LabelVariants = cva('', {
     variants: {
@@ -20,7 +19,7 @@ export default function Label(props: LabelProps) {
     const { className, labelSize, children, ...rest } = props;
     return (
         <label
-            className={cn(LabelVariants({ labelSize }), className)}
+            className={cn(LabelVariants({ labelSize: labelSize }), className)}
             {...rest}
         >
             {children}
