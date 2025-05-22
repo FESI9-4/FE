@@ -57,6 +57,9 @@ export default function Dropdown({
                 className={clsx(
                     dropdownVariants.buttonBase({ iconType }),
                     textColor
+                    ,  'hover:text-gray-200'
+                        ,'active:text-gray-400' 
+
                 )}
                 onClick={toggleDropdown}
                 onMouseDown={handleMouseDown}
@@ -65,13 +68,19 @@ export default function Dropdown({
                 type="button"
             >
                 {iconType === 'sort' && <IconComponent className="w-6 h-6" />}
-                
-                <span className={dropdownVariants.text({ iconType })}>
+
+                <span
+                    className={clsx(
+                        dropdownVariants.text({ iconType })
+                    )}
+                >
                     {selected || placeholder}
                 </span>
-                
+
                 {iconType === 'arrow' && (
-                    <IconComponent className={clsx('w-6 h-6 ml-2', textColor)} />
+                    <IconComponent
+                        className={clsx('w-6 h-6 ml-2', textColor)}
+                    />
                 )}
             </button>
 
@@ -82,7 +91,9 @@ export default function Dropdown({
                             key="__placeholder__"
                             className={dropdownVariants.itemText()}
                             onClick={() => handleSelect(placeholder)}
-                            onMouseEnter={() => handleOptionMouseEnter(placeholder)}
+                            onMouseEnter={() =>
+                                handleOptionMouseEnter(placeholder)
+                            }
                             onMouseLeave={handleOptionMouseLeave}
                         >
                             <div
@@ -94,7 +105,7 @@ export default function Dropdown({
                             </div>
                         </li>
                     )}
-                    
+
                     {options.map((option) => (
                         <li
                             key={option}
