@@ -1,37 +1,76 @@
-import clsx from 'clsx';
+import { cva } from 'class-variance-authority';
 
-interface ButtonProps {
+interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
     children: React.ReactNode;
-    onClick?: () => void;
     size?: 'small' | 'large';
-    disabled?: boolean;
     styled?: 'solid' | 'outline';
+    disabled?: boolean;
+    onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export default function Button({
     children,
-    onClick,
     size = 'small',
-    disabled = false,
     styled = 'solid',
+    disabled = false,
+    onClick,
+    ...props
 }: ButtonProps) {
-    const className = clsx(
+    const className = cva(
         'rounded-full font-semibold flex justify-center items-center',
         {
-            'w-28 text-sm py-2.5': size === 'small',
-            'w-80 text-base py-3': size === 'large',
-            'bg-green-400 text-black hover:bg-green-500 active:bg-green-600':
-                !disabled && styled === 'solid',
-            'outline outline-1 outline-offset-[-1px] outline-green-400 text-green-400 hover:outline-green-500 hover:outline-2 hover:outline-offset-[-2px] active:outline-green-700 active:bg-gray-900 active:outline-2 active:outline-offset-[-2px]':
-                !disabled && styled === 'outline',
-            'bg-green-900 text-gray-900': disabled && styled === 'solid',
-            'outline outline-1 outline-offset-[-1px] outline-green-900 text-green-900':
-                disabled && styled === 'outline',
-            'hover:cursor-pointer': !disabled,
+            variants: {
+                size: {
+                    small: 'w-28 text-sm py-2.5',
+                    large: 'w-80 text-base py-3',
+                },
+                styled: {
+                    solid: 'bg-green-400 text-black',
+                    outline:
+                        'outline outline-1 outline-offset-[-1px] outline-green-400 text-green-400 ',
+                },
+                disabled: {
+                    true: '',
+                    false: 'hover:cursor-pointer',
+                },
+            },
+            compoundVariants: [
+                {
+                    styled: 'outline',
+                    disabled: true,
+                    className: 'outline-green-900 text-green-900',
+                },
+                {
+                    styled: 'solid',
+                    disabled: true,
+                    className: 'bg-green-900 text-gray-900',
+                },
+                {
+                    styled: 'outline',
+                    disabled: false,
+                    className:
+                        'hover:outline-green-500 hover:outline-2 hover:outline-offset-[-2px] active:outline-green-700 active:bg-gray-900 active:outline-2 active:outline-offset-[-2px]',
+                },
+                {
+                    styled: 'solid',
+                    disabled: false,
+                    className: 'hover:bg-green-500 active:bg-green-600',
+                },
+            ],
+            defaultVariants: {
+                size: 'small',
+                styled: 'solid',
+                disabled: false,
+            },
         }
     );
+
     return (
-        <button className={className} onClick={disabled ? undefined : onClick}>
+        <button
+            className={className({ size, styled, disabled })}
+            onClick={disabled ? undefined : onClick}
+            {...props}
+        >
             {children}
         </button>
     );

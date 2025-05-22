@@ -1,9 +1,8 @@
 import { cva } from 'class-variance-authority';
-import { DoTogetherIcon, GoTogetherIcon } from '@/assets';
 
 interface TabProps extends React.HTMLAttributes<HTMLButtonElement> {
     children: React.ReactNode;
-    icon: 'do' | 'go';
+    icon: React.ReactNode;
     active: boolean;
 }
 
@@ -38,13 +37,7 @@ export default function Tab({ children, icon, active, ...props }: TabProps) {
         <div className="flex flex-col items-center gap-2 ">
             <button className={buttonClassName({ active })} {...props}>
                 {children}
-                <div>
-                    {icon === 'do' ? (
-                        <DoTogetherIcon width={24} height={24} />
-                    ) : (
-                        <GoTogetherIcon width={24} height={24} />
-                    )}
-                </div>
+                {icon}
             </button>
             <div className={hrClassName({ active })}></div>
         </div>
