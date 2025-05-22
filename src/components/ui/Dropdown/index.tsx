@@ -1,8 +1,9 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
-import { cva } from 'class-variance-authority';
+import clsx from 'clsx';
 import { WhiteDownIcon, SortUpIcon, SortDownIcon } from '@/assets';
+import { useDropdown } from './useDropdown';
+import { dropdownVariants } from './dropdownStyles';
 
 export type DropdownProps = {
     options: string[];
@@ -13,84 +14,6 @@ export type DropdownProps = {
     showPlaceholderInMenu?: boolean;
 };
 
-const dropdownVariants = {
-    container: cva('relative w-full'),
-    buttonBase: cva(
-        'flex items-center w-full rounded-md text-sm transition-colors duration-200 ' +
-            'text-white hover:text-gray-200',
-        {
-            variants: {
-                iconType: {
-                    sort: 'justify-center md:justify-between gap-1 h-9 md:px-2.5 md:py-2 ',
-                    arrow: 'justify-between px-4 py-2',
-                },
-            },
-            defaultVariants: {
-                iconType: 'arrow',
-            },
-        }
-    ),
-    text: cva('truncate', {
-        variants: {
-            iconType: {
-                sort: 'hidden md:inline',
-                arrow: '',
-            },
-        },
-        defaultVariants: {
-            iconType: 'arrow',
-        },
-    }),
-    menu: cva(
-        `absolute z-10 top-full mt-1 rounded-lg shadow-md bg-gray-800 text-white w-full overflow-y-auto 
-   max-h-50 md:max-h-70 custom-scrollbar min-w-27.5`,
-        {
-            variants: {
-                iconType: {
-                    sort: '-left-18 md:left-0',
-                    arrow: 'left-0',
-                },
-            },
-            defaultVariants: {
-                iconType: 'arrow',
-            },
-        }
-    ),
-
-    itemText: cva(
-        'w-full rounded-md cursor-pointer h-10 md:h-14 text-sm md:font-base flex items-center justify-center'
-    ),
-    itemInner: cva(
-        'w-[calc(100%-12px)] px-3 py-2 h-8 md:h-10 rounded-md transition-colors duration-200 flex items-center',
-        {
-            variants: {
-                state: {
-                    default: 'bg-transparent',
-                    hover: 'bg-gray-700',
-                    selected: 'bg-gray-600',
-                },
-            },
-            defaultVariants: {
-                state: 'default',
-            },
-        }
-    ),
-};
-
-function getColorClassForSort(state: 'default' | 'pressed') {
-    switch (state) {
-        case 'pressed':
-            return 'text-gray-400';
-        default:
-            return 'text-white';
-    }
-}
-
-const getTextColor = (selected: string | undefined, placeholder: string) => {
-    if (!selected || selected === placeholder) return 'text-gray-500';
-    return 'text-white';
-};
-
 export default function Dropdown({
     options,
     selected,
@@ -99,119 +22,90 @@ export default function Dropdown({
     iconType = 'arrow',
     showPlaceholderInMenu = false,
 }: DropdownProps) {
-    const [isOpen, setIsOpen] = useState(false);
-    const [isPressed, setIsPressed] = useState(false);
-    const [hoveredOption, setHoveredOption] = useState<string | null>(null);
-    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
-    const dropdownRef = useRef<HTMLDivElement>(null);
+    const {
+        isOpen,
+        sortOrder,
+        dropdownRef,
+        textColor,
+        toggleDropdown,
+        handleSelect,
+        handleMouseDown,
+        handleMouseUp,
+        handleMouseLeave,
+        handleOptionMouseEnter,
+        handleOptionMouseLeave,
+        getOptionState,
+    } = useDropdown({
+        selected,
+        onSelect,
+        placeholder,
+        iconType,
+    });
 
-    useEffect(() => {
-        const handleClickOutside = (e: MouseEvent) => {
-            if (
-                dropdownRef.current &&
-                !dropdownRef.current.contains(e.target as Node)
-            ) {
-                setIsOpen(false);
-                setIsPressed(false);
-                setHoveredOption(null);
-            }
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () =>
-            document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
-
-    const handleSelect = (value: string) => {
-        if (iconType === 'sort' && value === selected) {
-            const newOrder = sortOrder === 'desc' ? 'asc' : 'desc';
-            setSortOrder(newOrder);
-            onSelect(value, newOrder);
-        } else {
-            setSortOrder('desc');
-            onSelect(value, 'desc');
+    const getIconComponent = () => {
+        if (iconType === 'sort') {
+            return sortOrder === 'desc' ? SortUpIcon : SortDownIcon;
         }
-        setIsOpen(false);
-        setIsPressed(false);
-        setHoveredOption(null);
+        return WhiteDownIcon;
     };
 
-    const buttonState: 'default' | 'pressed' = isPressed
-        ? 'pressed'
-        : 'default';
-
-    const colorClass =
-        iconType === 'sort'
-            ? getColorClassForSort(buttonState)
-            : getTextColor(selected, placeholder);
-
-    let IconComponent;
-    if (iconType === 'sort') {
-        IconComponent = sortOrder === 'desc' ? SortUpIcon : SortDownIcon;
-    } else {
-        IconComponent = WhiteDownIcon;
-    }
+    const IconComponent = getIconComponent();
 
     return (
         <div ref={dropdownRef} className={dropdownVariants.container()}>
             <button
-                className={`${dropdownVariants.buttonBase({ iconType })} ${colorClass}`}
-                onClick={() => setIsOpen((prev) => !prev)}
-                onMouseDown={() => setIsPressed(true)}
-                onMouseUp={() => setIsPressed(false)}
-                onMouseLeave={() => {
-                    setIsPressed(false);
-                }}
+                className={clsx(
+                    dropdownVariants.buttonBase({ iconType }),
+                    textColor
+                )}
+                onClick={toggleDropdown}
+                onMouseDown={handleMouseDown}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseLeave}
                 type="button"
             >
                 {iconType === 'sort' && <IconComponent className="w-6 h-6" />}
-                <span className={`${dropdownVariants.text({ iconType })}`}>
+                
+                <span className={dropdownVariants.text({ iconType })}>
                     {selected || placeholder}
                 </span>
+                
                 {iconType === 'arrow' && (
-                    <IconComponent className={`w-6 h-6 ml-2 ${colorClass}`} />
+                    <IconComponent className={clsx('w-6 h-6 ml-2', textColor)} />
                 )}
             </button>
 
             {isOpen && (
-                <ul className={dropdownVariants.menu({iconType})}>
+                <ul className={dropdownVariants.menu({ iconType })}>
                     {showPlaceholderInMenu && (
                         <li
                             key="__placeholder__"
                             className={dropdownVariants.itemText()}
                             onClick={() => handleSelect(placeholder)}
-                            onMouseEnter={() => setHoveredOption(placeholder)}
-                            onMouseLeave={() => setHoveredOption(null)}
+                            onMouseEnter={() => handleOptionMouseEnter(placeholder)}
+                            onMouseLeave={handleOptionMouseLeave}
                         >
                             <div
                                 className={dropdownVariants.itemInner({
-                                    state:
-                                        selected === placeholder
-                                            ? 'selected'
-                                            : hoveredOption === placeholder
-                                              ? 'hover'
-                                              : 'default',
+                                    state: getOptionState(placeholder),
                                 })}
                             >
                                 {placeholder}
                             </div>
                         </li>
                     )}
+                    
                     {options.map((option) => (
                         <li
                             key={option}
                             className={dropdownVariants.itemText()}
                             onClick={() => handleSelect(option)}
-                            onMouseEnter={() => setHoveredOption(option)}
-                            onMouseLeave={() => setHoveredOption(null)}
+                            onMouseEnter={() => handleOptionMouseEnter(option)}
+                            onMouseLeave={handleOptionMouseLeave}
                         >
                             <div
                                 className={dropdownVariants.itemInner({
-                                    state:
-                                        selected === option
-                                            ? 'selected'
-                                            : hoveredOption === option
-                                              ? 'hover'
-                                              : 'default',
+                                    state: getOptionState(option),
                                 })}
                             >
                                 {option}
