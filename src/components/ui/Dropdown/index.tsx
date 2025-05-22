@@ -21,7 +21,7 @@ const dropdownVariants = {
         {
             variants: {
                 iconType: {
-                    sort: 'justify-center md:justify-between gap-1 px-2.5 py-2',
+                    sort: 'justify-center md:justify-between gap-1 h-9 md:px-2.5 md:py-2 ',
                     arrow: 'justify-between px-4 py-2',
                 },
             },
@@ -43,7 +43,7 @@ const dropdownVariants = {
     }),
     menu: cva(
         `absolute z-10 top-full mt-1 left-0 rounded-lg shadow-md bg-gray-800 text-white w-full overflow-y-auto 
-         max-h-50 md:max-h-70 custom-scrollbar`
+         max-h-50 md:max-h-70 custom-scrollbar min-w-27.5`
     ),
 
     itemText: cva(

@@ -27,7 +27,7 @@ export default function Home() {
             <div className="w-27 ">
                 <h2 className="text-xl font-semibold mb-2">필터 타입</h2>
                 <Dropdown
-                    options={['건대입구', '을지로 3가', '신림', ]}
+                    options={['건대입구', '을지로 3가', '신림']}
                     selected={selectedFilter}
                     onSelect={(value) => {
                         console.log('필터 선택:', value);
@@ -38,7 +38,7 @@ export default function Home() {
                 />
             </div>
 
-            <div className="w-6 md:w-26">
+            <div className="w-9 md:w-26">
                 <h2 className="text-xl font-semibold mb-2">정렬 타입</h2>
                 <Dropdown
                     options={['내림 차순', '참여 인원', '생성일 ']}
