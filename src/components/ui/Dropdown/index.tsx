@@ -20,7 +20,7 @@ export default function Dropdown({
     onSelect,
     placeholder = '',
     iconType = 'arrow',
-    showPlaceholderInMenu = false,
+    showPlaceholderInMenu = true,
 }: DropdownProps) {
     const {
         isOpen,
@@ -56,10 +56,9 @@ export default function Dropdown({
             <button
                 className={clsx(
                     dropdownVariants.buttonBase({ iconType }),
-                    textColor
-                    ,  'hover:text-gray-200'
-                        ,'active:text-gray-400' 
-
+                    textColor,
+                    'hover:text-gray-200',
+                    'active:text-gray-400'
                 )}
                 onClick={toggleDropdown}
                 onMouseDown={handleMouseDown}
@@ -69,11 +68,7 @@ export default function Dropdown({
             >
                 {iconType === 'sort' && <IconComponent className="w-6 h-6" />}
 
-                <span
-                    className={clsx(
-                        dropdownVariants.text({ iconType })
-                    )}
-                >
+                <span className={clsx(dropdownVariants.text({ iconType }))}>
                     {selected || placeholder}
                 </span>
 
