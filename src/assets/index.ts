@@ -13,6 +13,7 @@ import VisibilityOnIcon from '@public/icons/visibilityOn.svg';
 import WhiteDownIcon from '@public/icons/whiteDown.svg';
 import DoTogetherIcon from '@public/icons/doTogether.svg';
 import GoTogetherIcon from '@public/icons/goTogether.svg';
+import UserIcon from '@public/icons/user.svg';
 
 export {
     CheckIcon,
@@ -30,4 +31,5 @@ export {
     WhiteDownIcon,
     DoTogetherIcon,
     GoTogetherIcon,
+    UserIcon,
 };
