@@ -15,6 +15,8 @@ import DoTogetherIcon from '@public/icons/doTogether.svg';
 import GoTogetherIcon from '@public/icons/goTogether.svg';
 import UserIcon from '@public/icons/user.svg';
 import EditIcon from '@public/icons/edit.svg';
+import EditNoBgIcon from '@public/icons/editNoBg.svg';
+import LikeIcon from '@public/icons/like.svg';
 
 export {
     CheckIcon,
@@ -34,4 +36,6 @@ export {
     GoTogetherIcon,
     UserIcon,
     EditIcon,
+    EditNoBgIcon,
+    LikeIcon,
 };
