@@ -1,41 +1,55 @@
-import Image from 'next/image';
 import EditButton from './EditButton';
-import clsx from 'clsx';
+import { cva } from 'class-variance-authority';
+import { ProfileIcon } from '@/assets';
+import Image from 'next/image';
 
 interface ProfileProps {
-    size: 'small' | 'medium' | 'large';
+    size: 'small' | 'medium' | 'large' | 'xsmall';
     image?: string;
     edit?: boolean;
+    children?: React.ReactNode;
 }
 
-export default function Profile({
-    size = 'large',
-    image = '/icons/profile.svg',
-    edit,
-}: ProfileProps) {
-    const ImageClassName = clsx(
-        'relative flex items-center rounded-full overflow-hidden ',
-        {
-            'w-6 h-6': size === 'small',
-            'w-10 h-10': size === 'medium',
-            'w-14 h-14': size === 'large',
-        }
-    );
-    const ContainerClassName = clsx('relative flex items-center', {
-        'w-6 h-6': size === 'small',
-        'w-10 h-10': size === 'medium',
-        'w-14 h-14': size === 'large',
+export default function Profile({ size, image, edit, children }: ProfileProps) {
+    const imageClass = cva('relative bg-gray-800  rounded-full', {
+        variants: {
+            size: {
+                xsmall: 'w-5 h-5 px-0.5 py-1',
+                small: 'w-6 h-6 px-0.5 py-1',
+                medium: 'w-10 h-10 px-1 py-2',
+                large: 'w-16 h-16 px-2.5 py-3.5',
+            },
+        },
+    });
+    const containerClass = cva('flex items-center gap-1 text-gray-300', {
+        variants: {
+            size: {
+                xsmall: 'text-xs',
+                small: 'text-sm',
+                medium: 'text-base',
+                large: 'text-lg',
+            },
+        },
     });
     return (
-        <div className={ContainerClassName}>
-            <div className={ImageClassName}>
-                <Image src={image} alt="profile" fill objectFit="contain" />
+        <div className={containerClass({ size })}>
+            <div className={imageClass({ size })}>
+                {image ? (
+                    <Image src={image} alt="profile" fill objectFit="cover" />
+                ) : (
+                    <ProfileIcon />
+                )}
+                {edit && (
+                    <div className="flex absolute right-0 bottom-0">
+                        <EditButton
+                            size="small"
+                            onClick={() => {}}
+                            color="green"
+                        />
+                    </div>
+                )}
             </div>
-            {edit && (
-                <div className="flex absolute right-0 bottom-0">
-                    <EditButton size="small" onClick={() => {}} />
-                </div>
-            )}
+            {children}
         </div>
     );
 }
