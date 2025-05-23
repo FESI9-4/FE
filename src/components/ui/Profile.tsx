@@ -11,16 +11,19 @@ interface ProfileProps {
 }
 
 export default function Profile({ size, image, edit, children }: ProfileProps) {
-    const imageClass = cva('relative bg-gray-800  rounded-full', {
-        variants: {
-            size: {
-                xsmall: 'w-5 h-5 px-0.5 py-1',
-                small: 'w-6 h-6 px-0.5 py-1',
-                medium: 'w-10 h-10 px-1 py-2',
-                large: 'w-16 h-16 px-2.5 py-3.5',
+    const imageClass = cva(
+        'relative bg-gray-800 rounded-full overflow-hidden',
+        {
+            variants: {
+                size: {
+                    xsmall: 'w-5 h-5 px-0.5 py-1',
+                    small: 'w-6 h-6 px-0.5 py-1',
+                    medium: 'w-10 h-10 px-1 py-2',
+                    large: 'w-16 h-16 px-2.5 py-3.5',
+                },
             },
-        },
-    });
+        }
+    );
     const containerClass = cva('flex items-center gap-1 text-gray-300', {
         variants: {
             size: {
@@ -33,12 +36,19 @@ export default function Profile({ size, image, edit, children }: ProfileProps) {
     });
     return (
         <div className={containerClass({ size })}>
-            <div className={imageClass({ size })}>
-                {image ? (
-                    <Image src={image} alt="profile" fill objectFit="cover" />
-                ) : (
-                    <ProfileIcon />
-                )}
+            <div className="relative">
+                <div className={imageClass({ size })}>
+                    {image ? (
+                        <Image
+                            src={image}
+                            alt="profile"
+                            fill
+                            objectFit="cover"
+                        />
+                    ) : (
+                        <ProfileIcon />
+                    )}
+                </div>
                 {edit && (
                     <div className="flex absolute right-0 bottom-0">
                         <EditButton
@@ -49,6 +59,7 @@ export default function Profile({ size, image, edit, children }: ProfileProps) {
                     </div>
                 )}
             </div>
+
             {children}
         </div>
     );
