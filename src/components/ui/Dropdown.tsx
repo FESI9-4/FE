@@ -1,165 +1,263 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
-import Image from 'next/image';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import clsx from 'clsx';
+import { cva } from 'class-variance-authority';
+import { WhiteDownIcon, SortUpIcon, SortDownIcon } from '@/assets';
 
-type DropdownProps = {
+export type DropdownProps = {
     options: string[];
-    onSelect: (value: string) => void;
     selected?: string;
+    onSelect: (value: string, order?: 'asc' | 'desc') => void;
     placeholder?: string;
-    type?: '모달' | '필터' | '정렬';
+    iconType?: 'sort' | 'arrow';
+    showPlaceholderInMenu?: boolean;
 };
 
-export default function Dropdown({
-    options,
-    onSelect,
+const dropdownVariants = {
+    container: cva('relative w-full'),
+
+    buttonBase: cva(
+        'flex items-center w-full rounded-md text-sm transition-colors duration-200 hover:text-gray-200 hover:text-gray-200 active:text-gray-400',
+        {
+            variants: {
+                iconType: {
+                    sort: 'justify-center md:justify-between gap-1 h-9 md:px-2.5 md:py-2 bg-yellow-200',
+                    arrow: 'justify-between px-4 py-2',
+                },
+            },
+            defaultVariants: {
+                iconType: 'arrow',
+            },
+        }
+    ),
+
+    text: cva('truncate', {
+        variants: {
+            iconType: {
+                sort: 'hidden md:inline',
+                arrow: '',
+            },
+        },
+        defaultVariants: {
+            iconType: 'arrow',
+        },
+    }),
+
+    menu: cva(
+        `absolute z-10 top-full mt-1 rounded-lg shadow-md bg-gray-800 text-white w-full overflow-y-auto 
+     max-h-50 md:max-h-70 custom-scrollbar min-w-27.5`,
+        {
+            variants: {
+                iconType: {
+                    sort: '-left-18 md:left-0',
+                    arrow: 'left-0',
+                },
+            },
+            defaultVariants: {
+                iconType: 'arrow',
+            },
+        }
+    ),
+
+    itemText: cva(
+        'w-full rounded-md cursor-pointer h-10 md:h-14 text-sm md:font-base flex items-center justify-center'
+    ),
+
+    itemInner: cva(
+        'w-[calc(100%-12px)] px-3 py-2 h-8 md:h-10 rounded-md transition-colors duration-200 flex items-center',
+        {
+            variants: {
+                state: {
+                    default: 'bg-transparent',
+                    hover: 'bg-gray-700',
+                    selected: 'bg-gray-600',
+                },
+            },
+            defaultVariants: {
+                state: 'default',
+            },
+        }
+    ),
+};
+
+type UseDropdownProps = {
+    selected?: string;
+    onSelect: (value: string, order?: 'asc' | 'desc') => void;
+    placeholder?: string;
+    iconType?: 'sort' | 'arrow';
+};
+
+function useDropdown({
     selected,
-    placeholder = '장소를 선택해주세요',
-    type = '모달',
-}: DropdownProps) {
+    onSelect,
+    placeholder = '',
+    iconType = 'arrow',
+}: UseDropdownProps) {
     const [isOpen, setIsOpen] = useState(false);
+    const [hovered, setHovered] = useState<string | null>(null);
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        function handleClickOutside(event: MouseEvent) {
+        const handleClickOutside = (e: MouseEvent) => {
             if (
                 dropdownRef.current &&
-                event.target instanceof Node &&
-                !dropdownRef.current.contains(event.target)
+                !dropdownRef.current.contains(e.target as Node)
             ) {
-                setIsOpen(false);
+                closeDropdown();
             }
-        }
-
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
         };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () =>
+            document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    const handleSelect = (value: string) => {
-        onSelect(value);
+    const closeDropdown = () => {
         setIsOpen(false);
+        setHovered(null);
     };
 
-    const getDropdownStyles = () => {
-        const sharedStyles = {
-            containerBase:
-                'relative h-9 md:h-10 rounded-lg border border-gray-200 flex justify-center items-center ',
-            buttonBase: 'h-6 text-left flex items-center',
-            textBase: 'text-gray-700 text-sm font-medium',
-            menuBase:
-                'absolute left-0 top-12  bg-gray-800 text-white border rounded-lg shadow-md z-10 max-h-40 overflow-y-auto custom-scrollbar',
-            item: 'h-9 md:h-10 flex items-center cursor-pointer text-sm whitespace-nowrap w-25.1',
-            itemText: 'hover:bg-gray-700 w-110 h-9 rounded-lg  pl-2 pt-1.5',
-            selectedItemText: 'bg-gray-600',
-        };
+    const toggleDropdown = () => {
+        setIsOpen((prev) => !prev);
+    };
 
-        switch (type) {
-            case '모달':
-                return {
-                    container:
-                        'relative w-85.75 md:w-118 md:h-11 h-10 rounded-xl border border-gray-50 bg-gray-50 flex justify-center items-center',
-                    button: 'w-77.75 md:w-110 h-6 text-left flex items-center justify-between',
-                    text: 'w-40 h-5 object-cover text-gray-400 text-sm font-medium md:text-base flex items-center',
-                    menu: 'absolute text-white left-0 top-13 bg-gray-800 md:w-118 w-85.75  border rounded-xl shadow-sm z-10 max-h-44 overflow-y-auto custom-scrollbar',
-                    item: 'h-10 md:h-11 cursor-pointer text-sm flex items-center ml-2 ',
-                    itemText:
-                        'hover:bg-gray-700 w-115 h-9 rounded-lg  pl-2 pt-1.5',
-                    selectedItemText: 'bg-gray-600',
-                };
-            case '필터':
-            case '정렬': {
-                const isSort = type === '정렬';
-                return {
-                    container: `${sharedStyles.containerBase} ${isSort ? 'w-9 md:w-27.5' : 'w-27.5'}`,
-                    button: `${sharedStyles.buttonBase} ${isSort ? 'w-21.5 justify-center md:justify-between' : 'w-21.5 justify-between'}`,
-                    text: sharedStyles.textBase,
-                    menu: `${sharedStyles.menuBase} ${isSort ? 'w-27.5 md:w-full' : 'w-full'}`,
-                    item: `${sharedStyles.item}  ${isSort ? 'px-1' : 'ml-1'}`,
-                    itemText: sharedStyles.itemText,
-                    selectedItemText: sharedStyles.selectedItemText,
-                };
-            }
+    const handleSelect = (value: string) => {
+        if (iconType === 'sort' && value === selected) {
+            const newOrder = sortOrder === 'desc' ? 'asc' : 'desc';
+            setSortOrder(newOrder);
+            onSelect(value, newOrder);
+        } else {
+            setSortOrder('desc');
+            onSelect(value, 'desc');
         }
+        closeDropdown();
     };
 
-    const isFilterSelected =
-        type === '필터' && selected && selected !== placeholder;
-    const styles = getDropdownStyles();
+    const handleOptionMouseEnter = (option: string) => setHovered(option);
+    const handleOptionMouseLeave = () => setHovered(null);
 
-    const isActive = type === '필터' && isFilterSelected;
-    const containerClass = `${styles.container} ${isActive ? 'bg-black border-black' : ''}`;
-    const buttonClass = `${styles.button} ${isActive ? 'bg-black text-white' : ''}`;
-    const textClass = `${styles.text} ${isActive ? 'text-white' : ''}`;
+    const getTextColor = () => {
+        if (!selected || selected === placeholder) return 'text-gray-500';
+        return 'text-white';
+    };
 
-    const iconSrc =
-        type === '정렬'
-            ? '/icons/sort.svg'
-            : type === '필터' && (isFilterSelected || isOpen)
-              ? '/icons/whiteDown.svg'
-              : '/icons/blackDown.svg';
+    const getOptionState = useCallback(
+        (option: string): 'default' | 'hover' | 'selected' => {
+            if (selected === option) return 'selected';
+            if (hovered === option) return 'hover';
+            return 'default';
+        },
+        [selected, hovered]
+    );
+
+    return {
+        isOpen,
+        sortOrder,
+        dropdownRef,
+        textColor: getTextColor(),
+        toggleDropdown,
+        handleSelect,
+        handleOptionMouseEnter,
+        handleOptionMouseLeave,
+        getOptionState,
+    };
+}
+
+export default function Dropdown({
+    options,
+    selected,
+    onSelect,
+    placeholder = '',
+    iconType = 'arrow',
+    showPlaceholderInMenu = true,
+}: DropdownProps) {
+    const {
+        isOpen,
+        sortOrder,
+        dropdownRef,
+        textColor,
+        toggleDropdown,
+        handleSelect,
+        handleOptionMouseEnter,
+        handleOptionMouseLeave,
+        getOptionState,
+    } = useDropdown({
+        selected,
+        onSelect,
+        placeholder,
+        iconType,
+    });
+
+    const getIconComponent = () => {
+        if (iconType === 'sort') {
+            return sortOrder === 'desc' ? SortUpIcon : SortDownIcon;
+        }
+        return WhiteDownIcon;
+    };
+
+    const IconComponent = getIconComponent();
 
     return (
-        <div className={containerClass} ref={dropdownRef}>
+        <div ref={dropdownRef} className={dropdownVariants.container()}>
             <button
-                className={buttonClass}
-                onClick={() => setIsOpen((prev) => !prev)}
+                className={clsx(
+                    dropdownVariants.buttonBase({ iconType }),
+                    textColor
+                )}
+                onClick={toggleDropdown}
+                type="button"
             >
-                {type === '정렬' ? (
-                    <>
-                        <Image
-                            src={iconSrc}
-                            alt="sortIcon"
-                            width={100}
-                            height={100}
-                            className="w-5 h-5 object-contain"
-                        />
-                        <p className={`${textClass} hidden md:block`}>
-                            {selected || placeholder}
-                        </p>
-                    </>
-                ) : (
-                    <>
-                        <p className={textClass}>{selected || placeholder}</p>
-                        <Image
-                            src={iconSrc}
-                            alt="downIcon"
-                            width={100}
-                            height={100}
-                            className="w-3 h-3 object-contain"
-                        />
-                    </>
+                {iconType === 'sort' && <IconComponent className="w-6 h-6" />}
+
+                <span className={clsx(dropdownVariants.text({ iconType }))}>
+                    {selected || placeholder}
+                </span>
+
+                {iconType === 'arrow' && (
+                    <IconComponent
+                        className={clsx('w-6 h-6 ml-2', textColor)}
+                    />
                 )}
             </button>
 
             {isOpen && (
-                <ul className={`${styles.menu}`}>
-                    {type === '필터' && (
+                <ul className={dropdownVariants.menu({ iconType })}>
+                    {showPlaceholderInMenu && (
                         <li
                             key="__placeholder__"
-                            className={styles.item}
+                            className={dropdownVariants.itemText()}
                             onClick={() => handleSelect(placeholder)}
+                            onMouseEnter={() =>
+                                handleOptionMouseEnter(placeholder)
+                            }
+                            onMouseLeave={handleOptionMouseLeave}
                         >
-                            <p className={styles.itemText}>{placeholder}</p>
+                            <div
+                                className={dropdownVariants.itemInner({
+                                    state: getOptionState(placeholder),
+                                })}
+                            >
+                                {placeholder}
+                            </div>
                         </li>
                     )}
+
                     {options.map((option) => (
                         <li
                             key={option}
-                            className={styles.item}
+                            className={dropdownVariants.itemText()}
                             onClick={() => handleSelect(option)}
+                            onMouseEnter={() => handleOptionMouseEnter(option)}
+                            onMouseLeave={handleOptionMouseLeave}
                         >
-                            <p
-                                className={
-                                    selected === option
-                                        ? `${styles.itemText} ${styles.selectedItemText}`
-                                        : styles.itemText
-                                }
+                            <div
+                                className={dropdownVariants.itemInner({
+                                    state: getOptionState(option),
+                                })}
                             >
                                 {option}
-                            </p>
+                            </div>
                         </li>
                     ))}
                 </ul>
