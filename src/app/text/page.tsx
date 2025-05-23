@@ -1,34 +1,133 @@
 'use client';
 import TextField from '@/components/ui/TextField';
 import { useState } from 'react';
+import { validators } from '@/utils/validators';
+interface InputState {
+    value: string;
+    variant: 'default' | 'done' | 'typing' | 'error';
+    helperText: string;
+    showHelper: boolean;
+    //파일명 표시용
+    fileName?: string;
+}
+type FormStates = { [key: string]: InputState };
 function Text() {
-    const [name, setName] = useState('');
-    const [showHelperText, setShowHelperText] = useState(false);
-    const [inputVariant, setInputVariant] = useState<
-        'default' | 'done' | 'typing' | 'error'
-    >('default');
-    function handleNameChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setName(e.target.value);
-    }
+    //제어 컴포넌트
+    const [formState, setFormState] = useState<FormStates>({
+        name: {
+            value: '',
+            variant: 'default',
+            helperText: '',
+            showHelper: false,
+        },
+        file: {
+            value: '',
+            variant: 'default',
+            helperText: '',
+            showHelper: false,
+            fileName: '',
+        },
+    });
+    //제어 컴포넌트 유효성 검증 관련 이벤트 핸들러
     function handleBlur(e: React.ChangeEvent<HTMLInputElement>) {
-        console.log('Controlled handleBlur');
         const { name, value } = e.target;
-
+        let result;
+        //제어 컴포넌트 같은 경우에는 유효성 검증 결과 메시지 자유롭게 바꿀수있음
         switch (name) {
             case 'name':
-                if (value.length > 3) {
-                    setInputVariant('done');
-                    setShowHelperText(false);
+                result = validators.validateNickname(value);
+                if (result?.isValid) {
+                    setFormState({
+                        ...formState,
+                        name: {
+                            ...formState.name,
+                            variant: 'done',
+                            helperText: result.message,
+                            showHelper: false,
+                        },
+                    });
                 } else {
-                    setInputVariant('error');
-                    setShowHelperText(true);
+                    setFormState({
+                        ...formState,
+                        name: {
+                            ...formState.name,
+                            variant: 'error',
+                            helperText: result.message,
+                            showHelper: true,
+                        },
+                    });
                 }
                 break;
         }
     }
-    function handleFocus() {
-        setInputVariant('typing');
+    function handleFocus(e: React.FocusEvent<HTMLInputElement>) {
+        const { name } = e.target;
+        setFormState({
+            ...formState,
+            [name]: {
+                ...formState[name],
+                variant: 'typing',
+            },
+        });
     }
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const { name, value } = e.target;
+        //typing 상태로 변경
+        setFormState({
+            ...formState,
+            [name]: {
+                ...formState.name,
+                variant: 'typing',
+            },
+        });
+        switch (name) {
+            case 'file':
+                setFormState({
+                    ...formState,
+                    file: {
+                        ...formState.file,
+                        value: value,
+                    },
+                });
+                const selectedFileName = e.target.files?.[0]?.name;
+                const result = validators.validateImage(value);
+                if (result.isValid) {
+                    setFormState({
+                        ...formState,
+                        file: {
+                            ...formState.file,
+                            variant: 'done',
+                            helperText: result.message,
+                            showHelper: false,
+                            fileName: selectedFileName ?? '',
+                        },
+                    });
+                } else {
+                    setFormState({
+                        ...formState,
+                        file: {
+                            ...formState.file,
+                            value: '',
+                            variant: 'error',
+                            helperText: result.message,
+                            showHelper: true,
+                            fileName: result.message,
+                        },
+                    });
+                }
+                break;
+            default:
+                setFormState({
+                    ...formState,
+                    [name]: {
+                        ...formState[name],
+                        value: value,
+                    },
+                });
+                break;
+        }
+    }
+
     return (
         <div className="flex flex-col w-full p-10 gap-10 bg-gray-700">
             <div>
@@ -38,24 +137,42 @@ function Text() {
                 <TextField
                     id="name"
                     label="이름"
-                    helperText="이름은 3글자 이상 입력해주세요."
-                    value={name}
-                    onChange={handleNameChange}
+                    helperText={formState.name.helperText}
+                    value={formState.name.value}
+                    onChange={handleChange}
                     onBlur={handleBlur}
                     onFocus={handleFocus}
                     type="text"
                     placeholder="이름을 입력해주세요."
                     name="name"
+                    variant={formState.name.variant}
                     slotProps={{
-                        input: {
-                            variant: inputVariant,
-                        },
                         inputLabel: {
                             labelSize: 'large',
                             htmlFor: 'name',
                         },
                         helperText: {
-                            isShow: showHelperText,
+                            isShow: formState.name.showHelper,
+                        },
+                    }}
+                />
+                <TextField
+                    label="제어 이미지"
+                    type="file"
+                    id="file"
+                    name="file"
+                    value={formState.file.value}
+                    displayFileName={formState.file.fileName}
+                    helperText={formState.file.helperText}
+                    onChange={handleChange}
+                    variant={formState.file.variant}
+                    slotProps={{
+                        inputLabel: {
+                            className: 'text-green-800',
+                            htmlFor: 'file',
+                        },
+                        helperText: {
+                            isShow: formState.file.showHelper,
                         },
                     }}
                 />
@@ -66,15 +183,16 @@ function Text() {
                 </h1>
                 <TextField
                     label="비밀번호"
-                    helperText="비밀번호를 입력해주세요."
+                    helperText="비밀번호는 8자 이상 입력해주세요."
+                    placeholder="비밀번호를 입력해주세요."
                     defaultValue="12345678"
                     type="password"
+                    name="password"
+                    onValidate={validators.validatePassword}
                     slotProps={{
-                        input: {
-                            placeholder: '비밀번호를 입력해주세요.',
-                        },
                         inputLabel: {
                             labelSize: 'large',
+                            htmlFor: 'password',
                         },
                     }}
                 />
@@ -85,7 +203,7 @@ function Text() {
                     name="email"
                     autoComplete="on"
                     id="email"
-                    defaultValue="test@test.com"
+                    onValidate={validators.validateEmail}
                     slotProps={{
                         inputLabel: {
                             className: 'text-green-800',
@@ -94,14 +212,27 @@ function Text() {
                     }}
                 />
                 <TextField
-                    label="파일"
+                    label="비제어 이미지"
                     type="file"
-                    id="file"
+                    id="image"
                     name="file"
+                    onValidate={validators.validateImage}
                     slotProps={{
                         inputLabel: {
-                            className: 'text-green-800',
-                            htmlFor: 'file',
+                            className: 'text-emerald-800',
+                            htmlFor: 'image',
+                        },
+                    }}
+                />
+                <TextField
+                    label="숫자"
+                    type="number"
+                    name="number"
+                    onValidate={validators.validateNumber}
+                    slotProps={{
+                        inputLabel: {
+                            className: 'text-emerald-800',
+                            htmlFor: 'number',
                         },
                     }}
                 />
