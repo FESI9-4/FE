@@ -1,14 +1,15 @@
 import { cva } from 'class-variance-authority';
+import { ButtonHTMLAttributes } from 'react';
 
-interface TabProps extends React.HTMLAttributes<HTMLButtonElement> {
+interface TabProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     children: React.ReactNode;
     icon: React.ReactNode;
     active: boolean;
 }
 
 export default function Tab({ children, icon, active, ...props }: TabProps) {
-    const buttonClassName = cva(
-        'flex items-center gap-1 font-semibold text-lg hover:cursor-pointer mx-1.5',
+    const divClassName = cva(
+        'flex items-center gap-1 font-semibold text-lg mx-1.5',
         {
             variants: {
                 active: {
@@ -34,12 +35,15 @@ export default function Tab({ children, icon, active, ...props }: TabProps) {
     });
 
     return (
-        <div className="flex flex-col items-center gap-2">
-            <button className={buttonClassName({ active })} {...props}>
+        <button
+            className="flex flex-col items-center gap-2 hover:cursor-pointer"
+            {...props}
+        >
+            <div className={divClassName({ active })}>
                 {children}
                 {icon}
-            </button>
+            </div>
             <div className={hrClassName({ active })}></div>
-        </div>
+        </button>
     );
 }

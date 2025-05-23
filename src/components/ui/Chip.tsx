@@ -1,19 +1,13 @@
 import { cva } from 'class-variance-authority';
+import { ButtonHTMLAttributes } from 'react';
 
-interface ChipProps extends React.HTMLAttributes<HTMLButtonElement> {
+interface ChipProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     children: React.ReactNode;
     size?: 'small' | 'large';
-    active?: boolean;
-    styled?: 'solid' | 'outline';
+    styled?: 'default' | 'secondary' | 'outline' | 'none';
 }
 
-export default function Chip({
-    children,
-    size,
-    active,
-    styled,
-    ...props
-}: ChipProps) {
+export default function Chip({ children, size, styled, ...props }: ChipProps) {
     const className = cva(
         'rounded-full flex justify-center items-center font-semibold hover:cursor-pointer',
         {
@@ -23,45 +17,21 @@ export default function Chip({
                     small: 'px-3 py-2 text-sm',
                 },
                 styled: {
-                    solid: 'bg-gray-800',
-                    outline: 'bg-green-400',
-                },
-                active: {
-                    false: 'bg-transparent',
-                    true: '',
+                    default: 'bg-gray-800 text-white',
+                    secondary: 'bg-green-400 text-black',
+                    outline:
+                        'bg-transparent outline-1 outline-offset-[-1px] outline-gray-600 text-gray-300',
+                    none: 'bg-transparent text-gray-400',
                 },
             },
-            compoundVariants: [
-                {
-                    active: false,
-                    styled: 'outline',
-                    className: 'text-gray-300 outline-1 outline-gray-600',
-                },
-                {
-                    active: false,
-                    styled: 'solid',
-                    className: 'text-gray-400',
-                },
-                {
-                    active: true,
-                    styled: 'outline',
-                    className: 'bg-green-400 text-black',
-                },
-                {
-                    active: true,
-                    styled: 'solid',
-                    className: 'bg-gray-800 text-white',
-                },
-            ],
             defaultVariants: {
                 size: 'small',
-                styled: 'solid',
-                active: false,
+                styled: 'default',
             },
         }
     );
     return (
-        <button className={className({ size, styled, active })} {...props}>
+        <button className={className({ size, styled })} {...props}>
             {children}
         </button>
     );

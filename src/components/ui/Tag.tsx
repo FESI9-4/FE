@@ -1,6 +1,6 @@
 import { AlarmIcon } from '@/assets';
 
-interface TagProps {
+interface TagProps extends React.HTMLAttributes<HTMLDivElement> {
     children: React.ReactNode;
 }
 
