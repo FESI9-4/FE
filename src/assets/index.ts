@@ -14,6 +14,8 @@ import VisibilityOffIcon from '@public/icons/visibilityOff.svg';
 import VisibilityOnIcon from '@public/icons/visibilityOn.svg';
 import WhiteDownIcon from '@public/icons/whiteDown.svg';
 import EditIcon from '@public/icons/edit.svg';
+import EditNoBgIcon from '@public/icons/editNoBg.svg';
+import LikeIcon from '@public/icons/like.svg';
 
 export {
     CheckIcon,
@@ -32,4 +34,6 @@ export {
     VisibilityOnIcon,
     WhiteDownIcon,
     EditIcon,
+    EditNoBgIcon,
+    LikeIcon,
 };

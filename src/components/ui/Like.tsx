@@ -1,18 +1,30 @@
-import Image from 'next/image';
+import { LikeIcon } from '@/assets';
+import { ButtonHTMLAttributes } from 'react';
+import { cva } from 'class-variance-authority';
 
-interface LikeProps {
+interface LikeProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     like?: boolean;
-    onClick?: () => void;
 }
 
-export default function Like({ like = true, onClick }: LikeProps) {
+export default function Like({ like, onClick }: LikeProps) {
+    const className = cva('hover:cursor-pointer', {
+        variants: {
+            like: {
+                true: 'text-green-400',
+                false: 'text-gray-400',
+            },
+        },
+        defaultVariants: {
+            like: true,
+        },
+    });
+
     return (
-        <button onClick={onClick} className="hover:cursor-pointer">
-            <Image
-                src={like ? '/icons/like.svg' : '/icons/unlike.svg'}
-                alt="like"
+        <button onClick={onClick} className={className({ like })}>
+            <LikeIcon
                 width={24}
                 height={24}
+                fill={like ? 'currentColor' : 'transparent'}
             />
         </button>
     );
