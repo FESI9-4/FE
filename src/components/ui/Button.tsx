@@ -1,11 +1,12 @@
 import { cva } from 'class-variance-authority';
+import { ButtonHTMLAttributes, MouseEvent } from 'react';
 
-interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     children: React.ReactNode;
     size?: 'small' | 'large';
     styled?: 'solid' | 'outline';
     disabled?: boolean;
-    onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+    onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
 }
 
 export default function Button({
