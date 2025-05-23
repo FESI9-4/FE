@@ -74,6 +74,7 @@
     border-radius: 100px;
     border: 6px solid #2b2c30;
 }
+
 /* textarea 스크롤바 스타일 */
 .custom-textarea-scrollbar::-webkit-scrollbar {
     width: 6px;
