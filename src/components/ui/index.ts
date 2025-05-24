@@ -22,5 +22,6 @@ import Input from './Input';
 export { Input };
 import BoxSelectGroup from './BoxSelectGroup';
 import BoxSelect from './BoxSelect';
+import TextField from './TextField';
 
-export { BoxSelectGroup, BoxSelect };
+export { BoxSelectGroup, BoxSelect, TextField };
