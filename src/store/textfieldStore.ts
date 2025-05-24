@@ -1,11 +1,24 @@
 import { create } from 'zustand';
-//TextField가 받을 상태
+import { ValidationResult } from '@/components/ui/TextField/TextField';
+// store에서 관리 되어야 하는 것들 (UI 상태와 관련된 것들)
+export type InputValue =
+    | string // text, email, password, date 등
+    | number // 변환된 숫자
+    | File // 단일 파일
+    | FileList // 다중 파일
+    | Date // 변환된 날짜
+    | boolean // checkbox, radio
+    | null // 값이 없을 때
+    | readonly string[]
+    | undefined; //
+
+// UI 관련 상태
 interface FieldState {
     variant: 'default' | 'done' | 'typing' | 'error';
     showHelperText: boolean;
-    validatedMessage: string;
-    displayFileName: string;
-    isControlled: boolean;
+    validatedMessage: string; // 유효성 검증 메시지
+    displayFileName?: string; // 사용자에게 보여줄 파일 이름
+    showPassword?: boolean; // 비밀번호 표시 여부
 }
 interface TextFieldStore {
     // 🔩 상태
@@ -17,10 +30,10 @@ interface TextFieldStore {
     removeField: (fieldName: string) => void;
 
     // 개별 setter
+    setShowPassword: (fieldName: string, show: boolean) => void;
     setShowHelperText: (fieldName: string, show: boolean) => void;
     setValidatedMessage: (fieldName: string, message: string) => void;
     setDisplayFileName: (fieldName: string, fileName: string) => void;
-    setIsControlled: (fieldName: string, isControlled: boolean) => void;
     setVariant: (
         fieldName: string,
         variant: 'default' | 'done' | 'typing' | 'error'
@@ -31,10 +44,12 @@ interface TextFieldStore {
     getAllFieldNames: () => string[]; // 모든 필드 이름 조회
 
     // 🎯 복합 액션들 (새로 추가!)
-    handleValidationResult: (
+    validate: (
         fieldName: string,
-        result: { isValid: boolean; message: string }
-    ) => void;
+        value: InputValue,
+        validator: (value: InputValue) => ValidationResult
+    ) => ValidationResult;
+    togglePassword: (fieldName: string) => void;
 }
 
 //기본 필드 상태 값
@@ -43,7 +58,7 @@ const DEFAULT_FIELD_STATE: FieldState = {
     showHelperText: false,
     validatedMessage: '',
     displayFileName: '',
-    isControlled: false,
+    showPassword: false,
 };
 export const useTextFieldStore = create<TextFieldStore>((set, get) => ({
     // 🔩 상태 초기값 (처음에는 빈 객체)
@@ -114,12 +129,8 @@ export const useTextFieldStore = create<TextFieldStore>((set, get) => ({
             console.warn(`${fieldName} 필드가 존재하지 않습니다.`);
             return;
         }
-
-        // isControlled는 유지하면서 나머지만 리셋
-        const currentField = get().getField(fieldName);
         get().updateField(fieldName, {
             ...DEFAULT_FIELD_STATE,
-            isControlled: currentField?.isControlled || false, // 기존 제어 상태 유지
         });
 
         console.log(`🧹 ${fieldName} 필드가 초기화되었습니다.`);
@@ -130,14 +141,12 @@ export const useTextFieldStore = create<TextFieldStore>((set, get) => ({
             console.warn(`${fieldName} 필드가 존재하지 않습니다.`);
             return;
         }
-
         set((state) => {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { [fieldName]: _, ...remainingFields } = state.fields;
+            console.log(`🗑️ ${fieldName} 필드가 제거되었습니다.`);
             return { fields: remainingFields };
         });
-
-        console.log(`🗑️ ${fieldName} 필드가 제거되었습니다.`);
     },
     // 🎯 간단한 setter들 (updateField 사용)
     setVariant: (fieldName, variant) => {
@@ -155,17 +164,22 @@ export const useTextFieldStore = create<TextFieldStore>((set, get) => ({
     setDisplayFileName: (fieldName, fileName) => {
         get().updateField(fieldName, { displayFileName: fileName });
     },
-
-    setIsControlled: (fieldName, isControlled) => {
-        get().updateField(fieldName, { isControlled });
+    setShowPassword: (fieldName, show) => {
+        get().updateField(fieldName, { showPassword: show });
     },
-
     // 🚀 복합 액션들
-    handleValidationResult: (fieldName, result) => {
+    validate: (fieldName, value, validator) => {
+        const result = validator(value); // 유효성 검증 수행
         get().updateField(fieldName, {
             variant: result.isValid ? 'done' : 'error',
             showHelperText: !result.isValid,
             validatedMessage: result.message,
+        });
+        return result;
+    },
+    togglePassword: (fieldName) => {
+        get().updateField(fieldName, {
+            showPassword: !get().getField(fieldName)?.showPassword,
         });
     },
 }));
