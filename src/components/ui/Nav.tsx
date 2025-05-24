@@ -1,12 +1,31 @@
 'use client';
 import { useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import useAuth from '@/hooks/useAuth';
 import { usePathname } from 'next/navigation';
-
+import { NavDesktopIcon, NavMobileIcon, ProfileIcon } from '@/assets';
 import { useWishlistStore } from '@/store/wishlistStore';
+import { cva } from 'class-variance-authority';
+
+const navLink = cva('relative w-auto md:w-15 h-5 md:h-6 transition-colors', {
+    variants: {
+        active: {
+            true: 'text-green-400',
+            false: 'text-white',
+        },
+    },
+});
+
+const iconStyle = cva('cursor-pointer', {
+    variants: {
+        size: {
+            mobile: 'w-8 h-8',
+            desktop: 'w-32.83 h-8',
+            profile: 'w-10 h-10',
+        },
+    },
+});
 
 export default function Nav() {
     const isDesktop = useMediaQuery('(min-width: 768px)');
@@ -16,40 +35,39 @@ export default function Nav() {
     const wishlistCount = useWishlistStore((state) => state.wishlistCount);
     const reset = useWishlistStore((state) => state.reset);
 
-    const toggleDropdown = () => {
-        setIsDropdownOpen((prev) => !prev);
-    };
-
-    const getNavLinkClass = (path: string) =>
-        `relative w-13 w-auto md:w-15 h-5 md:h-6 ${
-            pathname === path ? 'text-green-400' : 'text-white'
-        } transition-colors`;
+    const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
 
     return (
-        <nav className="w-full h-14 md:h-15  bg-black flex items-center justify-center min-w-85.5">
+        <nav className="w-full h-14 md:h-15 bg-black flex items-center justify-center min-w-85.5">
             <div className="w-[calc(100%-32px)] md:w-[calc(100%-46px)] xl:w-[calc(100%-722px)] h-full flex justify-between items-center">
                 <div className="w-57 md:w-97 h-full flex items-center justify-between">
                     <Link href="/">
-                        <Image
-                            src={
-                                isDesktop
-                                    ? '/icons/navDesktop.svg'
-                                    : '/icons/navMobile.svg'
-                            }
-                            alt="navLogo"
-                            width={isDesktop ? 131.32 : 32}
-                            height={32}
-                            className="cursor-pointer"
-                        />
+                        {isDesktop ? (
+                            <NavDesktopIcon
+                                className={iconStyle({ size: 'desktop' })}
+                            />
+                        ) : (
+                            <NavMobileIcon
+                                className={iconStyle({ size: 'mobile' })}
+                            />
+                        )}
                     </Link>
                     <div className="w-45 md:w-57 h-full text-sm md:text-base font-semibold md:font-mold text-orange-50 flex items-center whitespace-nowrap gap-3 md:gap-10">
                         <Link href="/search">
-                            <p className={getNavLinkClass('/search')}>
+                            <p
+                                className={navLink({
+                                    active: pathname === '/search',
+                                })}
+                            >
                                 팬팔 찾기
                             </p>
                         </Link>
-                        <Link href="/wishlist" className="flex ">
-                            <p className={getNavLinkClass('/wishlist')}>
+                        <Link href="/wishlist" className="flex">
+                            <p
+                                className={navLink({
+                                    active: pathname === '/wishlist',
+                                })}
+                            >
                                 찜한 팬팔
                             </p>
                             {wishlistCount > 0 && (
@@ -59,7 +77,11 @@ export default function Nav() {
                             )}
                         </Link>
                         <Link href="/review">
-                            <p className={getNavLinkClass('/review')}>
+                            <p
+                                className={navLink({
+                                    active: pathname === '/review',
+                                })}
+                            >
                                 모든 리뷰
                             </p>
                         </Link>
@@ -73,16 +95,12 @@ export default function Nav() {
                     </Link>
                 ) : (
                     <div className="relative">
-                        <Image
-                            src="/icons/profile.svg"
-                            alt="User"
-                            width={40}
-                            height={40}
-                            className="cursor-pointer"
+                        <ProfileIcon
+                            className={iconStyle({ size: 'profile' })}
                             onClick={toggleDropdown}
                         />
                         {isDropdownOpen && (
-                            <div className="absolute right-0 xl:right-auto mt-1.5 xl:mt-2 w-27.5 bg-gray-700 rounded-xl shadow-xl h-20 z-50 text-white font-medium text-sm xl:w-35.5 xl:h-28 xl:text-base ">
+                            <div className="absolute right-0 xl:right-auto mt-1.5 xl:mt-2 w-27.5 bg-gray-700 rounded-xl shadow-xl h-20 z-50 text-white font-medium text-sm xl:w-35.5 xl:h-28 xl:text-base">
                                 <Link
                                     href="/mypage"
                                     className="h-10 rounded-t-xl xl:h-14 flex items-center justify-center"
@@ -94,9 +112,8 @@ export default function Nav() {
                                 <button
                                     className="w-full h-10 xl:h-14 rounded-b-xl flex items-center justify-center"
                                     onClick={() => {
-                                        // 로그아웃 처리 임시처리값
                                         localStorage.removeItem('token');
-                                        reset(); // Zustand 상태 초기화
+                                        reset();
                                         window.location.reload();
                                     }}
                                 >
