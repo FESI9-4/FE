@@ -1,6 +1,7 @@
 'use client';
 
 import { TextField } from '@/components/ui';
+import InputText from '@/components/ui/InputText';
 import { validators } from '@/utils/validators';
 import { useState } from 'react';
 export default function Test() {
@@ -108,15 +109,7 @@ export default function Test() {
                     />
                     <TextField.HelperText />
                 </TextField>
-                {/* <TextField fieldName="email" className="w-full">
-                    <TextField.Label>이메일</TextField.Label>
-                    <TextField.NumberInput
-                        type="number"
-                        placeholder="숫자를 입력해주세요."
-                       // onChange={handleChange}
-                        inputSize="small"
-                    />
-                </TextField> */}
+                <InputText label="게시글" name="content" />
             </form>
         </div>
     );
