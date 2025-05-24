@@ -3,8 +3,9 @@ import { cva, VariantProps } from 'class-variance-authority';
 import { HTMLAttributes } from 'react';
 export type HelperTextProps = HTMLAttributes<HTMLSpanElement> &
     VariantProps<typeof HelperTextVariants>;
+
 const BASE_STYLE = `pl-1 text-red-500 font-medium text-sm leading-5 md:text-base md:leading-6
-transition-all duration-300 ease-in-out overflow-hidden mt-2`;
+    transition-all duration-300 ease-in-out overflow-hidden mt-2`;
 
 export const HelperTextVariants = cva(BASE_STYLE, {
     variants: {
