@@ -132,7 +132,7 @@ export const useTextFieldStore = create<TextFieldStore>((set, get) => ({
         }
 
         set((state) => {
-            // 구조분해할당으로 효율적으로 제거
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { [fieldName]: _, ...remainingFields } = state.fields;
             return { fields: remainingFields };
         });
