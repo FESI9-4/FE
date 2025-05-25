@@ -22,6 +22,8 @@ import HandIcon from '@public/icons/hand.svg';
 import AnswerArrowIcon from '@public/icons/answerArrow.svg';
 import Heart from '@public/icons/heart.svg';
 import ThreeHeart from '@public/icons/threeHeart.svg';
+import DecrementIcon from '@public/icons/decrement.svg';
+import IncrementIcon from '@public/icons/increment.svg';
 
 export {
     CheckIcon,
@@ -48,4 +50,6 @@ export {
     AnswerArrowIcon,
     Heart,
     ThreeHeart,
+    DecrementIcon,
+    IncrementIcon,
 };

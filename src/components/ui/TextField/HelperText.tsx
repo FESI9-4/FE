@@ -7,7 +7,7 @@ interface HelperTextProps extends HTMLAttributes<HTMLSpanElement> {
     fieldName?: string;
     isShow?: boolean;
 }
-export const helperTextcVariants = cva(
+export const helperTextVariants = cva(
     [
         'pl-1 text-red-500 font-medium text-sm leading-5',
         'md:text-base md:leading-6 transition-all duration-300',
@@ -33,7 +33,7 @@ export default function TextFieldHelperText(props: HelperTextProps) {
         <span
             data-field={fieldName}
             className={cn(
-                helperTextcVariants({
+                helperTextVariants({
                     isShow: isShow || showHelperText,
                 }),
                 className

@@ -1,15 +1,18 @@
 import { cva } from 'class-variance-authority';
 import { cn } from '@/utils/cn';
 import { InputHTMLAttributes, forwardRef } from 'react';
-import { ValidationResult } from './TextField';
-import { useTextFieldStore } from '@/store/textfieldStore';
+import {
+    InputSize,
+    InputVariant,
+    useTextFieldStore,
+} from '@/store/textfieldStore';
 import PasswordButton from './PasswordButton';
-import { InputValue } from '@/store/textfieldStore';
+import { InputValue, ValidationResult } from '@/store/textfieldStore';
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-    variant?: 'default' | 'done' | 'typing' | 'error';
+    variant?: InputVariant;
     fieldName?: string;
     onValidate?: (value: InputValue) => ValidationResult;
-    inputSize?: 'small' | 'large';
+    inputSize?: InputSize;
 }
 const inputVariants = cva(
     [
@@ -46,8 +49,7 @@ const inputVariants = cva(
         },
     }
 );
-/* forwardRef을 사용하면
-부모 컴포넌트가 자식 컴포넌트의 DOM 요소에 직접 접근할 수 있습니다.*/
+/* forwardRef를 통해 부모 컴포넌트가 자식 컴포넌트의 DOM 요소에 직접 접근 가능*/
 function Input(props: InputProps, ref: React.Ref<HTMLInputElement>) {
     const {
         value,
@@ -56,7 +58,7 @@ function Input(props: InputProps, ref: React.Ref<HTMLInputElement>) {
         className,
         autoComplete = 'off', // 자동 완성 기능 비활성화
         type,
-        fieldName: fieldName,
+        fieldName,
         inputSize,
         onFocus,
         onChange,
@@ -76,14 +78,12 @@ function Input(props: InputProps, ref: React.Ref<HTMLInputElement>) {
     // 이벤트 핸들러
     function handleFocus(e: React.FocusEvent<HTMLInputElement>) {
         onFocus?.(e);
+        if (fieldName) setVariant(fieldName, 'typing');
     }
     function handleBlur(e: React.FocusEvent<HTMLInputElement>) {
         onBlur?.(e);
-        //비제어일 경우
-        if (!isControlled && fieldName) {
-            // 유효성 검증 함수가 있을 경우
+        if (fieldName) {
             if (onValidate) {
-                // 유효성 검증 함수 실행 및 결과 반환
                 const result = validate(
                     fieldName,
                     value || e.target.value,
@@ -92,21 +92,15 @@ function Input(props: InputProps, ref: React.Ref<HTMLInputElement>) {
                 setVariant(fieldName, result.isValid ? 'done' : 'error');
                 setShowHelperText(fieldName, !result.isValid);
                 setValidatedMessage(fieldName, result.message);
+            } else {
+                // 제어든 비제어든 포커스 잃으면 done 상태
+                setVariant(fieldName, 'done');
             }
-            // 유효성 검증이 필요 없을 경우
-            setVariant(fieldName, 'done');
         }
     }
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         onChange?.(e);
-        // 체인지 이벤트시 기본 상태 변경
-        if (fieldName) setVariant(fieldName, 'typing');
-        if (fieldName && onValidate) {
-            const result = onValidate(value || e.target.value);
-            setVariant(fieldName, result.isValid ? 'done' : 'error');
-            setShowHelperText(fieldName, !result.isValid);
-            setValidatedMessage(fieldName, result.message);
-        }
+        //if (fieldName) setVariant(fieldName, 'typing');
     }
     return (
         <div className={`w-full ${type === 'password' ? 'relative' : ''}`}>
