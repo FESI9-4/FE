@@ -26,10 +26,6 @@ import ThreeHeart from '@public/icons/threeHeart.svg';
 import DecrementIcon from '@public/icons/decrement.svg';
 import IncrementIcon from '@public/icons/increment.svg';
 import CalendarIcon from '@public/icons/calendar.svg';
-import HandIcon from '@public/icons/hand.svg';
-import AnswerArrowIcon from '@public/icons/answerArrow.svg';
-import Heart from '@public/icons/heart.svg';
-import ThreeHeart from '@public/icons/threeHeart.svg';
 export {
     CheckIcon,
     AlarmIcon,
@@ -52,15 +48,11 @@ export {
     EditIcon,
     EditNoBgIcon,
     LikeIcon,
+    CalendarIcon,
     HandIcon,
     AnswerArrowIcon,
     Heart,
     ThreeHeart,
     DecrementIcon,
     IncrementIcon,
-    CalendarIcon,
-    HandIcon,
-    AnswerArrowIcon,
-    Heart,
-    ThreeHeart,
 };
