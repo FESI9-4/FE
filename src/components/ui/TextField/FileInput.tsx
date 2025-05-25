@@ -2,20 +2,26 @@
 
 import { forwardRef, InputHTMLAttributes } from 'react';
 import { cn } from '@/utils/cn';
-import { useTextFieldStore, InputValue } from '@/store/textfieldStore';
-import { ValidationResult } from './TextField';
+import {
+    useTextFieldStore,
+    ValidationResult,
+    InputSize,
+    InputVariant,
+    InputValue,
+} from '@/store/textfieldStore';
 import { cva } from 'class-variance-authority';
-// InputProps와 동일하게! (일관성 유지)
-interface FileInputProps extends InputHTMLAttributes<HTMLInputElement> {
-    variant?: 'default' | 'done' | 'typing' | 'error';
+interface FileInputProps
+    extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'onChange'> {
+    variant?: InputVariant;
     fieldName?: string;
-    onValidate?: (value: InputValue) => ValidationResult;
-    displayFileName?: string;
-    inputSize?: 'small' | 'large';
-    // 파일 전용 추가 props
+    inputSize?: InputSize;
+    onValidate?: (file: InputValue) => ValidationResult;
+    // value 대신 selectedFile 사용
+    selectedFile?: File | null; // value 역할
+    onFileChange?: (file: File | null) => void; // onChange 역할
+    // 표시 옵션
     buttonText?: string;
     emptyText?: string;
-    selectedFile?: File | null;
 }
 export const fileInputVariants = cva(
     [
@@ -72,13 +78,12 @@ function FileInput(props: FileInputProps, ref: React.Ref<HTMLInputElement>) {
         selectedFile,
         variant,
         fieldName,
-        displayFileName,
         className,
         autoComplete = 'off',
-        onChange,
         emptyText = '파일을 선택해주세요.',
         inputSize,
         onValidate,
+        onFileChange,
         buttonText = '파일 찾기',
         ...rest
     } = props;
@@ -95,24 +100,29 @@ function FileInput(props: FileInputProps, ref: React.Ref<HTMLInputElement>) {
         validate,
     } = useTextFieldStore();
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        onChange?.(e);
+    const isControlled = selectedFile !== undefined;
 
-        if (onValidate && fieldName) {
-            const result = validate(
-                fieldName,
-                selectedFile?.type || e.target.files?.[0]?.type || null,
-                onValidate
-            );
-            if (result && !result.isValid) {
-                setVariant(fieldName, 'error');
-                setShowHelperText(fieldName, true);
-                setValidatedMessage(fieldName, result.message);
-                setDisplayFileName(fieldName, '');
-            } else {
-                setDisplayFileName(fieldName, e.target.files?.[0]?.name || '');
-                setVariant(fieldName, 'done');
-            }
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0] || null;
+
+        // 파일명은 항상 스토어에 저장
+        if (fieldName) {
+            setDisplayFileName(fieldName, file?.name || '');
+        }
+
+        // 제어 컴포넌트면 부모에게도 알림
+        if (isControlled) {
+            onFileChange?.(file);
+        }
+
+        // 유효성 검사 (공통)
+        if (fieldName && onValidate) {
+            const result = validate(fieldName, file, onValidate);
+            setVariant(fieldName, result.isValid ? 'done' : 'error');
+            setShowHelperText(fieldName, !result.isValid);
+            setValidatedMessage(fieldName, result.message);
+        } else if (fieldName) {
+            setVariant(fieldName, file ? 'done' : 'default');
         }
     };
 
@@ -139,10 +149,7 @@ function FileInput(props: FileInputProps, ref: React.Ref<HTMLInputElement>) {
                     className
                 )}
             >
-                {fieldState?.displayFileName ||
-                    displayFileName ||
-                    rest.placeholder ||
-                    emptyText}
+                {fieldState?.displayFileName || emptyText}
             </div>
 
             <label

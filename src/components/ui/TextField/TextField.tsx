@@ -2,25 +2,16 @@
 import React, { HTMLAttributes, useEffect } from 'react';
 import { useTextFieldStore } from '@/store/textfieldStore'; // ← 이거 추가!
 import { cn } from '@/utils/cn';
-
-export type ValidationResult = {
-    isValid: boolean;
-    message: string;
-};
 // 🔥 메인 컴포넌트 Props 타입
 interface TextFieldProps extends HTMLAttributes<HTMLDivElement> {
     children: React.ReactNode;
     fieldName: string;
-    value?: string;
-    defaultValue?: string;
-    onValidate?: (value: string) => ValidationResult;
 }
-
 export default function TextField({
     children,
     fieldName,
     className,
-    ...mainProps
+    ...props
 }: TextFieldProps) {
     const { initField, removeField } = useTextFieldStore();
     // 컴포넌트 마운트/언마운트 시 필드 관리
@@ -41,7 +32,7 @@ export default function TextField({
         return child;
     });
     return (
-        <div className={cn('flex flex-col w-full', className)} {...mainProps}>
+        <div className={cn('flex flex-col w-full', className)} {...props}>
             {childrenWithProps}
         </div>
     );

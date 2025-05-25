@@ -1,6 +1,8 @@
 import { create } from 'zustand';
-import { ValidationResult } from '@/components/ui/TextField/TextField';
-// store에서 관리 되어야 하는 것들 (UI 상태와 관련된 것들)
+export type ValidationResult = {
+    isValid: boolean;
+    message: string;
+};
 export type InputValue =
     | string // text, email, password, date 등
     | number // 변환된 숫자
@@ -11,14 +13,17 @@ export type InputValue =
     | null // 값이 없을 때
     | readonly string[]
     | undefined; //
-
+export type InputVariant = 'default' | 'done' | 'typing' | 'error';
+export type InputSize = 'small' | 'large';
+export type LabelSize = 'small' | 'large';
 // UI 관련 상태
 interface FieldState {
-    variant: 'default' | 'done' | 'typing' | 'error';
-    showHelperText: boolean;
+    variant: InputVariant; // 인풋 상태
+    showHelperText: boolean; // 헬퍼 텍스트 표시 여부
     validatedMessage: string; // 유효성 검증 메시지
-    displayFileName?: string; // 사용자에게 보여줄 파일 이름
+    displayFileName?: string; // 파일 업로드 시 사용자에게 보여줄 파일 이름
     showPassword?: boolean; // 비밀번호 표시 여부
+    isValid: boolean; // 폼 검증
 }
 interface TextFieldStore {
     // 🔩 상태
@@ -49,6 +54,7 @@ interface TextFieldStore {
         value: InputValue,
         validator: (value: InputValue) => ValidationResult
     ) => ValidationResult;
+    // 비밀번호 표시 토글
     togglePassword: (fieldName: string) => void;
 }
 
@@ -59,6 +65,7 @@ const DEFAULT_FIELD_STATE: FieldState = {
     validatedMessage: '',
     displayFileName: '',
     showPassword: false,
+    isValid: false,
 };
 export const useTextFieldStore = create<TextFieldStore>((set, get) => ({
     // 🔩 상태 초기값 (처음에는 빈 객체)
@@ -167,13 +174,14 @@ export const useTextFieldStore = create<TextFieldStore>((set, get) => ({
     setShowPassword: (fieldName, show) => {
         get().updateField(fieldName, { showPassword: show });
     },
-    // 🚀 복합 액션들
+    // 이벤트 핸들러에서 유효성 검증
     validate: (fieldName, value, validator) => {
-        const result = validator(value); // 유효성 검증 수행
+        const result = validator(value);
         get().updateField(fieldName, {
             variant: result.isValid ? 'done' : 'error',
             showHelperText: !result.isValid,
             validatedMessage: result.message,
+            isValid: result.isValid, // 👈 추가
         });
         return result;
     },

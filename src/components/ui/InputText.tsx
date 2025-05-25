@@ -10,53 +10,41 @@ interface InputTextProps
 }
 
 export default function InputText({
-    label,
+    placeholder = '게시글을 작성해주세요.',
     name,
     onChange,
+    className,
     ...props
 }: InputTextProps) {
-    const inputTextVariants = cva(
-        [
-            'w-full h-30 mt-4 tracking-normal',
-            'outline-none border-10',
-            'border-gray-50',
-            'font-pretendard tracking-normal',
-            'font-weight-medium rounded-xl',
-            'bg-gray-50 text-gray-800',
-            'py-1 px-2 overflow-y-auto line-height-base',
-            'resize-none whitespace-normal break-words',
-            ' [&::-webkit-scrollbar]:w-[4px]',
-            ' [&::-webkit-scrollbar-track]:w-10',
-            ' [&::-webkit-scrollbar-track]:bg-transparent',
-            ' [&::-webkit-scrollbar-thumb]:bg-gray-200',
-            ' [&::-webkit-scrollbar-thumb]:min-h-7',
-            ' [&::-webkit-scrollbar-thumb]:rounded-lg',
-        ],
-        {
-            variants: {
-                size: {
-                    sm: 'h-10',
-                    md: 'h-20',
-                    lg: 'h-30',
-                },
-            },
-            defaultVariants: {
-                size: 'md',
-            },
-        }
-    );
+    const inputTextVariants = cva([
+        'w-full h-[86px] tracking-normal',
+        'outline-none',
+        'border-gray-900 border-r-10',
+        'font-pretendard tracking-normal',
+        'text-base leading-base',
+        'font-weight-medium rounded-xl',
+        'bg-gray-900 text-white placeholder:text-gray-600',
+        'py-3 pl-4 pr-[6px] overflow-y-auto',
+        'resize-none break-words',
+        ' [&::-webkit-scrollbar]:w-[6px]',
+        ' [&::-webkit-scrollbar-track]:bg-transparent',
+        ' [&::-webkit-scrollbar-thumb]:bg-gray-600',
+        '[&::-webkit-scrollbar-thumb]:min-h-[45px]',
+        '[&::-webkit-scrollbar-thumb]:max-h-[45px]',
+        ' [&::-webkit-scrollbar-thumb]:rounded-lg',
+        ' [&::-webkit-scrollbar-track]:mt-3', // 트랙 상단 여백
+        ' [&::-webkit-scrollbar-track]:mb-3',
+        '[&::-webkit-scrollbar]:appearance-none',
+        '[&::-webkit-scrollbar-thumb]:flex-shrink-0',
+        '[&::-webkit-scrollbar-thumb]:background-clip-padding-box',
+    ]);
     return (
-        <div className="flex flex-col">
-            <label
-                htmlFor={name}
-                className="font-semibold text-sm leading-5 md:h-[44px] md:text-base md:leading-6"
-            >
-                {label}
-            </label>
+        <div className="flex flex-col w-full h-[86px]">
             <textarea
+                placeholder={placeholder}
                 id={name}
                 onChange={onChange}
-                className={cn(inputTextVariants({ size: 'md' }))}
+                className={cn(inputTextVariants(), className)}
                 {...props}
             />
         </div>
