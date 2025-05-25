@@ -25,6 +25,8 @@ import ThreeHeart from '@public/icons/threeHeart.svg';
 import DecrementIcon from '@public/icons/decrement.svg';
 import IncrementIcon from '@public/icons/increment.svg';
 import CalendarIcon from '@public/icons/calendar.svg';
+import DecrementIcon from '@public/icons/decrement.svg';
+import IncrementIcon from '@public/icons/increment.svg';
 <<<<<<< HEAD
 import HandIcon from '@public/icons/hand.svg';
 import AnswerArrowIcon from '@public/icons/answerArrow.svg';
@@ -61,6 +63,8 @@ export {
     DecrementIcon,
     IncrementIcon,
     CalendarIcon,
+    DecrementIcon,
+    IncrementIcon,
 <<<<<<< HEAD
     HandIcon,
     AnswerArrowIcon,
