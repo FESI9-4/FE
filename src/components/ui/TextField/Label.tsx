@@ -1,11 +1,12 @@
 import { LabelHTMLAttributes } from 'react';
 import { cn } from '@/utils/cn';
 import { cva } from 'class-variance-authority';
+import { LabelSize } from '@/store/textfieldStore';
 
 interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
     children: React.ReactNode;
     fieldName?: string;
-    labelSize?: 'small' | 'large';
+    labelSize?: LabelSize;
 }
 export const labelVariants = cva('whitespace-nowrap', {
     variants: {

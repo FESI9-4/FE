@@ -18,6 +18,8 @@ import UserIcon from '@public/icons/user.svg';
 import EditIcon from '@public/icons/edit.svg';
 import EditNoBgIcon from '@public/icons/editNoBg.svg';
 import LikeIcon from '@public/icons/like.svg';
+import DecrementIcon from '@public/icons/decrement.svg';
+import IncrementIcon from '@public/icons/increment.svg';
 
 export {
     CheckIcon,
@@ -40,4 +42,6 @@ export {
     EditIcon,
     EditNoBgIcon,
     LikeIcon,
+    DecrementIcon,
+    IncrementIcon,
 };

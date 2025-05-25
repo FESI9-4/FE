@@ -67,23 +67,32 @@ export const validators = {
         }
     },
     //이미지 유효성 검사
-    validateImage: function (fileType: InputValue): {
+    validateImage: function (file: InputValue): {
         isValid: boolean;
         message: string;
     } {
-        //이미지 파일 확장자 및(용량) 검사
-        const imgRegex = /^image\/(jpg|jpeg|png|gif|bmp|webp)$/i;
-        switch (imgRegex.test(fileType as string)) {
-            case true:
-                return { isValid: true, message: '성공' };
-                break;
-            case false:
-                return {
-                    isValid: false,
-                    message: '이미지 파일 확장자가 올바르지 않습니다.',
-                };
-                break;
+        // File 객체가 아니면 에러
+        if (!file || !(file instanceof File)) {
+            return {
+                isValid: false,
+                message: '파일을 선택해주세요.',
+            };
         }
+
+        // 파일 사이즈 검사 (5MB = 5 * 1024 * 1024 bytes)
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        const fileSize = file.size;
+
+        if (fileSize > maxSize) {
+            return {
+                isValid: false,
+                message: `파일 크기가 너무 큽니다. (최대 ${maxSize / 1024 / 1024}MB)`,
+            };
+        }
+        return {
+            isValid: true,
+            message: '파일이 유효합니다.',
+        };
     },
     //넘버 타입 유효성 검사
     validateNumber: function (number: InputValue): {

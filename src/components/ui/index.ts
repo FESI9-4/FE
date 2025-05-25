@@ -1,6 +1,4 @@
-import ChipInfo from './ChipInfo';
 import ChipState from './ChipState';
-import ChipTime from './ChipTime';
 import Chip from './Chip';
 import Tab from './Tab';
 import Tag from './Tag';

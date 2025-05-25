@@ -2,18 +2,21 @@
 import { cva } from 'class-variance-authority';
 import { cn } from '@/utils/cn';
 import { InputHTMLAttributes, forwardRef, useState } from 'react';
-import { ValidationResult } from './TextField';
-import { useTextFieldStore } from '@/store/textfieldStore';
-import { InputValue } from '@/store/textfieldStore';
+import {
+    useTextFieldStore,
+    InputValue,
+    ValidationResult,
+    InputVariant,
+    InputSize,
+} from '@/store/textfieldStore';
 import { DecrementIcon, IncrementIcon } from '@/assets';
-
 interface NumberInputProps
     extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'type'> {
     value: number;
     onChange: (value: number) => void;
-    variant?: 'default' | 'done' | 'typing' | 'error';
+    variant?: InputVariant;
     fieldName?: string;
-    inputSize?: 'small' | 'large';
+    inputSize?: InputSize;
     onValidate?: (value: InputValue) => ValidationResult;
     min?: number;
     max?: number;
@@ -58,7 +61,7 @@ const iconVariants = cva('transition-colors duration-100', {
     },
 });
 // 인풋 스타일
-const inputVariants = cva(
+const numberInputVariants = cva(
     [
         'rounded-xl font-medium w-full bg-gray-900 outline-none',
         'placeholder:text-gray-600 font-Pretendard caret-white text-center',
@@ -119,34 +122,6 @@ function NumberInput(
     const { setVariant, validate, setShowHelperText, setValidatedMessage } =
         useTextFieldStore();
 
-    // 입력 처리
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const inputValue = e.target.value;
-        // 빈 값 처리
-        if (inputValue === '') {
-            if (onChange) {
-                onChange(0);
-                return;
-            }
-        }
-        // 숫자만 추출
-        const numericValue = inputValue.replace(/[^\d]/g, '');
-        if (numericValue === '') {
-            onChange(0);
-            return;
-        }
-        const num = parseInt(numericValue, 10);
-        // 최대값 체크
-        if (num > max) return;
-        // 상태 업데이트
-        if (fieldName) {
-            setVariant(
-                fieldName,
-                num >= min && num <= max ? 'typing' : 'error'
-            );
-        }
-        onChange(num);
-    };
     // 증가
     const handleIncrement = () => {
         if (disabled || value >= max) return;
@@ -159,7 +134,6 @@ function NumberInput(
         const newValue = Math.max(value - step, min);
         onChange(newValue);
     };
-
     // 키보드 이벤트
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         const allowKeys = [
@@ -189,23 +163,47 @@ function NumberInput(
             handleDecrement();
         }
     };
+    // 입력 처리
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (fieldName) setVariant(fieldName, 'typing');
+
+        const inputValue = e.target.value;
+        // 값 검증 및 변환
+        let newValue;
+        if (!inputValue || !/\d/.test(inputValue)) {
+            newValue = 0;
+        } else {
+            const numericValue = inputValue.replace(/[^\d]/g, '');
+            const num = parseInt(numericValue, 10);
+            newValue = Math.max(min, Math.min(max, num));
+        }
+        onChange(newValue);
+    };
     // 🎯 포커스/블러 이벤트
     const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
         onFocus?.(e);
         if (fieldName) setVariant(fieldName, 'typing');
     };
     const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-        if (e.target.value === '') onChange(min);
-        if (fieldName && onValidate) {
-            const result = validate(fieldName, value, onValidate);
-            setVariant(fieldName, result.isValid ? 'done' : 'error');
-            setShowHelperText(fieldName, !result.isValid);
-            setValidatedMessage(fieldName, result.message);
-        } else if (fieldName) {
-            setVariant(fieldName, 'done');
+        onBlur?.(e);
+
+        // 빈 값이면 최솟값으로 설정
+        if (e.target.value === '') {
+            onChange(min);
         }
 
-        onBlur?.(e);
+        if (fieldName) {
+            if (onValidate) {
+                // 현재 값(빈 값이면 min)으로 유효성 검사
+                const currentValue = e.target.value === '' ? min : value;
+                const result = validate(fieldName, currentValue, onValidate);
+                setVariant(fieldName, result.isValid ? 'done' : 'error');
+                setShowHelperText(fieldName, !result.isValid);
+                setValidatedMessage(fieldName, result.message);
+            } else {
+                setVariant(fieldName, 'done');
+            }
+        }
     };
 
     // 버튼 상태 계산
@@ -245,7 +243,7 @@ function NumberInput(
                 ref={ref}
                 type="number"
                 className={cn(
-                    inputVariants({
+                    numberInputVariants({
                         variant: variant || fieldState?.variant,
                         size: inputSize,
                     }),
@@ -258,7 +256,7 @@ function NumberInput(
                 max={max}
                 step={step}
                 onFocus={handleFocus}
-                onChange={handleInputChange}
+                onChange={handleChange}
                 onKeyDown={handleKeyDown}
                 onBlur={handleBlur}
                 disabled={disabled}
