@@ -15,7 +15,7 @@ export default function Like({ like, onClick }: LikeProps) {
             },
         },
         defaultVariants: {
-            like: true,
+            like: false,
         },
     });
 

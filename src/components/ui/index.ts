@@ -1,16 +1,16 @@
-import ChipInfo from './ChipInfo';
 import ChipState from './ChipState';
-import ChipTime from './ChipTime';
 import Chip from './Chip';
 import Tab from './Tab';
 import Tag from './Tag';
 import ContainerProgress from './ContainerProgress';
 import Button from './Button';
-import TabContainer from './TabContainer';
 import CardList from './CardList';
 import BoxSelectGroup from './BoxSelectGroup';
 import BoxSelect from './BoxSelect';
 import Input from './Input';
+import Like from './Like';
+import Profile from './Profile';
+import EditButton from './EditButton';
 export {
     BoxSelectGroup,
     BoxSelect,
@@ -23,9 +23,6 @@ export {
     Tag,
     ContainerProgress,
     Button,
-    TabContainer,
     CardList,
     Input,
-    BoxSelectGroup,
-    BoxSelect,
 };
