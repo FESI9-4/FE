@@ -6,23 +6,24 @@ import Tab from './Tab';
 import Tag from './Tag';
 import ContainerProgress from './ContainerProgress';
 import Button from './Button';
-import TabContainer from './TabContainer';
-export {
-    ChipInfo,
-    ChipState,
-    ChipTime,
-    Chip,
-    Tab,
-    Tag,
-    ContainerProgress,
-    Button,
-    TabContainer,
-};
 import Input from './Input';
-export { Input };
 import BoxSelectGroup from './BoxSelectGroup';
 import BoxSelect from './BoxSelect';
 import Like from './Like';
 import EditButton from './EditButton';
 import Profile from './Profile';
-export { BoxSelectGroup, BoxSelect, Like, EditButton, Profile };
+
+export {
+    BoxSelectGroup,
+    BoxSelect,
+    Like,
+    EditButton,
+    Profile,
+    Chip,
+    ChipState,
+    Tab,
+    Tag,
+    ContainerProgress,
+    Button,
+    Input,
+};
