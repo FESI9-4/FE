@@ -1,15 +1,14 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-import clsx from 'clsx';
+import React, { useState, useRef, useEffect, useCallback,InputHTMLAttributes  } from 'react';
 import { cva } from 'class-variance-authority';
 import { WhiteDownIcon, SortUpIcon, SortDownIcon } from '@/assets';
+import { cn } from '@/utils/cn';
 
-export type DropdownProps = {
+interface DropdownProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onSelect'>{
     options: string[];
     selected?: string;
     onSelect: (value: string, order?: 'asc' | 'desc') => void;
-    placeholder?: string;
     iconType?: 'sort' | 'arrow';
     showPlaceholderInMenu?: boolean;
 };
@@ -22,7 +21,7 @@ const dropdownVariants = {
         {
             variants: {
                 iconType: {
-                    sort: 'justify-center md:justify-between gap-1 h-9 md:px-2.5 md:py-2 bg-yellow-200',
+                    sort: 'justify-center md:justify-between gap-1 h-9 md:px-2.5 md:py-2 ',
                     arrow: 'justify-between px-4 py-2',
                 },
             },
@@ -201,7 +200,7 @@ export default function Dropdown({
     return (
         <div ref={dropdownRef} className={dropdownVariants.container()}>
             <button
-                className={clsx(
+                className={cn(
                     dropdownVariants.buttonBase({ iconType }),
                     textColor
                 )}
@@ -210,14 +209,12 @@ export default function Dropdown({
             >
                 {iconType === 'sort' && <IconComponent className="w-6 h-6" />}
 
-                <span className={clsx(dropdownVariants.text({ iconType }))}>
+                <span className={dropdownVariants.text({ iconType })}>
                     {selected || placeholder}
                 </span>
 
                 {iconType === 'arrow' && (
-                    <IconComponent
-                        className={clsx('w-6 h-6 ml-2', textColor)}
-                    />
+                    <IconComponent className={cn('w-6 h-6 ml-2', textColor)} />
                 )}
             </button>
 
