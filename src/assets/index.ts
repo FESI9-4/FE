@@ -15,6 +15,7 @@ import WhiteDownIcon from '@public/icons/whiteDown.svg';
 import DoTogetherIcon from '@public/icons/doTogether.svg';
 import GoTogetherIcon from '@public/icons/goTogether.svg';
 import UserIcon from '@public/icons/user.svg';
+import SortIcon from '@public/icons/sort.svg';
 import EditIcon from '@public/icons/edit.svg';
 import EditNoBgIcon from '@public/icons/editNoBg.svg';
 import LikeIcon from '@public/icons/like.svg';
@@ -25,11 +26,10 @@ import ThreeHeart from '@public/icons/threeHeart.svg';
 import DecrementIcon from '@public/icons/decrement.svg';
 import IncrementIcon from '@public/icons/increment.svg';
 import CalendarIcon from '@public/icons/calendar.svg';
-import DecrementIcon from '@public/icons/decrement.svg';
-import IncrementIcon from '@public/icons/increment.svg';
-import CalendarIcon from '@public/icons/calendar.svg';
-import UserIcon from '@public/icons/user.svg';
-
+import HandIcon from '@public/icons/hand.svg';
+import AnswerArrowIcon from '@public/icons/answerArrow.svg';
+import Heart from '@public/icons/heart.svg';
+import ThreeHeart from '@public/icons/threeHeart.svg';
 export {
     CheckIcon,
     AlarmIcon,
@@ -44,7 +44,6 @@ export {
     SortDownIcon,
     UserIcon,
     SortIcon,
-    UserIcon,
     VisibilityOffIcon,
     VisibilityOnIcon,
     WhiteDownIcon,
@@ -60,14 +59,8 @@ export {
     DecrementIcon,
     IncrementIcon,
     CalendarIcon,
-    DecrementIcon,
-    IncrementIcon,
-<<<<<<< HEAD
     HandIcon,
     AnswerArrowIcon,
-=======
     Heart,
     ThreeHeart,
->>>>>>> d224478 (feat: 피그마 시안 변경으로인한 하단디자인 추가)
-    CalendarIcon,
 };
