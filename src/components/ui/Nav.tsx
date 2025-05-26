@@ -4,9 +4,10 @@ import Link from 'next/link';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import useAuth from '@/hooks/useAuth';
 import { usePathname } from 'next/navigation';
-import { NavDesktopIcon, NavMobileIcon, ProfileIcon } from '@/assets';
+import { NavDesktopIcon, NavMobileIcon} from '@/assets';
 import { useWishlistStore } from '@/store/wishlistStore';
 import { cva } from 'class-variance-authority';
+import Profile from '@/components/ui/Profile';
 
 const navLink = cva('relative w-auto md:w-15 h-5 md:h-6 transition-colors', {
     variants: {
@@ -22,14 +23,13 @@ const iconStyle = cva('cursor-pointer', {
         size: {
             mobile: 'w-8 h-8',
             desktop: 'w-32.83 h-8',
-            profile: 'w-10 h-10',
         },
     },
 });
 
 export default function Nav() {
     const isDesktop = useMediaQuery('(min-width: 768px)');
-    const { isLoggedIn } = useAuth();
+    const { isLoggedIn, user } = useAuth();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const pathname = usePathname();
     const wishlistCount = useWishlistStore((state) => state.wishlistCount);
@@ -95,10 +95,16 @@ export default function Nav() {
                     </Link>
                 ) : (
                     <div className="relative">
-                        <ProfileIcon
-                            className={iconStyle({ size: 'profile' })}
+                        <div
                             onClick={toggleDropdown}
-                        />
+                            className="cursor-pointer"
+                        >
+                            <Profile
+                                size="medium"
+                                image={user?.profileImage || ''}
+                            />
+                        </div>
+
                         {isDropdownOpen && (
                             <div className="absolute right-0 xl:right-auto mt-1.5 xl:mt-2 w-27.5 bg-gray-700 rounded-xl shadow-xl h-20 z-50 text-white font-medium text-sm xl:w-35.5 xl:h-28 xl:text-base">
                                 <Link
