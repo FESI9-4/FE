@@ -12,6 +12,13 @@ const nextConfig: NextConfig = {
         });
         return config;
     },
+    images: {
+        remotePatterns: [
+            {
+                hostname: '**',
+            },
+        ],
+    },
 };
 
 export default nextConfig;

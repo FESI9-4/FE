@@ -30,17 +30,17 @@ export default function ContainerProgress({
     });
 
     return (
-        <div className="flex flex-col gap-2">
-            <div className="flex justify-between text-gray-50 text-sm font-medium">
+        <div className="flex flex-col gap-2 pt-2 pb-4">
+            <div className="flex justify-between text-gray-50 text-sm font-normal">
                 <div className="flex gap-4 items-center justify-center">
-                    <div className="flex gap-0.5 items-center justify-center">
+                    <div className="flex gap-0.5 items-center justify-center font-medium">
                         <UserIcon width={16} height={16} />
                         <div>
                             {current} / {max}
                         </div>
                     </div>
                     {openStatus === 'progressing' && (
-                        <div className="flex gap-0.5 items-center justify-center text-green-400">
+                        <div className="flex gap-0.5 items-center justify-center text-green-400 font-medium">
                             <div>개설확정</div>
                             <CheckIcon
                                 width={16}
