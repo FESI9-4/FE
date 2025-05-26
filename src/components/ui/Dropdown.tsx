@@ -1,17 +1,24 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useCallback,InputHTMLAttributes  } from 'react';
+import React, {
+    useState,
+    useRef,
+    useEffect,
+    useCallback,
+    InputHTMLAttributes,
+} from 'react';
 import { cva } from 'class-variance-authority';
 import { WhiteDownIcon, SortUpIcon, SortDownIcon } from '@/assets';
 import { cn } from '@/utils/cn';
 
-interface DropdownProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onSelect'>{
+interface DropdownProps
+    extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onSelect'> {
     options: string[];
     selected?: string;
     onSelect: (value: string, order?: 'asc' | 'desc') => void;
     iconType?: 'sort' | 'arrow';
     showPlaceholderInMenu?: boolean;
-};
+}
 
 const dropdownVariants = {
     container: cva('relative w-full'),
