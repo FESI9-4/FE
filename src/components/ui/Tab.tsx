@@ -43,7 +43,7 @@ export default function Tab({ children, icon, active, ...props }: TabProps) {
                 {children}
                 {icon}
             </div>
-            <div className={hrClassName({ active })}></div>
+            <div className={hrClassName({ active })} />
         </button>
     );
 }
