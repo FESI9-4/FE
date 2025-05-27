@@ -4,11 +4,13 @@ import { useState } from 'react';
 import ModalProfile from '@/components/ui/Modal/ProfileModal';
 import ModalPopup from '@/components/ui/Modal/LoginModal';
 import ModalPassword from '@/components/ui/Modal/PasswordModal';
+import ModalPanpal from '@/components/ui/Modal/PanpalModal';
 
 export default function ModalTestPage() {
     const [isOpen, setIsOpen] = useState(false);
     const [isOpen1, setIsOpen1] = useState(false);
     const [isOpen2, setIsOpen2] = useState(false);
+    const [isOpen3, setIsOpen3] = useState(false);
 
     const handleOpen = () => setIsOpen(true);
     const handleClose = () => setIsOpen(false);
@@ -16,15 +18,24 @@ export default function ModalTestPage() {
         console.log('수정 완료!');
         setIsOpen(false);
     };
+
     const handleOpen1 = () => setIsOpen1(true);
     const handleClose1 = () => setIsOpen1(false);
     const handleSubmit1 = () => {
         console.log('수정 완료!');
         setIsOpen(false);
     };
+
     const handleOpen2 = () => setIsOpen2(true);
     const handleClose2 = () => setIsOpen2(false);
     const handleSubmit2 = () => {
+        console.log('수정 완료!');
+        setIsOpen(false);
+    };
+
+    const handleOpen3 = () => setIsOpen3(true);
+    const handleClose3 = () => setIsOpen3(false);
+    const handleSubmit3 = () => {
         console.log('수정 완료!');
         setIsOpen(false);
     };
@@ -35,16 +46,22 @@ export default function ModalTestPage() {
             {isOpen && (
                 <ModalProfile onClose={handleClose} onSubmit={handleSubmit} />
             )}
+
             <button onClick={handleOpen1}>모달 열기2</button>
             {isOpen1 && (
                 <ModalPopup onClose={handleClose1} onSubmit={handleSubmit1} />
             )}
+
             <button onClick={handleOpen2}>모달 열기3</button>
             {isOpen2 && (
                 <ModalPassword
                     onClose={handleClose2}
                     onSubmit={handleSubmit2}
                 />
+            )}
+            <button onClick={handleOpen3}>모달 열기4</button>
+            {isOpen3 && (
+                <ModalPanpal onClose={handleClose3} onSubmit={handleSubmit3} />
             )}
         </div>
     );
