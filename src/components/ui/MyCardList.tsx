@@ -140,7 +140,11 @@ export default function CardList({
                         )}
                     </div>
                     <div className="flex w-48">
-                        <Button size="large" styled="outline">
+                        <Button
+                            size="large"
+                            styled="outline"
+                            className="outline-white text-white"
+                        >
                             참여 취소하기
                         </Button>
                     </div>
