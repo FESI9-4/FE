@@ -16,12 +16,12 @@ export default function Button({
     ...props
 }: ButtonProps) {
     const className = cva(
-        'rounded-full font-semibold flex justify-center items-center',
+        'rounded-full font-semibold flex justify-center items-center w-full px-7',
         {
             variants: {
                 size: {
-                    small: 'w-28 text-sm py-2.5',
-                    large: 'w-80 text-base py-3',
+                    small: 'text-sm py-2.5',
+                    large: 'text-base py-3',
                 },
                 styled: {
                     solid: 'bg-green-400 text-black',

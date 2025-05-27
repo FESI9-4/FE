@@ -10,7 +10,7 @@ export default function ChipState({
     status = 'schedule',
 }: ChipStateProps) {
     const className = cva(
-        'px-2 py-1 rounded-3xl flex justify-center items-center text-xs font-semibold',
+        'px-2 py-1.5 rounded-3xl flex justify-center items-center text-xs font-semibold',
         {
             variants: {
                 status: {
