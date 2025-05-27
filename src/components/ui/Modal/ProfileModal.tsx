@@ -6,6 +6,8 @@ import Button from '@/components/ui/Button';
 import Profile from '@/components/ui/Profile';
 import useAuth from '@/hooks/useAuth';
 
+//TODO input pr 머지되면 교체
+
 interface EditProfileModalProps {
     onClose: () => void;
     onSubmit: () => void;
@@ -32,9 +34,11 @@ export default function EditProfileModal({
                                 image={user?.profileImage || ''}
                             />
                         </div>
-                        <div className="h-19">
-                            <p className="text-base font-semibold">닉네임</p>
-                            <Input type="text" id="text" />
+                        <div className="h-18 md:h-19  flex flex-col justify-between ">
+                            <p className="h-5 md:h-6 text-sm md:text-base font-semibold ">닉네임</p>
+                            <div className="h-10 flex items-center">
+                                <Input type="text" id="text" />
+                            </div>
                         </div>
                     </div>
                     <div className="flex gap-3 h-10 md:h-12">
