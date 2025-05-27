@@ -25,7 +25,6 @@ import ThreeHeart from '@public/icons/threeHeart.svg';
 import DecrementIcon from '@public/icons/decrement.svg';
 import IncrementIcon from '@public/icons/increment.svg';
 import CalendarIcon from '@public/icons/calendar.svg';
-import UserIcon from '@public/icons/user.svg';
 
 export {
     CheckIcon,
@@ -39,14 +38,12 @@ export {
     ProfileIcon,
     SortUpIcon,
     SortDownIcon,
-    SortIcon,
     UserIcon,
     VisibilityOffIcon,
     VisibilityOnIcon,
     WhiteDownIcon,
     DoTogetherIcon,
     GoTogetherIcon,
-    UserIcon,
     EditIcon,
     EditNoBgIcon,
     LikeIcon,
