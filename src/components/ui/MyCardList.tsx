@@ -70,7 +70,7 @@ export default function CardList({
     );
 
     return (
-        <div className="w-full flex flex-col sm:flex-row sm:py-3 sm:pl-3 sm:pr-6 sm:gap-6 gap-0 sm:min-h-67.5 min-h-97 hover:bg-gray-900 active:opacity-50 hover:cursor-pointer">
+        <div className="w-full flex flex-col sm:flex-row sm:py-3 sm:pl-3 sm:pr-6 sm:gap-6 gap-0 sm:min-h-67.5 min-h-97">
             <div className="w-full sm:w-1/4 relative h-50 sm:h-auto">
                 <Image src={image} alt="image" fill objectFit="cover" />
                 {openStatus === 'canceled' ? (
@@ -87,40 +87,46 @@ export default function CardList({
                 )}
             </div>
             <div className="sm:w-3/4 w-full flex flex-col justify-between pt-6 sm:gap-0 gap-5">
-                <div className="flex justify-between">
-                    <div className="flex flex-col gap-3">
-                        <div className="flex">
-                            <ChipState status={useStatus}>
-                                {useStatus === 'schedule'
-                                    ? '이용 예정'
-                                    : '이용 완료'}
-                            </ChipState>
-                        </div>
-                        <div className="flex flex-col gap-1 text-sm">
-                            <div className="flex gap-2  text-gray-400 items-center">
-                                <div className="text-xl font-semibold text-white">
-                                    {title}
-                                </div>
-                                <div className="hidden sm:block">|</div>
-                                <div className="font-medium hidden sm:block">
-                                    {location}
-                                </div>
-                            </div>
-                            <div className="flex sm:text-white text-gray-400 items-center font-normal gap-2">
-                                <div className="font-medium sm:hidden">
-                                    {location}
-                                </div>
-                                <div className="sm:hidden">|</div>
-                                {convertedDate}
-                            </div>
-                        </div>
+                <div className="flex flex-row gap-3 sm:flex-col justify-between items-end sm:items-stretch">
+                    <div className="flex sm:h-fit h-7 order-2 sm:order-1">
+                        <ChipState status={useStatus}>
+                            {useStatus === 'schedule'
+                                ? '이용 예정'
+                                : '이용 완료'}
+                        </ChipState>
                     </div>
-                    <div className="flex gap-2 text-sm text-gray-400 items-center font-normal ">
-                        <Profile size="small" image={createdUserProfileImg} />
-                        <p>{createdUser}</p>
+                    <div className="flex justify-between sm:flex-row flex-col gap-2 order-1 sm:order-2">
+                        <div className="flex flex-col gap-3">
+                            <div className="flex flex-col gap-1 text-sm">
+                                <div className="flex gap-2  text-gray-400 items-center">
+                                    <div className="text-xl font-semibold text-white">
+                                        {title}
+                                    </div>
+                                    <div className="hidden sm:block">|</div>
+                                    <div className="font-medium hidden sm:block">
+                                        {location}
+                                    </div>
+                                </div>
+                                <div className="flex sm:text-white text-gray-400 items-center font-normal gap-2">
+                                    <div className="font-medium sm:hidden">
+                                        {location}
+                                    </div>
+                                    <div className="sm:hidden">|</div>
+                                    {convertedDate}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex gap-2 text-sm text-gray-400 items-center font-normal ">
+                            <Profile
+                                size="small"
+                                image={createdUserProfileImg}
+                            />
+                            <div>{createdUser}</div>
+                        </div>
                     </div>
                 </div>
-                <div className="flex justify-between">
+
+                <div className=" flex flex-col sm:flex-row justify-between gap-4 sm:gap-0">
                     <div className="flex gap-3">
                         <div
                             className={userCountClassName({
@@ -139,14 +145,21 @@ export default function CardList({
                             </ProgressChip>
                         )}
                     </div>
-                    <div className="flex w-48">
-                        <Button
-                            size="large"
-                            styled="outline"
-                            className="outline-white text-white"
-                        >
-                            참여 취소하기
-                        </Button>
+                    <div className="flex sm:w-48 w-full">
+                        {useStatus === 'schedule' &&
+                            (openStatus === 'canceled' ? (
+                                <Button
+                                    size="large"
+                                    styled="outline"
+                                    className="outline-white text-white hover:outline-white active:outline-white"
+                                >
+                                    삭제하기
+                                </Button>
+                            ) : (
+                                <Button size="large" styled="outline">
+                                    참여 취소하기
+                                </Button>
+                            ))}
                     </div>
                 </div>
             </div>

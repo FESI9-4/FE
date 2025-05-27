@@ -44,7 +44,7 @@ export default function Home() {
                 createdUser="뫀호호"
                 createdUserProfileImg="https://blog.kakaocdn.net/dn/bedWRa/btsNEEWt0FW/qFXWdARM0Q6oq2fHvbu79k/img.gif"
             />
-            <div className="h-full bg-blue-500 flex flex-col">
+            <div className="h-full bg-black flex flex-col">
                 <MyCardList
                     title="데이브레이크 콘서트"
                     location="홍대입구역 8번출구"
