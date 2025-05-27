@@ -9,7 +9,7 @@
 // }
 
 // function BoxSelect({}: BoxSelectProps) {
-//     const [isChecked, setIsChecked] = useState(false);
+//     // const [isChecked, setIsChecked] = useState(false);
 
 //     return <div className=""></div>;
 // }
