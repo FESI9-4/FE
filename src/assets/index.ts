@@ -20,6 +20,7 @@ import EditNoBgIcon from '@public/icons/editNoBg.svg';
 import LikeIcon from '@public/icons/like.svg';
 import DecrementIcon from '@public/icons/decrement.svg';
 import IncrementIcon from '@public/icons/increment.svg';
+import CalendarIcon from '@public/icons/calendar.svg';
 
 export {
     CheckIcon,
@@ -44,4 +45,5 @@ export {
     LikeIcon,
     DecrementIcon,
     IncrementIcon,
+    CalendarIcon,
 };
