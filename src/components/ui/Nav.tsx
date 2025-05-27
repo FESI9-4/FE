@@ -4,7 +4,7 @@ import Link from 'next/link';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import useAuth from '@/hooks/useAuth';
 import { usePathname } from 'next/navigation';
-import { NavDesktopIcon, NavMobileIcon} from '@/assets';
+import { NavDesktopIcon, NavMobileIcon } from '@/assets';
 import { useWishlistStore } from '@/store/wishlistStore';
 import { cva } from 'class-variance-authority';
 import Profile from '@/components/ui/Profile';
