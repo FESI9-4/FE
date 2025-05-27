@@ -9,12 +9,12 @@ export default function useAuth() {
     //     setIsLoggedIn(!!token);
     // }, []);
 
-    //임시값 테스트 
+    //임시값 테스트
     const user = {
         id: 'user123',
         name: '재형',
-        profileImage: 'https://randomuser.me/api/portraits/men/75.jpg', 
+        profileImage: 'https://randomuser.me/api/portraits/men/75.jpg',
     };
-    
+
     return { isLoggedIn, user };
 }
