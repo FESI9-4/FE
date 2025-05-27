@@ -29,10 +29,10 @@ export {
     ContainerProgress,
     CardList,
     InputText,
-    MyCardList,
-    ProgressChip,
     QuestionCard,
     AnswerCard,
     PaginationButton,
     Input,
+    MyCardList,
+    ProgressChip,
 };
