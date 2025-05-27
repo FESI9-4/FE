@@ -1,7 +1,8 @@
 // TextField/NumberInput.tsx (깔끔 정리 버전)
+'use client';
 import { cva } from 'class-variance-authority';
 import { cn } from '@/utils/cn';
-import { InputHTMLAttributes, forwardRef, useState } from 'react';
+import { InputHTMLAttributes, useState } from 'react';
 import {
     useTextFieldStore,
     InputValue,
@@ -11,11 +12,14 @@ import {
 } from '@/store/textfieldStore';
 import { DecrementIcon, IncrementIcon } from '@/assets';
 interface NumberInputProps
-    extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'type'> {
+    extends Omit<
+        InputHTMLAttributes<HTMLInputElement>,
+        'onChange' | 'type' | 'defaultValue'
+    > {
     value: number;
     onChange: (value: number) => void;
     variant?: InputVariant;
-    fieldName?: string;
+    name?: string;
     inputSize?: InputSize;
     onValidate?: (value: InputValue) => ValidationResult;
     min?: number;
@@ -90,16 +94,13 @@ const numberInputVariants = cva(
     }
 );
 
-function NumberInput(
-    props: NumberInputProps,
-    ref: React.Ref<HTMLInputElement>
-) {
+export default function NumberInput(props: NumberInputProps) {
     const {
         value,
         onChange,
         variant,
         className,
-        fieldName,
+        name,
         inputSize,
         onFocus,
         onBlur,
@@ -117,7 +118,7 @@ function NumberInput(
 
     // 스토어 연결
     const fieldState = useTextFieldStore((state) =>
-        fieldName ? state.fields[fieldName] : null
+        name ? state.fields[name] : null
     );
     const { setVariant, validate, setShowHelperText, setValidatedMessage } =
         useTextFieldStore();
@@ -165,7 +166,7 @@ function NumberInput(
     };
     // 입력 처리
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (fieldName) setVariant(fieldName, 'typing');
+        if (name) setVariant(name, 'typing');
 
         const inputValue = e.target.value;
         // 값 검증 및 변환
@@ -182,7 +183,7 @@ function NumberInput(
     // 🎯 포커스/블러 이벤트
     const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
         onFocus?.(e);
-        if (fieldName) setVariant(fieldName, 'typing');
+        if (name) setVariant(name, 'typing');
     };
     const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
         onBlur?.(e);
@@ -192,16 +193,16 @@ function NumberInput(
             onChange(min);
         }
 
-        if (fieldName) {
+        if (name) {
             if (onValidate) {
                 // 현재 값(빈 값이면 min)으로 유효성 검사
                 const currentValue = e.target.value === '' ? min : value;
-                const result = validate(fieldName, currentValue, onValidate);
-                setVariant(fieldName, result.isValid ? 'done' : 'error');
-                setShowHelperText(fieldName, !result.isValid);
-                setValidatedMessage(fieldName, result.message);
+                const result = validate(name, currentValue, onValidate);
+                setVariant(name, result.isValid ? 'done' : 'error');
+                setShowHelperText(name, !result.isValid);
+                setValidatedMessage(name, result.message);
             } else {
-                setVariant(fieldName, 'done');
+                setVariant(name, 'done');
             }
         }
     };
@@ -240,7 +241,6 @@ function NumberInput(
 
             {/* 숫자 입력 필드 */}
             <input
-                ref={ref}
                 type="number"
                 className={cn(
                     numberInputVariants({
@@ -249,8 +249,8 @@ function NumberInput(
                     }),
                     className
                 )}
-                name={fieldName}
-                id={fieldName}
+                name={name}
+                id={name}
                 value={value}
                 min={min}
                 max={max}
@@ -282,5 +282,3 @@ function NumberInput(
         </div>
     );
 }
-
-export default forwardRef(NumberInput);
