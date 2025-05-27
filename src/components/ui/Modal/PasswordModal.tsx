@@ -24,15 +24,27 @@ export default function PasswordModal({
                         <div className="h-66 flex flex-col justify-between text-sm font-semibold md:font-base">
                             <div className="h-18">
                                 <p>현재 비밀번호</p>
-                                <Input type="password" id="password" placeholder='현재 비밀번호를 입력해주세요.'></Input>
+                                <Input
+                                    type="password"
+                                    id="password"
+                                    placeholder="현재 비밀번호를 입력해주세요."
+                                ></Input>
                             </div>
                             <div className="h-18">
                                 <p>새 비밀번호</p>
-                                <Input type="password" id="password" placeholder='새 비밀번호를 입력해주세요.'></Input>
+                                <Input
+                                    type="password"
+                                    id="password"
+                                    placeholder="새 비밀번호를 입력해주세요."
+                                ></Input>
                             </div>
                             <div className="h-18">
                                 <p>비밀번호 확인</p>
-                                <Input type="password" id="password" placeholder='새 비밀번호를 다시 입력해주세요.'></Input>
+                                <Input
+                                    type="password"
+                                    id="password"
+                                    placeholder="새 비밀번호를 다시 입력해주세요."
+                                ></Input>
                             </div>
                         </div>
                     </div>

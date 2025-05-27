@@ -41,7 +41,10 @@ export default function ModalTestPage() {
             )}
             <button onClick={handleOpen2}>모달 열기3</button>
             {isOpen2 && (
-                <ModalPassword onClose={handleClose2} onSubmit={handleSubmit2} />
+                <ModalPassword
+                    onClose={handleClose2}
+                    onSubmit={handleSubmit2}
+                />
             )}
         </div>
     );
