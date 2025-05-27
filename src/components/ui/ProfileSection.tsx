@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react';
 
 // 왜 반응형을 조건부 렌더링으로 했냐면 피그마 시안에 있는 div 구조가 아예 바뀌어서...
 
+//TODO 비밀번호 변경 추후 api 연결
+//TODO 닉네임 변경 또한 추후 연결
 export default function ProfileSection() {
     const { user } = useAuth();
     const [isMdUp, setIsMdUp] = useState(false);
