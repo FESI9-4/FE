@@ -1,6 +1,6 @@
 'use client';
 
-import { CardList } from '@/components/ui';
+import { CardList, MyCardList } from '@/components/ui';
 
 export default function Home() {
     return (
@@ -44,6 +44,44 @@ export default function Home() {
                 createdUser="뫀호호"
                 createdUserProfileImg="https://blog.kakaocdn.net/dn/bedWRa/btsNEEWt0FW/qFXWdARM0Q6oq2fHvbu79k/img.gif"
             />
+            <div className="h-full bg-blue-500 flex flex-col">
+                <MyCardList
+                    title="데이브레이크 콘서트"
+                    location="홍대입구역 8번출구"
+                    date="1747361368"
+                    currentPerson={7}
+                    maxPerson={10}
+                    openStatus="progressing"
+                    image="https://blog.kakaocdn.net/dn/bedWRa/btsNEEWt0FW/qFXWdARM0Q6oq2fHvbu79k/img.gif"
+                    createdUser="뫀호호"
+                    createdUserProfileImg="https://blog.kakaocdn.net/dn/bedWRa/btsNEEWt0FW/qFXWdARM0Q6oq2fHvbu79k/img.gif"
+                    useStatus="schedule"
+                />
+                <MyCardList
+                    title="데이브레이크 콘서트"
+                    location="홍대입구역 8번출구"
+                    date="1747361368"
+                    currentPerson={7}
+                    maxPerson={10}
+                    openStatus="canceled"
+                    image="https://blog.kakaocdn.net/dn/bedWRa/btsNEEWt0FW/qFXWdARM0Q6oq2fHvbu79k/img.gif"
+                    createdUser="뫀호호"
+                    createdUserProfileImg="https://blog.kakaocdn.net/dn/bedWRa/btsNEEWt0FW/qFXWdARM0Q6oq2fHvbu79k/img.gif"
+                    useStatus="schedule"
+                />
+                <MyCardList
+                    title="데이브레이크 콘서트"
+                    location="홍대입구역 8번출구"
+                    date="1747361368"
+                    currentPerson={7}
+                    maxPerson={10}
+                    openStatus="waiting"
+                    image="https://blog.kakaocdn.net/dn/bedWRa/btsNEEWt0FW/qFXWdARM0Q6oq2fHvbu79k/img.gif"
+                    createdUser="뫀호호"
+                    createdUserProfileImg="https://blog.kakaocdn.net/dn/bedWRa/btsNEEWt0FW/qFXWdARM0Q6oq2fHvbu79k/img.gif"
+                    useStatus="done"
+                />
+            </div>
         </div>
     );
 }
