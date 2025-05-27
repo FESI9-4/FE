@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import ModalProfile from '@/components/ui/ModalProfile';
-import ModalPopup from '@/components/ui/ModalPopup';
-import ModalCalendar from '@/components/CustomCalendar';
+import ModalProfile from '@/components/ui/Modal/ProfileModal';
+import ModalPopup from '@/components/ui/Modal/loginModal';
+
 
 export default function ModalTestPage() {
     const [isOpen, setIsOpen] = useState(false);
@@ -31,7 +31,6 @@ export default function ModalTestPage() {
             {isOpen1 && (
                 <ModalPopup onClose={handleClose1} onSubmit={handleSubmit1} />
             )}
-            <ModalCalendar></ModalCalendar>
         </div>
     );
 }
