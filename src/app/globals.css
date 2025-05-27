@@ -109,6 +109,15 @@
 .react-datepicker-popper * {
     font-family: var(--font-family-sans) !important;
 }
+@media (max-width: 768px) {
+    .react-datepicker-popper {
+        position: fixed !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        z-index: 9999 !important;
+    }
+}
 /*캘린더 + 시간 담고있는 컨테이너*/
 .react-datepicker {
     @apply !flex !flex-col md:!flex-row !bg-gray-800 md:!bg-gray-900;

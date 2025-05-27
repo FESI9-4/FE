@@ -1,15 +1,22 @@
-import { LeftArrowIcon } from '@/assets';
+import Dropdown from '../Dropdown';
+import Button from '../Button';
 
 // CustomTimeInput 컴포넌트 - DatePicker와 연동됨
 interface CustomTimeInputProps {
     date?: Date; // DatePicker에서 자동으로 전달
     value?: string; // 현재 시간 값 (HH:mm 형식)
     onChange?: (time: string) => void; // 시간 변경 콜백
+    isStartDate?: boolean; // 🆕 추가
+    onClose?: () => void;
+    onMoveNext?: () => void;
 }
 
 export default function CustomTimeInput({
     date,
     onChange,
+    onClose,
+    isStartDate = false,
+    onMoveNext,
 }: CustomTimeInputProps) {
     // 현재 선택된 시간 파싱
     const currentHour = date ? date.getHours() : 9;
@@ -44,7 +51,6 @@ export default function CustomTimeInput({
         const timeString = `${hour24.toString().padStart(2, '0')}:${newMinute.toString().padStart(2, '0')}`;
         onChange?.(timeString);
     };
-
     return (
         <div className="flex flex-col md:flex-row gap-[3px] h-full">
             {/* 시간 선택 */}
@@ -101,7 +107,7 @@ export default function CustomTimeInput({
                         <button
                             key={p}
                             onClick={() => handleTimeChange(hour12, minute5, p)}
-                            className={`px-2 py-[6px] text-center text-sm rounded-lg transition-colors bg-gray-900 ${
+                            className={`px-2 py-[6px] text-center text-sm rounded-lg transition-colors bg-gray-900 whitespace-nowrap ${
                                 period === p
                                     ? 'bg-green-500 text-gray-800 font-normal rounded-lg'
                                     : 'md:text-gray-300 text-gray-200 hover:text-green-400'
@@ -114,74 +120,70 @@ export default function CustomTimeInput({
             </div>
             <div className="md:hidden text-base leading-6 font-medium text-gray-50">
                 {/* 시간/분 드롭다운 */}
-                <div className="flex gap-4 items-center justify-center">
+                <div className="flex gap-4 items-center justify-center mb-8">
                     {/* 시간 드롭다운 */}
                     <div className="relative flex-1 flex items-center justify-center gap-2">
-                        <select
-                            value={hour12}
-                            onChange={(e) =>
-                                handleTimeChange(
-                                    parseInt(e.target.value),
-                                    minute5,
-                                    period
-                                )
-                            }
-                            className="bg-gray-900 text-white px-4 py-3 rounded-lg text-center appearance-none cursor-pointer min-w-[80px]"
-                        >
-                            {[12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(
-                                (hour) => (
-                                    <option key={hour} value={hour}>
-                                        {hour}시
-                                    </option>
-                                )
-                            )}
-                        </select>
-                        <LeftArrowIcon
-                            width={24}
-                            height={24}
-                            className="absolute right-8 top-1/2 transform -translate-y-1/2 rotate-90 pointer-events-none text-white"
+                        <Dropdown
+                            options={[
+                                12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
+                            ].map((hour) => `${hour}시`)}
+                            selected={`${hour12}시`}
+                            onSelect={(value) => {
+                                const hourNum = parseInt(
+                                    value.replace('시', '')
+                                );
+                                handleTimeChange(hourNum, minute5, period);
+                            }}
+                            placeholder="시간 선택"
+                            iconType="arrow"
                         />
-                        <span className="text-white text-base leading-6 font-normal">
+                        <span className="text-white text-sm leading-6 font-normal">
                             시
-                        </span>
+                        </span>{' '}
                     </div>
 
                     {/* 분 드롭다운 */}
-                    <div className="flex-1 flex items-center justify-center gap-2 mt-3">
-                        <select
-                            value={minute5}
-                            onChange={(e) =>
-                                handleTimeChange(
-                                    hour12,
-                                    parseInt(e.target.value),
-                                    period
-                                )
-                            }
-                            className="bg-gray-900 text-white px-4 py-3 rounded-lg text-center appearance-none cursor-pointer min-w-[80px]"
-                        >
-                            {Array.from({ length: 12 }, (_, i) => i * 5).map(
-                                (minute) => (
-                                    <option key={minute} value={minute}>
-                                        {minute.toString().padStart(2, '0')}분
-                                    </option>
-                                )
+                    <div className="flex-1 flex items-center justify-center gap-2">
+                        <Dropdown
+                            options={Array.from(
+                                { length: 12 },
+                                (_, i) =>
+                                    `${(i * 5).toString().padStart(2, '0')}분`
                             )}
-                        </select>
-                        <span className="text-white text-base leading-6 font-normal">
+                            selected={`${minute5.toString().padStart(2, '0')}분`}
+                            onSelect={(value) => {
+                                const minuteNum = parseInt(
+                                    value.replace('분', '')
+                                );
+                                handleTimeChange(hour12, minuteNum, period);
+                            }}
+                            placeholder="분 선택"
+                            iconType="arrow"
+                        />
+                        <span className="text-white text-sm leading-6 font-normal">
                             분
                         </span>
                     </div>
                 </div>
 
                 {/* 확인 버튼 */}
-                <button
-                    className="w-full bg-green-500 text-gray-800 py-4 rounded-2xl font-semibold text-base mt-4"
-                    onClick={() => {
-                        /* DatePicker 닫기 로직 */
-                    }}
-                >
-                    마감 날짜 선택
-                </button>
+                {isStartDate ? (
+                    <Button
+                        size="large"
+                        styled="solid"
+                        onClick={() => onMoveNext?.()}
+                    >
+                        마감 날짜 선택
+                    </Button>
+                ) : (
+                    <Button
+                        size="large"
+                        styled="solid"
+                        onClick={() => onClose?.()}
+                    >
+                        확인
+                    </Button>
+                )}
             </div>
         </div>
     );

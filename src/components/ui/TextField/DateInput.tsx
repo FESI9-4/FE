@@ -33,6 +33,7 @@ interface DateInputProps
     disabled?: boolean;
     dateFormat?: string;
     timeFormat?: string;
+    isStartDate?: boolean;
 }
 // cva 스타일 variants
 const datePickerVariants = cva(
@@ -81,6 +82,7 @@ export default function DateInput(props: DateInputProps) {
         disabled,
         dateFormat,
         timeFormat,
+        isStartDate,
     } = props;
 
     // 스토어 연결
@@ -88,6 +90,7 @@ export default function DateInput(props: DateInputProps) {
         name ? state.fields[name] : null
     );
     const { setVariant } = useTextFieldStore();
+    const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
     // InputValue를 Date로 변환
     const inputValueToDate = (inputValue: InputValue): Date | null => {
@@ -100,8 +103,7 @@ export default function DateInput(props: DateInputProps) {
         return null;
     };
     // 내려받는 value 없으면 오늘 날짜로 사용
-    const slectedValue = value ? inputValueToDate(value) : new Date();
-    //사용자가 날짜를 선택했는지 여부
+    const selectedValue = inputValueToDate(value); //사용자가 날짜를 선택했는지 여부
     const [selected, setSelected] = useState(false);
 
     // 날짜 변경 핸들러
@@ -139,11 +141,29 @@ export default function DateInput(props: DateInputProps) {
         },
     };
 
+    // 🎯 모달 닫는 핸들러
+    const handleCloseModal = () => {
+        setIsDatePickerOpen(false);
+    };
+    const handleMoveToNext = () => {
+        setIsDatePickerOpen(false); // 현재 닫기
+
+        setTimeout(() => {
+            const nextInput = document.querySelector(
+                'input[name="endDate"]'
+            ) as HTMLInputElement;
+            nextInput?.click();
+        }, 200);
+    };
+
     return (
         <div className="relative w-full">
             <DatePicker
+                open={isDatePickerOpen} // 🎯 상태로 제어
+                onInputClick={() => setIsDatePickerOpen(true)} // 🎯 열기
+                onClickOutside={() => setIsDatePickerOpen(false)} // 🎯 닫기
                 name={name}
-                selected={slectedValue}
+                selected={selectedValue}
                 onChange={handleDateChange}
                 onFocus={handleFocus}
                 showTimeSelect={type === 'datetime-local' ? true : false}
@@ -190,7 +210,7 @@ export default function DateInput(props: DateInputProps) {
                 }) => (
                     <div className="bg-gray-800 md:bg-gray-900 text-white">
                         <div className="md:hidden text-start leading-6 text-base font-semibold text-white mb-4">
-                            진행 날짜
+                            {isStartDate ? '진행 날짜' : '모집 마감날짜'}
                         </div>
                         <div className="mb-3 flex md:justify-between justify-evenly items-center md:gap-3">
                             <button
@@ -226,7 +246,13 @@ export default function DateInput(props: DateInputProps) {
                 )}
                 locale={customKorean}
                 formatWeekDay={(day) => day.charAt(0)}
-                customTimeInput={<CustomTimeInput />}
+                customTimeInput={
+                    <CustomTimeInput
+                        isStartDate={isStartDate}
+                        onClose={handleCloseModal}
+                        onMoveNext={handleMoveToNext}
+                    />
+                }
             />
         </div>
     );
