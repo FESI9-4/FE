@@ -22,6 +22,7 @@ import HandIcon from '@public/icons/hand.svg';
 import AnswerArrowIcon from '@public/icons/answerArrow.svg';
 import Heart from '@public/icons/heart.svg';
 import ThreeHeart from '@public/icons/threeHeart.svg';
+import DeleteIcon from '@public/icons/deleteIcon.svg';
 
 export {
     CheckIcon,
@@ -48,4 +49,5 @@ export {
     AnswerArrowIcon,
     Heart,
     ThreeHeart,
+    DeleteIcon,
 };
