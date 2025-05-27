@@ -1,3 +1,4 @@
+import { cn } from '@/utils/cn';
 import { cva } from 'class-variance-authority';
 import { ButtonHTMLAttributes } from 'react';
 
@@ -5,6 +6,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     children: React.ReactNode;
     size?: 'small' | 'large';
     styled?: 'solid' | 'outline';
+    className?: string;
 }
 
 export default function Button({
@@ -13,9 +15,10 @@ export default function Button({
     styled,
     disabled,
     onClick,
+    className,
     ...props
 }: ButtonProps) {
-    const className = cva(
+    const buttonClassName = cva(
         'rounded-full font-semibold flex justify-center items-center w-full px-7',
         {
             variants: {
@@ -66,7 +69,10 @@ export default function Button({
 
     return (
         <button
-            className={className({ size, styled, disabled })}
+            className={cn(
+                buttonClassName({ size, styled, disabled }),
+                className
+            )}
             onClick={disabled ? undefined : onClick}
             {...props}
         >
