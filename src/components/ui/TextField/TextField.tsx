@@ -5,28 +5,28 @@ import { cn } from '@/utils/cn';
 // 🔥 메인 컴포넌트 Props 타입
 interface TextFieldProps extends HTMLAttributes<HTMLDivElement> {
     children: React.ReactNode;
-    fieldName: string;
+    name: string;
 }
 export default function TextField({
     children,
-    fieldName,
+    name,
     className,
     ...props
 }: TextFieldProps) {
     const { initField, removeField } = useTextFieldStore();
     // 컴포넌트 마운트/언마운트 시 필드 관리
     useEffect(() => {
-        initField(fieldName);
+        initField(name);
         return () => {
-            removeField(fieldName);
+            removeField(name);
         };
-    }, [fieldName, initField, removeField]);
+    }, [name, initField, removeField]);
     const childrenWithProps = React.Children.map(children, (child) => {
         if (React.isValidElement(child)) {
             return React.cloneElement(child, {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 ...((child.props as any) || {}),
-                fieldName,
+                name: name,
             });
         }
         return child;
