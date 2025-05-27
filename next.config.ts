@@ -13,18 +13,25 @@ const nextConfig: NextConfig = {
             {
                 ...fileLoaderRule,
                 test: /\.svg$/i,
-                resourceQuery: /url/, // *.svg?url
+                resourceQuery: /url/,
             },
             {
                 test: /\.svg$/i,
                 issuer: fileLoaderRule.issuer,
                 resourceQuery: {
                     not: [...fileLoaderRule.resourceQuery.not, /url/],
-                }, // exclude if *.svg?url
-                use: ['@svgr/webpack'],
+                },
+                use: [
+                    {
+                        loader: '@svgr/webpack',
+                        options: {
+                            typescript: true,
+                            ext: 'tsx',
+                        },
+                    },
+                ],
             }
         );
-
         fileLoaderRule.exclude = /\.svg$/i;
 
         return config;
