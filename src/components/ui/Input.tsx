@@ -245,8 +245,8 @@ export default function Input({
                                     priority
                                     src={
                                         isVisible
-                                            ? '/icons/visibility_on.svg'
-                                            : '/icons/visibility_off.svg'
+                                            ? '/icons/visibilityOn.svg'
+                                            : '/icons/visibilityOff.svg'
                                     }
                                     alt="visibility"
                                     width={24}

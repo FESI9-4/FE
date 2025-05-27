@@ -2,13 +2,18 @@
 
 import BaseModal from '@/components/ui/Modal';
 import Button from '@/components/ui/Button';
+import { useRouter } from 'next/navigation';
 
 interface LoginModalProps {
     onClose: () => void;
-    onSubmit: () => void;
 }
 
-export default function LoginModal({ onClose, onSubmit }: LoginModalProps) {
+export default function LoginModal({ onClose }: LoginModalProps) {
+    const router = useRouter();
+
+    const handleSubmit = () => {
+        router.push('/login');
+    };
     return (
         <BaseModal onClose={onClose}>
             <div className="w-75 h-45 md:w-105 md:h-52.5 flex items-center justify-center">
@@ -27,7 +32,7 @@ export default function LoginModal({ onClose, onSubmit }: LoginModalProps) {
                         <Button size="large" onClick={onClose} styled="outline">
                             취소
                         </Button>
-                        <Button size="large" onClick={onSubmit}>
+                        <Button size="large" onClick={handleSubmit}>
                             확인
                         </Button>
                     </div>

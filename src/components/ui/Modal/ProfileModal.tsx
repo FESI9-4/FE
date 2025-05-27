@@ -35,7 +35,9 @@ export default function EditProfileModal({
                             />
                         </div>
                         <div className="h-18 md:h-19  flex flex-col justify-between ">
-                            <p className="h-5 md:h-6 text-sm md:text-base font-semibold ">닉네임</p>
+                            <p className="h-5 md:h-6 text-sm md:text-base font-semibold ">
+                                닉네임
+                            </p>
                             <div className="h-10 flex items-center">
                                 <Input type="text" id="text" />
                             </div>
