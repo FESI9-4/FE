@@ -1,8 +1,3 @@
-'use client';
-import TextField from '@/components/ui/TextField';
-import { validators } from '@/utils/validators';
-import { useState } from 'react';
-
 function TextPage() {
     const [text, setText] = useState('');
     const [number, setNumber] = useState(10);
