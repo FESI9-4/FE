@@ -23,7 +23,7 @@ interface DateInputProps
     value: InputValue;
     onChange: (value: InputValue) => void;
     variant?: InputVariant;
-    fieldName?: string;
+    name?: string;
     inputSize?: InputSize;
 
     showTimeSelect?: boolean;
@@ -73,7 +73,7 @@ export default function DateInput(props: DateInputProps) {
         value,
         type = 'date',
         onChange,
-        fieldName,
+        name,
         inputSize,
         minDate,
         maxDate,
@@ -85,7 +85,7 @@ export default function DateInput(props: DateInputProps) {
 
     // 스토어 연결
     const fieldState = useTextFieldStore((state) =>
-        fieldName ? state.fields[fieldName] : null
+        name ? state.fields[name] : null
     );
     const { setVariant } = useTextFieldStore();
 
@@ -110,14 +110,14 @@ export default function DateInput(props: DateInputProps) {
         setSelected(true);
         // 부모에게 전달
         onChange?.(date as InputValue);
-        if (fieldName) {
-            setVariant(fieldName, 'done');
+        if (name) {
+            setVariant(name, 'done');
             //날짜 선택 같은 경우에는 헬퍼텍스트나 유혀성 검증 메시지가 필요없을거 같아요
         }
     };
     const handleFocus = () => {
-        if (fieldName) {
-            setVariant(fieldName, 'typing');
+        if (name) {
+            setVariant(name, 'typing');
         }
     };
 
@@ -142,7 +142,7 @@ export default function DateInput(props: DateInputProps) {
     return (
         <div className="relative w-full">
             <DatePicker
-                name={fieldName}
+                name={name}
                 selected={slectedValue}
                 onChange={handleDateChange}
                 onFocus={handleFocus}
