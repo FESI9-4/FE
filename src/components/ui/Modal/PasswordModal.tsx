@@ -6,6 +6,8 @@ import Button from '@/components/ui/Button';
 
 //TODO input pr 머지되면 교체 desktop 높이 안 맞음
 
+//TODO 검증로직 추가 + 추후 수정 api 연결
+
 interface PasswordModalProps {
     onClose: () => void;
     onSubmit: () => void;
