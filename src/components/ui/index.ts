@@ -28,6 +28,8 @@ import BoxSelect from './BoxSelect';
 import Like from './Like';
 import EditButton from './EditButton';
 import Profile from './Profile';
+import TextField from './TextField';
+import InputText from './InputText';
 
 export {
     BoxSelectGroup,
@@ -43,3 +45,4 @@ export {
     Button,
     Input,
 };
+export { BoxSelectGroup, BoxSelect, TextField, InputText };

@@ -82,7 +82,6 @@ export const validators = {
         // 파일 사이즈 검사 (5MB = 5 * 1024 * 1024 bytes)
         const maxSize = 5 * 1024 * 1024; // 5MB
         const fileSize = file.size;
-
         if (fileSize > maxSize) {
             return {
                 isValid: false,

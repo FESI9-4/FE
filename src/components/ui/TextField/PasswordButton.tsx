@@ -5,15 +5,15 @@ import { cn } from '@/utils/cn';
 import { ButtonHTMLAttributes } from 'react';
 
 interface PasswordButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-    fieldName?: string;
+    name?: string;
 }
 export default function PasswordButton(props: PasswordButtonProps) {
-    const { className, fieldName: fieldName, ...rest } = props;
-    const field = useTextFieldStore((state) => state.getField(fieldName || ''));
+    const { className, name, ...rest } = props;
+    const field = useTextFieldStore((state) => state.getField(name || ''));
     const { togglePassword } = useTextFieldStore();
     // 패스워드 숨기기 버튼 클릭 이벤트
     function handleClick() {
-        if (fieldName) togglePassword(fieldName);
+        if (name) togglePassword(name);
     }
     return (
         <button

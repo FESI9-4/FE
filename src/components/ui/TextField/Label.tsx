@@ -5,7 +5,7 @@ import { LabelSize } from '@/store/textfieldStore';
 
 interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
     children: React.ReactNode;
-    fieldName?: string;
+    name?: string;
     labelSize?: LabelSize;
 }
 export const labelVariants = cva('whitespace-nowrap', {
@@ -20,10 +20,10 @@ export const labelVariants = cva('whitespace-nowrap', {
     },
 });
 export default function Label(props: LabelProps) {
-    const { className, labelSize, children, fieldName, ...rest } = props;
+    const { className, labelSize, children, name, ...rest } = props;
     return (
         <label
-            htmlFor={fieldName}
+            htmlFor={name}
             className={cn(labelVariants({ labelSize: labelSize }), className)}
             {...rest}
         >

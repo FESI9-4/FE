@@ -1,24 +1,21 @@
-// 🎯 TextFieldFileInput.tsx
-
-import { forwardRef, InputHTMLAttributes } from 'react';
+'use client';
+import { InputHTMLAttributes } from 'react';
 import { cn } from '@/utils/cn';
 import {
     useTextFieldStore,
-    ValidationResult,
     InputSize,
     InputVariant,
+    ValidationResult,
     InputValue,
 } from '@/store/textfieldStore';
 import { cva } from 'class-variance-authority';
 interface FileInputProps
-    extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'onChange'> {
+    extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
     variant?: InputVariant;
-    fieldName?: string;
+    name?: string;
     inputSize?: InputSize;
-    onValidate?: (file: InputValue) => ValidationResult;
-    // value 대신 selectedFile 사용
-    selectedFile?: File | null; // value 역할
-    onFileChange?: (file: File | null) => void; // onChange 역할
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onValidate?: (value: InputValue) => ValidationResult;
     // 표시 옵션
     buttonText?: string;
     emptyText?: string;
@@ -59,7 +56,7 @@ export const fileCustomButtonVariants = cva(
         'border border-green-400 rounded-xl',
         'flex whitespace-nowrap',
         'cursor-pointer font-medium text-sm md:text-base',
-        'rounded-full px-[28px] py-[10px]',
+        'rounded-full px-[28px] py-[10px] justify-center items-center',
     ],
     {
         variants: {
@@ -73,65 +70,45 @@ export const fileCustomButtonVariants = cva(
         },
     }
 );
-function FileInput(props: FileInputProps, ref: React.Ref<HTMLInputElement>) {
+export default function FileInput(props: FileInputProps) {
     const {
-        selectedFile,
         variant,
-        fieldName,
+        name,
         className,
         autoComplete = 'off',
         emptyText = '파일을 선택해주세요.',
         inputSize,
+        onChange,
         onValidate,
-        onFileChange,
         buttonText = '파일 찾기',
         ...rest
     } = props;
 
     // 스토어 연결 (다른 Input과 동일)
     const fieldState = useTextFieldStore((state) =>
-        fieldName ? state.fields[fieldName] : null
+        name ? state.fields[name] : null
     );
-    const {
-        setDisplayFileName,
-        setVariant,
-        setShowHelperText,
-        setValidatedMessage,
-        validate,
-    } = useTextFieldStore();
-
-    const isControlled = selectedFile !== undefined;
+    const { setDisplayFileName, validate } = useTextFieldStore();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0] || null;
-
         // 파일명은 항상 스토어에 저장
-        if (fieldName) {
-            setDisplayFileName(fieldName, file?.name || '');
+        if (name) {
+            setDisplayFileName(name, file?.name || '');
         }
 
-        // 제어 컴포넌트면 부모에게도 알림
-        if (isControlled) {
-            onFileChange?.(file);
+        if (name && onValidate) {
+            validate(name, file, onValidate);
         }
 
-        // 유효성 검사 (공통)
-        if (fieldName && onValidate) {
-            const result = validate(fieldName, file, onValidate);
-            setVariant(fieldName, result.isValid ? 'done' : 'error');
-            setShowHelperText(fieldName, !result.isValid);
-            setValidatedMessage(fieldName, result.message);
-        } else if (fieldName) {
-            setVariant(fieldName, file ? 'done' : 'default');
-        }
+        onChange?.(e);
     };
 
     return (
         <div className="flex gap-3 items-center justify-center">
             <input
-                ref={ref}
-                name={fieldName}
-                id={fieldName} // label 연결용
+                name={name}
+                id={name} // label 연결용
                 autoComplete={autoComplete}
                 type="file"
                 className="hidden"
@@ -153,8 +130,9 @@ function FileInput(props: FileInputProps, ref: React.Ref<HTMLInputElement>) {
             </div>
 
             <label
-                htmlFor={fieldName}
+                htmlFor={name}
                 className={cn(
+                    'flex-2',
                     fileCustomButtonVariants({
                         size: inputSize,
                     })
@@ -165,5 +143,3 @@ function FileInput(props: FileInputProps, ref: React.Ref<HTMLInputElement>) {
         </div>
     );
 }
-
-export default forwardRef(FileInput);

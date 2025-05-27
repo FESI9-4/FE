@@ -4,7 +4,7 @@ import { cva } from 'class-variance-authority';
 import { useTextFieldStore } from '@/store/textfieldStore';
 interface HelperTextProps extends HTMLAttributes<HTMLSpanElement> {
     children?: React.ReactNode;
-    fieldName?: string;
+    name?: string;
     isShow?: boolean;
 }
 export const helperTextVariants = cva(
@@ -26,12 +26,12 @@ export const helperTextVariants = cva(
     }
 );
 export default function TextFieldHelperText(props: HelperTextProps) {
-    const { isShow, children, className, fieldName, ...rest } = props;
-    const field = useTextFieldStore((state) => state.getField(fieldName || ''));
+    const { isShow, children, className, name, ...rest } = props;
+    const field = useTextFieldStore((state) => state.getField(name || ''));
     const { validatedMessage, showHelperText } = field || {};
     return (
         <span
-            data-field={fieldName}
+            data-name={name}
             className={cn(
                 helperTextVariants({
                     isShow: isShow || showHelperText,
