@@ -1,6 +1,7 @@
 import { cva } from 'class-variance-authority';
 import { motion } from 'framer-motion';
-import { CheckIcon, UserIcon } from '@/assets';
+import { UserIcon } from '@/assets';
+import ProgressChip from './progressChip';
 
 interface ContainerProgressProps {
     max: number;
@@ -40,25 +41,15 @@ export default function ContainerProgress({
                         </div>
                     </div>
                     {openStatus === 'progressing' && (
-                        <div className="flex gap-0.5 items-center justify-center text-green-400 font-medium">
-                            <div>개설확정</div>
-                            <CheckIcon
-                                width={16}
-                                height={16}
-                                className="fill-gray-900"
-                            />
-                        </div>
+                        <ProgressChip openStatus={openStatus}>
+                            개설확정
+                        </ProgressChip>
                     )}
                 </div>
                 {openStatus === 'finished' ? (
-                    <div className="flex gap-0.5 items-center justify-center text-green-400">
-                        <div>모집마감</div>
-                        <CheckIcon
-                            width={16}
-                            height={16}
-                            className="text-black fill-green-500"
-                        />
-                    </div>
+                    <ProgressChip openStatus={openStatus}>
+                        모집마감
+                    </ProgressChip>
                 ) : (
                     <div className="flex gap-2 items-center justify-center">
                         <div className="text-green-400">마감</div>
