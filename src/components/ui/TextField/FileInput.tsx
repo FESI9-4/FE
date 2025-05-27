@@ -14,7 +14,6 @@ interface FileInputProps
     variant?: InputVariant;
     name?: string;
     inputSize?: InputSize;
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onValidate?: (value: InputValue) => ValidationResult;
     // 표시 옵션
     buttonText?: string;

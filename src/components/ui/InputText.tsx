@@ -1,12 +1,11 @@
 'use client';
 import { cn } from '@/utils/cn';
 import { cva } from 'class-variance-authority';
+import { TextareaHTMLAttributes } from 'react';
 
-interface InputTextProps
-    extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+interface InputTextProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
     label?: string; // 라벨 메시지
     name?: string; // 라벨 htmlFor 속성 과 textarea id 속성 값
-    onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 const inputTextVariants = cva([
     'w-full h-[86px] tracking-normal',
