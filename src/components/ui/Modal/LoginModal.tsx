@@ -8,10 +8,7 @@ interface LoginModalProps {
     onSubmit: () => void;
 }
 
-export default function LoginModal({
-    onClose,
-    onSubmit,
-}: LoginModalProps) {
+export default function LoginModal({ onClose, onSubmit }: LoginModalProps) {
     return (
         <BaseModal onClose={onClose}>
             <div className="w-75 h-45 md:w-105 md:h-52.5 flex items-center justify-center">
