@@ -1,6 +1,5 @@
 'use client';
 import clsx from 'clsx';
-import Image from 'next/image';
 import { useState } from 'react';
 import { Categories } from '@/types/categories';
 interface BoxSelectProps {
@@ -55,19 +54,12 @@ function BoxSelect({ category, name, onChange }: BoxSelectProps) {
                     htmlFor={category.id}
                     className={LABEL_STYLE}
                     onClick={() => setIsChecked(!isChecked)}
-                >
-                    {isChecked && (
-                        <Image
-                            src="/icons/box_check.svg" // 체크 이미지 경로
-                            alt="체크"
-                            width={18}
-                            height={18}
-                        />
-                    )}
-                </label>
+                ></label>
                 <div className={contentStyle}>
                     <span className={TITLE_STYLE}>{category.title}</span>
-                    <span className={SUBTITLE_STYLE}>{category.subTitle}</span>
+                    <span className={SUBTITLE_STYLE}>
+                        {category.smallCategory.map((item) => item.name)}
+                    </span>
                 </div>
             </div>
         </div>
