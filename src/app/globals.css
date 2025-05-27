@@ -207,3 +207,107 @@
 .react-datepicker__triangle::before {
     display: none !important;
 }
+/* datepicker custom scrollbar */
+.custom-scrollbar-datepicker::-webkit-scrollbar {
+    @apply !w-1 !rounded-full;
+}
+.custom-scrollbar-datepicker::-webkit-scrollbar-thumb {
+    @apply !bg-gray-600 !rounded-full !h-[98px];
+}
+/* datepicker custom style */
+/*팝업 컨테이너*/
+.react-datepicker-popper {
+    @apply !font-sans !bg-gray-800 md:!bg-gray-900 !w-fit !border-0 !rounded-2xl;
+}
+.react-datepicker-popper * {
+    font-family: var(--font-family-sans) !important;
+}
+/*캘린더 + 시간 담고있는 컨테이너*/
+.react-datepicker {
+    @apply !flex !flex-col md:!flex-row !bg-gray-800 md:!bg-gray-900;
+    @apply !py-6 !px-7 !pt-8 !pb-10 md:!pl-8 md:!pr-5 md:pt-0 md:pb-0 !border-0 !rounded-2xl !w-fit;
+}
+.react-datepicker__header {
+    @apply !bg-gray-800 md:!bg-gray-900 !border-0 !p-0;
+}
+.react-datepicker__navigation {
+    @apply !bg-gray-800 md:!bg-gray-900 !py-6 !px-5 !border-0;
+}
+.react-datepicker__month {
+    @apply !text-gray-600 !font-medium !gap-4 !text-sm !leading-5;
+}
+/* 요일 컨테이너*/
+.react-datepicker__day-names {
+    @apply !flex !items-center !justify-between !mb-[3px];
+    flex: 1;
+}
+/* 요일 */
+.react-datepicker__day-name {
+    @apply !text-gray-500 md:!text-gray-600 !m-0 !flex !items-center !justify-center !w-8 !h-8 !px-3 py-[6px] !font-normal !text-sm !leading-5;
+}
+.react-datepicker__day {
+    @apply !m-0 !flex !items-center !justify-center !text-gray-100;
+    @apply !text-base !font-normal md:!text-sm md:!leading-5 !w-8 !h-8 !px-3 !py-[6px];
+}
+
+/* disabled 날짜 - 호버해도 변하지 않음 */
+.react-datepicker__day--disabled {
+    @apply !text-gray-700;
+}
+
+.react-datepicker__day--disabled:hover {
+    @apply !text-gray-700 !bg-transparent; /* disabled는 호버 효과 없음 */
+}
+
+/* 선택된 날짜 - 호버해도 선택 스타일 유지 */
+.react-datepicker__day--selected {
+    @apply !bg-green-400 !text-gray-900 !rounded-lg !w-8 !h-8;
+}
+
+.react-datepicker__day--selected:hover {
+    @apply !bg-green-400 !text-gray-900 !rounded-lg; /* 선택된 스타일 강제 유지 */
+}
+
+/* 일반 날짜 호버 - disabled와 selected가 아닌 경우만 */
+.react-datepicker__day:hover:not(.react-datepicker__day--selected):not(
+        .react-datepicker__day--disabled
+    ) {
+    @apply !text-green-400 !bg-transparent;
+}
+.react-datepicker__week {
+    @apply !flex !gap-1 !text-sm !leading-5 !justify-between;
+}
+/* 캘린더*/
+.react-datepicker__month-container {
+    @apply md:!mr-0 !pb-0 !pr-[10px] !mb-8 md:!mb-0;
+}
+/* 캘린터 일자*/
+.react-datepicker__month {
+    @apply !flex !flex-col !h-fit !gap-0 !m-0;
+}
+/* 기존 시간 리스트 숨기기 */
+.react-datepicker__time-list {
+    @apply !hidden;
+}
+.react-datepicker__time-container {
+    @apply !hidden;
+}
+
+.react-datepicker-time__caption {
+    @apply !hidden;
+}
+.react-datepicker__input-time-container {
+    @apply !m-0 !w-full;
+}
+.react-datepicker-time__input-container {
+    @apply !w-full;
+}
+.react-datepicker-time__input {
+    @apply !w-full !m-0;
+}
+.react-datepicker__triangle {
+    display: none !important;
+}
+.react-datepicker__triangle::before {
+    display: none !important;
+}
