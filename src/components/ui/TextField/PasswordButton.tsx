@@ -1,32 +1,28 @@
 import { VisibilityOffIcon } from '@/assets';
 import { VisibilityOnIcon } from '@/assets';
-import { useTextFieldStore } from '@/store/textfieldStore';
 import { cn } from '@/utils/cn';
 import { ButtonHTMLAttributes } from 'react';
 
 interface PasswordButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-    name?: string;
+    showPassword: boolean;
 }
-export default function PasswordButton(props: PasswordButtonProps) {
-    const { className, name, ...rest } = props;
-    const field = useTextFieldStore((state) => state.getField(name || ''));
-    const { togglePassword } = useTextFieldStore();
-    // 패스워드 숨기기 버튼 클릭 이벤트
-    function handleClick() {
-        if (name) togglePassword(name);
-    }
+export default function PasswordButton({
+    showPassword,
+    className,
+    name,
+    onClick,
+}: PasswordButtonProps) {
     return (
         <button
             type="button"
+            name={name}
             className={cn(
-                '',
-                'absolute h-[80%] right-2.5 top-1/2 -translate-y-1/2 cursor-pointer px-1 hover:bg-gray-800 rounded',
+                'absolute right-2.5 cursor-pointer px-1 hover:bg-gray-800 rounded h-[80%] top-1/2 -translate-y-1/2',
                 className
             )}
-            onClick={handleClick}
-            {...rest}
+            onClick={onClick}
         >
-            {field?.showPassword ? (
+            {showPassword ? (
                 <VisibilityOnIcon
                     width={24}
                     height={24}
