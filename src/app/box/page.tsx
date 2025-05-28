@@ -12,7 +12,7 @@ function BoxPage() {
     };
     return (
         <div className="flex flex-col h-screen items-center justify-center">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="bg-gray-700">
                 <BoxSelect categories={CATEGORY_DATA} />
                 <button type="submit">제출</button>
             </form>
