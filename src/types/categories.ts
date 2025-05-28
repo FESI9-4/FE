@@ -1,59 +1,32 @@
-export type Categories = {
+export type Category = {
     id: string;
     title: string;
-    subTitle: string;
-    bigCategory: string;
-    smallCategory: string;
+    smallCategory: SmallCategory[];
 };
+interface SmallCategory {
+    id: string;
+    name: string;
+}
 //박스 셀렉트에 들어강 카테고리 정보
-export const categories: Categories[] = [
+// 🎯 박스 셀렉터용 카테고리 데이터
+export const CATEGORY_DATA: Category[] = [
     {
-        id: 'A01',
+        id: 'GO_TYPE',
         title: '같이 가요',
-        subTitle: '버스 대절',
-        bigCategory: 'go',
-        smallCategory: 'rentBus',
+        smallCategory: [
+            { id: 'BUSRENTAL_TYPE', name: '버스 대절' },
+            { id: 'COMPANION_TYPE', name: '동행' },
+            { id: 'AFTERPARTY_TYPE', name: '뒤풀이' },
+        ],
     },
     {
-        id: 'A02',
-        title: '같이 가요',
-        subTitle: '동행',
-        bigCategory: 'go',
-        smallCategory: 'accompany',
-    },
-    {
-        id: 'A03',
-        title: '같이 가요',
-        subTitle: '뒤풀이',
-        bigCategory: 'go',
-        smallCategory: 'afterParty',
-    },
-    {
-        id: 'A04',
+        id: 'DOING_TYPE',
         title: '같이 해요',
-        subTitle: '팝업',
-        bigCategory: 'go',
-        smallCategory: 'popup',
-    },
-    {
-        id: 'A05',
-        title: '같이 해요',
-        subTitle: '생일 카페',
-        bigCategory: 'go',
-        smallCategory: 'birthdayCafe',
-    },
-    {
-        id: 'A06',
-        title: '같이 해요',
-        subTitle: '온라인 콘서트',
-        bigCategory: 'go',
-        smallCategory: 'onlineConcert',
-    },
-    {
-        id: 'A07',
-        title: '같이 해요',
-        subTitle: '덕질 투어',
-        bigCategory: 'go',
-        smallCategory: 'fandomTour',
+        smallCategory: [
+            { id: 'TOGETHER_TYPE', name: '팝업' },
+            { id: 'BIRTHDAY_TYPE', name: '생일카페' },
+            { id: 'ONLINE_TYPE', name: '온라인콘서트' },
+            { id: 'TOUR_TYPE', name: '덕질투어' },
+        ],
     },
 ];
