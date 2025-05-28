@@ -28,8 +28,6 @@ export default function useAuth(): UseAuthReturn {
         id: 'user123',
         nickname: '재형',
         profileImage: 'https://randomuser.me/api/portraits/men/75.jpg',
-        nickname: '재형',
-        profileImage: 'https://randomuser.me/api/portraits/men/75.jpg',
         description: '안녕하세요 정재형입니다',
     };
 
