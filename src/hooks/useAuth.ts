@@ -26,7 +26,7 @@ export default function useAuth(): UseAuthReturn {
     //임시값 테스트
     const user = {
         id: 'user123',
-        name: '재형',
+        nickname: '재형',
         profileImage: 'https://randomuser.me/api/portraits/men/75.jpg',
         nickname: '재형',
         profileImage: 'https://randomuser.me/api/portraits/men/75.jpg',

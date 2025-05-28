@@ -25,8 +25,13 @@ import ThreeHeart from '@public/icons/threeHeart.svg';
 import DecrementIcon from '@public/icons/decrement.svg';
 import IncrementIcon from '@public/icons/increment.svg';
 import CalendarIcon from '@public/icons/calendar.svg';
+<<<<<<< HEAD
 import HandIcon from '@public/icons/hand.svg';
 import AnswerArrowIcon from '@public/icons/answerArrow.svg';
+=======
+import Heart from '@public/icons/heart.svg';
+import ThreeHeart from '@public/icons/threeHeart.svg';
+>>>>>>> d224478 (feat: 피그마 시안 변경으로인한 하단디자인 추가)
 
 export {
     CheckIcon,
@@ -56,6 +61,11 @@ export {
     DecrementIcon,
     IncrementIcon,
     CalendarIcon,
+<<<<<<< HEAD
     HandIcon,
     AnswerArrowIcon,
+=======
+    Heart,
+    ThreeHeart,
+>>>>>>> d224478 (feat: 피그마 시안 변경으로인한 하단디자인 추가)
 };
