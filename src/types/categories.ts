@@ -1,14 +1,15 @@
-export type Categories = {
+export type Category = {
     id: string;
     title: string;
-    smallCategory: {
-        id: string;
-        name: string;
-    }[];
+    smallCategory: SmallCategory[];
 };
+interface SmallCategory {
+    id: string;
+    name: string;
+}
 //박스 셀렉트에 들어강 카테고리 정보
 // 🎯 박스 셀렉터용 카테고리 데이터
-export const CATEGORY_DATA: Categories[] = [
+export const CATEGORY_DATA: Category[] = [
     {
         id: 'GO_TYPE',
         title: '같이 가요',
