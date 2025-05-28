@@ -17,7 +17,9 @@ import Like from './Like';
 import Profile from './Profile';
 import EditButton from './EditButton';
 import MyCardList from './MyCardList';
-import ProgressChip from './progressChip';
+import ProgressChip from './ProgressChip';
+import QuestionCard from './QuestionCard';
+import AnswerCard from './AnswerCard';
 export {
     Button,
     BoxSelect,
@@ -39,4 +41,6 @@ export {
     Input,
     MyCardList,
     ProgressChip,
+    QuestionCard,
+    AnswerCard,
 };

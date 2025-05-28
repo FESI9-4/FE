@@ -26,6 +26,7 @@ import DecrementIcon from '@public/icons/decrement.svg';
 import IncrementIcon from '@public/icons/increment.svg';
 import CalendarIcon from '@public/icons/calendar.svg';
 import HandIcon from '@public/icons/hand.svg';
+import AnswerArrowIcon from '@public/icons/answerArrow.svg';
 
 export {
     CheckIcon,
@@ -56,4 +57,5 @@ export {
     IncrementIcon,
     CalendarIcon,
     HandIcon,
+    AnswerArrowIcon,
 };
