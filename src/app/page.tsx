@@ -1,7 +1,3 @@
-'use client';
-
-import { CardList, MyCardList } from '@/components/ui';
-
 export default function Home() {
     return (
         <div className="text-3xl font-bold h-full bg-black">
