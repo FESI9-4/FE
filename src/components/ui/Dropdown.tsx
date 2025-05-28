@@ -12,6 +12,7 @@ interface DropdownProps {
     placeholder?: string;
     iconType?: 'sort' | 'arrow';
     showPlaceholderInMenu?: boolean;
+    className?: string;
 }
 
 const dropdownVariants = {
@@ -171,6 +172,7 @@ export default function Dropdown({
     placeholder = '',
     iconType = 'arrow',
     showPlaceholderInMenu = true,
+    className,
 }: DropdownProps) {
     const {
         isOpen,
@@ -199,7 +201,10 @@ export default function Dropdown({
     const IconComponent = getIconComponent();
 
     return (
-        <div ref={dropdownRef} className={dropdownVariants.container()}>
+        <div
+            ref={dropdownRef}
+            className={cn(dropdownVariants.container(), className)}
+        >
             <button
                 className={cn(
                     dropdownVariants.buttonBase({ iconType }),
