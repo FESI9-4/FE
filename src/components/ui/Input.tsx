@@ -1,272 +1,201 @@
-'use client';
-import clsx from 'clsx';
-import { useEffect } from 'react';
-import useInputState from '@/hooks/useInputState';
-import Image from 'next/image';
-interface InputProps {
-    placeholder?: string; // 플레이스홀더 메시지
-    errorMessage?: string; // 유효성 검사 오류 메시지 -> isValid가 false일 때 표시됩니다!
-    isValid?: boolean; // 유효성 검사 결과
-    value?: string; // 입력 값
-    name?: string; // 인풋 name
-    id: string; // 인풋 id (인풋의 id 속성과 label의 htmlFor 값으로 들어감)
-    label?: string; // 라벨 메시지
-    type: 'text' | 'password' | 'email' | 'number' | 'file'; // type 타입
-    autoComplete?: 'off' | 'on' | 'new-password' | 'current-password'; //자동 완성 기능
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
-    onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
-    onMouseEnter?: (e: React.MouseEvent<Element>) => void;
-    onMouseLeave?: (e: React.MouseEvent<Element>) => void;
-    setCount?: (count: string) => void;
+import { cn } from '@/utils/cn';
+import { cva } from 'class-variance-authority';
+import React, {
+    FocusEvent,
+    InputHTMLAttributes,
+    useEffect,
+    useState,
+} from 'react';
+import {
+    FieldError,
+    FieldValues,
+    RegisterOptions,
+    UseFormRegister,
+} from 'react-hook-form';
+import PasswordButton from './TextField/PasswordButton';
+
+//인풋 사이즈
+export type InputSize = 'small' | 'large';
+//인풋 변경 상태
+export type InputVariant = 'default' | 'done' | 'typing' | 'error';
+
+interface InputProps
+    extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
+    name: string;
+    label?: string;
+    size?: InputSize;
+    register: UseFormRegister<FieldValues>;
+    rules?: RegisterOptions;
+    error?: FieldError;
+    dirtyFields?: FieldValues;
+    touchedFields?: FieldValues;
+    labelClassName?: string; //라벨 클래스
+    errorMessageClass?: string; //에러 메시지 클래스
 }
 
+//인풋 클래스
+const inputVariants = cva(
+    [
+        'rounded-xl font-medium w-full',
+        'hover:border-2 hover:border-green-900 hover:text-white',
+        'bg-gray-900 outline-none placeholder:text-gray-600',
+        'transition-border-color duration-300 font-Pretendard caret-white',
+        '[&:is(:-webkit-autofill,:autofill)]:!shadow-[0_0_0px_1000px_rgb(26,27,31)_inset]',
+        '[&:is(:-webkit-autofill,:autofill)]:![-webkit-text-fill-color:rgb(255,255,255)]',
+        '[&:is(:-webkit-autofill,:autofill)]:![transition:background-color_5000s_ease-in-out_0s]',
+        '[&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none',
+        '[&:is(:-webkit-autofill,:autofill)]:!rounded-xl',
+    ],
+    {
+        variants: {
+            variant: {
+                default: 'border-2 border-transparent text-white',
+                done: 'border-2 border-gray-900 text-white',
+                typing: 'border-2 border-green-400 text-white',
+                error: 'border-2 border-red-500 text-white',
+            },
+            password: {
+                true: 'pr-12',
+                false: '',
+            },
+            size: {
+                small: 'text-sm leading-5 px-4 py-2 leading-5',
+                large: 'text-base leading-6 px-3 py-[10px] leading-6',
+            },
+        },
+        defaultVariants: {
+            variant: 'default',
+            size: 'large',
+        },
+    }
+);
+//라벨 클래스
+const labelVariants = cva('whitespace-nowrap block', {
+    variants: {
+        labelSize: {
+            small: 'text-sm leading-5 text-white mb-2',
+            large: 'text-base leading-6 text-white mb-3',
+        },
+    },
+    defaultVariants: {
+        labelSize: 'large',
+    },
+});
+//에러 메시지 클래스
+const errorMessageVariants = cva(
+    [
+        'pl-1 text-red-500 font-medium text-sm leading-5',
+        'md:text-base md:leading-6 transition-all duration-300',
+        'ease-in-out overflow-hidden mt-2',
+    ],
+    {
+        variants: {
+            animation: {
+                start: 'opacity-100 max-h-[44px] translate-y-0 text-red-500',
+                end: 'opacity-0 max-h-0 translate-y-[-8px]',
+            },
+        },
+        defaultVariants: {
+            animation: 'end',
+        },
+    }
+);
 export default function Input({
-    placeholder,
-    value,
     type,
-    isValid = true,
-    errorMessage = '',
-    autoComplete = 'off',
-    name = '',
-    label = '',
-    id,
-    onChange,
-    onBlur,
+    label,
+    name,
+    register,
+    rules,
+    className,
+    autoComplete = 'off', //자동완성 옵션
+    size,
     onFocus,
-    setCount,
+    dirtyFields,
+    touchedFields,
+    error,
+    labelClassName, //라벨 클래스
+    errorMessageClass, //에러 메시지 클래스
 }: InputProps) {
-    const {
-        isVisible, // 패스워드 타입일 경우 눈모양 버튼 표시 여부 관리 상태
-        inputState, // 인풋 보더 스타일링 관리 상태
-        setInputState, // 인풋 보더 스타일링 상태 변경
-        handleVisibleClick, // 패스워드의 눈모양 버튼 클릭 이벤트
-        handleAddClick, // 넘버 타입일 경우 + 버튼 클릭 이벤트
-        handleSubClick, // 넘버 타입일 경우 - 버튼 클릭 이벤트
-        handleHover, // 마우스 오버 이벤트
-        handleLeave, // 마우스 떠날 때 이벤트
-        handleChange, // 인풋 값 변경 이벤트
-        handleBlur, // 인풋 블러 이벤트
-    } = useInputState();
-    // 인풋 스타일
-    const INPUT_STYLES = {
-        // 공통 스타일
-        baseStyle: `rounded-xl font-medium 
-        text-sm leading-5 md:text-base md:leading-6
-        bg-gray-900 outline-none px-3 py-2 sm:py-[10px] placeholder:text-gray-600`,
-        //넘버 타입일 경우 스핀버튼 제거
-        numberStyle:
-            type !== 'number'
-                ? `w-full`
-                : `text-center w-full
-                [&::-webkit-inner-spin-button]:appearance-none
-                [&::-webkit-outer-spin-button]:appearance-none`,
-        //패스워드 타입일 경우 오른쪽 패딩값 설정
-        passwordStyle: type === 'password' ? `pr-12` : `pr-4`,
-        // 상태 스타일
-        state: {
-            default: `border-2 border-transparent text-white`,
-            hover: `border-2 border-green-900 text-white`,
-            done: `border-2 border-gray-900 text-white`,
-            typing: `border-2 border-green-400 text-white`,
-            error: `border-2 border-red-500 text-white`,
-        },
-        // 트랜지션
-        transition: `transition-border-color duration-300`,
-        // autofill 스타일 -> INPUT 컴포넌트에서 기본으로 적용되는 디자인으로 적용시킴
-        autoFillStyle: `[&:is(:-webkit-autofill,:autofill)]:!bg-gray-800
-        [&:is(:-webkit-autofill,:autofill)]:!text-gray-400
-        [&:is(:-webkit-autofill,:autofill)]:!shadow-[0_0_0_1000px_rgb(43,44,48)_inset]
-        [&:is(:-webkit-autofill,:autofill)]:![-webkit-text-fill-color:rgb(107,114,128)]`,
-    };
-    // 유효성 검사 오류 메시지 스타일
-    const ERROR_MESSAGE_STYLES = {
-        baseStyle: `pl-1 text-red-500 font-medium text-sm leading-5 md:text-base md:leading-6`,
-        // 트랜지션 스타일
-        animation: `transition-all duration-300 ease-in-out overflow-hidden`,
-        // 상위 컴포넌트에서 받은 유효성 검증 값에 따라 다른 스타일 적용
-        visibility: !isValid
-            ? `opacity-100 max-h-[44px] translate-y-0`
-            : `opacity-0 max-h-0 translate-y-[-8px] pointer-events-none`,
-    };
-    // 파일 업로드 인풋 스타일 (화면에 보이는 요소는 div 태그로 구현)
-    const FILE_INPUT_STYLES = {
-        // 공통 스타일
-        baseStyle: `px-3 py-2 sm:py-[10px] w-full rounded-xl font-medium 
-        text-sm leading-5 md:text-base md:leading-6
-        bg-gray-900 flex items-center overflow-hidden
-        whitespace-nowrap text-ellipsis`,
-
-        // 상태 스타일
-        state: {
-            default: `border-2 border-transparent text-gray-600`,
-            hover: `border-2 border-green-900 ${!value ? 'text-gray-600' : 'text-white'}`,
-            done: `border-2 border-gray-900 ${!value ? 'text-gray-600' : 'text-white'}`,
-            typing: `border-2 border-green-400 text-white`,
-            error: `border-2 border-red-500 text-white`,
-        },
-        // 트랜지션
-        transition: `transition-border-color duration-300`,
-    };
-    // 인풋에 최종 적용되는 스타일
-    const inputClasses = clsx(
-        INPUT_STYLES.baseStyle,
-        INPUT_STYLES.state[inputState],
-        INPUT_STYLES.transition,
-        INPUT_STYLES.autoFillStyle,
-        INPUT_STYLES.numberStyle,
-        INPUT_STYLES.passwordStyle
-    );
-    // 파일 업로드 인풋(div)에 최종 적용되는 스타일
-    const fileInputClasses = clsx(
-        FILE_INPUT_STYLES.baseStyle,
-        FILE_INPUT_STYLES.state[inputState],
-        FILE_INPUT_STYLES.transition
-    );
-    // 파일 커스텀 업로드 버튼 스타일
-    const fileCustomButtonClasses = clsx(
-        `bg-white min-w-fit text-orange-600 
-        border border-orange-600 rounded-xl px-2 
-        flex items-center justify-center cursor-pointer
-        font-medium text-sm md:text-base`
-    );
-    // 넘버 타입일 경우 +,- 버튼 표시
-    const numberButtonClasses = clsx(
-        `h-10 md:h-11 bg-gray-900 rounded-lg text-gray-400 text-center font-pretendard font-bold 
-        font-size-3xl leading-5 md:leading-6 hover:bg-gray-700 hover:scale-110
-        transition-all duration-300 min-w-10 max-w-30`
-    );
+    //에러 미시지
+    const errorMessage = error?.message;
+    //필드를 수정했는지 mode와는 무관하게 DOM 값 기반으로 업데이트됨
+    const isDirty = dirtyFields?.[name];
+    //포커스를한적 있는지
+    const isTouched = touchedFields?.[name];
+    //인풋 상태 관련 variant
+    const [variant, setVariant] = useState<InputVariant>('default');
+    //비밀번호 숨기기 관련 상태
+    const [showPassword, setShowPassword] = useState(false);
+    //register
+    function handleFocus(e: FocusEvent<HTMLInputElement>) {
+        onFocus?.(e);
+        setVariant('typing');
+    }
+    /**
+     * @description 인풋 상태에 따라 variant 반환 함수
+     */
+    function getVariant(): InputVariant {
+        if (errorMessage) return 'error'; // 🔴 에러 최우선
+        if (variant === 'typing') return 'typing'; // 🟢 현재 포커스 중
+        if (isDirty && isTouched && !errorMessage) return 'done'; // ✅ 완료
+        return 'default'; // ⚪ 기본
+    }
+    // 인풋 타입 에러 체크
     useEffect(() => {
-        // 유효성 검사 결과 실패
-        if (!isValid) setInputState('error');
-        // 유효성 검사 결과 성공
-        if (isValid) setInputState('done');
-    }, [isValid, setInputState]);
+        if (type === 'number' && type === 'file') {
+            console.warn(
+                'number와 file 타입은 다른 인풋 컴포넌트를 사용해주세요'
+            );
+        }
+    }, []);
+
     return (
-        <div className="flex flex-col gap-2 w-full">
-            <div className="w-full">
-                {label && (
-                    <label
-                        htmlFor={id}
-                        className="font-semibold text-sm leading-5 text-gray-900"
-                    >
-                        {label}
-                    </label>
+        <div className={`w-full}`}>
+            <label
+                className={cn(
+                    labelVariants({ labelSize: size }),
+                    labelClassName
                 )}
-                <div className="relative w-full mt-4 flex items-center gap-10">
-                    {/* 넘버 타입일 경우 +,- 버튼 표시 */}
-                    {type === 'number' && (
-                        <button
-                            onClick={() =>
-                                handleSubClick(value || '0', setCount!)
-                            }
-                            className={numberButtonClasses}
-                        >
-                            -
-                        </button>
+                htmlFor={name}
+            >
+                {label}
+            </label>
+            <div className={`${type === 'password' ? 'relative' : ''}`}>
+                <input
+                    {...register(name, rules)}
+                    type={showPassword ? 'text' : type}
+                    autoComplete={autoComplete}
+                    className={cn(
+                        inputVariants({
+                            variant: getVariant(),
+                            size: size,
+                            password: type === 'password',
+                        }),
+                        className
                     )}
-                    {/* 파일 인풋 경우 */}
-                    {type === 'file' ? (
-                        <div className="gap-3 w-full flex">
-                            <input
-                                id={id}
-                                name={name}
-                                type="file"
-                                className="hidden"
-                                onChange={(e) =>
-                                    handleChange(e, type, setCount!, onChange!)
-                                }
-                                onBlur={(e) =>
-                                    handleBlur(e, isValid, value || '', onBlur!)
-                                }
-                            />
-                            <div
-                                className={fileInputClasses}
-                                onMouseEnter={handleHover}
-                                onMouseLeave={() =>
-                                    handleLeave(isValid, value || '')
-                                }
-                            >
-                                {value ||
-                                    placeholder ||
-                                    '이미지를 첨부해주세요'}
-                            </div>
-                            <label
-                                htmlFor={id}
-                                className={fileCustomButtonClasses}
-                            >
-                                파일 찾기
-                            </label>
-                        </div>
-                    ) : (
-                        <input
-                            id={id}
-                            name={name}
-                            autoComplete={autoComplete}
-                            className={inputClasses}
-                            placeholder={placeholder}
-                            value={value}
-                            type={
-                                isVisible && type === 'password' ? 'text' : type
-                            }
-                            onChange={(e) =>
-                                handleChange(e, type, setCount!, onChange!)
-                            }
-                            onMouseEnter={handleHover}
-                            onMouseLeave={() =>
-                                handleLeave(isValid, value || '')
-                            }
-                            onBlur={(e) =>
-                                handleBlur(e, isValid, value || '', onBlur!)
-                            }
-                            onFocus={onFocus}
-                        />
-                    )}
-                    {/* 넘버 타입일 경우 +,- 버튼 표시 */}
-                    {type === 'number' && (
-                        <button
-                            onClick={() =>
-                                handleAddClick(value || '0', setCount!)
-                            }
-                            className={numberButtonClasses}
-                        >
-                            +
-                        </button>
-                    )}
-                    {/* 패스워드 타입일 경우 눈모양 버튼 표시 */}
-                    {type === 'password' && (
-                        <button
-                            type="button"
-                            className="absolute right-2 top-0 w-6 h-[40px] cursor-pointer sm:h-[44px]"
-                            onClick={handleVisibleClick}
-                        >
-                            {
-                                <Image
-                                    priority
-                                    src={
-                                        isVisible
-                                            ? '/icons/visibility_on.svg'
-                                            : '/icons/visibility_off.svg'
-                                    }
-                                    alt="visibility"
-                                    width={24}
-                                    height={24}
-                                />
-                            }
-                        </button>
-                    )}
-                </div>
+                    name={name}
+                    id={name}
+                    onFocus={handleFocus}
+                />
+                {/** @description password 타입일 경우 보이는 비밀번호 숨기기 버튼*/}
+                {type === 'password' && (
+                    <PasswordButton
+                        showPassword={showPassword}
+                        onClick={() => setShowPassword(!showPassword)}
+                    />
+                )}
             </div>
-            {/* 유효성 검사 오류 메시지 클래스명에 의해 보이고 안보이고 결정*/}
-            <span
-                className={clsx(
-                    ERROR_MESSAGE_STYLES.baseStyle,
-                    ERROR_MESSAGE_STYLES.animation,
-                    ERROR_MESSAGE_STYLES.visibility
+            {/** @description 에러 메시지 애니메이션 효과가 필요없다면 errorMessage로 부분 렌더링 해주면 됩니다. */}
+            <p
+                className={cn(
+                    errorMessageVariants({
+                        animation: errorMessage ? 'start' : 'end',
+                    }),
+                    errorMessageClass
                 )}
             >
                 {errorMessage}
-            </span>
+            </p>
         </div>
     );
 }

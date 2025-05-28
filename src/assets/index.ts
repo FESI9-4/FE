@@ -18,6 +18,9 @@ import UserIcon from '@public/icons/user.svg';
 import EditIcon from '@public/icons/edit.svg';
 import EditNoBgIcon from '@public/icons/editNoBg.svg';
 import LikeIcon from '@public/icons/like.svg';
+import DecrementIcon from '@public/icons/decrement.svg';
+import IncrementIcon from '@public/icons/increment.svg';
+import CalendarIcon from '@public/icons/calendar.svg';
 
 export {
     CheckIcon,
@@ -31,13 +34,16 @@ export {
     ProfileIcon,
     SortUpIcon,
     SortDownIcon,
+    UserIcon,
     VisibilityOffIcon,
     VisibilityOnIcon,
     WhiteDownIcon,
     DoTogetherIcon,
     GoTogetherIcon,
-    UserIcon,
     EditIcon,
     EditNoBgIcon,
     LikeIcon,
+    DecrementIcon,
+    IncrementIcon,
+    CalendarIcon,
 };
