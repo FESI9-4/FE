@@ -1,6 +1,7 @@
 'use client';
 
 import { ReactNode, useRef } from 'react';
+import { createPortal } from 'react-dom';
 
 interface BaseModalProps {
     onClose: () => void;
@@ -19,8 +20,14 @@ export default function BaseModal({
     const modalClass = fullScreenOnMobile
         ? 'w-full h-full sm:w-130 sm:h-[90vh]'
         : '';
+    const modalRoot =
+        typeof window !== 'undefined'
+            ? document.getElementById('modal-root')
+            : null;
 
-    return (
+    if (!modalRoot) return null;
+
+    return createPortal(
         <div
             className="fixed inset-0 bg-[#00000099] backdrop-blur-sm flex items-center justify-center z-50"
             onClick={onClose}
@@ -32,6 +39,7 @@ export default function BaseModal({
             >
                 {children}
             </div>
-        </div>
+        </div>,
+        modalRoot
     );
 }
