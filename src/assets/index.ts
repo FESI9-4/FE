@@ -19,6 +19,7 @@ import EditIcon from '@public/icons/edit.svg';
 import EditNoBgIcon from '@public/icons/editNoBg.svg';
 import LikeIcon from '@public/icons/like.svg';
 import HandIcon from '@public/icons/hand.svg';
+import AnswerArrowIcon from '@public/icons/answerArrow.svg';
 
 export {
     CheckIcon,
@@ -42,4 +43,5 @@ export {
     EditNoBgIcon,
     LikeIcon,
     HandIcon,
+    AnswerArrowIcon,
 };

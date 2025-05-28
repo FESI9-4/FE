@@ -4,7 +4,7 @@ import Profile from './Profile';
 import Tag from './Tag';
 import { HandIcon, UserIcon } from '@/assets';
 import ChipState from './ChipState';
-import ProgressChip from './progressChip';
+import ProgressChip from './ProgressChip';
 import { cva } from 'class-variance-authority';
 import Button from './Button';
 
@@ -33,7 +33,7 @@ export default function CardList({
     createdUserProfileImg,
     useStatus,
 }: CardListProps) {
-    const convertedDate = dateConverter(Number(date));
+    const convertedDate = dateConverter(Number(date), 'korea');
     const userCountClassName = cva(
         'flex py-3 gap-0.5 text-sm items-center font-medium',
         {

@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 import { motion } from 'framer-motion';
 import { UserIcon } from '@/assets';
-import ProgressChip from './progressChip';
+import ProgressChip from './ProgressChip';
 
 interface ContainerProgressProps {
     max: number;
