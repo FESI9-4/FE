@@ -3,6 +3,8 @@
 import { ReactNode, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
+//TODO 해쉬라우터 적용
+
 interface BaseModalProps {
     onClose: () => void;
     children: ReactNode;
