@@ -24,13 +24,13 @@ export default function Profile({ size, image, edit, children }: ProfileProps) {
             },
         }
     );
-    const containerClass = cva('flex items-center gap-1 text-gray-300', {
+    const containerClass = cva('flex items-center text-gray-300', {
         variants: {
             size: {
-                xsmall: 'text-xs',
-                small: 'text-sm',
-                medium: 'text-base',
-                large: 'text-lg',
+                xsmall: 'text-xs gap-1',
+                small: 'text-sm gap-2',
+                medium: 'text-base gap-2',
+                large: 'text-lg gap-3 ',
             },
         },
     });
@@ -59,7 +59,6 @@ export default function Profile({ size, image, edit, children }: ProfileProps) {
                     </div>
                 )}
             </div>
-
             {children}
         </div>
     );
