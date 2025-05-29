@@ -1,12 +1,29 @@
-'use client';
 import { cn } from '@/utils/cn';
 import { cva } from 'class-variance-authority';
-import { TextareaHTMLAttributes } from 'react';
+import { InputSize } from './Input';
+import React, { TextareaHTMLAttributes } from 'react';
+import {
+    FieldError,
+    FieldValues,
+    RegisterOptions,
+    UseFormRegister,
+} from 'react-hook-form';
 
-interface InputTextProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-    label?: string; // 라벨 메시지
-    name?: string; // 라벨 htmlFor 속성 과 textarea id 속성 값
+interface InputTextProps
+    extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'size'> {
+    name: string;
+    label?: string;
+    register: UseFormRegister<FieldValues>;
+    rules?: RegisterOptions;
+    error?: FieldError;
+    dirtyFields?: FieldValues;
+    touchedFields?: FieldValues;
+    labelClassName?: string; //라벨 클래스
+    errorMessageClass?: string; //에러 메시지 클래스
+    size?: InputSize;
 }
+
+//Textarea 클래스
 const inputTextVariants = cva([
     'w-full h-[86px] tracking-normal',
     'outline-none',
@@ -19,21 +36,49 @@ const inputTextVariants = cva([
     'resize-none break-words',
     'custom-textarea-scrollbar',
 ]);
+//라벨 클래스
+const labelVariants = cva('whitespace-nowrap block', {
+    variants: {
+        labelSize: {
+            small: 'text-sm leading-5 text-white mb-2',
+            large: 'text-base leading-6 text-white mb-3',
+        },
+    },
+    defaultVariants: {
+        labelSize: 'large',
+    },
+});
 export default function InputText({
-    placeholder = '게시글을 작성해주세요.',
     name,
-    onChange,
+    register,
+    rules,
     className,
-    ...props
+    autoComplete = 'off', //자동완성 옵션
+    labelClassName,
+    size,
+    label,
 }: InputTextProps) {
+    /**
+     * @description 댓글 작성시 헬퍼텍스트는 필요하지 않을것 같아서 추가하지 않았습니다.
+     * 만약 댓글 작성시 글자수 제한이 필요한 경우에 상위에서 error를 받아 처리해주세요. (Input컴포넌트 참고)
+     */
     return (
-        <div className="flex flex-col w-full h-[86px]">
+        <div className="w-full">
+            <label
+                className={cn(
+                    labelVariants({ labelSize: size }),
+                    labelClassName
+                )}
+                htmlFor={name}
+            >
+                {label}
+            </label>
             <textarea
-                placeholder={placeholder}
-                id={name}
-                onChange={onChange}
+                {...register(name, rules)}
+                autoComplete={autoComplete}
                 className={cn(inputTextVariants(), className)}
-                {...props}
+                name={name}
+                id={name}
             />
         </div>
     );
