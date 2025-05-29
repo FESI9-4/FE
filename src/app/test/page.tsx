@@ -1,36 +1,46 @@
 'use client';
 
-import React, { useState } from 'react';
-import Dropdown from '@/components/ui/Dropdown';
-import ContainerInformaiton from '@/components/ui/ContainerInformation';
+import React from 'react';
+
+import ContainerInformation from '@/components/ui/ContainerInformation';
 
 export default function DropdownTestPage() {
-    const [selectedOption, setSelectedOption] = useState<string | undefined>(
-        undefined
-    );
-
-    const handleSelect = (value: string, order?: 'asc' | 'desc') => {
-        console.log('선택된 값:', value, '정렬 순서:', order);
-        setSelectedOption(value);
-    };
-
-    const options = ['최신순', '조회수', '댓글순'];
-
     return (
-        <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center gap-6 p-4">
-            <h1 className="text-2xl font-bold"> Dropdown 테스트 페이지</h1>
-
-            <div className="w-72 bg-gray-700">
-                <Dropdown
-                    options={options}
-                    selected={selectedOption}
-                    onSelect={handleSelect}
-                    placeholder="정렬 기준 선택"
-                    iconType="sort"
-                    showPlaceholderInMenu
+        <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center gap-6 p-4 min-w-86" >
+            <>
+                <ContainerInformation
+                    owner="정재형"
+                    title="마감된 버스"
+                    location="양평에서"
+                    actionDate="1747698000"
+                    limitedDate="1748140799"
+                    minPeople={10}
+                    maxPeople={20}
+                    currentPeople={15}
                 />
-            </div>
-            <ContainerInformaiton></ContainerInformaiton>
+
+                <ContainerInformation
+                    owner="정재형"
+                    title="모집 중인 버스"
+                    location="양평에서"
+                    actionDate="1748385600"
+                    limitedDate="1748639999"
+                    minPeople={10}
+                    maxPeople={20}
+                    currentPeople={15}
+                />
+
+                <ContainerInformation
+                    owner="정재형"
+                    title="모집 대기 중인 버스"
+                    location="양평에서"
+                    actionDate="1748385600"
+                    limitedDate="1748639999"
+                    minPeople={10}
+                    maxPeople={20}
+                    currentPeople={5}
+                />
+            </>
         </div>
     );
 }
