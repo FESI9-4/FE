@@ -12,7 +12,7 @@ import {
     RegisterOptions,
     UseFormRegister,
 } from 'react-hook-form';
-import PasswordButton from './TextField/PasswordButton';
+import PasswordButton from './PasswordButton';
 
 //인풋 사이즈
 export type InputSize = 'small' | 'large';
@@ -126,7 +126,7 @@ export default function Input({
     const [variant, setVariant] = useState<InputVariant>('default');
     //비밀번호 숨기기 관련 상태
     const [showPassword, setShowPassword] = useState(false);
-    //register
+
     function handleFocus(e: FocusEvent<HTMLInputElement>) {
         onFocus?.(e);
         setVariant('typing');
