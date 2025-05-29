@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Dropdown from '@/components/ui/Dropdown';
+import ContainerInformaiton from '@/components/ui/ContainerInformation';
 
 export default function DropdownTestPage() {
     const [selectedOption, setSelectedOption] = useState<string | undefined>(
@@ -29,6 +30,7 @@ export default function DropdownTestPage() {
                     showPlaceholderInMenu
                 />
             </div>
+            <ContainerInformaiton></ContainerInformaiton>
         </div>
     );
 }
