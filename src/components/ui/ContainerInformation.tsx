@@ -122,6 +122,7 @@ export default function ContainerInformaiton({
                         max={maxPerson}
                         current={currentPerson}
                         openStatus={openStatus}
+            
                     ></ContainerProgress>
                 </div>
                 <div className="h-4 flex items-center justify-between text-sm font-medium text-gray-500">
