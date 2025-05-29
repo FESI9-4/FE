@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Like from './Like';
 
 interface ContainerInformationProps {
-    owner: string;
+    create_user: string;
     title: string;
     location: string;
     date: string;
@@ -16,7 +16,7 @@ interface ContainerInformationProps {
     articleId: number;
 }
 export default function ContainerInformaiton({
-    owner,
+    create_user,
     title,
     location,
     date,
@@ -88,7 +88,7 @@ export default function ContainerInformaiton({
                     </div>
                     <div className="h-6 flex gap-2 items-center ">
                         <ProfileIcon width={32} height={32} />
-                        <span className="h-5">{owner}</span>
+                        <span className="h-5">{create_user}</span>
                     </div>
                 </div>
                 <div className="h-13 md:h-14  flex flex-col gap-1 md:gap-2">
