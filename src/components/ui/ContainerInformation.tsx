@@ -1,6 +1,7 @@
-import { ProfileIcon, LikeIcon } from '@/assets/index';
+import { ProfileIcon } from '@/assets/index';
 import ContainerProgress from './ContainerProgress';
 import { useState } from 'react';
+import Like from './Like';
 
 interface ContainerInformationProps {
     owner: string;
@@ -75,14 +76,8 @@ export default function ContainerInformaiton({
                             <span className="text-2xl font-semibold h-8">
                                 {title}
                             </span>
-                            <LikeIcon
-                                width={24}
-                                height={24}
-                                onClick={toggleLike}
-                                className={`hidden md:inline-block m-2 hover:scale-105 cursor-pointer transition-colors duration-100 ${
-                                    liked ? 'fill-white' : 'fill-transparent'
-                                }`}
-                            />
+
+                            <Like like={liked} onClick={toggleLike} className='hidden md:inline-block'/>
                         </div>
                         <span className="text-base font-normal text-gray-300 h-6 ">
                             {location}
@@ -122,7 +117,6 @@ export default function ContainerInformaiton({
                         max={maxPerson}
                         current={currentPerson}
                         openStatus={openStatus}
-            
                     ></ContainerProgress>
                 </div>
                 <div className="h-4 flex items-center justify-between text-sm font-medium text-gray-500">
