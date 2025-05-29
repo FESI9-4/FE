@@ -29,8 +29,9 @@ export default function ContainerInformaiton({
 }: ContainerInformationProps) {
     const now = new Date();
     const deadlineDate = new Date(Number(limitedDate) * 1000);
+
     const dateObj = new Date(Number(date) * 1000);
-    const limitedDateObj = new Date(Number(limitedDate) * 1000);
+
     const [liked, setLiked] = useState(wishList);
 
     const toggleLike = async () => {
@@ -109,7 +110,7 @@ export default function ContainerInformaiton({
                         <div className="w-0.5 h-3.5 ml-2.5 mr-2 bg-gray-800" />
 
                         <span className="text-base font-normal">
-                            {formatKoreanDate(limitedDateObj)}
+                            {formatKoreanDate(deadlineDate)}
                         </span>
                     </div>
                 </div>
