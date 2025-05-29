@@ -1,7 +1,7 @@
 import { LikeIcon } from '@/assets';
 import { ButtonHTMLAttributes } from 'react';
 import { cva } from 'class-variance-authority';
-import { cn } from '@/utils/cn'; 
+import { cn } from '@/utils/cn';
 
 interface LikeProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     like?: boolean;
@@ -14,16 +14,23 @@ export default function Like({ like, onClick, className }: LikeProps) {
             like: {
                 true: 'text-green-400',
                 false: 'text-gray-400',
-                
+            },
+            hoverScale: {
+                true: 'hover:scale-105',
+                false: '',
             },
         },
         defaultVariants: {
             like: false,
+            hoverScale: true,
         },
     });
 
     return (
-        <button onClick={onClick}   className={cn(baseClass({ like }), className)}>
+        <button
+            onClick={onClick}
+            className={cn(baseClass({ like }), className)}
+        >
             <LikeIcon
                 width={24}
                 height={24}
