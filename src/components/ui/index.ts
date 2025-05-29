@@ -35,6 +35,4 @@ export {
     Input,
     MyCardList,
     ProgressChip,
-    QuestionCard,
-    AnswerCard,
 };
