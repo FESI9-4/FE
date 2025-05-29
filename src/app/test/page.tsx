@@ -12,33 +12,39 @@ export default function DropdownTestPage() {
                     owner="정재형"
                     title="마감된 버스"
                     location="양평에서"
-                    actionDate="1747698000"
+                    date="1747698000"
                     limitedDate="1748140799"
-                    minPeople={10}
-                    maxPeople={20}
-                    currentPeople={15}
+                    minPerson={10}
+                    maxPerson={20}
+                    currentPerson={15}
+                    wishList={true}
+                    articleId={1}
                 />
 
                 <ContainerInformation
                     owner="정재형"
                     title="모집 중인 버스"
                     location="양평에서"
-                    actionDate="1748385600"
+                    date="1748385600"
                     limitedDate="1748639999"
-                    minPeople={10}
-                    maxPeople={20}
-                    currentPeople={15}
+                    minPerson={10}
+                    maxPerson={20}
+                    currentPerson={15}
+                    wishList={false}
+                    articleId={2}
                 />
 
                 <ContainerInformation
                     owner="정재형"
                     title="모집 대기 중인 버스"
                     location="양평에서"
-                    actionDate="1748385600"
+                    date="1748385600"
                     limitedDate="1748639999"
-                    minPeople={10}
-                    maxPeople={20}
-                    currentPeople={5}
+                    minPerson={10}
+                    maxPerson={20}
+                    currentPerson={5}
+                    wishList={true}
+                    articleId={3}
                 />
             </>
         </div>
