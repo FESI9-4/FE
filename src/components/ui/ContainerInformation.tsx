@@ -6,36 +6,54 @@ interface ContainerInformationProps {
     owner: string;
     title: string;
     location: string;
-    actionDate: string;
+    date: string;
     limitedDate: string | number;
-    minPeople: number;
-    maxPeople: number;
-    currentPeople: number;
+    minPerson: number;
+    maxPerson: number;
+    currentPerson: number;
+    wishList: boolean;
+    articleId: number;
 }
 export default function ContainerInformaiton({
     owner,
     title,
     location,
-    actionDate,
+    date,
     limitedDate,
-    minPeople,
-    maxPeople,
-    currentPeople,
+    minPerson,
+    maxPerson,
+    currentPerson,
+    wishList,
+    articleId,
 }: ContainerInformationProps) {
     const now = new Date();
     const deadlineDate = new Date(Number(limitedDate) * 1000);
-    const actionDateObj = new Date(Number(actionDate) * 1000);
+    const dateObj = new Date(Number(date) * 1000);
     const limitedDateObj = new Date(Number(limitedDate) * 1000);
-    const [liked, setLiked] = useState(false);
+    const [liked, setLiked] = useState(wishList);
 
-    const toggleLike = () => {
-        setLiked((prev) => !prev);
+    const toggleLike = async () => {
+        const newLiked = !liked;
+        setLiked(newLiked);
+
+        try {
+            if (newLiked) {
+                // TODO: 좋아요 추가 API
+                console.log(`POST /api/wishlist/${articleId}`);
+            } else {
+                // TODO: 좋아요 제거 API
+                console.log(`DELETE /api/wishlist/${articleId}`);
+            }
+        } catch (err) {
+            console.error('좋아요 토글 실패:', err);
+            setLiked(!newLiked);
+        }
     };
 
     const openStatus =
         now > deadlineDate
             ? 'finished'
-            : currentPeople >= minPeople
+            : currentPerson >= minPerson
               ? 'progressing'
               : 'waiting';
 
@@ -83,7 +101,7 @@ export default function ContainerInformaiton({
                         <div className="w-0.5 h-3.5 ml-2.5 mr-2 bg-gray-800" />
 
                         <span className="text-base font-normal">
-                            {formatKoreanDate(actionDateObj)}
+                            {formatKoreanDate(dateObj)}
                         </span>
                     </div>
                     <div className="h-6 flex items-center">
@@ -101,14 +119,14 @@ export default function ContainerInformaiton({
             <div className="h-21 md:h-20 flex flex-col gap-3">
                 <div className="h-10 ">
                     <ContainerProgress
-                        max={maxPeople}
-                        current={currentPeople}
+                        max={maxPerson}
+                        current={currentPerson}
                         openStatus={openStatus}
                     ></ContainerProgress>
                 </div>
                 <div className="h-4 flex items-center justify-between text-sm font-medium text-gray-500">
-                    <span>최소인원 {minPeople}명</span>
-                    <span>최대인원 {maxPeople}명</span>
+                    <span>최소인원 {minPerson}명</span>
+                    <span>최대인원 {maxPerson}명</span>
                 </div>
             </div>
         </div>
