@@ -110,36 +110,40 @@ export default function Input({
     autoComplete = 'off', //자동완성 옵션
     size,
     onFocus,
-    dirtyFields,
-    touchedFields,
+    //dirtyFields,
+    //touchedFields,
     error,
     labelClassName, //라벨 클래스
     errorMessageClass, //에러 메시지 클래스
 }: InputProps) {
+    //register
+    const { onBlur, ...registerProps } = register(name, rules);
     //에러 미시지
     const errorMessage = error?.message;
     //필드를 수정했는지 mode와는 무관하게 DOM 값 기반으로 업데이트됨
-    const isDirty = dirtyFields?.[name];
+    //const isDirty = dirtyFields?.[name];
     //포커스를한적 있는지
-    const isTouched = touchedFields?.[name];
-    //인풋 상태 관련 variant
-    const [variant, setVariant] = useState<InputVariant>('default');
+    //const isTouched = touchedFields?.[name];
+    const [isFocused, setIsFocused] = useState(false);
     //비밀번호 숨기기 관련 상태
     const [showPassword, setShowPassword] = useState(false);
-
+    // 🎯 variant 결정 로직
+    function getVariant(): InputVariant {
+        if (isFocused) return 'typing'; // 포커스 중이면 무조건 typing
+        if (errorMessage) return 'error'; // 에러 있으면 error
+        return 'done'; // 그 외는 done (블러 후 상태)
+    }
     function handleFocus(e: FocusEvent<HTMLInputElement>) {
         onFocus?.(e);
-        setVariant('typing');
+        setIsFocused(true); // 🟢 포커스 상태로 변경
+    }
+    function handleBlur(e: FocusEvent<HTMLInputElement>) {
+        onBlur?.(e);
+        setIsFocused(false); // 🔴 포커스 해제
     }
     /**
      * @description 인풋 상태에 따라 variant 반환 함수
      */
-    function getVariant(): InputVariant {
-        if (errorMessage) return 'error'; // 🔴 에러 최우선
-        if (variant === 'typing') return 'typing'; // 🟢 현재 포커스 중
-        if (isDirty && isTouched && !errorMessage) return 'done'; // ✅ 완료
-        return 'default'; // ⚪ 기본
-    }
     // 인풋 타입 에러 체크
     useEffect(() => {
         if (type === 'number' && type === 'file') {
@@ -162,7 +166,7 @@ export default function Input({
             </label>
             <div className={`${type === 'password' ? 'relative' : ''}`}>
                 <input
-                    {...register(name, rules)}
+                    {...registerProps}
                     type={showPassword ? 'text' : type}
                     autoComplete={autoComplete}
                     className={cn(
@@ -176,6 +180,7 @@ export default function Input({
                     name={name}
                     id={name}
                     onFocus={handleFocus}
+                    onBlur={handleBlur}
                 />
                 {/** @description password 타입일 경우 보이는 비밀번호 숨기기 버튼*/}
                 {type === 'password' && (
