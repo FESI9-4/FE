@@ -1,3 +1,5 @@
+'use client';
+
 import { cva } from 'class-variance-authority';
 import { motion } from 'framer-motion';
 import { UserIcon } from '@/assets';
