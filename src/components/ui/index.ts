@@ -15,6 +15,7 @@ import MyCardList from './MyCardList';
 import ProgressChip from './ProgressChip';
 import QuestionCard from './QuestionCard';
 import AnswerCard from './AnswerCard';
+import PaginationButton from './PaginationButton';
 export {
     BoxSelectGroup,
     BoxSelect,
@@ -33,4 +34,5 @@ export {
     ProgressChip,
     QuestionCard,
     AnswerCard,
+    PaginationButton,
 };
