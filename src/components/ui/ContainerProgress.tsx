@@ -9,7 +9,7 @@ interface ContainerProgressProps {
     max: number;
     current: number;
     openStatus: 'waiting' | 'finished' | 'progressing';
-    deadline: string;
+    deadline?: string;
 }
 
 export default function ContainerProgress({
@@ -48,16 +48,17 @@ export default function ContainerProgress({
                         </ProgressChip>
                     )}
                 </div>
-                {openStatus === 'finished' ? (
+
+                {openStatus === 'finished' && deadline ? (
                     <ProgressChip openStatus={openStatus}>
                         모집마감
                     </ProgressChip>
-                ) : (
+                ) : deadline ? (
                     <div className="flex gap-2 items-center justify-center">
                         <div className="text-green-400">마감</div>
                         <div>{deadline}</div>
                     </div>
-                )}
+                ) : null}
             </div>
             <div className="w-full h-2 bg-gray-800 rounded-md overflow-hidden">
                 <motion.hr
