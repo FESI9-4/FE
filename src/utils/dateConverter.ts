@@ -1,6 +1,6 @@
 export default function dateConverter(
     timestamp: number,
-    type: 'korea' | 'utc'
+    type: 'korea' | 'utc' | 'korea-short'
 ) {
     const date = new Date(timestamp * 1000);
     const year = date.getFullYear();
@@ -10,7 +10,11 @@ export default function dateConverter(
     const minute = date.getMinutes();
     if (type === 'korea') {
         return `${year}년 ${month}월 ${day}일 ${hour}:${minute}`;
-    } else {
-        return `${year}.${month}.${day}`;
+    }
+    if (type === 'utc') {
+        return `${year}.${month}.${day}. `;
+    }
+    if (type === 'korea-short') {
+        return `${month}월 ${day}일 ${hour}:${minute}`;
     }
 }
