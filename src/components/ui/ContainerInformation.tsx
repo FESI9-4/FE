@@ -76,8 +76,11 @@ export default function ContainerInformaiton({
                             <span className="text-2xl font-semibold h-8">
                                 {title}
                             </span>
-
-                            <Like like={liked} onClick={toggleLike} className='hidden md:inline-block'/>
+                            <Like
+                                like={liked}
+                                onClick={toggleLike}
+                                className="hidden md:inline-block"
+                            />
                         </div>
                         <span className="text-base font-normal text-gray-300 h-6 ">
                             {location}
