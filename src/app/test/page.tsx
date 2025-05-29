@@ -6,7 +6,7 @@ import ContainerInformation from '@/components/ui/ContainerInformation';
 
 export default function DropdownTestPage() {
     return (
-        <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center gap-6 p-4 min-w-86" >
+        <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center gap-6 p-4 min-w-86">
             <>
                 <ContainerInformation
                     owner="정재형"

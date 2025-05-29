@@ -104,13 +104,6 @@ export default function ContainerInformaiton({
                         max={maxPeople}
                         current={currentPeople}
                         openStatus={openStatus}
-                        deadline={deadlineDate.toLocaleString('ko-KR', {
-                            month: 'long',
-                            day: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            hour12: false,
-                        })}
                     ></ContainerProgress>
                 </div>
                 <div className="h-4 flex items-center justify-between text-sm font-medium text-gray-500">
