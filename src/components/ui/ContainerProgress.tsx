@@ -49,7 +49,7 @@ export default function ContainerProgress({
                     )}
                 </div>
 
-                {openStatus === 'finished' && deadline ? (
+                {openStatus === 'finished' ? (
                     <ProgressChip openStatus={openStatus}>
                         모집마감
                     </ProgressChip>
