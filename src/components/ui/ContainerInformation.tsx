@@ -27,9 +27,10 @@ export default function ContainerInformaiton({
     wishList,
     articleId,
 }: ContainerInformationProps) {
-    const now = new Date();
-    const deadlineDate = new Date(Number(limitedDate) * 1000);
-
+    const now = Date.now();
+    const deadlineTimestamp = Number(limitedDate) * 1000;
+    
+    const deadlineDate = new Date(deadlineTimestamp);
     const dateObj = new Date(Number(date) * 1000);
 
     const [liked, setLiked] = useState(wishList);
@@ -53,7 +54,7 @@ export default function ContainerInformaiton({
     };
 
     const openStatus =
-        now > deadlineDate
+        now > deadlineTimestamp
             ? 'finished'
             : currentPerson >= minPerson
               ? 'progressing'
