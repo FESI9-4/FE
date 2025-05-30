@@ -21,10 +21,6 @@ export default function ModalTestPage() {
 
     const handleOpen1 = () => setIsOpen1(true);
     const handleClose1 = () => setIsOpen1(false);
-    const handleSubmit1 = () => {
-        console.log('수정 완료!');
-        setIsOpen(false);
-    };
 
     const handleOpen2 = () => setIsOpen2(true);
     const handleClose2 = () => setIsOpen2(false);
@@ -48,9 +44,7 @@ export default function ModalTestPage() {
             )}
 
             <button onClick={handleOpen1}>모달 열기2</button>
-            {isOpen1 && (
-                <ModalPopup onClose={handleClose1} onSubmit={handleSubmit1} />
-            )}
+            {isOpen1 && <ModalPopup onClose={handleClose1} />}
 
             <button onClick={handleOpen2}>모달 열기3</button>
             {isOpen2 && (
