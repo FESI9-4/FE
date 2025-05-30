@@ -5,26 +5,30 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { CalendarIcon, LeftArrowIcon } from '@/assets';
 import { ko } from 'date-fns/locale/ko';
 import CustomTimeInput from './CustomTimePicker';
-import {
-    InputVariant,
-    InputSize,
-    InputValue,
-    useTextFieldStore,
-} from '@/store/textfieldStore';
 import { cva } from 'class-variance-authority';
 import { cn } from '@/utils/cn';
+import { InputSize, InputVariant } from '../InputNumber';
+import {
+    FieldValues,
+    FieldError,
+    RegisterOptions,
+    Control,
+    Controller,
+} from 'react-hook-form';
+import { FocusEvent } from 'react';
 
 interface DateInputProps
     extends Omit<
         InputHTMLAttributes<HTMLInputElement>,
-        'value' | 'onChange' | 'type' | 'min' | 'max' | 'defaultValue'
+        'type' | 'min' | 'max' | 'defaultValue' | 'size'
     > {
+    name: string;
+    label?: string;
+    size?: InputSize;
     type?: 'date' | 'datetime-local';
-    value: InputValue;
-    onChange: (value: InputValue) => void;
-    variant?: InputVariant;
-    name?: string;
-    inputSize?: InputSize;
+    control: Control<FieldValues>;
+    rules?: RegisterOptions;
+    error?: FieldError;
 
     showTimeSelect?: boolean;
     minDate?: Date;
@@ -34,8 +38,9 @@ interface DateInputProps
     dateFormat?: string;
     timeFormat?: string;
     isStartDate?: boolean;
+    labelClassName?: string;
 }
-// cva 스타일 variants
+// 데이트피커 클래스
 const datePickerVariants = cva(
     [
         'rounded-xl font-normal w-full font-Pretendard text-sm leading-5',
@@ -68,61 +73,48 @@ const datePickerVariants = cva(
         },
     }
 );
-
-export default function DateInput(props: DateInputProps) {
-    const {
-        value,
-        type = 'date',
-        onChange,
-        name,
-        inputSize,
-        minDate,
-        maxDate,
-        placeholder = '날짜를 선택해주세요',
-        disabled,
-        dateFormat,
-        timeFormat,
-        isStartDate,
-    } = props;
-
-    // 스토어 연결
-    const fieldState = useTextFieldStore((state) =>
-        name ? state.fields[name] : null
-    );
-    const { setVariant } = useTextFieldStore();
+//라벨 클래스
+const labelVariants = cva('whitespace-nowrap block', {
+    variants: {
+        labelSize: {
+            small: 'text-sm leading-5 text-white mb-2',
+            large: 'text-base leading-6 text-white mb-3',
+        },
+    },
+    defaultVariants: {
+        labelSize: 'large',
+    },
+});
+export default function DateInput({
+    type = 'date',
+    name,
+    size,
+    minDate,
+    maxDate,
+    placeholder = '날짜를 선택해주세요',
+    disabled,
+    dateFormat,
+    timeFormat,
+    isStartDate,
+    control,
+    onFocus,
+    error,
+    labelClassName,
+    label,
+    autoComplete = 'off',
+    rules,
+}: DateInputProps) {
+    const [isFocused, setIsFocused] = useState(false);
     const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
-    // InputValue를 Date로 변환
-    const inputValueToDate = (inputValue: InputValue): Date | null => {
-        if (!inputValue) return null;
-        if (inputValue instanceof Date) return inputValue;
-        if (typeof inputValue === 'string') {
-            const date = new Date(inputValue);
-            return isNaN(date.getTime()) ? null : date;
-        }
-        return null;
-    };
-    // 내려받는 value 없으면 오늘 날짜로 사용
-    const selectedValue = inputValueToDate(value); //사용자가 날짜를 선택했는지 여부
-    const [selected, setSelected] = useState(false);
-
-    // 날짜 변경 핸들러
-    const handleDateChange = (date: Date | null) => {
-        // 날짜 선택 시 인풋창 색상 변경
-        setSelected(true);
-        // 부모에게 전달
-        onChange?.(date as InputValue);
-        if (name) {
-            setVariant(name, 'done');
-            //날짜 선택 같은 경우에는 헬퍼텍스트나 유혀성 검증 메시지가 필요없을거 같아요
-        }
-    };
-    const handleFocus = () => {
-        if (name) {
-            setVariant(name, 'typing');
-        }
-    };
-
+    /**
+     * @description 인풋 상태에 따라 variant 반환 함수
+     */
+    function getVariant(): InputVariant {
+        if (isFocused) return 'typing';
+        if (error) return 'error';
+        return 'done';
+    }
     // 커스텀 로케일 만들기
     const customKorean = {
         ...ko,
@@ -158,101 +150,137 @@ export default function DateInput(props: DateInputProps) {
 
     return (
         <div className="relative w-full">
-            <DatePicker
-                open={isDatePickerOpen} // 🎯 상태로 제어
-                onInputClick={() => setIsDatePickerOpen(true)} // 🎯 열기
-                onClickOutside={() => setIsDatePickerOpen(false)} // 🎯 닫기
-                name={name}
-                selected={selectedValue}
-                onChange={handleDateChange}
-                onFocus={handleFocus}
-                showTimeSelect={type === 'datetime-local' ? true : false}
-                showTimeInput={type === 'datetime-local' ? true : false}
-                timeIntervals={15}
-                dateFormat={
-                    dateFormat ||
-                    (type === 'datetime-local'
-                        ? 'yyyy-MM-dd h:mm aa'
-                        : 'yyyy-MM-dd')
-                } // h = 12시간, aa = AM/PM
-                timeFormat={
-                    timeFormat ||
-                    (type === 'datetime-local' ? 'h:mm aa' : 'h:mm')
-                }
-                minDate={minDate}
-                maxDate={maxDate}
-                placeholderText={placeholder}
-                disabled={disabled}
+            <label
                 className={cn(
-                    datePickerVariants({
-                        variant: fieldState?.variant || 'default',
-                        size: inputSize,
-                        selected: selected ? true : false,
-                    }),
-                    'w-full'
+                    labelVariants({ labelSize: size }),
+                    labelClassName
                 )}
-                wrapperClassName="w-full"
-                showIcon
-                icon={
-                    <CalendarIcon
-                        className="text-gray-400 absolute right-3 top-1/2 -translate-y-1/2"
-                        width={18}
-                        height={20}
-                    />
-                }
-                disabledKeyboardNavigation={true}
-                renderCustomHeader={({
-                    date,
-                    decreaseMonth,
-                    increaseMonth,
-                    prevMonthButtonDisabled,
-                    nextMonthButtonDisabled,
-                }) => (
-                    <div className="bg-gray-800 md:bg-gray-900 text-white">
-                        <div className="md:hidden text-start leading-6 text-base font-semibold text-white mb-4">
-                            {isStartDate ? '진행 날짜' : '모집 마감날짜'}
-                        </div>
-                        <div className="mb-3 flex md:justify-between justify-evenly items-center md:gap-3">
-                            <button
-                                onClick={decreaseMonth}
-                                disabled={prevMonthButtonDisabled}
-                                className="text-white hover:text-green-400 text-xl font-bold disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                <LeftArrowIcon
-                                    width={24}
-                                    height={24}
-                                    className="text-white"
+                htmlFor={name}
+            >
+                {label}
+            </label>
+            <Controller
+                control={control}
+                name={name}
+                rules={rules}
+                render={({ field }) => {
+                    function handleFocus(e: FocusEvent<HTMLInputElement>) {
+                        onFocus?.(e);
+                        setIsFocused(true); // 🟢 포커스 상태로 변경
+                    }
+                    function handleBlur() {
+                        //field.onBlur();
+                        setIsFocused(false); // 🔴 포커스 해제
+                    }
+                    return (
+                        <DatePicker
+                            {...field}
+                            id={name}
+                            autoComplete={autoComplete}
+                            open={isDatePickerOpen} // 🎯 상태로 제어
+                            onInputClick={() => setIsDatePickerOpen(true)} // 🎯 열기
+                            onClickOutside={() => setIsDatePickerOpen(false)} // 🎯 닫기
+                            selected={field.value}
+                            onChange={field.onChange}
+                            onFocus={handleFocus}
+                            onBlur={handleBlur}
+                            showTimeSelect={
+                                type === 'datetime-local' ? true : false
+                            }
+                            showTimeInput={
+                                type === 'datetime-local' ? true : false
+                            }
+                            timeIntervals={15}
+                            dateFormat={
+                                dateFormat ||
+                                (type === 'datetime-local'
+                                    ? 'yyyy-MM-dd h:mm aa'
+                                    : 'yyyy-MM-dd')
+                            } // h = 12시간, aa = AM/PM
+                            timeFormat={
+                                timeFormat ||
+                                (type === 'datetime-local' ? 'h:mm aa' : 'h:mm')
+                            }
+                            minDate={minDate}
+                            maxDate={maxDate}
+                            placeholderText={placeholder}
+                            disabled={disabled}
+                            className={cn(
+                                datePickerVariants({
+                                    variant: getVariant(),
+                                    size: size,
+                                    selected: true,
+                                }),
+                                'w-full'
+                            )}
+                            wrapperClassName="w-full"
+                            showIcon
+                            icon={
+                                <CalendarIcon
+                                    className="text-gray-400 absolute right-3 top-1/2 -translate-y-1/2"
+                                    width={18}
+                                    height={20}
                                 />
-                            </button>
+                            }
+                            disabledKeyboardNavigation={true}
+                            renderCustomHeader={({
+                                date,
+                                decreaseMonth,
+                                increaseMonth,
+                                prevMonthButtonDisabled,
+                                nextMonthButtonDisabled,
+                            }) => (
+                                <div className="bg-gray-800 md:bg-gray-900 text-white">
+                                    <div className="md:hidden text-start leading-6 text-base font-semibold text-white mb-4">
+                                        {isStartDate
+                                            ? '진행 날짜'
+                                            : '모집 마감날짜'}
+                                    </div>
+                                    <div className="mb-3 flex md:justify-between justify-evenly items-center md:gap-3">
+                                        <button
+                                            onClick={decreaseMonth}
+                                            disabled={prevMonthButtonDisabled}
+                                            className="text-white hover:text-green-400 text-xl font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+                                        >
+                                            <LeftArrowIcon
+                                                width={24}
+                                                height={24}
+                                                className="text-white"
+                                            />
+                                        </button>
 
-                            <span className="md:text-sm text-lg font-normal md:leading-5 leading-7 min-w-[120px] text-center md:text-gray-100 text-white">
-                                {date.getFullYear()}년 {date.getMonth() + 1}월{' '}
-                                {/* 👈 한국어 형식 */}
-                            </span>
+                                        <span className="md:text-sm text-lg font-normal md:leading-5 leading-7 min-w-[120px] text-center md:text-gray-100 text-white">
+                                            {date.getFullYear()}년{' '}
+                                            {date.getMonth() + 1}월{' '}
+                                            {/* 👈 한국어 형식 */}
+                                        </span>
 
-                            <button
-                                onClick={increaseMonth}
-                                disabled={nextMonthButtonDisabled}
-                                className="text-white hover:text-green-400 text-xl font-bold disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                <LeftArrowIcon
-                                    width={24}
-                                    height={24}
-                                    className="text-white rotate-180"
+                                        <button
+                                            onClick={increaseMonth}
+                                            disabled={nextMonthButtonDisabled}
+                                            className="text-white hover:text-green-400 text-xl font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+                                        >
+                                            <LeftArrowIcon
+                                                width={24}
+                                                height={24}
+                                                className="text-white rotate-180"
+                                            />
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                            locale={customKorean}
+                            formatWeekDay={(day) => day.charAt(0)}
+                            customTimeInput={
+                                <CustomTimeInput
+                                    isStartDate={isStartDate}
+                                    onClose={handleCloseModal}
+                                    onMoveNext={handleMoveToNext}
                                 />
-                            </button>
-                        </div>
-                    </div>
-                )}
-                locale={customKorean}
-                formatWeekDay={(day) => day.charAt(0)}
-                customTimeInput={
-                    <CustomTimeInput
-                        isStartDate={isStartDate}
-                        onClose={handleCloseModal}
-                        onMoveNext={handleMoveToNext}
-                    />
-                }
+                            }
+                        />
+                    );
+                }}
             />
         </div>
     );
