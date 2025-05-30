@@ -1,6 +1,11 @@
 import { cn } from '@/utils/cn';
 import { cva } from 'class-variance-authority';
-import React, { FocusEvent, InputHTMLAttributes, useState } from 'react';
+import React, {
+    FocusEvent,
+    InputHTMLAttributes,
+    KeyboardEvent,
+    useState,
+} from 'react';
 import {
     Controller,
     FieldError,
@@ -123,15 +128,14 @@ export default function InputNumber({
     //에러 미시지
     const errorMessage = error?.message;
     const [isFocused, setIsFocused] = useState(false);
-    // 🎯 variant 결정 로직
+    /**
+     * @description 인풋 상태에 따라 variant 반환 함수
+     */
     function getVariant(): InputVariant {
         if (isFocused) return 'typing';
         if (errorMessage) return 'error';
         return 'done';
     }
-    /**
-     * @description 인풋 상태에 따라 variant 반환 함수
-     */
 
     return (
         <div className={`w-full}`}>
@@ -182,8 +186,8 @@ export default function InputNumber({
                             field.onChange(newValue);
                         };
                         /* "." 소수점 입력 완전 방지 */
-                        const handleKeyPress = (
-                            e: React.KeyboardEvent<HTMLInputElement>
+                        const handleKeyDown = (
+                            e: KeyboardEvent<HTMLInputElement>
                         ) => {
                             if (e.key === '.' || e.key === '-')
                                 e.preventDefault();
@@ -227,7 +231,7 @@ export default function InputNumber({
                                     onFocus={handleFocus}
                                     onBlur={handleBlur}
                                     onChange={handleInputChange}
-                                    onKeyPress={handleKeyPress}
+                                    onKeyDown={handleKeyDown}
                                     type="number"
                                 />
                                 <button

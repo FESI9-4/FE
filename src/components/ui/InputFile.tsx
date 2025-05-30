@@ -11,7 +11,7 @@ import { InputSize, InputVariant } from './Input';
 import React, { ChangeEvent, InputHTMLAttributes, useState } from 'react';
 
 interface FileInputProps
-    extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
+    extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'type'> {
     name: string;
     label?: string;
     size?: InputSize;
@@ -135,15 +135,17 @@ export default function FileInput({
                 } else {
                     setDisplayFileName(file.name);
                     setVariant('done');
+                    return;
                 }
+            }
+            //파일이 없으면 초기 상태로
+            else if (!file) {
+                setDisplayFileName('');
+                setVariant('default');
             }
             /**
              * @description 혹시 이미지 파일 이외에 파일을 업로드할 경우 필요에 맞게 유효성 검사 로직 추가 필요
              */
-            //파일이 없으면 초기 상태로
-        } else if (!file) {
-            setDisplayFileName('');
-            setVariant('default');
         } else {
             console.warn(
                 '이미지 파일 형식 이외에 파일을 업로드할 경우 handleChnage를 확인해주세요.'
