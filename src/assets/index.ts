@@ -18,14 +18,12 @@ import UserIcon from '@public/icons/user.svg';
 import EditIcon from '@public/icons/edit.svg';
 import EditNoBgIcon from '@public/icons/editNoBg.svg';
 import LikeIcon from '@public/icons/like.svg';
-<<<<<<< HEAD
 import HandIcon from '@public/icons/hand.svg';
 import AnswerArrowIcon from '@public/icons/answerArrow.svg';
-=======
 import Heart from '@public/icons/heart.svg';
 import ThreeHeart from '@public/icons/threeHeart.svg';
->>>>>>> d224478 (feat: 피그마 시안 변경으로인한 하단디자인 추가)
-
+import DeleteIcon from '@public/icons/deleteIcon.svg';
+import SearchIcon from '@public/icons/search.svg';
 export {
     CheckIcon,
     AlarmIcon,
@@ -47,11 +45,10 @@ export {
     EditIcon,
     EditNoBgIcon,
     LikeIcon,
-<<<<<<< HEAD
     HandIcon,
     AnswerArrowIcon,
-=======
     Heart,
     ThreeHeart,
->>>>>>> d224478 (feat: 피그마 시안 변경으로인한 하단디자인 추가)
+    DeleteIcon,
+    SearchIcon,
 };
