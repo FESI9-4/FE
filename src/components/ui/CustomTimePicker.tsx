@@ -1,5 +1,5 @@
-import Dropdown from '../Dropdown';
-import Button from '../Button';
+import Dropdown from './Dropdown';
+import Button from './Button';
 
 // CustomTimeInput 컴포넌트 - DatePicker와 연동됨
 interface CustomTimeInputProps {
