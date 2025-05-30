@@ -23,7 +23,7 @@ import AnswerArrowIcon from '@public/icons/answerArrow.svg';
 import Heart from '@public/icons/heart.svg';
 import ThreeHeart from '@public/icons/threeHeart.svg';
 import DeleteIcon from '@public/icons/deleteIcon.svg';
-
+import SearchIcon from '@public/icons/search.svg';
 export {
     CheckIcon,
     AlarmIcon,
@@ -50,4 +50,5 @@ export {
     Heart,
     ThreeHeart,
     DeleteIcon,
+    SearchIcon,
 };
