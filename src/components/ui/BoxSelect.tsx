@@ -1,43 +1,32 @@
 'use client';
-import { useState } from 'react';
 import { Category } from '@/types/categories';
 import { DoTogetherIcon, GoTogetherIcon } from '@/assets';
 import { cva } from 'class-variance-authority';
+import { FieldError, RegisterOptions, UseFormRegister } from 'react-hook-form';
+import { FieldValues } from 'react-hook-form';
 interface BoxSelectProps {
     categories: Category[];
+    register: UseFormRegister<FieldValues>;
+    name: string;
+    rules?: RegisterOptions;
+    error?: FieldError;
+    defaultValue?: string;
 }
-export default function BoxSelect({ categories }: BoxSelectProps) {
-    const [selectedCategory, setSelectedCategory] = useState({
-        bigCategory: '',
-        smallCategory: '',
-    });
-    const handleSelectedCategory = (
-        bigCategory: string,
-        smallCategory: string
-    ) => {
-        const newSelection = {
-            bigCategory: bigCategory,
-            smallCategory: smallCategory,
-        };
-        setSelectedCategory(newSelection);
-    };
-    const buttonVariants = cva(
-        [
-            'px-3 py-2 rounded-full cursor-pointer',
-            'text-sm leading-5 font-semibold border-[1px]',
-        ],
-        {
-            variants: {
-                variant: {
-                    default: 'border-gray-300 text-gray-300',
-                    selected: 'bg-green-400 border-green-400 text-black',
-                },
-            },
-            defaultVariants: {
-                variant: 'default',
-            },
-        }
-    );
+const buttonVariants = cva([
+    'px-3 py-2 rounded-full cursor-pointer text-gray-300 border-gray-600',
+    'text-sm leading-5 font-semibold border-[1px]',
+    'peer-checked:bg-green-400', // 🎯 peer가 checked일 때
+    'peer-checked:border-green-400',
+    'peer-checked:text-black',
+    'transition-all duration-200', // 🎯 부드러운 전환
+    'hover:border-green-500', // 🎯 호버 효과
+]);
+export default function BoxSelect({
+    categories,
+    register,
+    name,
+    rules,
+}: BoxSelectProps) {
     return (
         <div className="w-full">
             <div className="text-base leading-6 font-semibold text-white mb-4">
@@ -75,36 +64,15 @@ export default function BoxSelect({ categories }: BoxSelectProps) {
                             {category.smallCategory.map((service) => (
                                 <div key={service.id}>
                                     <input
-                                        //className="hidden"
+                                        {...register(name, rules)}
                                         type="radio"
-                                        value={`${category.id}_${service.id}`}
-                                        hidden
-                                        name={'selectedCategory'}
-                                        id={service.id}
-                                        onChange={() =>
-                                            handleSelectedCategory(
-                                                category.id,
-                                                service.id
-                                            )
-                                        }
+                                        value={`${category.id},${service.id}`}
+                                        className="hidden peer sr-only"
+                                        id={`${category.id}_${service.id}`}
                                     />
                                     <label //라디오버튼으로 바꾸고 버튼은 라벨으로
-                                        htmlFor={service.id}
-                                        onClick={() =>
-                                            handleSelectedCategory(
-                                                category.id,
-                                                service.id
-                                            )
-                                        }
-                                        className={buttonVariants({
-                                            variant:
-                                                selectedCategory.bigCategory ===
-                                                    category.id &&
-                                                selectedCategory.smallCategory ===
-                                                    service.id
-                                                    ? 'selected'
-                                                    : 'default',
-                                        })}
+                                        htmlFor={`${category.id}_${service.id}`}
+                                        className={buttonVariants()}
                                     >
                                         {service.name}
                                     </label>
