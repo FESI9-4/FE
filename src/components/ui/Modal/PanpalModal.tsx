@@ -10,12 +10,10 @@ interface PanpalModalProps {
     onSubmit: () => void;
 }
 
-
 //TODO INPUT PR 머지 후 교체 및 컴포넌트 들어오면 완성 input높이 40px..
 //TODO 폼으로 감싸고 폼제출시 위도경도 보내주기 ?
 
 export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
-
     return (
         <BaseModal onClose={onClose} fullScreenOnMobile>
             <div className="w-full h-[100vh] flex items-center justify-center">
