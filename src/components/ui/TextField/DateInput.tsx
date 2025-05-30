@@ -115,7 +115,9 @@ export default function DateInput({
         if (error) return 'error';
         return 'done';
     }
-    // 커스텀 로케일 만들기
+    /**
+     * @description 커스텀 로케일 만들기 (date-fns/locale/ko 라이브러리 사용해서 한글로 변환 및 시간대 대문자로 변환)
+     */
     const customKorean = {
         ...ko,
         localize: {
