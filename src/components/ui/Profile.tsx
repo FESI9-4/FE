@@ -43,7 +43,7 @@ export default function Profile({ size, image, edit, children }: ProfileProps) {
                             src={image}
                             alt="profile"
                             fill
-                            objectFit="cover"
+                            style={{ objectFit: 'cover' }}
                         />
                     ) : (
                         <ProfileIcon />

@@ -26,7 +26,7 @@ import DecrementIcon from '@public/icons/decrement.svg';
 import IncrementIcon from '@public/icons/increment.svg';
 import CalendarIcon from '@public/icons/calendar.svg';
 import DeleteIcon from '@public/icons/deleteIcon.svg';
-
+import SearchIcon from '@public/icons/search.svg';
 export {
     CheckIcon,
     AlarmIcon,
@@ -56,4 +56,5 @@ export {
     DecrementIcon,
     IncrementIcon,
     DeleteIcon,
+    SearchIcon,
 };

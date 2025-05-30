@@ -3,31 +3,19 @@
 import BaseModal from '@/components/ui/Modal';
 import Button from '@/components/ui/Button';
 import { DeleteIcon } from '@/assets/index';
-import KakaoAddressInput from './KakaoAddressInput';
+import PlaceAutoCompleteInput from './PlaceAutoCompleteInput';
 
 interface PanpalModalProps {
     onClose: () => void;
     onSubmit: () => void;
 }
 
-interface Address {
-    address_name: string;
-    x: string;
-    y: string;
-}
 
 //TODO INPUT PR 머지 후 교체 및 컴포넌트 들어오면 완성 input높이 40px..
 //TODO 폼으로 감싸고 폼제출시 위도경도 보내주기 ?
 
 export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
-    function handleAddressSelect(address: Address) {
-        // const latitude = parseFloat(address.y); // 위도 (Y)
-        // const longitude = parseFloat(address.x); // 경도 (X)
-        // api 명세서에서는 위도 경도 double로 보내달라 함.
-        console.log('선택한 주소:', address.address_name);
-        console.log('위도:', address.y);
-        console.log('경도:', address.x);
-    }
+
     return (
         <BaseModal onClose={onClose} fullScreenOnMobile>
             <div className="w-full h-[100vh] flex items-center justify-center">
@@ -57,7 +45,7 @@ export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
                         </div>
                         <div className="flex flex-col gap-2 h-18 ">
                             <p className="text-sm font-semibold h-6">장소</p>
-                            <KakaoAddressInput onSelect={handleAddressSelect} />
+                            <PlaceAutoCompleteInput />
                         </div>
                         <div className="flex h-24 flex-col ">
                             <div className="flex flex-col gap-2  h-18">
