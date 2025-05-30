@@ -4,7 +4,7 @@ import Input from '@/components/ui/Input';
 import InputFile from '@/components/ui/InputFile';
 import InputNumber from '@/components/ui/InputNumber';
 import InputText from '@/components/ui/InputText';
-import DateInput from '@/components/ui/TextField/DateInput';
+import DateInput from '@/components/ui/DateInput';
 import { FieldError, FieldValues, SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
