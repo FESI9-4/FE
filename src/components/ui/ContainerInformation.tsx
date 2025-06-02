@@ -29,7 +29,7 @@ export default function ContainerInformaiton({
 }: ContainerInformationProps) {
     const now = Date.now();
     const deadlineTimestamp = Number(limitedDate) * 1000;
-    
+
     const deadlineDate = new Date(deadlineTimestamp);
     const dateObj = new Date(Number(date) * 1000);
 
