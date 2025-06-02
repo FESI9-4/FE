@@ -16,14 +16,6 @@ import AnswerCard from './AnswerCard';
 import PaginationButton from './PaginationButton';
 import BoxSelect from './BoxSelect';
 import Input from './Input';
-import Like from './Like';
-import Profile from './Profile';
-import EditButton from './EditButton';
-import MyCardList from './MyCardList';
-import ProgressChip from './ProgressChip';
-import QuestionCard from './QuestionCard';
-import AnswerCard from './AnswerCard';
-import PaginationButton from './PaginationButton';
 export {
     Button,
     BoxSelect,
