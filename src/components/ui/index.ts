@@ -16,6 +16,9 @@ import AnswerCard from './AnswerCard';
 import PaginationButton from './PaginationButton';
 import BoxSelect from './BoxSelect';
 import Input from './Input';
+import Like from './Like';
+import Profile from './Profile';
+import EditButton from './EditButton';
 export {
     Button,
     BoxSelect,
