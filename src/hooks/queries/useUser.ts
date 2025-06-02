@@ -1,6 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { userApi } from '@/utils/apis/api';
-import type { User } from '@/utils/apis/api';
+import { User, userApi } from '@/utils/apis/api';
 
 export const useUser = (userId: number) => {
     return useQuery({

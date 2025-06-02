@@ -8,13 +8,20 @@ export interface User {
 }
 
 export const userApi = {
-    getUser: (userId: number) =>
-        axiosInstance.get<User>(`/users/${userId}`).then((res) => res.data),
+    getUser: async (userId: number) => {
+        const response = await axiosInstance.get<User>(`/users/${userId}`);
+        return response.data;
+    },
 
-    updateUser: (userId: number, userData: Partial<User>) =>
-        axiosInstance
-            .put<User>(`/users/${userId}`, userData)
-            .then((res) => res.data),
+    updateUser: async (userId: number, userData: Partial<User>) => {
+        const response = await axiosInstance.put<User>(
+            `/users/${userId}`,
+            userData
+        );
+        return response.data;
+    },
 
-    deleteUser: (userId: number) => axiosInstance.delete(`/users/${userId}`),
+    deleteUser: async (userId: number) => {
+        await axiosInstance.delete(`/users/${userId}`);
+    },
 };
