@@ -7,7 +7,7 @@ import {
     RegisterOptions,
     UseFormRegister,
 } from 'react-hook-form';
-import { InputSize, InputVariant } from './Input';
+import { InputSize, InputVariant } from '@/types/Input';
 import React, { ChangeEvent, InputHTMLAttributes, useState } from 'react';
 
 interface FileInputProps

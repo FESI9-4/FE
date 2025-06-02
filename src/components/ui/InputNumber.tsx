@@ -14,11 +14,7 @@ import {
     Control,
 } from 'react-hook-form';
 import { DecrementIcon, IncrementIcon } from '@/assets';
-
-//인풋 사이즈
-export type InputSize = 'small' | 'large';
-//인풋 변경 상태
-export type InputVariant = 'default' | 'done' | 'typing' | 'error';
+import { InputSize, InputVariant } from '@/types/Input';
 
 interface InputNumberProps
     extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'type'> {
@@ -161,7 +157,6 @@ export default function InputNumber({
                         ) => {
                             const value = e.target.value.replace(/\D/g, ''); // \D = 숫자가 아닌 모든 문자
                             const numValue = Number(value) || 1;
-                            // console.log('numValue', numValue);
                             if (numValue < min) field.onChange(min);
                             if (numValue > max) field.onChange(max);
                             else field.onChange(numValue);
@@ -259,7 +254,7 @@ export default function InputNumber({
                     }}
                 />
             </div>
-            {/** @description 에러 메시지 애니메이션 효과가 필요없다면 errorMessage로 부분 렌더링 해주면 됩니다. */}
+            {/** @description 에러 메시지 애니메이션 효과가 필요하다면 errorMessage로 부분 렌더링 해주면 됩니다. */}
         </div>
     );
 }
