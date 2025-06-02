@@ -7,7 +7,7 @@ import { ko } from 'date-fns/locale/ko';
 import CustomTimeInput from './CustomTimePicker';
 import { cva } from 'class-variance-authority';
 import { cn } from '@/utils/cn';
-import { InputSize, InputVariant } from './InputNumber';
+import { InputSize, InputVariant } from '@/types/Input';
 import {
     FieldValues,
     FieldError,
@@ -254,7 +254,6 @@ export default function DateInput({
                                         <span className="md:text-sm text-lg font-normal md:leading-5 leading-7 min-w-[120px] text-center md:text-gray-100 text-white">
                                             {date.getFullYear()}년{' '}
                                             {date.getMonth() + 1}월{' '}
-                                            {/* 👈 한국어 형식 */}
                                         </span>
 
                                         <button

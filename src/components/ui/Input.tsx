@@ -13,11 +13,7 @@ import {
     UseFormRegister,
 } from 'react-hook-form';
 import PasswordButton from './PasswordButton';
-
-//인풋 사이즈
-export type InputSize = 'small' | 'large';
-//인풋 변경 상태
-export type InputVariant = 'default' | 'done' | 'typing' | 'error';
+import { InputSize, InputVariant } from '@/types/Input';
 
 interface InputProps
     extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
