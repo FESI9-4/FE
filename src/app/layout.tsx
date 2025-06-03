@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import Nav from '@/components/ui/Nav';
 import QueryProvider from '@/components/providers/QueryProvider';
@@ -10,6 +10,12 @@ export const metadata: Metadata = {
     title: 'FanPal',
     description: '',
     viewport: 'width=device-width, initial-scale=1',
+};
+export const viewport: Viewport = {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
 };
 
 export default async function RootLayout({
