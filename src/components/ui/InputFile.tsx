@@ -92,7 +92,9 @@ const labelVariants = cva('whitespace-nowrap block', {
         labelSize: 'large',
     },
 });
-export default function FileInput<TFormValues extends FieldValues = FieldValues>({
+export default function FileInput<
+    TFormValues extends FieldValues = FieldValues,
+>({
     label,
     name,
     register,

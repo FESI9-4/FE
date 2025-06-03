@@ -60,7 +60,7 @@ export default function InputText<
     labelClassName,
     size,
     label,
-     placeholder,
+    placeholder,
 }: InputTextProps<TFormValues>) {
     /**
      * @description 댓글 작성시 헬퍼텍스트는 필요하지 않을것 같아서 추가하지 않았습니다.
@@ -81,7 +81,7 @@ export default function InputText<
                 {...register(name, rules)}
                 autoComplete={autoComplete}
                 className={cn(inputTextVariants(), className)}
-                 placeholder={placeholder} 
+                placeholder={placeholder}
                 name={name as string}
                 id={name as string}
             />

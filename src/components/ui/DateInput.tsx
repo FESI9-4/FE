@@ -87,7 +87,7 @@ const labelVariants = cva('whitespace-nowrap block', {
     },
 });
 export default function DateInput<
-  TFormValues extends FieldValues = FieldValues
+    TFormValues extends FieldValues = FieldValues,
 >({
     type = 'date',
     name,

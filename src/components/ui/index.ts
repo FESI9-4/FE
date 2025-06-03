@@ -41,5 +41,4 @@ export {
     InputNumber,
     DateInput,
     InputFile,
-    
 };
