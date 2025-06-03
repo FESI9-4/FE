@@ -22,6 +22,7 @@ const nextConfig: NextConfig = {
                     {
                         loader: '@svgr/webpack',
                         options: {
+                            svgo: false,
                             typescript: true,
                             ext: 'tsx',
                         },
