@@ -1,8 +1,13 @@
 'use client';
 import { BigTitleIcon, MikeIcon } from '@/assets';
-export default function LeftImg() {
+import { cn } from '@/utils/cn';
+interface LoginIllustrationProps {
+    className?: string;
+}
+
+export default function LeftImg({ className }: LoginIllustrationProps) {
     return (
-        <div className="flex justify-center items-center">
+        <div className={cn('flex justify-center items-center', className)}>
             <div className="relative w-[375px] h-[276px] sm:w-[300px] sm:h-[318px] xl:w-[471px] xl:h-[534px] xl:flex xl:flex-col xl:gap-10 ">
                 <div className="flex flex-col gap-4 sm:justify-center sm:items-center">
                     <div className="flex flex-col gap-2">
