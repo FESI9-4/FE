@@ -1,5 +1,5 @@
 'use client';
-import LeftImg from '../LeftImg';
+import LeftImg from '../LoginIllustration';
 import LoginForm from './LoginForm';
 
 function LoginPage() {
