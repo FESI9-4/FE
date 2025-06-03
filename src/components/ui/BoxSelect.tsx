@@ -25,7 +25,7 @@ const buttonVariants = cva([
     'peer-checked:text-black',
     'transition-all duration-200',
     'hover:border-green-500',
-    'px-2'
+    'px-2',
 ]);
 export default function BoxSelect<
     TFormValues extends FieldValues = FieldValues,

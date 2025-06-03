@@ -5,6 +5,7 @@ import ModalProfile from '@/components/ui/Modal/ProfileModal';
 import ModalPopup from '@/components/ui/Modal/LoginModal';
 import ModalPassword from '@/components/ui/Modal/PasswordModal';
 import ModalPanpal from '@/components/ui/Modal/PanpalModal';
+import CustomTimeInput from '@/components/ui/CustomTimePicker';
 
 export default function ModalTestPage() {
     const [isOpen, setIsOpen] = useState(false);
@@ -57,6 +58,7 @@ export default function ModalTestPage() {
             {isOpen3 && (
                 <ModalPanpal onClose={handleClose3} onSubmit={handleSubmit3} />
             )}
+     
         </div>
     );
 }

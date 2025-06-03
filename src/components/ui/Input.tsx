@@ -109,7 +109,7 @@ export default function Input<TFormValues extends FieldValues = FieldValues>({
     onFocus,
     //dirtyFields,
     //touchedFields,
-     placeholder, 
+    placeholder,
     error,
     labelClassName, //라벨 클래스
     errorMessageClass, //에러 메시지 클래스

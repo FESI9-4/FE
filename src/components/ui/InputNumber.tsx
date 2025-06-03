@@ -17,17 +17,19 @@ import {
 import { DecrementIcon, IncrementIcon } from '@/assets';
 import { InputSize, InputVariant } from '@/types/Input';
 
-type PathValue<TFieldValues, TPath extends Path<TFieldValues>> =
-  TPath extends `${infer Key}.${infer Rest}`
+type PathValue<
+    TFieldValues,
+    TPath extends Path<TFieldValues>,
+> = TPath extends `${infer Key}.${infer Rest}`
     ? Key extends keyof TFieldValues
-      ? Rest extends Path<TFieldValues[Key]>
-        ? PathValue<TFieldValues[Key], Rest>
+        ? Rest extends Path<TFieldValues[Key]>
+            ? PathValue<TFieldValues[Key], Rest>
+            : never
         : never
-      : never
     : TPath extends keyof TFieldValues
-    ? TFieldValues[TPath]
-    : never;
-    
+      ? TFieldValues[TPath]
+      : never;
+
 interface InputNumberProps<TFormValues extends FieldValues = FieldValues>
     extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'type'> {
     name: Path<TFormValues>; // 변경
@@ -165,7 +167,7 @@ export default function InputNumber<
                     name={name}
                     control={control}
                     rules={rules}
-               defaultValue={min as PathValue<TFormValues, typeof name>}
+                    defaultValue={min as PathValue<TFormValues, typeof name>}
                     render={({ field }) => {
                         const currentValue = Number(field.value) || 1;
                         const handleInputChange = (
