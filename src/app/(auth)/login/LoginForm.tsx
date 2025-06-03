@@ -21,13 +21,13 @@ function LoginForm() {
     const isMobile = useMediaQuery('(max-width: 768px)');
 
     return (
-        <div className="flex flex-col justify-center items-center gap-[14px] px-4 pb-8 md:py-8 md:px-[54px]">
+        <div className="flex flex-col justify-center items-center gap-[14px] px-4 pb-8 sm:py-8 sm:px-[54px]">
             <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="w-[311px] md:w-[500px] xl:w-[402px] h-auto"
+                className="w-[311px] sm:w-[500px] xl:w-[402px] h-auto"
             >
                 <div>
-                    <h1 className="text-white text-xl md:text-2xl font-semibold leading-7 xl:leading-8 text-center mb-8">
+                    <h1 className="text-white text-xl sm:text-2xl font-semibold leading-7 xl:leading-8 text-center mb-8">
                         로그인
                     </h1>
                     <div className="flex flex-col gap-10">
