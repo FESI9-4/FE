@@ -20,6 +20,7 @@ export default function RootLayout({
                     <Nav />
                     {children}
                 </QueryProvider>
+                <div id="modal-root" />
             </body>
         </html>
     );
