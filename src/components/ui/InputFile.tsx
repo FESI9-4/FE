@@ -6,17 +6,21 @@ import {
     FieldValues,
     RegisterOptions,
     UseFormRegister,
+    Path,
 } from 'react-hook-form';
 import { InputSize, InputVariant } from '@/types/Input';
 import React, { ChangeEvent, InputHTMLAttributes, useState } from 'react';
 
-interface FileInputProps
-    extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'type'> {
-    name: string;
+interface FileInputProps<TFormValues extends FieldValues = FieldValues>
+    extends Omit<
+        InputHTMLAttributes<HTMLInputElement>,
+        'size' | 'type' | 'name'
+    > {
+    name: Path<TFormValues>;
     label?: string;
     size?: InputSize;
-    register: UseFormRegister<FieldValues>;
-    rules?: RegisterOptions;
+    register: UseFormRegister<TFormValues>;
+    rules?: RegisterOptions<TFormValues, Path<TFormValues>>;
     error?: FieldError;
     dirtyFields?: FieldValues;
     touchedFields?: FieldValues;
@@ -67,7 +71,7 @@ export const fileCustomButtonVariants = cva(
     {
         variants: {
             size: {
-                small: `text-sm leading-5`,
+                small: `text-sm leading-4.5`,
                 large: `text-base leading-6`,
             },
         },
@@ -88,7 +92,7 @@ const labelVariants = cva('whitespace-nowrap block', {
         labelSize: 'large',
     },
 });
-export default function FileInput({
+export default function FileInput<TFormValues extends FieldValues = FieldValues>({
     label,
     name,
     register,
@@ -100,7 +104,7 @@ export default function FileInput({
     buttonText = '파일 업로드',
     labelClassName, //라벨 클래스
     accept, //업로드 가능한 파일 타입
-}: FileInputProps) {
+}: FileInputProps<TFormValues>) {
     //register
     const { onChange, ...registerProps } = register(name, rules);
     //인풋 상태 관련 variant

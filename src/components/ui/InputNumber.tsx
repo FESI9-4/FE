@@ -12,17 +12,29 @@ import {
     FieldValues,
     RegisterOptions,
     Control,
+    Path,
 } from 'react-hook-form';
 import { DecrementIcon, IncrementIcon } from '@/assets';
 import { InputSize, InputVariant } from '@/types/Input';
 
-interface InputNumberProps
+type PathValue<TFieldValues, TPath extends Path<TFieldValues>> =
+  TPath extends `${infer Key}.${infer Rest}`
+    ? Key extends keyof TFieldValues
+      ? Rest extends Path<TFieldValues[Key]>
+        ? PathValue<TFieldValues[Key], Rest>
+        : never
+      : never
+    : TPath extends keyof TFieldValues
+    ? TFieldValues[TPath]
+    : never;
+    
+interface InputNumberProps<TFormValues extends FieldValues = FieldValues>
     extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'type'> {
-    name: string;
+    name: Path<TFormValues>; // 변경
     label?: string;
     size?: InputSize;
-    control: Control<FieldValues>;
-    rules?: RegisterOptions;
+    control: Control<TFormValues>;
+    rules?: RegisterOptions<TFormValues, Path<TFormValues>>;
     error?: FieldError;
     dirtyFields?: FieldValues;
     touchedFields?: FieldValues;
@@ -42,6 +54,7 @@ const numberInputVariants = cva(
         'hover:border-2 hover:border-green-900 hover:text-white',
         '[&::-webkit-inner-spin-button]:appearance-none',
         '[&::-webkit-outer-spin-button]:appearance-none',
+        'mb-2',
     ],
     {
         variants: {
@@ -69,6 +82,7 @@ const numberCustomButtonVariants = cva(
         'transition-colors duration-100 cursor-pointer select-none border flex-shrink-0',
         'disabled:border-gray-700 disabled:opacity-50 disabled:cursor-not-allowed',
         'border-green-400 active:border-green-700',
+        'mb-2',
     ],
     {
         variants: {
@@ -106,7 +120,9 @@ const labelVariants = cva('whitespace-nowrap block', {
         labelSize: 'large',
     },
 });
-export default function InputNumber({
+export default function InputNumber<
+    TFormValues extends FieldValues = FieldValues,
+>({
     label,
     name,
     rules,
@@ -120,7 +136,7 @@ export default function InputNumber({
     min = 1,
     max = 20,
     step = 1,
-}: InputNumberProps) {
+}: InputNumberProps<TFormValues>) {
     //에러 미시지
     const errorMessage = error?.message;
     const [isFocused, setIsFocused] = useState(false);
@@ -149,7 +165,7 @@ export default function InputNumber({
                     name={name}
                     control={control}
                     rules={rules}
-                    defaultValue={1}
+               defaultValue={min as PathValue<TFormValues, typeof name>}
                     render={({ field }) => {
                         const currentValue = Number(field.value) || 1;
                         const handleInputChange = (

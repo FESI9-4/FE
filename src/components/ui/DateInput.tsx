@@ -14,20 +14,21 @@ import {
     RegisterOptions,
     Control,
     Controller,
+    Path,
 } from 'react-hook-form';
 import { FocusEvent } from 'react';
 
-interface DateInputProps
+interface DateInputProps<TFormValues extends FieldValues = FieldValues>
     extends Omit<
         InputHTMLAttributes<HTMLInputElement>,
         'type' | 'min' | 'max' | 'defaultValue' | 'size'
     > {
-    name: string;
+    name: Path<TFormValues>;
     label?: string;
     size?: InputSize;
     type?: 'date' | 'datetime-local';
-    control: Control<FieldValues>;
-    rules?: RegisterOptions;
+    control: Control<TFormValues>;
+    rules?: RegisterOptions<TFormValues, Path<TFormValues>>;
     error?: FieldError;
 
     showTimeSelect?: boolean;
@@ -85,7 +86,9 @@ const labelVariants = cva('whitespace-nowrap block', {
         labelSize: 'large',
     },
 });
-export default function DateInput({
+export default function DateInput<
+  TFormValues extends FieldValues = FieldValues
+>({
     type = 'date',
     name,
     size,
@@ -103,7 +106,7 @@ export default function DateInput({
     label,
     autoComplete = 'off',
     rules,
-}: DateInputProps) {
+}: DateInputProps<TFormValues>) {
     const [isFocused, setIsFocused] = useState(false);
     const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 

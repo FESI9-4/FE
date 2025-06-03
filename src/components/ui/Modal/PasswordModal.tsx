@@ -3,10 +3,15 @@
 import BaseModal from '@/components/ui/Modal';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
+import {
+    useForm,
+    FieldValues,
+    SubmitHandler,
+    FieldError,
+} from 'react-hook-form';
 
-//TODO input pr 머지되면 교체 desktop 높이 안 맞음
-
-//TODO 검증로직 추가 + 추후 수정 api 연결
+// 현재 비밀번호가 맞는지 여부는 어떻게 판단? -> 보내서 정상적인 응답?
+// 수정하기가 정상적으로 되면 모달창 닫기
 
 interface PasswordModalProps {
     onClose: () => void;
@@ -17,9 +22,33 @@ export default function PasswordModal({
     onClose,
     onSubmit,
 }: PasswordModalProps) {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        setError,
+    } = useForm<FieldValues>({
+        mode: 'onBlur',
+    });
+
+    const handleFormSubmit: SubmitHandler<FieldValues> = (data) => {
+        if (data.newPassword !== data.confirmPassword) {
+            setError('confirmPassword', {
+                message: '비밀번호가 일치하지 않습니다.',
+            });
+            return;
+        }
+
+        console.log('비밀번호 변경 정보', data);
+        onSubmit();
+    };
+
     return (
         <BaseModal onClose={onClose}>
-            <div className="w-85.75 h-115 md:w-130 md:h-118 flex items-center justify-center">
+            <form
+                onSubmit={handleSubmit(handleFormSubmit)}
+                className="w-85.75 h-115 md:w-130 md:h-118 flex items-center justify-center"
+            >
                 <div className="w-73.75 h-103 md:w-118 md:h-106 flex flex-col justify-between">
                     <div className="h-81 md:h-84 flex flex-col justify-between">
                         <p className="h-7 text-base font-semibold">
@@ -28,42 +57,67 @@ export default function PasswordModal({
                         <div className="h-66 md:h-69 flex flex-col justify-between text-sm font-semibold md:font-base">
                             <div className="h-18 flex flex-col justify-between">
                                 <p>현재 비밀번호</p>
-                                <div className="h-10 flex items-center ">
-                                    <Input
-                                        type="password"
-                                        id="password"
-                                        placeholder="현재 비밀번호를 입력해주세요."
-                                    ></Input>
-                                </div>
+                                <Input
+                                    type="password"
+                                    name="currentPassword"
+                                    placeholder="현재 비밀번호를 입력해주세요."
+                                    register={register}
+                                    rules={{
+                                        required: '현재 비밀번호는 필수입니다.',
+                                    }}
+                                    error={errors.currentPassword as FieldError}
+                                    size="small"
+                                />
                             </div>
                             <div className="h-18 flex flex-col justify-between">
                                 <p>새 비밀번호</p>
                                 <Input
                                     type="password"
-                                    id="password"
+                                    name="newPassword"
                                     placeholder="새 비밀번호를 입력해주세요."
-                                ></Input>
+                                    register={register}
+                                    rules={{
+                                        required: '새 비밀번호를 입력해주세요.',
+                                        minLength: {
+                                            value: 6,
+                                            message: '6자 이상 입력하세요',
+                                        },
+                                    }}
+                                    error={errors.newPassword as FieldError}
+                                    size="small"
+                                />
                             </div>
                             <div className="h-18 flex flex-col justify-between">
                                 <p>비밀번호 확인</p>
                                 <Input
                                     type="password"
-                                    id="password"
+                                    name="confirmPassword"
                                     placeholder="새 비밀번호를 다시 입력해주세요."
-                                ></Input>
+                                    register={register}
+                                    rules={{
+                                        required: '비밀번호 확인은 필수입니다.',
+                                    }}
+                                    error={errors.confirmPassword as FieldError}
+                                    size="small"
+                                />
                             </div>
                         </div>
                     </div>
                     <div className="flex gap-3 h-10 md:h-12">
-                        <Button size="large" onClick={onClose} styled="outline">
+                        <Button
+                            size="large"
+                            onClick={onClose}
+                            styled="outline"
+                            type="button"
+                        >
                             취소
                         </Button>
-                        <Button size="large" onClick={onSubmit} styled="solid">
+                        <Button size="large" styled="solid" type="submit">
                             수정하기
                         </Button>
                     </div>
                 </div>
-            </div>
+            </form>
         </BaseModal>
     );
 }
