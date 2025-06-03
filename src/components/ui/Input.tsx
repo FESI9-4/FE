@@ -149,7 +149,7 @@ export default function Input<TFormValues extends FieldValues = FieldValues>({
                 'number와 file 타입은 다른 인풋 컴포넌트를 사용해주세요'
             );
         }
-    }, []);
+    }, [type]);
 
     return (
         <div className={`w-full}`}>
