@@ -165,9 +165,9 @@ export default function Input<TFormValues extends FieldValues = FieldValues>({
             <div className={`${type === 'password' ? 'relative' : ''}`}>
                 <input
                     {...registerProps}
+                    placeholder={placeholder}
                     type={showPassword ? 'text' : type}
                     autoComplete={autoComplete}
-                    placeholder={placeholder}
                     className={cn(
                         inputVariants({
                             variant: getVariant(),
