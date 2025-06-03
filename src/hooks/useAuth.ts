@@ -1,5 +1,4 @@
 //TODO 추후에 NEXTAuth로 대체 ? Nav에서 임시 사용
-
 interface User {
     id: string;
     nickname: string;
@@ -30,6 +29,5 @@ export default function useAuth(): UseAuthReturn {
         profileImage: 'https://randomuser.me/api/portraits/men/75.jpg',
         description: '안녕하세요 정재형입니다',
     };
-
     return { isLoggedIn, user };
 }
