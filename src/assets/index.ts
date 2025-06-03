@@ -27,6 +27,8 @@ import IncrementIcon from '@public/icons/increment.svg';
 import CalendarIcon from '@public/icons/calendar.svg';
 import DeleteIcon from '@public/icons/deleteIcon.svg';
 import SearchIcon from '@public/icons/search.svg';
+import BigTitleIcon from '@public/icons/bigLogo.svg';
+import MikeIcon from '@public/icons/mike.svg';
 export {
     CheckIcon,
     AlarmIcon,
@@ -57,4 +59,6 @@ export {
     IncrementIcon,
     DeleteIcon,
     SearchIcon,
+    BigTitleIcon,
+    MikeIcon,
 };
