@@ -9,7 +9,7 @@ import {
 import { Button, Input } from '@/components/ui';
 import useMediaQuery from '@/hooks/useMediaQuery';
 
-function LoginForm() {
+export default function LoginForm() {
     const { register, handleSubmit, formState } = useForm<FieldValues>({
         mode: 'onBlur',
         reValidateMode: 'onBlur',
@@ -100,5 +100,3 @@ function LoginForm() {
         </div>
     );
 }
-
-export default LoginForm;
