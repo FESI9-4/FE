@@ -1,0 +1,30 @@
+<svg width="100%" height="100%" viewBox="0 0 871 626" fill="none" 
+xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g filter="url(#filter0_f_836_27663)">
+<circle cx="451.922" cy="304.685" r="47.767" fill="#80FF4F" fill-opacity="0.7" style="mix-blend-mode:color-burn"/>
+</g>
+<rect x="276" y="188.568" width="320" height="320" fill="url(#pattern0_836_27663)"/>
+<g filter="url(#filter1_f_836_27663)">
+<ellipse cx="435.5" cy="313" rx="235.5" ry="113" fill="url(#paint0_radial_836_27663)" fill-opacity="0.1" style="mix-blend-mode:lighten"/>
+</g>
+<defs>
+<filter id="filter0_f_836_27663" x="304.155" y="156.918" width="295.534" height="295.534" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="50" result="effect1_foregroundBlur_836_27663"/>
+</filter>
+<pattern id="pattern0_836_27663" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_836_27663" transform="scale(0.001)"/>
+</pattern>
+<filter id="filter1_f_836_27663" x="0" y="-0.000244141" width="871" height="626" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="100" result="effect1_foregroundBlur_836_27663"/>
+</filter>
+<radialGradient id="paint0_radial_836_27663" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(435.5 313) rotate(90) scale(113 235.5)">
+<stop stop-color="#80FF4F"/>
+<stop offset="1" stop-color="#80FF4F" stop-opacity="0"/>
+</radialGradient>
+<image id="image0_836_27663" width="1000" height="1000"  preserveAspectRatio="none"  xlink:href="/images/mike.png"/>
+</defs>
+</svg>
