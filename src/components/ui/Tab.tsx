@@ -3,7 +3,7 @@ import { ButtonHTMLAttributes } from 'react';
 
 interface TabProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     children: React.ReactNode;
-    icon: React.ReactNode;
+    icon?: React.ReactNode;
     active: boolean;
 }
 
@@ -36,7 +36,7 @@ export default function Tab({ children, icon, active, ...props }: TabProps) {
 
     return (
         <button
-            className="flex flex-col items-center gap-2 hover:cursor-pointer"
+            className="flex flex-col items-center gap-2 hover:cursor-pointer w-full"
             {...props}
         >
             <div className={divClassName({ active })}>

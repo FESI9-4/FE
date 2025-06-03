@@ -29,7 +29,7 @@ export default function ProfileSection() {
     if (isMdUp) {
         return (
             <>
-                <div className="w-full h-55.5 bg-gray-850 p-8 flex flex-col justify-center items-center rounded-[20px]">
+                <div className="w-full h-55.5 bg-gray-850 p-8 flex flex-col justify-center items-center rounded-t-[20px]">
                     <div className="w-full h-full flex flex-col gap-2">
                         <div className="w-full h-16 flex justify-between">
                             <Profile
@@ -37,7 +37,7 @@ export default function ProfileSection() {
                                 image={user?.profileImage || ''}
                             ></Profile>
                             <Button
-                                size="large"
+                                size="small"
                                 styled="outline"
                                 className="w-39.25  text-white outline-white h-10"
                             >
