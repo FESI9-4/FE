@@ -312,3 +312,34 @@
 .react-datepicker__triangle::before {
     display: none !important;
 }
+
+.pac-container {
+    @apply rounded-xl shadow-lg mt-3 bg-gray-700;
+    z-index: 1000 !important;
+    border: none !important;
+    overflow-y: auto;
+    max-height: 250px;
+}
+
+.pac-item {
+    @apply px-4 py-4 cursor-pointer text-white;
+    border: none !important;
+}
+
+.pac-item:hover {
+    @apply bg-gray-500;
+}
+
+.pac-item-query {
+    @apply text-green-400;
+}
+
+.pac-icon {
+    background-image: url('/icons/marker.svg') !important;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-top: 3px;
+    width: 24px;
+    height: 24px;
+}

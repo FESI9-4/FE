@@ -2,15 +2,27 @@
 
 import { useForm, Controller } from 'react-hook-form';
 import BaseModal from '@/components/ui/Modal';
-import Button from '@/components/ui/Button';
 import { DeleteIcon } from '@/assets/index';
 import PlaceAutoCompleteInput from './PlaceAutoCompleteInput';
+import { CATEGORY_DATA } from '@/types/categories';
+
+import {
+    InputText,
+    InputNumber,
+    DateInput,
+    BoxSelect,
+    Input,
+    InputFile,
+    Button,
+} from '@/components/ui';
 
 interface PanpalModalProps {
     onClose: () => void;
     onSubmit: (data: FormData) => void;
 }
 
+//TODO api 명세서에 맞게 수정해야함.
+// TODO 이미지 또한 업로드 -> 키
 interface FormData {
     name: string;
     detail: string;
@@ -19,7 +31,12 @@ interface FormData {
         lng: number;
         address: string;
     };
-    // 이미지, 서비스, 날짜 ... 추가
+    file?: FileList;
+    category: string;
+    startDate?: string;
+    endDate?: string;
+    minApplicants?: number;
+    maxApplicants?: number;
 }
 
 export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
@@ -27,6 +44,7 @@ export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
         register,
         handleSubmit,
         control,
+        watch,
         formState: { errors },
     } = useForm<FormData>({
         defaultValues: {
@@ -40,6 +58,8 @@ export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
         console.log('폼 제출 데이터:', data);
         onSubmit(data);
     };
+
+    const startDate = watch('startDate');
 
     return (
         <BaseModal onClose={onClose} fullScreenOnMobile>
@@ -61,37 +81,33 @@ export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
                             <p className="text-sm font-semibold h-6">
                                 팬팔 이름
                             </p>
-                            <input
-                                {...register('name', {
-                                    required: '팬팔 이름을 입력해주세요',
-                                })}
-                                className="w-full h-10 bg-amber-100 rounded-xl text-black px-3"
-                                placeholder="팬팔 이름 입력"
+                            <Input<FormData>
+                                type="text"
+                                name="name"
+                                placeholder="팬팔 이름을 작성해주세요"
+                                register={register}
+                                rules={{
+                                    required: '상세 내용을 입력해주세요',
+                                }}
+                                error={errors.detail}
+                                size="small"
                             />
-                            {errors.name && (
-                                <p className="text-red-500 text-xs mt-1">
-                                    {errors.name.message}
-                                </p>
-                            )}
                         </div>
 
                         <div className="flex flex-col gap-2 h-35.5">
                             <p className="text-sm font-semibold">상세 내용</p>
-                            <input
-                                {...register('detail', {
-                                    required: '상세 내용을 입력해주세요',
-                                })}
-                                className="w-full h-10 bg-amber-100 rounded-xl text-black px-3"
-                                placeholder="상세 내용 입력"
+                            <InputText<FormData>
+                                name="detail"
+                                placeholder="상세 내용을 입력해주세요"
+                                register={register}
+                                rules={{ required: '내용을 입력해주세요' }}
+                                error={errors.detail}
+                                size="small"
+                                className="h-27.5"
                             />
-                            {errors.detail && (
-                                <p className="text-red-500 text-xs mt-1">
-                                    {errors.detail.message}
-                                </p>
-                            )}
                         </div>
 
-                        <div className="flex flex-col gap-2 h-18">
+                        <div className="flex flex-col gap-2 h-18 ">
                             <p className="text-sm font-semibold h-6">장소</p>
                             <Controller
                                 name="location"
@@ -113,36 +129,51 @@ export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
                                     />
                                 )}
                             />
-
-                            {errors.location && (
-                                <p className="text-red-500 text-xs mt-1">
-                                    {errors.location.message as string}
-                                </p>
-                            )}
                         </div>
 
-                        <div className="flex h-24 flex-col">
-                            <div className="flex flex-col gap-2 h-18">
-                                <p className="text-sm font-semibold h-6">
-                                    이미지
-                                </p>
-                                <div className="flex gap-3">
-                                    <div className="w-full h-10 bg-amber-100 rounded-xl text-black">
-                                        인풋 대체
-                                    </div>
-                                    <Button size="small" styled="outline">
-                                        파일 찾기
-                                    </Button>
-                                </div>
-                            </div>
-                            <div className="h-6 border-b border-gray-700"></div>
+                        <div className="flex flex-col gap-2 h-18">
+                            <p className="text-sm font-semibold h-6">이미지</p>
+
+                            <InputFile<FormData>
+                                name="file"
+                                accept="image/*"
+                                register={register}
+                                rules={{
+                                    validate: {
+                                        fileSize: (files) => {
+                                            if (!files) return true;
+
+                                            if (files instanceof FileList) {
+                                                const maxSize = 5 * 1024 * 1024;
+                                                return (
+                                                    files[0].size <= maxSize ||
+                                                    '파일 크기는 5MB 이하여야 합니다'
+                                                );
+                                            }
+
+                                            return true;
+                                        },
+                                    },
+                                }}
+                                error={errors.file}
+                                size="small"
+                            />
                         </div>
 
                         <div className="flex flex-col gap-3">
                             <p className="text-sm font-semibold h-6">
                                 선택 서비스
                             </p>
-                            <div className="h-40 bg-amber-950"></div>
+
+                            <BoxSelect<FormData>
+                                categories={CATEGORY_DATA}
+                                register={register}
+                                name="category"
+                                rules={{
+                                    required: '서비스를 선택해주세요.',
+                                }}
+                                error={errors.category}
+                            />
                         </div>
 
                         <div className="h-53 pt-6 border-t border-gray-700 flex flex-col gap-5">
@@ -150,13 +181,39 @@ export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
                                 <p className="text-sm font-semibold h-6">
                                     팬팔 날짜
                                 </p>
-                                <div className="h-11 bg-amber-300"></div>
+                                <div className="h-11 ">
+                                    <DateInput
+                                        name="startDate"
+                                        control={control}
+                                        type="datetime-local"
+                                        minDate={new Date()}
+                                        isStartDate={true}
+                                        error={errors.startDate}
+                                        placeholder="시작 날짜를 선택해주세요"
+                                        size="small"
+                                    />
+                                </div>
                             </div>
                             <div className="h-18">
                                 <p className="text-sm font-semibold h-6">
                                     마감 날짜
                                 </p>
-                                <div className="h-11 bg-amber-300"></div>
+                                <div className="h-11 ">
+                                    <DateInput<FormData>
+                                        name="endDate"
+                                        control={control}
+                                        type="datetime-local"
+                                        minDate={
+                                            startDate
+                                                ? new Date(startDate)
+                                                : new Date()
+                                        }
+                                        isStartDate={false}
+                                        error={errors.startDate}
+                                        placeholder="마감 날짜를 선택해주세요"
+                                        size="small"
+                                    />
+                                </div>
                             </div>
                         </div>
 
@@ -164,8 +221,55 @@ export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
                             <p className="text-sm font-semibold h-6">
                                 모집 정원
                             </p>
-                            <div className="h-10 bg-amber-700"></div>
-                            <div className="h-10 bg-amber-200"></div>
+                            <div className="h-10  flex items-center justify-between ">
+                                <p className="text-gray-300 text-sm ">
+                                    최소 인원
+                                </p>
+                                <div className="w-30 h-10 flex items-center ">
+                                    <InputNumber
+                                        name="minApplicants"
+                                        control={control}
+                                        rules={{
+                                            required:
+                                                '모집 정원을 입력해주세요',
+                                            validate: (value) => {
+                                                const num = Number(value);
+                                                return (
+                                                    (Number.isInteger(num) &&
+                                                        num > 0) ||
+                                                    '1 이상의 정수를 입력해주세요'
+                                                );
+                                            },
+                                        }}
+                                        size="small"
+                                    />
+                                </div>
+                            </div>
+                            <div className="h-10  flex items-center justify-between ">
+                                <p className="text-gray-300 text-sm ">
+                                    최대 인원
+                                </p>
+                                <div className="w-30 h-10 flex items-center">
+                                    <InputNumber
+                                        name="maxApplicants"
+                                        control={control}
+                                        rules={{
+                                            required:
+                                                '모집 정원을 입력해주세요',
+                                            validate: (value) => {
+                                                const num = Number(value);
+                                                return (
+                                                    (Number.isInteger(num) &&
+                                                        num > 0) ||
+                                                    '1 이상의 정수를 입력해주세요'
+                                                );
+                                            },
+                                        }}
+                                        size="small"
+                                        className="m"
+                                    />
+                                </div>
+                            </div>
                             <div className="h-8"></div>
                         </div>
 

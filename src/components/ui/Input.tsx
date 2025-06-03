@@ -11,17 +11,18 @@ import {
     FieldValues,
     RegisterOptions,
     UseFormRegister,
+    Path,
 } from 'react-hook-form';
 import PasswordButton from './PasswordButton';
 import { InputSize, InputVariant } from '@/types/Input';
 
-interface InputProps
-    extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
-    name: string;
+interface InputProps<TFormValues extends FieldValues = FieldValues>
+    extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'name'> {
+    name: Path<TFormValues>;
     label?: string;
     size?: InputSize;
-    register: UseFormRegister<FieldValues>;
-    rules?: RegisterOptions;
+    register: UseFormRegister<TFormValues>;
+    rules?: RegisterOptions<TFormValues, Path<TFormValues>>;
     error?: FieldError;
     dirtyFields?: FieldValues;
     touchedFields?: FieldValues;
@@ -82,7 +83,7 @@ const errorMessageVariants = cva(
     [
         'pl-1 text-red-500 font-medium text-sm leading-5',
         'md:text-base md:leading-6 transition-all duration-300',
-        'ease-in-out overflow-hidden mt-2',
+        'ease-in-out overflow-hidden mt-0.5',
     ],
     {
         variants: {
@@ -96,7 +97,7 @@ const errorMessageVariants = cva(
         },
     }
 );
-export default function Input({
+export default function Input<TFormValues extends FieldValues = FieldValues>({
     type,
     label,
     name,
@@ -108,10 +109,11 @@ export default function Input({
     onFocus,
     //dirtyFields,
     //touchedFields,
+     placeholder, 
     error,
     labelClassName, //라벨 클래스
     errorMessageClass, //에러 메시지 클래스
-}: InputProps) {
+}: InputProps<TFormValues>) {
     //register
     const { onBlur, ...registerProps } = register(name, rules);
     //에러 미시지
@@ -165,6 +167,7 @@ export default function Input({
                     {...registerProps}
                     type={showPassword ? 'text' : type}
                     autoComplete={autoComplete}
+                    placeholder={placeholder}
                     className={cn(
                         inputVariants({
                             variant: getVariant(),

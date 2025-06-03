@@ -16,6 +16,9 @@ import AnswerCard from './AnswerCard';
 import PaginationButton from './PaginationButton';
 import BoxSelect from './BoxSelect';
 import Input from './Input';
+import InputNumber from './InputNumber';
+import DateInput from './DateInput';
+import InputFile from './InputFile';
 export {
     Button,
     BoxSelect,
@@ -35,4 +38,8 @@ export {
     Input,
     MyCardList,
     ProgressChip,
+    InputNumber,
+    DateInput,
+    InputFile,
+    
 };

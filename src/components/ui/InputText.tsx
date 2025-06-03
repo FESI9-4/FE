@@ -7,14 +7,15 @@ import {
     FieldValues,
     RegisterOptions,
     UseFormRegister,
+    Path,
 } from 'react-hook-form';
 
-interface InputTextProps
-    extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'size'> {
-    name: string;
+interface InputTextProps<TFormValues extends FieldValues = FieldValues>
+    extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'size' | 'name'> {
+    name: Path<TFormValues>;
     label?: string;
-    register: UseFormRegister<FieldValues>;
-    rules?: RegisterOptions;
+    register: UseFormRegister<TFormValues>;
+    rules?: RegisterOptions<TFormValues, Path<TFormValues>>;
     error?: FieldError;
     dirtyFields?: FieldValues;
     touchedFields?: FieldValues;
@@ -31,7 +32,7 @@ const inputTextVariants = cva([
     'font-pretendard tracking-normal',
     'text-base leading-base',
     'font-weight-medium rounded-lg',
-    'bg-gray-900 text-white placeholder:text-gray-600',
+    'bg-gray-900 text-white placeholder:text-gray-600 placeholder:text-sm',
     'py-3 pl-4 pr-[6px] overflow-y-auto',
     'resize-none break-words',
     'custom-textarea-scrollbar',
@@ -48,7 +49,9 @@ const labelVariants = cva('whitespace-nowrap block', {
         labelSize: 'large',
     },
 });
-export default function InputText({
+export default function InputText<
+    TFormValues extends FieldValues = FieldValues,
+>({
     name,
     register,
     rules,
@@ -57,7 +60,8 @@ export default function InputText({
     labelClassName,
     size,
     label,
-}: InputTextProps) {
+     placeholder,
+}: InputTextProps<TFormValues>) {
     /**
      * @description 댓글 작성시 헬퍼텍스트는 필요하지 않을것 같아서 추가하지 않았습니다.
      * 만약 댓글 작성시 글자수 제한이 필요한 경우에 상위에서 error를 받아 처리해주세요. (Input컴포넌트 참고)
@@ -69,7 +73,7 @@ export default function InputText({
                     labelVariants({ labelSize: size }),
                     labelClassName
                 )}
-                htmlFor={name}
+                htmlFor={name as string}
             >
                 {label}
             </label>
@@ -77,8 +81,9 @@ export default function InputText({
                 {...register(name, rules)}
                 autoComplete={autoComplete}
                 className={cn(inputTextVariants(), className)}
-                name={name}
-                id={name}
+                 placeholder={placeholder} 
+                name={name as string}
+                id={name as string}
             />
         </div>
     );

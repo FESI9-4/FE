@@ -8,9 +8,18 @@ interface ProfileProps {
     image?: string;
     edit?: boolean;
     children?: React.ReactNode;
+    editButtonOnClick?: () => void;
+    editButtonClassName?: string;
 }
 
-export default function Profile({ size, image, edit, children }: ProfileProps) {
+export default function Profile({
+    size,
+    image,
+    edit,
+    children,
+    editButtonClassName,
+    editButtonOnClick,
+}: ProfileProps) {
     const imageClass = cva(
         'relative bg-gray-800 rounded-full overflow-hidden',
         {
@@ -53,8 +62,9 @@ export default function Profile({ size, image, edit, children }: ProfileProps) {
                     <div className="flex absolute right-0 bottom-0">
                         <EditButton
                             size="small"
-                            onClick={() => {}}
+                            onClick={editButtonOnClick}
                             color="green"
+                            className={editButtonClassName}
                         />
                     </div>
                 )}
