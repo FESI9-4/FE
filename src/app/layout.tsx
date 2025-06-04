@@ -9,7 +9,7 @@ import { MSWComponent } from '@/providers/MSWComponent';
 export const metadata: Metadata = {
     title: 'FanPal',
     description: '',
-    viewport: 'width=device-width, initial-scale=1', // 이걸 추가하세요
+    viewport: 'width=device-width, initial-scale=1',
 };
 
 export default async function RootLayout({
