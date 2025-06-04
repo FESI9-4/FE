@@ -7,7 +7,12 @@ interface LoginIllustrationProps {
 
 export default function LeftImg({ className }: LoginIllustrationProps) {
     return (
-        <div className={cn('flex justify-center items-center', className)}>
+        <div
+            className={cn(
+                'flex justify-center items-center px-2 pt-10',
+                className
+            )}
+        >
             <div className="relative w-[375px] h-[276px] sm:w-[300px] sm:h-[318px] xl:w-[471px] xl:h-[534px] xl:flex xl:flex-col xl:gap-10 ">
                 <div className="flex flex-col gap-4 sm:justify-center sm:items-center">
                     <div className="flex flex-col gap-2">
