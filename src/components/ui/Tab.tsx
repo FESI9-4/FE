@@ -9,7 +9,7 @@ interface TabProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export default function Tab({ children, icon, active, ...props }: TabProps) {
     const divClassName = cva(
-        'flex items-center gap-1 font-semibold text-lg mx-1.5',
+        'flex items-center gap-1 font-semibold text-lg mx-1.5 justify-center',
         {
             variants: {
                 active: {

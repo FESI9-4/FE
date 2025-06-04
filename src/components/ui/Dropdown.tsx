@@ -4,15 +4,20 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { cva } from 'class-variance-authority';
 import { WhiteDownIcon, SortUpIcon, SortDownIcon } from '@/assets';
 import { cn } from '@/utils/cn';
+import CalendarOnly from '@/components/ui/CalendarOnly';
 
 interface DropdownProps {
     options: string[];
     selected?: string;
-    onSelect: (value: string, order?: 'asc' | 'desc') => void;
+    onSelect?: (value: string, order?: 'asc' | 'desc') => void;
     placeholder?: string;
-    iconType?: 'sort' | 'arrow';
+    iconType?: 'sort' | 'arrow' | 'date';
     showPlaceholderInMenu?: boolean;
     className?: string;
+    selectedDate?: Date | null | undefined;
+    onDateChange?: (date: Date | null) => void;
+    minDate?: Date;
+    maxDate?: Date;
 }
 
 const dropdownVariants = {
@@ -25,6 +30,7 @@ const dropdownVariants = {
                 iconType: {
                     sort: 'justify-center md:justify-between gap-1 h-9 md:px-2.5 md:py-2 ',
                     arrow: 'justify-between px-4 py-2',
+                    date: 'justify-between px-4 py-2 ',
                 },
             },
             defaultVariants: {
@@ -38,6 +44,7 @@ const dropdownVariants = {
             iconType: {
                 sort: 'hidden md:inline',
                 arrow: '',
+                date: '',
             },
         },
         defaultVariants: {
@@ -53,6 +60,7 @@ const dropdownVariants = {
                 iconType: {
                     sort: '-left-18 md:left-0',
                     arrow: 'left-0',
+                    date: 'left-0',
                 },
             },
             defaultVariants: {
@@ -86,7 +94,9 @@ type UseDropdownProps = {
     selected?: string;
     onSelect: (value: string, order?: 'asc' | 'desc') => void;
     placeholder?: string;
-    iconType?: 'sort' | 'arrow';
+    iconType?: 'sort' | 'arrow' | 'date';
+    selectedDate?: Date | null | undefined;
+    onDateChange?: (date: Date | null) => void;
 };
 
 function useDropdown({
@@ -94,6 +104,8 @@ function useDropdown({
     onSelect,
     placeholder = '',
     iconType = 'arrow',
+    selectedDate,
+    onDateChange,
 }: UseDropdownProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [hovered, setHovered] = useState<string | null>(null);
@@ -135,12 +147,30 @@ function useDropdown({
         closeDropdown();
     };
 
+    const handleDateConfirm = (date: Date | null) => {
+        onDateChange?.(date);
+        closeDropdown();
+    };
+
     const handleOptionMouseEnter = (option: string) => setHovered(option);
     const handleOptionMouseLeave = () => setHovered(null);
 
     const getTextColor = () => {
+        if (iconType === 'date') {
+            return selectedDate ? 'text-white' : 'text-gray-500';
+        }
         if (!selected || selected === placeholder) return 'text-gray-500';
         return 'text-white';
+    };
+
+    const getDisplayText = () => {
+        if (iconType === 'date') {
+            if (selectedDate) {
+                return `${selectedDate.getMonth() + 1}월 ${selectedDate.getDate()}일`;
+            }
+            return placeholder;
+        }
+        return selected || placeholder;
     };
 
     const getOptionState = useCallback(
@@ -157,8 +187,10 @@ function useDropdown({
         sortOrder,
         dropdownRef,
         textColor: getTextColor(),
+        displayText: getDisplayText(),
         toggleDropdown,
         handleSelect,
+        handleDateConfirm,
         handleOptionMouseEnter,
         handleOptionMouseLeave,
         getOptionState,
@@ -173,14 +205,20 @@ export default function Dropdown({
     iconType = 'arrow',
     showPlaceholderInMenu = true,
     className,
+    selectedDate,
+    onDateChange,
+    minDate,
+    maxDate,
 }: DropdownProps) {
     const {
         isOpen,
         sortOrder,
         dropdownRef,
         textColor,
+        displayText,
         toggleDropdown,
         handleSelect,
+        handleDateConfirm,
         handleOptionMouseEnter,
         handleOptionMouseLeave,
         getOptionState,
@@ -189,6 +227,8 @@ export default function Dropdown({
         onSelect,
         placeholder,
         iconType,
+        selectedDate,
+        onDateChange,
     });
 
     const getIconComponent = () => {
@@ -199,6 +239,58 @@ export default function Dropdown({
     };
 
     const IconComponent = getIconComponent();
+
+    const renderDatePicker = () => (
+        <div className="absolute z-10 top-full mt-1 ml-[-60px] sm:ml-0">
+            <CalendarOnly
+                selectedDate={selectedDate || null}
+                onChange={() => {}}
+                onConfirm={handleDateConfirm}
+                minDate={minDate}
+                maxDate={maxDate}
+            />
+        </div>
+    );
+
+    const renderRegularDropdown = () => (
+        <ul className={dropdownVariants.menu({ iconType })}>
+            {showPlaceholderInMenu && (
+                <li
+                    key="__placeholder__"
+                    className={dropdownVariants.itemText()}
+                    onClick={() => handleSelect(placeholder)}
+                    onMouseEnter={() => handleOptionMouseEnter(placeholder)}
+                    onMouseLeave={handleOptionMouseLeave}
+                >
+                    <div
+                        className={dropdownVariants.itemInner({
+                            state: getOptionState(placeholder),
+                        })}
+                    >
+                        {placeholder}
+                    </div>
+                </li>
+            )}
+
+            {options.map((option) => (
+                <li
+                    key={option}
+                    className={dropdownVariants.itemText()}
+                    onClick={() => handleSelect(option)}
+                    onMouseEnter={() => handleOptionMouseEnter(option)}
+                    onMouseLeave={handleOptionMouseLeave}
+                >
+                    <div
+                        className={dropdownVariants.itemInner({
+                            state: getOptionState(option),
+                        })}
+                    >
+                        {option}
+                    </div>
+                </li>
+            ))}
+        </ul>
+    );
 
     return (
         <div
@@ -216,55 +308,18 @@ export default function Dropdown({
                 {iconType === 'sort' && <IconComponent className="w-6 h-6" />}
 
                 <span className={dropdownVariants.text({ iconType })}>
-                    {selected || placeholder}
+                    {displayText}
                 </span>
 
-                {iconType === 'arrow' && (
+                {(iconType === 'arrow' || iconType === 'date') && (
                     <IconComponent className={cn('w-6 h-6 ml-2', textColor)} />
                 )}
             </button>
 
-            {isOpen && (
-                <ul className={dropdownVariants.menu({ iconType })}>
-                    {showPlaceholderInMenu && (
-                        <li
-                            key="__placeholder__"
-                            className={dropdownVariants.itemText()}
-                            onClick={() => handleSelect(placeholder)}
-                            onMouseEnter={() =>
-                                handleOptionMouseEnter(placeholder)
-                            }
-                            onMouseLeave={handleOptionMouseLeave}
-                        >
-                            <div
-                                className={dropdownVariants.itemInner({
-                                    state: getOptionState(placeholder),
-                                })}
-                            >
-                                {placeholder}
-                            </div>
-                        </li>
-                    )}
-
-                    {options.map((option) => (
-                        <li
-                            key={option}
-                            className={dropdownVariants.itemText()}
-                            onClick={() => handleSelect(option)}
-                            onMouseEnter={() => handleOptionMouseEnter(option)}
-                            onMouseLeave={handleOptionMouseLeave}
-                        >
-                            <div
-                                className={dropdownVariants.itemInner({
-                                    state: getOptionState(option),
-                                })}
-                            >
-                                {option}
-                            </div>
-                        </li>
-                    ))}
-                </ul>
-            )}
+            {isOpen &&
+                (iconType === 'date'
+                    ? renderDatePicker()
+                    : renderRegularDropdown())}
         </div>
     );
 }

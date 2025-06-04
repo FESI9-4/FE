@@ -38,7 +38,7 @@ export default function Nav() {
     const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
 
     return (
-        <nav className="w-full h-14 md:h-15 bg-black flex items-center justify-center min-w-85.5">
+        <nav className="fixed w-full h-14 md:h-15 bg-black flex items-center justify-center min-w-85.5 z-50">
             <div className="w-[calc(100%-32px)] md:w-[calc(100%-46px)] xl:w-[calc(100%-722px)] h-full flex justify-between items-center">
                 <div className="w-57 md:w-97 h-full flex items-center justify-between">
                     <Link href="/">
@@ -53,19 +53,19 @@ export default function Nav() {
                         )}
                     </Link>
                     <div className="w-45 md:w-57 h-full text-sm md:text-base font-semibold md:font-mold text-orange-50 flex items-center whitespace-nowrap gap-3 md:gap-10">
-                        <Link href="/search">
+                        <Link href="/">
                             <p
                                 className={navLink({
-                                    active: pathname === '/search',
+                                    active: pathname === '/',
                                 })}
                             >
                                 팬팔 찾기
                             </p>
                         </Link>
-                        <Link href="/wishlist" className="flex">
+                        <Link href="/panpal/wishList" className="flex">
                             <p
                                 className={navLink({
-                                    active: pathname === '/wishlist',
+                                    active: pathname === '/panpal/wishList',
                                 })}
                             >
                                 찜한 팬팔
@@ -76,13 +76,13 @@ export default function Nav() {
                                 </p>
                             )}
                         </Link>
-                        <Link href="/review">
+                        <Link href="/concert">
                             <p
                                 className={navLink({
-                                    active: pathname === '/review',
+                                    active: pathname === '/concert',
                                 })}
                             >
-                                모든 리뷰
+                                공연 목록
                             </p>
                         </Link>
                     </div>
