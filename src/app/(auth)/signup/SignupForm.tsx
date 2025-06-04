@@ -103,7 +103,7 @@ export default function SignupForm() {
                             <Button
                                 type="submit"
                                 className="w-full mb-6"
-                                disabled={true}
+                                disabled={!formState.isValid}
                             >
                                 확인
                             </Button>

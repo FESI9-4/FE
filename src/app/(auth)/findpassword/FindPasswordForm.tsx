@@ -54,7 +54,7 @@ export default function FindPasswordForm() {
                             <Button
                                 type="submit"
                                 className="w-full mb-6"
-                                disabled={true}
+                                disabled={!formState.isValid}
                             >
                                 임시 비밀번호 발급
                             </Button>

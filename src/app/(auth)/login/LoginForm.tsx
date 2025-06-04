@@ -1,24 +1,26 @@
 'use client';
 import Link from 'next/link';
-import {
-    FieldError,
-    FieldValues,
-    SubmitHandler,
-    useForm,
-} from 'react-hook-form';
+import { FieldError, SubmitHandler, useForm } from 'react-hook-form';
 import { Button, Input } from '@/components/ui';
 import useMediaQuery from '@/hooks/useMediaQuery';
 
+interface FormData {
+    userId: string;
+    password: string;
+}
+
 export default function LoginForm() {
-    const { register, handleSubmit, formState } = useForm<FieldValues>({
+    const { register, handleSubmit, formState } = useForm<FormData>({
         mode: 'onBlur',
         reValidateMode: 'onBlur',
     });
-
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        console.log(data);
-    };
     const isMobile = useMediaQuery('(max-width: 768px)');
+
+    const onSubmit: SubmitHandler<FormData> = (data) => {
+        console.log(data);
+        //로그인 요청
+        //loginMutation.mutate(data);
+    };
 
     return (
         <div className="flex flex-col justify-center items-center gap-[14px] px-4 pb-8 sm:py-8 sm:px-[54px]">
@@ -78,7 +80,7 @@ export default function LoginForm() {
                             <Button
                                 type="submit"
                                 className="w-full mb-6"
-                                disabled={true}
+                                disabled={!formState.isValid}
                             >
                                 로그인
                             </Button>
