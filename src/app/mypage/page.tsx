@@ -1,6 +1,6 @@
 'use client';
 
-import { MyCardListContainer } from '@/components/mypage';
+import { CardListContainer, MyCardListContainer } from '@/components/mypage';
 import { Tab } from '@/components/ui';
 import ProfileSection from '@/components/ui/ProfileSection';
 import { useState } from 'react';
@@ -33,7 +33,10 @@ export default function Mypage() {
                             </div>
                         ))}
                     </div>
-                    <MyCardListContainer />
+                    {activeTab === '나의 팬팔' && <MyCardListContainer />}
+                    {activeTab === '내가 만든 팬팔' && <CardListContainer />}
+                    {activeTab === '나의 질문' && <MyCardListContainer />}
+                    {activeTab === '나의 답변' && <CardListContainer />}
                 </div>
             </div>
         </div>
