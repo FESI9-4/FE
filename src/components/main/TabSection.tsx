@@ -1,11 +1,10 @@
 'use client';
 
-import Tab from '@/components/ui/Tab';
 import { DoTogetherIcon, GoTogetherIcon } from '@/assets';
 import { useState } from 'react';
 import useMediaQuery from '@/hooks/useMediaQuery';
-import Button from '@/components/ui/Button';
 import { CATEGORY_DATA } from '@/types/categories';
+import { Tab, Button, PanpalModal } from '@/components/ui';
 
 export default function TapSeciton() {
     const [activeTab, setActiveTab] = useState<number>(0);
@@ -15,6 +14,7 @@ export default function TapSeciton() {
         '(min-width: 640px) and (max-width: 1279px)'
     );
     const currentCategory = CATEGORY_DATA[activeTab];
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
         <div className="w-full h-23  sm:h-31 xl:h-53 flex justify-center flex-col gap-5 sm:gap-10 xl:gap-5 xl:items-center min-w-94 ">
@@ -71,7 +71,10 @@ export default function TapSeciton() {
                 </div>
 
                 {isTablet && (
-                    <Button className="w-30 h-12 whitespace-nowrap">
+                    <Button
+                        onClick={() => setIsModalOpen(true)}
+                        className="w-30 h-12 whitespace-nowrap"
+                    >
                         팬팔 만들기
                     </Button>
                 )}
@@ -87,10 +90,22 @@ export default function TapSeciton() {
                             지금 모임에 참여해보세요
                         </span>
                     </p>
-                    <Button className="w-30 h-12 whitespace-nowrap">
+                    <Button
+                        onClick={() => setIsModalOpen(true)}
+                        className="w-30 h-12 whitespace-nowrap"
+                    >
                         팬팔 만들기
                     </Button>
                 </div>
+            )}
+            {isModalOpen && (
+                <PanpalModal
+                    onClose={() => setIsModalOpen(false)}
+                    onSubmit={(data) => {
+                        console.log('제출된 데이터:', data);
+                        setIsModalOpen(false);
+                    }}
+                />
             )}
         </div>
     );

@@ -19,6 +19,8 @@ import Input from './Input';
 import InputNumber from './InputNumber';
 import DateInput from './DateInput';
 import InputFile from './InputFile';
+import PanpalModal from './Modal/PanpalModal';
+
 export {
     Button,
     BoxSelect,
@@ -41,4 +43,5 @@ export {
     InputNumber,
     DateInput,
     InputFile,
+    PanpalModal,
 };
