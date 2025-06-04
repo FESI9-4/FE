@@ -85,7 +85,7 @@ const PlaceAutoCompleteInput: React.FC<PlaceAutoCompleteInputProps> = ({
             window.removeEventListener('scroll', updatePacPosition, true);
             window.removeEventListener('resize', updatePacPosition);
         };
-    }, [updatePacPosition]);
+    }, [updatePacPosition, onPlaceSelect]);
 
     return (
         <div className="relative w-full">
