@@ -2,11 +2,14 @@
 
 import React, { useState } from 'react';
 import useMediaQuery from '@/hooks/useMediaQuery';
-import CardList from '../ui/CardList';
-import { Button } from '../ui';
-import PaginationButton from '../ui/PaginationButton';
 import Link from 'next/link';
 import { Card } from '@/types/card';
+import {
+    Button,
+    CardList,
+    PaginationButton,
+    PanpalModal,
+} from '@/components/ui';
 
 interface CardSectionProps {
     cards: Card[];
@@ -15,6 +18,7 @@ interface CardSectionProps {
 export default function CardSection({ cards }: CardSectionProps) {
     const hasCards = cards && cards.length > 0;
     const isMobile = useMediaQuery('(max-width: 639px)');
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     // 페이지 상태: 현재 페이지, 기본값 1
     const [currentPage, setCurrentPage] = useState(1);
@@ -82,10 +86,22 @@ export default function CardSection({ cards }: CardSectionProps) {
             </div>
             {isMobile && (
                 <div className="h-20">
-                    <Button className="w-30 h-12 whitespace-nowrap">
+                    <Button
+                        onClick={() => setIsModalOpen(true)}
+                        className="w-30 h-12 whitespace-nowrap"
+                    >
                         팬팔 만들기
                     </Button>
                 </div>
+            )}
+            {isModalOpen && (
+                <PanpalModal
+                    onClose={() => setIsModalOpen(false)}
+                    onSubmit={(data) => {
+                        console.log('제출된 데이터:', data);
+                        setIsModalOpen(false);
+                    }}
+                />
             )}
         </div>
     );

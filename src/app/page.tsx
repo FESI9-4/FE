@@ -1,6 +1,4 @@
-import TabSection from '@/components/main/TapSeciton';
-import FilterSeciton from '@/components/main/FilterSeciton';
-import CardSection from '@/components/main/CardSeciton';
+import { TabSection, FilterSeciton, CardSection } from '@/components/main';
 import { mockCards } from '@/__mock__/cards';
 
 //TODO api 연결부 필터링, 카드 데이터, 페이지네이션,

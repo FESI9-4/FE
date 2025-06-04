@@ -315,7 +315,7 @@
 
 .pac-container {
     @apply rounded-xl shadow-lg mt-3 bg-gray-700;
-    z-index: 1000 !important;
+    z-index: 9999 !important;
     border: none !important;
     overflow-y: auto;
     max-height: 250px;
