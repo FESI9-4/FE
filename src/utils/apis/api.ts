@@ -1,4 +1,4 @@
-import axiosInstance from './axiosInstance';
+import { customFetcher } from './customFetcher';
 
 // 나중에 type 별로 묶어서 처리하면 좋을듯합니다
 export interface User {
@@ -9,19 +9,23 @@ export interface User {
 
 export const userApi = {
     getUser: async (userId: number) => {
-        const response = await axiosInstance.get<User>(`/users/${userId}`);
-        return response.data;
+        return customFetcher<User, void>(`/users/${userId}`);
     },
 
     updateUser: async (userId: number, userData: Partial<User>) => {
-        const response = await axiosInstance.put<User>(
-            `/users/${userId}`,
-            userData
-        );
-        return response.data;
+        return customFetcher<User, Partial<User>>(`/users/${userId}`, {
+            method: 'PUT',
+            body: userData,
+        });
     },
 
     deleteUser: async (userId: number) => {
-        await axiosInstance.delete(`/users/${userId}`);
+        return customFetcher<void, void>(`/users/${userId}`, {
+            method: 'DELETE',
+        });
     },
 };
+// 사용 예시
+// const user = await userApi.getUser(1);
+// const updatedUser = await userApi.updateUser(1, { username: 'newName' });
+// await userApi.deleteUser(1);
