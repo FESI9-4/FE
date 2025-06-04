@@ -6,7 +6,7 @@ import QueryProvider from '@/components/providers/QueryProvider';
 export const metadata: Metadata = {
     title: 'FanPal',
     description: '',
-    viewport: 'width=device-width, initial-scale=1', // 이걸 추가하세요
+    viewport: 'width=device-width, initial-scale=1',
 };
 
 export default function RootLayout({
@@ -16,10 +16,6 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-            <head>
-                {/* 명시적으로 넣고 싶으면 이렇게 해도 됨 */}
-                <meta name="viewport" content="width=device-width, initial-scale=1" />
-            </head>
             <body className="bg-[#14151A]">
                 <QueryProvider>
                     <Nav />
