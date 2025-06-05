@@ -2,12 +2,12 @@ import { cookies } from 'next/headers';
 import { fetchInstance, publicApis } from './fetchInstance';
 import { FetcherOptions } from '@/types/fetcher';
 
-export const serverFetcher = async <T, B>(
+export const serverFetcher = async <TResponse, TRequest>(
     url: string,
-    options: FetcherOptions<B> = {}
-): Promise<T> => {
+    options: FetcherOptions<TRequest> = {}
+): Promise<TResponse> => {
     const cookieStore = await cookies();
-    const isPublic = publicApis.some((api) => url.includes(api));
+    const isPublic = publicApis.includes(url);
     const headers = new Headers(options.headers);
 
     if (!isPublic) {
@@ -18,9 +18,10 @@ export const serverFetcher = async <T, B>(
     }
 
     try {
-        const response = await fetchInstance<T, B>(url, {
+        const response = await fetchInstance<TResponse, TRequest>(url, {
             ...options,
             headers,
+            cache: 'no-store',
         });
 
         return response;
@@ -31,29 +32,36 @@ export const serverFetcher = async <T, B>(
             !isPublic
         ) {
             try {
-                const refreshResponse = await fetchInstance<
-                    { accessToken: string },
-                    unknown
-                >('/auth/refresh', {
-                    method: 'POST',
-                });
+                const refreshResponse = await fetchInstance<Response, unknown>(
+                    '/auth/refresh',
+                    {
+                        method: 'POST',
+                    }
+                );
 
-                cookieStore.set('accessToken', refreshResponse.accessToken, {
+                const newAccessToken = refreshResponse.headers
+                    .get('Authorization')
+                    ?.replace('Bearer ', '');
+                if (!newAccessToken) {
+                    throw new Error('No access token in response');
+                }
+
+                cookieStore.set('accessToken', newAccessToken, {
                     httpOnly: true,
                     secure: process.env.NODE_ENV === 'production',
                     sameSite: 'strict',
                     path: '/',
                 });
 
-                headers.set(
-                    'Authorization',
-                    `Bearer ${refreshResponse.accessToken}`
-                );
+                headers.set('Authorization', `Bearer ${newAccessToken}`);
 
-                const retryResponse = await fetchInstance<T, B>(url, {
-                    ...options,
-                    headers,
-                });
+                const retryResponse = await fetchInstance<TResponse, TRequest>(
+                    url,
+                    {
+                        ...options,
+                        headers,
+                    }
+                );
 
                 return retryResponse;
             } catch {

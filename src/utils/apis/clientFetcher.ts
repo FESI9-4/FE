@@ -2,12 +2,12 @@ import { useAuthStore } from '@/store/authStore';
 import { fetchInstance, publicApis } from './fetchInstance';
 import { FetcherOptions } from '@/types/fetcher';
 
-export const clientFetcher = async <T, B>(
+export const clientFetcher = async <TResponse, TRequest>(
     url: string,
-    options: FetcherOptions<B> = {}
-): Promise<T> => {
+    options: FetcherOptions<TRequest> = {}
+): Promise<TResponse> => {
     const authStore = useAuthStore.getState();
-    const isPublic = publicApis.some((api) => url.includes(api));
+    const isPublic = publicApis.includes(url);
     const headers = new Headers(options.headers);
 
     if (!isPublic) {
@@ -18,7 +18,7 @@ export const clientFetcher = async <T, B>(
     }
 
     try {
-        const response = await fetchInstance<T, B>(url, {
+        const response = await fetchInstance<TResponse, TRequest>(url, {
             ...options,
             headers,
         });
@@ -31,22 +31,29 @@ export const clientFetcher = async <T, B>(
             !isPublic
         ) {
             try {
-                const refreshResponse = await fetchInstance<
-                    { accessToken: string },
-                    unknown
-                >('/auth/refresh', {
-                    method: 'POST',
-                });
-
-                authStore.setAccessToken(refreshResponse.accessToken);
-                headers.set(
-                    'Authorization',
-                    `Bearer ${refreshResponse.accessToken}`
+                const refreshResponse = await fetchInstance<Response, unknown>(
+                    '/auth/refresh',
+                    {
+                        method: 'POST',
+                    }
                 );
-                const retryResponse = await fetchInstance<T, B>(url, {
-                    ...options,
-                    headers,
-                });
+
+                const newAccessToken = refreshResponse.headers
+                    .get('Authorization')
+                    ?.replace('Bearer ', '');
+                if (!newAccessToken) {
+                    throw new Error('No access token in response');
+                }
+
+                authStore.setAccessToken(newAccessToken);
+                headers.set('Authorization', `Bearer ${newAccessToken}`);
+                const retryResponse = await fetchInstance<TResponse, TRequest>(
+                    url,
+                    {
+                        ...options,
+                        headers,
+                    }
+                );
 
                 return retryResponse;
             } catch {
