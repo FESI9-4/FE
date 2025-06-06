@@ -1,5 +1,5 @@
 'use client';
-import { Category } from '@/types/categories';
+import { Category } from '@/types/categoriesType';
 import { DoTogetherIcon, GoTogetherIcon } from '@/assets';
 import { cva } from 'class-variance-authority';
 import {

@@ -14,7 +14,7 @@ import {
     Path,
 } from 'react-hook-form';
 import PasswordButton from './PasswordButton';
-import { InputSize, InputVariant } from '@/types/Input';
+import { InputSize, InputVariant } from '@/types/InputStyleType';
 
 interface InputProps<TFormValues extends FieldValues = FieldValues>
     extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'name'> {
