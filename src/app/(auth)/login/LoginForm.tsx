@@ -3,23 +3,20 @@ import Link from 'next/link';
 import { FieldError, SubmitHandler, useForm } from 'react-hook-form';
 import { Button, Input } from '@/components/ui';
 import useMediaQuery from '@/hooks/useMediaQuery';
-
-interface FormData {
-    userId: string;
-    password: string;
-}
+import { LoginRequest } from '@/types/authType';
+import { useLogin } from '@/hooks/queries/useAuth';
 
 export default function LoginForm() {
-    const { register, handleSubmit, formState } = useForm<FormData>({
+    const { register, handleSubmit, formState } = useForm<LoginRequest>({
         mode: 'onBlur',
         reValidateMode: 'onBlur',
     });
     const isMobile = useMediaQuery('(max-width: 768px)');
-
-    const onSubmit: SubmitHandler<FormData> = (data) => {
-        console.log(data);
+    const loginMutation = useLogin();
+    const onSubmit: SubmitHandler<LoginRequest> = (data) => {
+        console.log('SubmitHandler');
         //로그인 요청
-        //loginMutation.mutate(data);
+        loginMutation.mutate(data);
     };
 
     return (
@@ -69,12 +66,14 @@ export default function LoginForm() {
                                     },
                                 }}
                             />
-                            <Link
-                                href="/signup"
-                                className="text-center text-gray-400 text-sm not-italic font-medium leading-5 underline underline-offset-2"
-                            >
-                                비밀번호를 잊으셨나요?
-                            </Link>
+                            <div className="flex justify-center">
+                                <Link
+                                    href="/signup"
+                                    className="text-center w-fit text-gray-400 text-sm not-italic font-medium leading-5 underline underline-offset-2"
+                                >
+                                    비밀번호를 잊으셨나요?
+                                </Link>
+                            </div>
                         </div>
                         <div>
                             <Button
