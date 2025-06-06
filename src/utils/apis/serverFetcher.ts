@@ -60,6 +60,7 @@ export const serverFetcher = async <TResponse, TRequest>(
                     {
                         ...options,
                         headers,
+                        cache: 'no-store',
                     }
                 );
 
