@@ -2,12 +2,13 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import useMediaQuery from '@/hooks/useMediaQuery';
-import useAuth from '@/hooks/useAuth';
 import { usePathname } from 'next/navigation';
 import { NavDesktopIcon, NavMobileIcon } from '@/assets';
 import { useWishlistStore } from '@/store/wishlistStore';
 import { cva } from 'class-variance-authority';
 import Profile from '@/components/ui/Profile';
+import useAuth from '@/hooks/useAuth';
+import { useLogout } from '@/hooks/queries/useAuth';
 
 const navLink = cva('relative w-auto md:w-15 h-5 md:h-6 transition-colors', {
     variants: {
@@ -28,13 +29,13 @@ const iconStyle = cva('cursor-pointer', {
 });
 
 export default function Nav() {
+    const { mutate: logout } = useLogout();
     const isDesktop = useMediaQuery('(min-width: 768px)');
     const { isLoggedIn, user } = useAuth();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const pathname = usePathname();
     const wishlistCount = useWishlistStore((state) => state.wishlistCount);
     const reset = useWishlistStore((state) => state.reset);
-
     const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
 
     return (
@@ -99,10 +100,7 @@ export default function Nav() {
                             onClick={toggleDropdown}
                             className="cursor-pointer"
                         >
-                            <Profile
-                                size="medium"
-                                image={user?.profileImage || ''}
-                            />
+                            <Profile size="medium" image={user?.img || ''} />
                         </div>
 
                         {isDropdownOpen && (
@@ -118,9 +116,9 @@ export default function Nav() {
                                 <button
                                     className="w-full h-10 xl:h-14 rounded-b-xl flex items-center justify-center"
                                     onClick={() => {
-                                        localStorage.removeItem('token');
+                                        logout();
                                         reset();
-                                        window.location.reload();
+                                        //window.location.reload();
                                     }}
                                 >
                                     <div className="w-32.5 h-10 rounded-xl pl-4 flex hover:bg-gray-600 items-center">
