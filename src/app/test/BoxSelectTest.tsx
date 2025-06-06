@@ -1,6 +1,6 @@
 'use client';
 import BoxSelect from '@/components/ui/BoxSelect';
-import { CATEGORY_DATA } from '@/types/categories';
+import { CATEGORY_DATA } from '@/types/categoriesType';
 import { useForm } from 'react-hook-form';
 import { FieldValues } from 'react-hook-form';
 

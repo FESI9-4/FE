@@ -8,7 +8,7 @@ import {
     UseFormRegister,
     Path,
 } from 'react-hook-form';
-import { InputSize, InputVariant } from '@/types/Input';
+import { InputSize, InputVariant } from '@/types/InputStyleType';
 import React, { ChangeEvent, InputHTMLAttributes, useState } from 'react';
 
 interface FileInputProps<TFormValues extends FieldValues = FieldValues>
