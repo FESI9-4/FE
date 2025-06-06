@@ -58,6 +58,11 @@ export const clientFetcher = async <TResponse, TRequest>(
                 return retryResponse;
             } catch {
                 authStore.removeAccessToken();
+                try {
+                    await fetchInstance('/auth/logout', { method: 'POST' });
+                } catch (error) {
+                    console.error('Logout failed:', error);
+                }
                 window.location.href = '/login';
                 throw new Error('Authentication failed');
             }
