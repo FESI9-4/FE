@@ -7,6 +7,11 @@ export interface User {
     email: string;
 }
 
+export interface LoginRequest {
+    userId: string;
+    password: string;
+}
+
 export const userApi = {
     getUser: async (userId: number) => {
         return customFetcher<User, void>(`/users/${userId}`);

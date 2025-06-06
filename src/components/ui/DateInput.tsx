@@ -7,7 +7,7 @@ import { ko } from 'date-fns/locale/ko';
 import CustomTimeInput from './CustomTimePicker';
 import { cva } from 'class-variance-authority';
 import { cn } from '@/utils/cn';
-import { InputSize, InputVariant } from '@/types/Input';
+import { InputSize, InputVariant } from '@/types/InputStyleType';
 import {
     FieldValues,
     FieldError,
