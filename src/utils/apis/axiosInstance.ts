@@ -1,3 +1,4 @@
+import { useAuthStore } from '@/store/authStore';
 import axios from 'axios';
 
 const baseURL = 'http://localhost:3000'; // 주소 수정
@@ -71,7 +72,7 @@ const isPublicApi = (url: string) => {
 axiosInstance.interceptors.request.use(
     (config) => {
         if (!isPublicApi(config.url || '')) {
-            const token = localStorage.getItem('accessToken');
+            const token = useAuthStore.getState().accessToken;
             if (token) {
                 config.headers.Authorization = `Bearer ${token}`;
             }
