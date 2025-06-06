@@ -67,6 +67,7 @@ export const serverFetcher = async <TResponse, TRequest>(
                 return retryResponse;
             } catch {
                 cookieStore.delete('accessToken');
+                cookieStore.delete('refreshToken');
                 throw new Error('Authentication failed');
             }
         }
