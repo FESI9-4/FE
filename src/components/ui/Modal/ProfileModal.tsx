@@ -7,7 +7,7 @@ import BaseModal from '@/components/ui/Modal';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 import Profile from '@/components/ui/Profile';
-import useAuth from '@/hooks/useAuth';
+import { useGetUser } from '@/hooks/queries/useAuth';
 
 interface EditProfileModalProps {
     onClose: () => void;
@@ -18,7 +18,7 @@ export default function EditProfileModal({
     onClose,
     onSubmit,
 }: EditProfileModalProps) {
-    const { user } = useAuth();
+    const { data: user } = useGetUser();
 
     const {
         register,
@@ -49,7 +49,7 @@ export default function EditProfileModal({
     const file = watch('file');
     const previewImage = file?.[0]
         ? URL.createObjectURL(file[0])
-        : user?.profileImage || '';
+        : user?.img || '';
 
     const handleImageClick = () => {
         fileInputRef.current?.click();
