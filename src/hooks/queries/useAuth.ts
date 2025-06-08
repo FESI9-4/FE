@@ -1,74 +1,70 @@
 // hooks/useAuth.ts
-import { useMutation } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { LoginRequest } from '@/types/authType';
+import { authApi } from '@/utils/apis/authApi';
 import { useAuthStore } from '@/store/authStore';
-import { LoginRequest, LoginResponse } from '@/types/authType';
-import { removeCookie, setCookie } from '@/utils/cookies';
-import axiosInstance from '@/utils/apis/axiosInstance';
 
 export const useLogin = () => {
-    const router = useRouter();
-    const setAuth = useAuthStore((state) => state.setAuth);
-    const setAccessToken = useAuthStore((state) => state.setAccessToken);
+    const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: async ({ userId, password }: LoginRequest) => {
-            const response = await axiosInstance.post('api/auth/login', {
-                userId,
-                password,
-            });
+        mutationFn: async (loginData: LoginRequest) => {
+            // ✅ API에서 Response 객체 받기
+            const response = await authApi.login(loginData);
+            // ✅ 훅에서 데이터 가공
+            const data = await response.json();
+            const authHeader = response.headers.get('Authorization');
+            const accessToken = authHeader?.replace('Bearer ', '') || null;
 
-            const authHeader = response.headers['authorization'];
-            const accessToken = authHeader?.replace('Bearer ', '');
-
-            const data = response.data;
-
-            console.log('📡 응답 확인:', {
-                headers: response.headers,
-                authHeader,
-                accessToken,
+            return {
+                // result 객체에 담김
                 data,
-            });
-            return { ...data, accessToken: accessToken };
+                accessToken,
+            };
         },
-
-        onSuccess: (response: LoginResponse) => {
-            if (response.statusCode === 200) {
-                console.log('🔥 로그인 성공, 스토어 저장 시작');
-                setCookie('accessToken', response.accessToken || '');
-                setAccessToken({
-                    token: response.data.token,
-                });
-                setAuth({
-                    userId: response.data.userId,
-                    nickName: response.data.nickName,
-                    img: response.data.img || '',
-                    wistLikeCount: response.data.wistLikeCount || 0,
-                });
-
-                router.push('/afterlogin');
+        onSuccess: async (result) => {
+            // ✅ 데이터 처리
+            if (result.data.data) {
+                console.log('🔄 유저 정보 캐시에 저장 완료');
+                queryClient.setQueryData(['user'], result.data.data);
+            }
+            if (result.accessToken) {
+                // ✅ 액세스 토큰 저장
+                const { setAccessToken } = useAuthStore.getState();
+                setAccessToken(result.accessToken);
+                //Route Handler로 HttpOnly 쿠키 저장
+                await authApi.storeAccessToken(result.accessToken);
+                console.log('✅ 액세스 토큰 스토어에 저장 완료:');
             }
         },
-
         onError: (error) => {
-            console.error('로그인 실패:', error);
+            console.error('❌ 로그인 실패:', error.message);
         },
     });
 };
+export const useGetUser = () => {
+    const accessToken = useAuthStore((state) => state.accessToken);
+    return useQuery({
+        queryKey: ['user'],
+        queryFn: async () => {
+            const response = (await authApi.getUser()).data;
+            return response;
+        },
+        enabled: !!accessToken,
+        staleTime: Infinity,
+    });
+};
 export const useLogout = () => {
-    const router = useRouter();
-    const clearAuth = useAuthStore((state) => state.clearAuth);
+    const queryClient = useQueryClient();
     return useMutation({
         mutationFn: async () => {
-            const response = await axiosInstance.post('/api/auth/logout');
-            console.log('📡 응답 확인:', response.data);
-            return response.data;
+            const { removeAccessToken } = useAuthStore.getState();
+            removeAccessToken();
+            await authApi.logout();
+            await authApi.clearCookie();
         },
-        // 로그아웃 성공시 유저정보 및 액세스토큰 삭제
         onSuccess: () => {
-            clearAuth();
-            removeCookie('accessToken');
-            console.log('로그아웃 성공');
-            router.push('/');
+            queryClient.clear();
+            window.location.replace('/login');
         },
     });
 };
