@@ -1,21 +1,18 @@
 import { useState } from 'react';
-import { MyCardList, PaginationButton } from '@/components/ui';
+import { CardList, PaginationButton } from '@/components/ui';
 import { BlankScreen } from '@/components/mypage';
+import { mok2 as mok } from './mok';
+
 export default function CardListContainer() {
-    const mok = {
-        totalPage: 1,
-        currentPage: 1,
-        data: [],
-    };
     const [currentPage, setCurrentPage] = useState(mok.currentPage);
 
     return (
         <div>
             {mok.data.length === 0 ? (
                 <BlankScreen
-                    text={`신청한 펜팔이 없어요\n마음에 드는 팬팔을 찾으러 갈까요?`}
+                    text={`아직 만든 팬팔이 없어요\n마음을 나눌 팬팔을 직접 만들어보세요!`}
                     buttonText="팬팔 만들기"
-                    link="/"
+                    link="/ "
                 />
             ) : (
                 <div className="flex flex-col gap-13.5">
@@ -25,10 +22,11 @@ export default function CardListContainer() {
                                 key={item.article_id}
                                 className="flex flex-col gap-3"
                             >
-                                <MyCardList
+                                <CardList
                                     title={item.title}
                                     location={item.location}
                                     date={item.date}
+                                    deadline={item.deadline}
                                     currentPerson={item.current_person}
                                     maxPerson={item.max_person}
                                     openStatus={
@@ -36,14 +34,12 @@ export default function CardListContainer() {
                                             | 'waiting'
                                             | 'finished'
                                             | 'progressing'
-                                            | 'canceled'
                                     }
+                                    wishList={item.wish_list}
                                     image={item.image}
                                     createdUser={item.created_at}
                                     createdUserProfileImg={item.image}
-                                    useStatus={
-                                        item.useStatus as 'schedule' | 'done'
-                                    }
+                                    href={`/panpal/${item.article_id}`}
                                 />
                                 {index !== mok.data.length - 1 && (
                                     <hr className="border-t border-gray-800 pb-3" />
