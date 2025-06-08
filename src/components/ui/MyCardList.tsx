@@ -19,6 +19,7 @@ interface CardListProps {
     createdUser: string;
     createdUserProfileImg: string;
     useStatus: 'schedule' | 'done';
+    buttonOnClick: () => void;
 }
 
 export default function CardList({
@@ -32,6 +33,7 @@ export default function CardList({
     createdUser,
     createdUserProfileImg,
     useStatus,
+    buttonOnClick,
 }: CardListProps) {
     const convertedDate = dateConverter(Number(date), 'korea');
     const userCountClassName = cva(
@@ -152,11 +154,16 @@ export default function CardList({
                                     size="large"
                                     styled="outline"
                                     className="outline-white text-white hover:outline-white active:outline-white"
+                                    onClick={buttonOnClick}
                                 >
                                     삭제하기
                                 </Button>
                             ) : (
-                                <Button size="large" styled="outline">
+                                <Button
+                                    size="large"
+                                    styled="outline"
+                                    onClick={buttonOnClick}
+                                >
                                     참여 취소하기
                                 </Button>
                             ))}

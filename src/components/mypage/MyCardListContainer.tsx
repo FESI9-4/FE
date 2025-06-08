@@ -1,79 +1,17 @@
 import { MyCardList, PaginationButton } from '@/components/ui';
 import { BlankScreen } from '@/components/mypage';
 import { useState } from 'react';
+import { mok } from './mok';
 
 export default function MyCardListContainer() {
-    const mok = {
-        totalPage: 10,
-        currentPage: 1,
-        data: [
-            {
-                article_id: 1,
-                title: '나의 팬팔',
-                location: '서울',
-                date: '1748933344',
-                deadline: '1748933344',
-                created_at: '1748933344',
-                current_person: 1,
-                max_person: 10,
-                openStatus: 'waiting',
-                wish_list: true,
-                image: 'https://picsum.photos/200/300',
-                useStatus: 'schedule',
-            },
-            {
-                article_id: 2,
-                title: '나의 팬팔',
-                location: '서울',
-                date: '1748933344',
-                deadline: '1748933344',
-                created_at: '1748933344',
-                current_person: 1,
-                max_person: 10,
-                openStatus: 'finished',
-                wish_list: true,
-                image: 'https://picsum.photos/200/300',
-                useStatus: 'done',
-            },
-            {
-                article_id: 3,
-                title: '나의 팬팔',
-                location: '서울',
-                date: '1748933344',
-                deadline: '1748933344',
-                created_at: '1748933344',
-                current_person: 1,
-                max_person: 10,
-                openStatus: 'progressing',
-                wish_list: true,
-                image: 'https://picsum.photos/200/300',
-                useStatus: 'schedule',
-            },
-            {
-                article_id: 4,
-                title: '나의 팬팔',
-                location: '서울',
-                date: '1748933344',
-                deadline: '1748933344',
-                created_at: '1748933344',
-                current_person: 1,
-                max_person: 10,
-                openStatus: 'canceled',
-                wish_list: true,
-                image: 'https://picsum.photos/200/300',
-                useStatus: 'schedule',
-            },
-        ],
-    };
     const [currentPage, setCurrentPage] = useState(mok.currentPage);
 
     return (
         <div>
             {mok.data.length === 0 ? (
                 <BlankScreen
-                    title="팬팔을 만들어 보세요!"
-                    description="팬팔을 만들어 보세요!"
-                    buttonText="팬팔 만들기"
+                    text={`신청한 펜팔이 없어요\n마음에 드는 팬팔을 찾으러 갈까요?`}
+                    buttonText="팬팔 둘러보기"
                     link="/"
                 />
             ) : (

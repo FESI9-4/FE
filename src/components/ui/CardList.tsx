@@ -5,6 +5,7 @@ import ContainerProgress from './ContainerProgress';
 import Like from './Like';
 import Tag from './Tag';
 import { HandIcon } from '@/assets';
+import Link from 'next/link';
 
 interface CardListProps {
     title: string;
@@ -18,6 +19,7 @@ interface CardListProps {
     image: string;
     createdUser: string;
     createdUserProfileImg: string;
+    href: string;
 }
 
 export default function CardList({
@@ -32,12 +34,16 @@ export default function CardList({
     image,
     createdUser,
     createdUserProfileImg,
+    href,
 }: CardListProps) {
     const convertedDate = dateConverter(Number(date), 'korea');
     const convertedDeadline = dateConverter(Number(deadline), 'korea-short');
 
     return (
-        <div className="w-full flex flex-col sm:flex-row sm:py-3 sm:pl-3 sm:pr-6 sm:gap-6 gap-0 sm:min-h-67.5 min-h-97 hover:bg-gray-900 active:opacity-50 hover:cursor-pointer">
+        <Link
+            href={href}
+            className="w-full flex flex-col sm:flex-row sm:py-3 sm:pl-3 sm:pr-6 sm:gap-6 gap-0 sm:min-h-67.5 min-h-97 hover:bg-gray-900 active:opacity-50 hover:cursor-pointer"
+        >
             <div className="w-full sm:w-1/4 relative h-50 sm:h-auto">
                 <Image src={image} alt="image" fill objectFit="cover" />
                 {openStatus === 'finished' ? (
@@ -93,6 +99,6 @@ export default function CardList({
                     deadline={convertedDeadline}
                 />
             </div>
-        </div>
+        </Link>
     );
 }

@@ -13,7 +13,7 @@ export default function BlankScreen({
     link,
 }: BlankScreenProps) {
     return (
-        <div className="flex flex-col justify-center items-center gap-8">
+        <div className="flex flex-col justify-center items-center gap-8 h-82">
             <div className="text-gray-500 text-sm font-medium text-center whitespace-pre-line">
                 {text}
             </div>
