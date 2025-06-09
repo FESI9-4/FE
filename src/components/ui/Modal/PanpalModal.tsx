@@ -4,7 +4,7 @@ import { useForm, Controller } from 'react-hook-form';
 import BaseModal from '@/components/ui/Modal';
 import { DeleteIcon } from '@/assets/index';
 import PlaceAutoCompleteInput from './PlaceAutoCompleteInput';
-import { CATEGORY_DATA } from '@/types/categoriesType';
+import { CATEGORY_DATA } from '@/types/categories';
 
 import {
     InputText,

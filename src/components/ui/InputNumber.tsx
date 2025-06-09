@@ -15,7 +15,7 @@ import {
     Path,
 } from 'react-hook-form';
 import { DecrementIcon, IncrementIcon } from '@/assets';
-import { InputSize, InputVariant } from '@/types/InputStyleType';
+import { InputSize, InputVariant } from '@/types/InputStyle';
 
 type PathValue<
     TFieldValues,
