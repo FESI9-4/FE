@@ -1,7 +1,12 @@
 import { FetcherOptions } from '@/types/fetcher';
 
 const baseURL = 'http://localhost:3000';
-export const publicApis = ['/auth/login', '/auth/register', '/auth/refresh'];
+export const publicApis = [
+    'api/auth/login',
+    'api/auth/signup',
+    'api/auth/refresh',
+    'api/auth/check-userId',
+];
 
 export const fetchInstance = async <TResponse, TRequest>(
     url: string,
@@ -22,7 +27,10 @@ export const fetchInstance = async <TResponse, TRequest>(
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-
+        // ✅ Response 타입이면 response 자체를, 아니면 json 반환
+        if (options.returnFullResponse) {
+            return response as TResponse;
+        }
         return response.json();
     } catch (error) {
         throw error;

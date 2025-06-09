@@ -2,14 +2,12 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import useMediaQuery from '@/hooks/useMediaQuery';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { NavDesktopIcon, NavMobileIcon } from '@/assets';
-import { useWishlistStore } from '@/store/wishlistStore';
+//import { useWishlistStore } from '@/store/wishlistStore';
 import { cva } from 'class-variance-authority';
 import Profile from '@/components/ui/Profile';
-import useAuth from '@/hooks/useAuth';
-import { useLogout } from '@/hooks/queries/useAuth';
-
+import { useGetUser, useLogout } from '@/hooks/queries/useAuth';
 const navLink = cva('relative w-auto md:w-15 h-5 md:h-6 transition-colors', {
     variants: {
         active: {
@@ -29,15 +27,23 @@ const iconStyle = cva('cursor-pointer', {
 });
 
 export default function Nav() {
+    const { data: user } = useGetUser();
     const { mutate: logout } = useLogout();
+    const isLoggedIn = !!user;
     const isDesktop = useMediaQuery('(min-width: 768px)');
-    const { isLoggedIn, user } = useAuth();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const pathname = usePathname();
-    const wishlistCount = useWishlistStore((state) => state.wishlistCount);
-    const reset = useWishlistStore((state) => state.reset);
+    const router = useRouter();
+    const handleLogout = () => {
+        logout(undefined, {
+            onSuccess: () => {
+                router.push('/login');
+            },
+        });
+    };
+    //const wishlistCount = useWishlistStore((state) => state.wishlistCount);
+    //const reset = useWishlistStore((state) => state.reset);
     const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
-
     return (
         <nav className="fixed w-full h-14 md:h-15 bg-black flex items-center justify-center min-w-85.5 z-50">
             <div className="w-[calc(100%-32px)] md:w-[calc(100%-46px)] xl:w-[calc(100%-722px)] h-full flex justify-between items-center">
@@ -71,9 +77,9 @@ export default function Nav() {
                             >
                                 찜한 팬팔
                             </p>
-                            {wishlistCount > 0 && (
+                            {(user?.wistLikeCount as number) > 0 && (
                                 <p className="bg-gray-800 ml-1.25 w-6.75 md:mt-0.5 h-5 rounded-2xl text-xs font-semibold flex items-center justify-center">
-                                    {wishlistCount}
+                                    {user?.wistLikeCount}
                                 </p>
                             )}
                         </Link>
@@ -115,11 +121,7 @@ export default function Nav() {
                                 </Link>
                                 <button
                                     className="w-full h-10 xl:h-14 rounded-b-xl flex items-center justify-center"
-                                    onClick={() => {
-                                        logout();
-                                        reset();
-                                        //window.location.reload();
-                                    }}
+                                    onClick={handleLogout}
                                 >
                                     <div className="w-32.5 h-10 rounded-xl pl-4 flex hover:bg-gray-600 items-center">
                                         로그아웃

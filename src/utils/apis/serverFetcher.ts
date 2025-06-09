@@ -1,3 +1,4 @@
+'use server';
 import { cookies } from 'next/headers';
 import { fetchInstance, publicApis } from './fetchInstance';
 import { FetcherOptions } from '@/types/fetcher';
@@ -33,9 +34,10 @@ export const serverFetcher = async <TResponse, TRequest>(
         ) {
             try {
                 const refreshResponse = await fetchInstance<Response, unknown>(
-                    '/auth/refresh',
+                    'api/auth/refresh',
                     {
                         method: 'POST',
+                        credentials: 'include',
                     }
                 );
 
