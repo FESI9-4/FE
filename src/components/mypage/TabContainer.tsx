@@ -15,9 +15,9 @@ export default function TabContainer() {
 
     return (
         <div className="flex flex-col gap-7.5">
-            <div className="flex">
+            <div className="flex overflow-x-auto">
                 {tabs.map((tab) => (
-                    <div key={tab} className="w-full max-w-31">
+                    <div key={tab} className="w-full max-w-31 min-w-31">
                         <Tab
                             active={activeTab === tab}
                             onClick={() => setActiveTab(tab)}
