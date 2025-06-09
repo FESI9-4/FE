@@ -8,7 +8,7 @@ export async function middleware(request: NextRequest) {
     const accessToken = cookieStore.get('accessToken');
 
     // 로그인된 사용자만 접근 가능한 페이지
-    const authRoutes = ['/mypage'];
+    const authRoutes = ['/mypages'];
     // 로그인하지 않은 사용자만 접근 가능한 페이지 (로그인된 사용자는 리다이렉트)
     const guestRoutes = ['/login', '/signup', '/findpassword'];
     // 모든 사용자 접근 가능한 페이지 (로그인 상태 무관)
