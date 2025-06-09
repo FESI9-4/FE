@@ -44,4 +44,6 @@ export {
     InputNumber,
     DateInput,
     InputFile,
+    PanpalModal,
+    ProfileSection,
 };
