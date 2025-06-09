@@ -3,32 +3,56 @@
 import { ProfileSection } from '@/components/ui';
 import { useState } from 'react';
 import PasswordModal from '../ui/Modal/PasswordModal';
+import EditProfileModal from '../ui/Modal/ProfileModal';
 
 export default function ProfileContainer() {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+    const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
 
-    const handleOpen = () => {
-        setIsOpen(true);
+    const handleOpenPasswordModal = () => {
+        setIsPasswordModalOpen(true);
     };
 
-    const handleClose = () => {
-        setIsOpen(false);
+    const handleOpenEditProfileModal = () => {
+        setIsEditProfileModalOpen(true);
     };
 
-    const handleSubmit = () => {
+    const handleClosePasswordModal = () => {
+        setIsPasswordModalOpen(false);
+    };
+
+    const handleCloseEditProfileModal = () => {
+        setIsEditProfileModalOpen(false);
+    };
+
+    const handleSubmitPasswordModal = () => {
         console.log('submit');
-        setIsOpen(false);
+        setIsPasswordModalOpen(false);
+    };
+
+    const handleSubmitEditProfileModal = () => {
+        console.log('submit');
+        setIsEditProfileModalOpen(false);
     };
 
     return (
         <div className="flex flex-col gap-5">
             <div className="text-2xl font-semibold text-white">마이페이지</div>
             <div>
-                <ProfileSection onClick={handleOpen} />
-                {isOpen && (
+                <ProfileSection
+                    handlePasswordModal={handleOpenPasswordModal}
+                    handleEditProfileModal={handleOpenEditProfileModal}
+                />
+                {isPasswordModalOpen && (
                     <PasswordModal
-                        onClose={handleClose}
-                        onSubmit={handleSubmit}
+                        onClose={handleClosePasswordModal}
+                        onSubmit={handleSubmitPasswordModal}
+                    />
+                )}
+                {isEditProfileModalOpen && (
+                    <EditProfileModal
+                        onClose={handleCloseEditProfileModal}
+                        onSubmit={handleSubmitEditProfileModal}
                     />
                 )}
             </div>

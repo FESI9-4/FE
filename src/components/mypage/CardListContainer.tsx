@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { CardList, PaginationButton } from '@/components/ui';
 import { BlankScreen } from '@/components/mypage';
 import { CardListMok as mok } from '../../__mock__/mypage';
+import Link from 'next/link';
 
 export default function CardListContainer() {
     const [currentPage, setCurrentPage] = useState(mok.currentPage);
@@ -20,8 +21,9 @@ export default function CardListContainer() {
                 <div className="flex flex-col gap-13.5">
                     <div>
                         {mok.data.map((item, index) => (
-                            <div
+                            <Link
                                 key={item.fanpal_id}
+                                href={`/panpal/${item.fanpal_id}`}
                                 className="flex flex-col gap-3"
                             >
                                 <CardList
@@ -41,12 +43,11 @@ export default function CardListContainer() {
                                     image={item.image}
                                     createdUser={item.createdUser}
                                     createdUserProfileImg={item.image}
-                                    href={`/panpal/${item.fanpal_id}`}
                                 />
                                 {index !== mok.data.length - 1 && (
                                     <hr className="border-t border-gray-800 pb-3" />
                                 )}
-                            </div>
+                            </Link>
                         ))}
                     </div>
                     <PaginationButton

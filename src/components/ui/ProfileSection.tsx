@@ -10,7 +10,15 @@ import { useEffect, useState } from 'react';
 //TODO 비밀번호 변경 추후 api 연결
 //TODO 닉네임 변경 또한 추후 연결
 
-export default function ProfileSection({ onClick }: { onClick: () => void }) {
+interface ProfileSectionProps {
+    handlePasswordModal: () => void;
+    handleEditProfileModal: () => void;
+}
+
+export default function ProfileSection({
+    handlePasswordModal,
+    handleEditProfileModal,
+}: ProfileSectionProps) {
     const user = {
         id: 'user123',
         nickname: '재형',
@@ -42,7 +50,7 @@ export default function ProfileSection({ onClick }: { onClick: () => void }) {
                                 size="small"
                                 styled="outline"
                                 className="w-39.25  text-white outline-white h-10"
-                                onClick={onClick}
+                                onClick={handlePasswordModal}
                             >
                                 비밀번호 변경하기
                             </Button>
@@ -51,9 +59,12 @@ export default function ProfileSection({ onClick }: { onClick: () => void }) {
                             <p className="text-xl font-semibold h-7 text-white ">
                                 {user?.nickname}
                             </p>
-                            <div className="w-8 h-8 text-white cursor-pointer hover:text-green-500">
+                            <button
+                                onClick={handleEditProfileModal}
+                                className="w-8 h-8 text-white cursor-pointer hover:text-green-500"
+                            >
                                 <EditNoBgIcon width={32} height={32} />
-                            </div>
+                            </button>
                         </div>
                         <p className="text-base font-light text-gray-300 h-12  w-full overflow-auto">
                             {user?.description}
