@@ -3,20 +3,25 @@ import Link from 'next/link';
 import { FieldError, SubmitHandler, useForm } from 'react-hook-form';
 import { Button, Input } from '@/components/ui';
 import useMediaQuery from '@/hooks/useMediaQuery';
-import { LoginRequest } from '@/types/authType';
 import { useLogin } from '@/hooks/queries/useAuth';
+import { useRouter } from 'next/navigation';
+import { LoginFormData } from '@/types/form';
 
 export default function LoginForm() {
-    const { register, handleSubmit, formState } = useForm<LoginRequest>({
+    const { register, handleSubmit, formState } = useForm<LoginFormData>({
         mode: 'onBlur',
         reValidateMode: 'onBlur',
     });
+    const router = useRouter();
+    const { mutate: login } = useLogin();
     const isMobile = useMediaQuery('(max-width: 768px)');
-    const loginMutation = useLogin();
-    const onSubmit: SubmitHandler<LoginRequest> = (data) => {
-        console.log('SubmitHandler');
+    const onSubmit: SubmitHandler<LoginFormData> = (data) => {
         //로그인 요청
-        loginMutation.mutate(data);
+        login(data, {
+            onSuccess: () => {
+                router.push('/mypage');
+            },
+        });
     };
 
     return (

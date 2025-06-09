@@ -4,7 +4,7 @@ import Nav from '@/components/ui/Nav';
 import QueryProvider from '@/components/providers/QueryProvider';
 import { ClientAuthProvider } from '@/components/providers/ClientAuthProvider';
 import { cookies } from 'next/headers';
-import { MSWComponent } from '@/providers/MSWComponent';
+import { MSWComponent } from '@/components/providers/MSWComponent';
 export const metadata: Metadata = {
     title: 'FanPal',
     description: '',
