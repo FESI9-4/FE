@@ -224,7 +224,7 @@ export default function Dropdown({
         getOptionState,
     } = useDropdown({
         selected,
-        onSelect,
+        onSelect: onSelect ?? (() => {}),
         placeholder,
         iconType,
         selectedDate,
