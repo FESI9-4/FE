@@ -1,6 +1,6 @@
 import { cn } from '@/utils/cn';
 import { cva } from 'class-variance-authority';
-import { InputSize } from './Input';
+import { InputSize } from '@/types/InputStyle';
 import React, { TextareaHTMLAttributes } from 'react';
 import {
     FieldError,

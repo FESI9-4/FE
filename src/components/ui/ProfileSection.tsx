@@ -1,7 +1,6 @@
 import Button from '@/components/ui/Button';
 import Profile from '@/components/ui/Profile';
 import { EditNoBgIcon, Heart, ThreeHeart } from '@/assets';
-import useAuth from '@/hooks/useAuth';
 import { useEffect, useState } from 'react';
 
 // 왜 반응형을 조건부 렌더링으로 했냐면 피그마 시안에 있는 div 구조가 아예 바뀌어서...
@@ -10,7 +9,12 @@ import { useEffect, useState } from 'react';
 //TODO 닉네임 변경 또한 추후 연결
 
 export default function ProfileSection() {
-    const { user } = useAuth();
+    const user = {
+        id: 'user123',
+        nickname: '재형',
+        profileImage: 'https://randomuser.me/api/portraits/men/75.jpg',
+        description: '안녕하세요 정재형입니다',
+    };
     const [isMdUp, setIsMdUp] = useState(false);
 
     useEffect(() => {
