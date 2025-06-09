@@ -80,17 +80,26 @@ export default function ProfileSection({
     }
 
     return (
-        <div className="w-full h-63  flex flex-col justify-between items-center">
-            <div className="h-45 flex flex-col justify-between">
-                <div className="h-16 w-full flex items-center gap-4">
-                    <Profile size="large" image={user?.profileImage || ''} />
-                    <div className="h-8 flex items-center ">
+        <div className="w-full h-63 flex flex-col justify-between items-center">
+            <div className="h-45 flex flex-col justify-between w-full">
+                <div className="h-16 w-full flex items-center gap-4 justify-between">
+                    <div className="flex items-center gap-4">
+                        <Profile
+                            size="large"
+                            image={user?.profileImage || ''}
+                        />
                         <p className="text-lg font-semibold h-7 text-white overflow-hidden">
                             {user?.nickname}
                         </p>
-                        <div className="text-white">
+                    </div>
+
+                    <div className="h-8 flex items-center ">
+                        <button
+                            onClick={handleEditProfileModal}
+                            className="w-8 h-8 text-white cursor-pointer hover:text-green-500"
+                        >
                             <EditNoBgIcon width={32} height={32} />
-                        </div>
+                        </button>
                     </div>
                 </div>
                 <p className="text-base font-light text-gray-300 h-24  w-full overflow-auto">
@@ -102,7 +111,7 @@ export default function ProfileSection({
                 size="large"
                 styled="outline"
                 className="outline-white text-white w-full h-10"
-                onClick={onClick}
+                onClick={handlePasswordModal}
             >
                 비밀번호 변경하기
             </Button>
