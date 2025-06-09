@@ -19,7 +19,6 @@
         "@floating-ui/utils": "^0.2.9",
         "@googlemaps/js-api-loader": "^1.16.8",
         "@tanstack/react-query": "^5.76.1",
-        "@tanstack/react-query-devtools": "^5.80.6",
         "@types/react-datepicker": "^7.0.0",
         "axios": "^1.9.0",
         "class-variance-authority": "^0.7.1",
@@ -54,7 +53,8 @@
         "prettier": "3.5.3",
         "storybook": "^9.0.4",
         "tailwindcss": "^4",
-        "typescript": "5.8.3"
+        "typescript": "5.8.3",
+        "@tanstack/react-query-devtools": "^5.80.6"
     },
     "msw": {
         "workerDirectory": [
