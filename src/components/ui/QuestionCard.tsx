@@ -1,5 +1,5 @@
 import dateConverter from '@/utils/dateConverter';
-import ProgressChip from './ProgressChip';
+import { ProgressChip } from '@/components/ui';
 import { AnswerArrowIcon } from '@/assets';
 import Profile from './Profile';
 

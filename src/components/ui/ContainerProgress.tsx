@@ -3,7 +3,7 @@
 import { cva } from 'class-variance-authority';
 import { motion } from 'framer-motion';
 import { UserIcon } from '@/assets';
-import ProgressChip from './ProgressChip';
+import { ProgressChip } from '@/components/ui';
 
 interface ContainerProgressProps {
     max: number;

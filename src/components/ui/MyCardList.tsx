@@ -4,7 +4,7 @@ import Profile from './Profile';
 import Tag from './Tag';
 import { HandIcon, UserIcon } from '@/assets';
 import ChipState from './ChipState';
-import ProgressChip from './ProgressChip';
+import { ProgressChip } from '@/components/ui';
 import { cva } from 'class-variance-authority';
 import Button from './Button';
 
