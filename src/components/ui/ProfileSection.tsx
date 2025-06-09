@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 //TODO 비밀번호 변경 추후 api 연결
 //TODO 닉네임 변경 또한 추후 연결
 
-export default function ProfileSection() {
+export default function ProfileSection({ onClick }: { onClick: () => void }) {
     const user = {
         id: 'user123',
         nickname: '재형',
@@ -42,6 +42,7 @@ export default function ProfileSection() {
                                 size="small"
                                 styled="outline"
                                 className="w-39.25  text-white outline-white h-10"
+                                onClick={onClick}
                             >
                                 비밀번호 변경하기
                             </Button>
@@ -90,6 +91,7 @@ export default function ProfileSection() {
                 size="large"
                 styled="outline"
                 className="outline-white text-white w-full h-10"
+                onClick={onClick}
             >
                 비밀번호 변경하기
             </Button>
