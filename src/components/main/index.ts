@@ -1,5 +1,5 @@
-import CardSection from './CardSeciton';
-import FilterSeciton from './FilterSeciton';
+import CardSection from './CardSection';
+import FilterSection from './FilterSection';
 import TabSection from './TabSection';
 
-export { CardSection, FilterSeciton, TabSection };
+export { CardSection, FilterSection, TabSection };
