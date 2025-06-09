@@ -10,8 +10,8 @@ import Link from 'next/link';
 interface CardListProps {
     title: string;
     location: string;
-    date: string;
-    deadline: string;
+    date: number;
+    deadline: number;
     currentPerson: number;
     maxPerson: number;
     openStatus: 'waiting' | 'finished' | 'progressing';

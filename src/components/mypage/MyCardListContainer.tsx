@@ -1,7 +1,9 @@
+'use client';
+
 import { MyCardList, PaginationButton } from '@/components/ui';
 import { BlankScreen } from '@/components/mypage';
 import { useState } from 'react';
-import { mok } from './mok';
+import { MyCardListMok as mok } from '../../__mock__/mypage';
 
 export default function MyCardListContainer() {
     const [currentPage, setCurrentPage] = useState(mok.currentPage);
@@ -19,15 +21,15 @@ export default function MyCardListContainer() {
                     <div>
                         {mok.data.map((item, index) => (
                             <div
-                                key={item.article_id}
+                                key={item.fanpal_id}
                                 className="flex flex-col gap-3"
                             >
                                 <MyCardList
                                     title={item.title}
                                     location={item.location}
                                     date={item.date}
-                                    currentPerson={item.current_person}
-                                    maxPerson={item.max_person}
+                                    currentPerson={item.currentPerson}
+                                    maxPerson={item.maxPerson}
                                     openStatus={
                                         item.openStatus as
                                             | 'waiting'
@@ -36,11 +38,12 @@ export default function MyCardListContainer() {
                                             | 'canceled'
                                     }
                                     image={item.image}
-                                    createdUser={item.created_at}
+                                    createdUser={item.createdUser}
                                     createdUserProfileImg={item.image}
                                     useStatus={
                                         item.useStatus as 'schedule' | 'done'
                                     }
+                                    buttonOnClick={() => {}}
                                 />
                                 {index !== mok.data.length - 1 && (
                                     <hr className="border-t border-gray-800 pb-3" />

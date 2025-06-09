@@ -20,6 +20,7 @@ import InputNumber from './InputNumber';
 import DateInput from './DateInput';
 import InputFile from './InputFile';
 import PanpalModal from './Modal/PanpalModal';
+import ProfileSection from './ProfileSection';
 
 export {
     Button,
@@ -43,5 +44,4 @@ export {
     InputNumber,
     DateInput,
     InputFile,
-    PanpalModal,
 };
