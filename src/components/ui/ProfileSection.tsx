@@ -1,3 +1,5 @@
+'use client';
+
 import Button from '@/components/ui/Button';
 import Profile from '@/components/ui/Profile';
 import { EditNoBgIcon, Heart, ThreeHeart } from '@/assets';

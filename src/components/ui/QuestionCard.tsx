@@ -6,13 +6,13 @@ import Profile from './Profile';
 interface QuestionCardProps {
     title: string;
     location: string;
-    createdAt: string;
+    createdAt: number;
     comment: string;
     answer?: {
         nickname: string;
         profileImage: string;
         content: string;
-        createdAt: string;
+        createdAt: number;
     };
 }
 
@@ -38,7 +38,7 @@ export default function QuestionCard({
                                 {comment}
                             </div>
                             <div className="text-gray-500 text-sm font-light">
-                                {dateConverter(Number(createdAt), 'utc')}
+                                {dateConverter(createdAt, 'utc')}
                             </div>
                         </div>
                     </div>
@@ -66,7 +66,7 @@ export default function QuestionCard({
                                 {answer.content}
                             </div>
                             <div className="text-gray-400 text-sm font-light">
-                                {dateConverter(Number(answer.createdAt), 'utc')}
+                                {dateConverter(answer.createdAt, 'utc')}
                             </div>
                         </div>
                     </div>

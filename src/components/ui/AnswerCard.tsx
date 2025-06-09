@@ -1,12 +1,14 @@
 import dateConverter from '@/utils/dateConverter';
 import { Button } from '.';
+import Link from 'next/link';
 
 interface AnswerCardProps {
     title: string;
     location: string;
-    createdAt: string;
+    createdAt: number;
     comment: string;
     answer: boolean;
+    fanpalId: number;
 }
 
 export default function AnswerCard({
@@ -15,6 +17,7 @@ export default function AnswerCard({
     createdAt,
     comment,
     answer,
+    fanpalId,
 }: AnswerCardProps) {
     return (
         <div className="bg-gray-900 px-7 py-8  rounded-2xl flex flex-col justify-between">
@@ -47,9 +50,15 @@ export default function AnswerCard({
                             답변 완료
                         </Button>
                     ) : (
-                        <Button styled="outline" size="small" className="w-33">
-                            답변 하러가기
-                        </Button>
+                        <Link href={`/panpal/${fanpalId}`}>
+                            <Button
+                                styled="outline"
+                                size="small"
+                                className="w-33"
+                            >
+                                답변 하러가기
+                            </Button>
+                        </Link>
                     )}
                 </div>
             </div>

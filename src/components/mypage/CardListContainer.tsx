@@ -1,7 +1,9 @@
+'use client';
+
 import { useState } from 'react';
 import { CardList, PaginationButton } from '@/components/ui';
 import { BlankScreen } from '@/components/mypage';
-import { mok2 as mok } from './mok';
+import { CardListMok as mok } from '../../__mock__/mypage';
 
 export default function CardListContainer() {
     const [currentPage, setCurrentPage] = useState(mok.currentPage);
@@ -19,7 +21,7 @@ export default function CardListContainer() {
                     <div>
                         {mok.data.map((item, index) => (
                             <div
-                                key={item.article_id}
+                                key={item.fanpal_id}
                                 className="flex flex-col gap-3"
                             >
                                 <CardList
@@ -27,19 +29,19 @@ export default function CardListContainer() {
                                     location={item.location}
                                     date={item.date}
                                     deadline={item.deadline}
-                                    currentPerson={item.current_person}
-                                    maxPerson={item.max_person}
+                                    currentPerson={item.currentPerson}
+                                    maxPerson={item.maxPerson}
                                     openStatus={
                                         item.openStatus as
                                             | 'waiting'
                                             | 'finished'
                                             | 'progressing'
                                     }
-                                    wishList={item.wish_list}
+                                    wishList={item.wishList}
                                     image={item.image}
-                                    createdUser={item.created_at}
+                                    createdUser={item.createdUser}
                                     createdUserProfileImg={item.image}
-                                    href={`/panpal/${item.article_id}`}
+                                    href={`/panpal/${item.fanpal_id}`}
                                 />
                                 {index !== mok.data.length - 1 && (
                                     <hr className="border-t border-gray-800 pb-3" />

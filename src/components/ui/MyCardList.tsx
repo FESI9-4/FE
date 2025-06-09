@@ -11,7 +11,7 @@ import Button from './Button';
 interface CardListProps {
     title: string;
     location: string;
-    date: string;
+    date: number;
     currentPerson: number;
     maxPerson: number;
     openStatus: 'waiting' | 'finished' | 'progressing' | 'canceled';
@@ -35,7 +35,7 @@ export default function CardList({
     useStatus,
     buttonOnClick,
 }: CardListProps) {
-    const convertedDate = dateConverter(Number(date), 'korea');
+    const convertedDate = dateConverter(date, 'korea');
     const userCountClassName = cva(
         'flex py-3 gap-0.5 text-sm items-center font-medium',
         {
