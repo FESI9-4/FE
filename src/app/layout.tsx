@@ -22,7 +22,7 @@ export default async function RootLayout({
 
     return (
         <html lang="ko">
-            <body>
+            <body className="bg-[#14151A]">
                 <ClientAuthProvider initialAccessToken={accessToken}>
                     <MSWComponent>
                         <QueryProvider>
