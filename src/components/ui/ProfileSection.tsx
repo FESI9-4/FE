@@ -46,14 +46,15 @@ export default function ProfileSection() {
                                 비밀번호 변경하기
                             </Button>
                         </div>
-                        <div className="h-8 w-27.5  flex items-center justify-between">
+                        <div className="h-8 flex items-center overflow-hidden">
                             <p className="text-xl font-semibold h-7 text-white ">
                                 {user?.nickname}
                             </p>
-
-                            <EditNoBgIcon className="w-8 h-8 text-white cursor-pointer hover:text-green-500" />
+                            <div className="w-8 h-8 text-white cursor-pointer hover:text-green-500">
+                                <EditNoBgIcon width={32} height={32} />
+                            </div>
                         </div>
-                        <p className="text-base font-light text-gray-300 h-12  w-full">
+                        <p className="text-base font-light text-gray-300 h-12  w-full overflow-auto">
                             {user?.description}
                         </p>
                     </div>
@@ -69,19 +70,18 @@ export default function ProfileSection() {
     return (
         <div className="w-full h-63  flex flex-col justify-between items-center">
             <div className="h-45 flex flex-col justify-between">
-                <div className="h-16 w-81.75  flex justify-between items-center">
-                    <Profile
-                        size="large"
-                        image={user?.profileImage || ''}
-                    ></Profile>
-                    <div className="h-8 w-61.75  flex items-center justify-between">
-                        <p className="text-lg font-semibold h-7 text-white ">
+                <div className="h-16 w-81.75 flex items-center gap-4">
+                    <Profile size="large" image={user?.profileImage || ''} />
+                    <div className="h-8 flex items-center ">
+                        <p className="text-lg font-semibold h-7 text-white overflow-hidden">
                             {user?.nickname}
                         </p>
-                        <EditNoBgIcon className="w-8 h-8 text-white"></EditNoBgIcon>
+                        <div className="text-white">
+                            <EditNoBgIcon width={32} height={32} />
+                        </div>
                     </div>
                 </div>
-                <p className="text-base font-light text-gray-300 h-24  w-81.75">
+                <p className="text-base font-light text-gray-300 h-24  w-81.75 overflow-auto">
                     {user?.description}
                 </p>
             </div>
