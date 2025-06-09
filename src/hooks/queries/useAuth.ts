@@ -1,6 +1,6 @@
 // hooks/useAuth.ts
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { LoginRequest } from '@/types/authType';
+import { LoginRequest, SignupRequest } from '@/types/auth';
 import { authApi } from '@/utils/apis/authApi';
 import { useAuthStore } from '@/store/authStore';
 
@@ -65,6 +65,22 @@ export const useLogout = () => {
         onSuccess: () => {
             queryClient.clear();
             window.location.replace('/login');
+        },
+    });
+};
+export const useSignup = () => {
+    return useMutation({
+        mutationFn: async (signupData: SignupRequest) => {
+            const response = await authApi.signup(signupData);
+            return response;
+        },
+    });
+};
+export const useCheckUserId = () => {
+    return useMutation({
+        mutationFn: async (userId: string) => {
+            const response = await authApi.checkUserId(userId);
+            return response;
         },
     });
 };
