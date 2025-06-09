@@ -73,7 +73,7 @@ export default function LoginForm() {
                             />
                             <div className="flex justify-center">
                                 <Link
-                                    href="/signup"
+                                    href="/findpassword"
                                     className="text-center w-fit text-gray-400 text-sm not-italic font-medium leading-5 underline underline-offset-2"
                                 >
                                     비밀번호를 잊으셨나요?
