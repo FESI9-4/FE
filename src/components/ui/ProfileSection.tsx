@@ -70,7 +70,7 @@ export default function ProfileSection() {
     return (
         <div className="w-full h-63  flex flex-col justify-between items-center">
             <div className="h-45 flex flex-col justify-between">
-                <div className="h-16 w-81.75 flex items-center gap-4">
+                <div className="h-16 w-full flex items-center gap-4">
                     <Profile size="large" image={user?.profileImage || ''} />
                     <div className="h-8 flex items-center ">
                         <p className="text-lg font-semibold h-7 text-white overflow-hidden">
@@ -81,7 +81,7 @@ export default function ProfileSection() {
                         </div>
                     </div>
                 </div>
-                <p className="text-base font-light text-gray-300 h-24  w-81.75 overflow-auto">
+                <p className="text-base font-light text-gray-300 h-24  w-full overflow-auto">
                     {user?.description}
                 </p>
             </div>
