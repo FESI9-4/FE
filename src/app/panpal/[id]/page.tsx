@@ -1,8 +1,6 @@
 import {
     DetailPageCard,
-    DetailPageComment,
     DetailPageDescription,
-    DetailPageParticipation,
 } from '@/components/detailPage';
 
 interface PageProps {
@@ -19,10 +17,9 @@ export default async function PanpalDetailPage({ params }: PageProps) {
             <div className="w-full flex flex-col  mt-8 sm:mt-16 xl:mt-18.25 sm:px-6  ">
                 <DetailPageCard />
                 <DetailPageDescription />
-                <DetailPageComment />
                 <p>Panpal ID: {id}</p>
             </div>
-            <DetailPageParticipation />
+       
         </div>
     );
 }
