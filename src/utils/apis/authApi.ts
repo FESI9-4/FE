@@ -3,10 +3,11 @@ import {
     LoginRequest,
     StoreTokenResponse,
     UserResponse,
-    ApiResponse,
     SignupRequest,
+    ApiResponse,
 } from '@/types/auth';
 import { customFetcher } from '@/utils/apis/customFetcher';
+import { fetchInstance } from './fetchInstance';
 const BASE_URL = '/api/auth';
 export const authApi = {
     // 로그인
@@ -26,10 +27,13 @@ export const authApi = {
     },
     // 회원가입
     signup: async (signupData: SignupRequest) => {
-        return customFetcher<Response, SignupRequest>(`${BASE_URL}/signup`, {
-            method: 'POST',
-            body: signupData,
-        });
+        return fetchInstance<ApiResponse<void>, SignupRequest>(
+            `${BASE_URL}/signup`,
+            {
+                method: 'POST',
+                body: signupData,
+            }
+        );
     },
 
     // 유저 정보 조회
@@ -38,16 +42,7 @@ export const authApi = {
             method: 'GET',
         });
     },
-    // 이메일 중복 체크
-    checkUserId: async (userId: string) => {
-        return customFetcher<ApiResponse<void>, string>(
-            `${BASE_URL}/check-userId?userId=${userId}`,
-            {
-                method: 'GET',
-            }
-        );
-    },
-    // 액세스 토큰 api route로 쿠키 설정 api
+    // 액세스 토큰 api route로 쿠키 설정
     storeAccessToken: async (accessToken: string) => {
         return customFetcher<StoreTokenResponse, { accessToken: string }>(
             `${BASE_URL}/store-token`,

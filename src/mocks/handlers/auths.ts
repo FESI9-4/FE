@@ -10,6 +10,7 @@ const mockUser = [
         img: 'https://randomuser.me/api/portraits/men/75.jpg',
         wistLikeCount: 5,
         password: '12345678',
+        description: '안녕하세요 test 입니다',
     },
     {
         userId: 'test2@test.com',
@@ -17,6 +18,7 @@ const mockUser = [
         img: 'https://randomuser.me/api/portraits/men/76.jpg',
         wistLikeCount: 10,
         password: '12345678',
+        description: '안녕하세요 test2 입니다',
     },
 ];
 export const loginHandlers = [
@@ -82,6 +84,10 @@ export const loginHandlers = [
                         mockUser.find(
                             (user) => user.userId === loginData.userId
                         )?.wistLikeCount || 0,
+                    description:
+                        mockUser.find(
+                            (user) => user.userId === loginData.userId
+                        )?.description || '',
                 },
             };
 
@@ -126,77 +132,35 @@ export const logoutHandlers = [
 export const signupHandlers = [
     http.post(`${BASE_URL}/api/auth/signup`, async ({ request }) => {
         const signupData = (await request.json()) as SignupRequest;
-        if (
-            mockUser.push({
-                userId: signupData.userId,
-                nickName: signupData.nickName,
-                img: '',
-                wistLikeCount: 0,
-                password: signupData.password,
-            })
-        ) {
+        if (mockUser.some((user) => user.userId === signupData.userId)) {
             return HttpResponse.json(
                 {
                     statusCode: 104,
-                    message: '회원가입 성공',
-                    data: '',
-                },
-                {
-                    status: 200,
-                }
-            );
-        }
-    }),
-];
-export const checkUserIdHandlers = [
-    http.get(`${BASE_URL}/api/auth/check-userId`, async ({ request }) => {
-        console.log('🔍 유저아이디 중복 검사 시작');
-
-        // 🎯 URL에서 userId 파라미터 추출
-        const url = new URL(request.url);
-        const userId = url.searchParams.get('userId');
-
-        console.log('📧 검사할 이메일:', userId);
-
-        // 🎯 userId가 없으면 에러
-        if (!userId) {
-            return HttpResponse.json(
-                {
-                    statusCode: 400,
-                    message: '이메일이 필요합니다.',
-                },
-                {
-                    status: 200,
-                }
-            );
-        }
-
-        // 🎯 중복 검사
-        const isDuplicate = mockUser.some((user) => user.userId === userId);
-
-        if (isDuplicate) {
-            console.log('❌ 중복된 이메일:', userId);
-            return HttpResponse.json(
-                {
-                    statusCode: 409, // Conflict
                     message: '이미 사용중인 이메일입니다.',
                 },
                 {
                     status: 200,
                 }
             );
-        } else {
-            console.log('✅ 사용 가능한 이메일:', userId);
-            return HttpResponse.json(
-                {
-                    statusCode: 200,
-                    message: '사용 가능한 이메일입니다.',
-                },
-                {
-                    status: 200,
-                }
-            );
         }
+        mockUser.push({
+            userId: signupData.userId,
+            nickName: signupData.nickName,
+            img: '',
+            wistLikeCount: 0,
+            password: signupData.password,
+            description: '',
+        });
+        return HttpResponse.json(
+            {
+                statusCode: 200,
+                message: '회원가입 성공',
+                data: '',
+            },
+            {
+                status: 200,
+            }
+        );
     }),
 ];
 export const userHandlers = [
@@ -236,6 +200,9 @@ export const userHandlers = [
                     wistLikeCount:
                         mockUser.find((user) => user.userId === payload.userId)
                             ?.wistLikeCount || 0,
+                    description:
+                        mockUser.find((user) => user.userId === payload.userId)
+                            ?.description || '',
                 },
             });
         } catch (error) {

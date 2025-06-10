@@ -4,7 +4,6 @@ import {
     signupHandlers,
     userHandlers,
     refreshHandlers,
-    checkUserIdHandlers,
 } from './auths';
 
 export const handlers = [
@@ -13,5 +12,4 @@ export const handlers = [
     ...signupHandlers,
     ...userHandlers,
     ...refreshHandlers,
-    ...checkUserIdHandlers,
 ];
