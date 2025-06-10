@@ -3,47 +3,46 @@ import Link from 'next/link';
 import { FieldError, SubmitHandler, useForm } from 'react-hook-form';
 import { Button, Input } from '@/components/ui';
 import useMediaQuery from '@/hooks/useMediaQuery';
-import { useCheckUserId, useSignup } from '@/hooks/queries/useAuth';
-import { useState } from 'react';
+import { useSignup } from '@/hooks/queries/useAuth';
 import { useRouter } from 'next/navigation';
 import { SignupFormData } from '@/types/form';
+import { ApiResponse } from '@/types/auth';
+import { useState } from 'react';
 
 export default function SignupForm() {
     const router = useRouter();
     const isMobile = useMediaQuery('(max-width: 768px)');
-    const [isChekedUserId, setIsChekedUserId] = useState(false);
-    const { register, handleSubmit, formState, setError, clearErrors } =
+    const [isDuplicateUserId, setIsDuplicateUserId] = useState(false);
+    const { register, handleSubmit, formState, setError, watch } =
         useForm<SignupFormData>({
             mode: 'onBlur',
             reValidateMode: 'onBlur',
         });
-    const { mutateAsync: checkUserId } = useCheckUserId();
     const { mutate: signup } = useSignup();
     const onSubmit: SubmitHandler<SignupFormData> = (data) => {
-        signup({
-            userId: data.userId,
-            password: data.password,
-            nickName: data.nickName,
-        });
-        router.push('/login');
-    };
-    //이메일 중복 확인 api 호출
-    const handleCheckUserId = async (e: React.FocusEvent<HTMLInputElement>) => {
-        const userId = e.target.value;
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        // 🎯 이메일 형식 체크 후 API 호출
-        if (userId && emailRegex.test(userId)) {
-            const result = await checkUserId(userId);
-
-            if (result?.statusCode === 409) {
-                setError('userId', { message: result.message });
-                setIsChekedUserId(false);
-            } else {
-                clearErrors('userId');
-                setIsChekedUserId(true);
+        signup(
+            {
+                userId: data.userId,
+                password: data.password,
+                nickName: data.nickName,
+            },
+            {
+                //
+                onSuccess: (response: ApiResponse<void>) => {
+                    if (response.statusCode === 104) {
+                        setError('userId', {
+                            message: response.message,
+                        });
+                        setIsDuplicateUserId(true);
+                    } else {
+                        setIsDuplicateUserId(false);
+                        router.push('/login');
+                    }
+                },
             }
-        }
+        );
     };
+
     return (
         <div className="flex flex-col justify-center items-center gap-[14px] px-4 py-8 sm:py-8 sm:px-[54px] sm:mt-0 mt-[50px]">
             <form
@@ -85,15 +84,11 @@ export default function SignupForm() {
                                         message: '이메일 형식에 맞지 않습니다.',
                                     },
                                     validate: {
-                                        duplicate: () => {
-                                            // 🎯 상태값으로 검증
-                                            return (
-                                                isChekedUserId ||
-                                                '이미 사용중인 이메일입니다.'
-                                            );
-                                        },
+                                        duplicateUserId: () =>
+                                            isDuplicateUserId
+                                                ? '이미 사용중인 이메일입니다.'
+                                                : true,
                                     },
-                                    onBlur: handleCheckUserId,
                                 }}
                             />
                             <Input
@@ -126,11 +121,11 @@ export default function SignupForm() {
                                     formState.errors.passwordCheck as FieldError
                                 }
                                 rules={{
-                                    required: '비밀번호를 입력해주세요',
-                                    minLength: {
-                                        value: 8,
-                                        message:
-                                            '비밀번호는 8자 이상이어야 합니다.',
+                                    required: '비밀번호 확인을 입력해주세요',
+                                    validate: {
+                                        passwordCheck: (value) =>
+                                            value === watch('password') ||
+                                            '비밀번호가 일치하지 않습니다.',
                                     },
                                 }}
                             />
