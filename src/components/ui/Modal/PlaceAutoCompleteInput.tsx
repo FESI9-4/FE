@@ -48,7 +48,6 @@ const PlaceAutoCompleteInput: React.FC<PlaceAutoCompleteInputProps> = ({
             autocompleteRef.current = new google.maps.places.Autocomplete(
                 currentInput,
                 {
-                    types: ['geocode'],
                     componentRestrictions: { country: 'kr' },
                 }
             );
