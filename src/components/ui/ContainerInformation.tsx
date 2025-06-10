@@ -113,7 +113,6 @@ export default function ContainerInformaiton({
                         <span className="text-base font-normal text-white  ">
                             {formatKoreanDate(deadlineDate)}
                         </span>
-                        
                     </div>
                 </div>
             </div>

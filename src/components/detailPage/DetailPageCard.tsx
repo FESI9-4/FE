@@ -5,7 +5,7 @@ import ContainerInformaiton from '@/components/ui/ContainerInformation';
 export default function DetailPageCard() {
     return (
         <div>
-            <div className="flex flex-col sm:flex-row sm:px-3 sm:gap-10 gap-6  sm:h-95 sm:items-end bg-amber-600">
+            <div className="flex flex-col sm:flex-row sm:px-3 sm:gap-10 gap-6  sm:h-95 sm:items-end bg-amber-600 ">
                 <div className="w-full sm:min-w-70 h-65.25 sm:h-full bg-red-400 text-white sm:w-full sm:max-w-75">
                     이미지
                 </div>

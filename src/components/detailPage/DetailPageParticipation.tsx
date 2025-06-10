@@ -1,26 +1,39 @@
 'use client';
 import { Button, Like } from '@/components/ui';
 import useMediaQuery from '@/hooks/useMediaQuery';
+import clsx from 'clsx'; // tailwind 조건부 클래스를 위한 유틸 (필요시 설치)
 
-export default function DetailPagePaparticipateion() {
-    const isTablet = useMediaQuery(
-        '(min-width: 640px)'
-    );
+export default function DetailPageParticipation() {
+    const isDesktop = useMediaQuery('(min-width: 1024px)');
+    const isTablet = useMediaQuery('(min-width: 640px');
+
+
     return (
-        <div className="w-full h-19 flex  bg-blue-500 sm:h-24  px-5 pt-3 pb-4 gap-5.25 sm:px-6 sm:pt-5 sm:pb-7 ">
-            {isTablet ? (
-                <div className='flex w-full gap-33 xl:flex-col-reverse'>
-                    <p className='flex flex-col w-70.5 h-full gap-1 bg-blue-800 whitespace-nowrap'>
-                        <span className='text-base font-semibold text-gray-200'>함께하면 더 즐거운 팬활동 💚</span>
-                        <span className='text-xs font-medium text-gray-500'>같은 마음으로 움직이는 팬들과 함께라면 훨씬 든든해요</span>
+        <div
+            className={clsx(
+                'w-full bg-blue-500 px-5 pt-3 pb-4 gap-5.25 sm:px-6 sm:pt-5 sm:pb-7  mt-6 sm:mt-10 xl:mt-12 xl:w-70.5 xl:h-29 xl:pt-0 xl:pb-0 xl:px-0' ,
+                isDesktop
+                    ? 'relative h-24' // 태블릿 이상에서는 일반 흐름
+                    : 'fixed bottom-0 left-0 z-50 h-19' // 모바일에서 고정
+            )}
+        >
+            {isTablet? (
+                <div className="flex w-full gap-33 xl:flex-col-reverse xl:gap-6">
+                    <p className="flex flex-col w-70.5 h-full gap-1 whitespace-nowrap">
+                        <span className="text-base font-semibold text-gray-200">
+                            함께하면 더 즐거운 팬활동 💚
+                        </span>
+                        <span className="text-xs font-medium text-gray-500">
+                            같은 마음으로 움직이는 팬들과 함께라면 훨씬 든든해요
+                        </span>
                     </p>
                     <Button>참여하기</Button>
                 </div>
             ) : (
-                <>
-                    <Like></Like>
+                <div className="flex justify-between items-center px-4">
+                    <Like />
                     <Button>참여하기</Button>
-                </>
+                </div>
             )}
         </div>
     );
