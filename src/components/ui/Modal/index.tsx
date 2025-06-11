@@ -20,7 +20,7 @@ export default function BaseModal({
 
     //피그마 시안은 테블릿 이상부터 고정값인데... 높이가 너무 높아서 비율로 수정
     const modalClass = fullScreenOnMobile
-        ? 'w-full h-full sm:w-130 sm:h-[90vh]'
+        ? 'w-full h-full sm:w-130 sm:h-[90vh] xl:h-[80vh]'
         : '';
     const modalRoot =
         typeof window !== 'undefined'
