@@ -7,8 +7,8 @@ interface PageProps {
 export default async function PanpalDetailPage({ params }: PageProps) {
     const { id } = await Promise.resolve(params);
 
-    // id값은 나중에 api 작업에서 ... 보내줘야함. 
-    
+    // id값은 나중에 api 작업에서 ... 보내줘야함.
+    // TODO 작성자 일시에 보여주는 페이지가 다름 ,,, + 프로필 이미지 모집마감처리 + 빈댓글 일때 
 
     return (
         <div className="w-full  pt-6 sm:pt-5 xl:pt-8 flex flex-col justify-center min-w-98 min-h-screen max-w-249 m-auto xl:flex-row">

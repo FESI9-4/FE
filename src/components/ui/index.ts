@@ -20,11 +20,8 @@ import InputNumber from './InputNumber';
 import DateInput from './DateInput';
 import InputFile from './InputFile';
 import PanpalModal from './Modal/PanpalModal';
-<<<<<<< HEAD
 import ProfileSection from './ProfileSection';
-=======
 import Dropdown from './Dropdown';
->>>>>>> bb67199 (feat: Comment 부분 코드 작성)
 
 export {
     Button,
@@ -50,5 +47,5 @@ export {
     InputFile,
     PanpalModal,
     ProfileSection,
-    Dropdown
+    Dropdown,
 };
