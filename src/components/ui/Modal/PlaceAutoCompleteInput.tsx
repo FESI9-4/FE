@@ -12,10 +12,14 @@ const PlaceAutoCompleteInput: React.FC<PlaceAutoCompleteInputProps> = ({
     onPlaceSelect,
 }) => {
     const inputRef = useRef<HTMLInputElement>(null);
-    const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+    const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(
+        null
+    );
 
     const updatePacPosition = useCallback(() => {
-        const pac = document.querySelector('.pac-container') as HTMLElement | null;
+        const pac = document.querySelector(
+            '.pac-container'
+        ) as HTMLElement | null;
         const input = inputRef.current;
         const modalRoot = document.getElementById('modal-root');
 
@@ -30,7 +34,7 @@ const PlaceAutoCompleteInput: React.FC<PlaceAutoCompleteInputProps> = ({
         pac.style.top = `${rect.bottom + window.scrollY}px`;
         pac.style.left = `${rect.left + window.scrollX}px`;
         pac.style.width = `${rect.width}px`;
-        pac.style.zIndex = '51';
+        pac.style.zIndex = '4';
     }, []);
 
     useEffect(() => {
@@ -67,15 +71,15 @@ const PlaceAutoCompleteInput: React.FC<PlaceAutoCompleteInputProps> = ({
                 onPlaceSelect(lat, lng, address);
             });
 
-    
             currentInput.addEventListener('focus', updatePacPosition);
             window.addEventListener('scroll', updatePacPosition, true);
             window.addEventListener('resize', updatePacPosition);
         });
 
-
         return () => {
-            const pac = document.querySelector('.pac-container') as HTMLElement | null;
+            const pac = document.querySelector(
+                '.pac-container'
+            ) as HTMLElement | null;
             if (pac) pac.remove();
 
             if (currentInput) {
