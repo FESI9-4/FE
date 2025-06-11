@@ -60,8 +60,8 @@ export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
 
     return (
         <BaseModal onClose={onClose} fullScreenOnMobile>
-            <div className="w-full h-screen flex flex-col items-center justify-center px-2 sm:px-6">
-                <div className="relative w-full max-w-130 h-full sm:h-[95vh] xl:h-[100vh] m-4 flex flex-col">
+            <div className="w-full h-screen sm:h-[780px] flex flex-col items-center justify-center px-2 sm:px-6 ">
+                <div className="relative w-full max-w-130 h-full sm:h-[730px] m-4 flex flex-col gap-5">
                     <div className="flex justify-between items-center px-4 pt-6 h-12 text-lg font-semibold z-10">
                         <p>팬팔 만들기</p>
                         <DeleteIcon
@@ -73,7 +73,7 @@ export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
                     <form
                         id="panpal-form"
                         onSubmit={handleSubmit(onFormSubmit)}
-                        className="flex-1 overflow-y-auto sm:max-h-[62vh] xl:max-h-[70vh] px-4 mt-6 flex flex-col gap-6 sm:pb-20"
+                        className="flex-1 overflow-y-auto sm:max-h-[750px] px-4 mt-6 flex flex-col gap-6 "
                     >
                         <div className="flex flex-col gap-2 h-19">
                             <p className="text-sm font-semibold h-6">
@@ -267,8 +267,8 @@ export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
                     <div
                         className="
                             flex justify-center 
-                            py-4 px-6 sticky bottom-0 z-50 
-                            shadow-[0_-2px_8px_rgba(0,0,0,0.1)] 
+                            px-6 sticky bottom-0 z-50 
+                        items-center
                         "
                     >
                         <Button size="large" type="submit" form="panpal-form">
