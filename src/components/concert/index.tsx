@@ -1,4 +1,4 @@
-import EventCard from './EventCard';
-import EventCardList from './EventCardList';
+import { ConcertCard } from './ConcertCard';
+import ConcertCardList from './ConcertCardList';
 
-export { EventCard, EventCardList };
+export { ConcertCard, ConcertCardList };
