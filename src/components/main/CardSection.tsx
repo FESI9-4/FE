@@ -13,29 +13,26 @@ import {
 
 interface CardSectionProps {
     cards: Card[];
+    showCreateButton?: boolean; // 팬팔 만들기 버튼 보일지 여부
 }
 
-export default function CardSection({ cards }: CardSectionProps) {
+export default function CardSection({
+    cards,
+    showCreateButton = true,
+}: CardSectionProps) {
     const hasCards = cards && cards.length > 0;
     const isMobile = useMediaQuery('(max-width: 639px)');
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // 페이지 상태: 현재 페이지, 기본값 1
     const [currentPage, setCurrentPage] = useState(1);
-
-    // 한 페이지에 보여줄 카드 수
     const cardsPerPage = 4;
-
-    // 총 페이지 수 계산
     const totalPages = Math.ceil(cards.length / cardsPerPage);
 
-    // 현재 페이지에 보여줄 카드 리스트 슬라이스
     const currentCards = cards.slice(
         (currentPage - 1) * cardsPerPage,
         currentPage * cardsPerPage
     );
 
-    // 페이지 변경 함수
     const handlePageChange = (page: number) => {
         if (page < 1 || page > totalPages) return;
         setCurrentPage(page);
@@ -84,7 +81,9 @@ export default function CardSection({ cards }: CardSectionProps) {
                     </p>
                 )}
             </div>
-            {isMobile && (
+
+            {/* ✅ 팬팔 만들기 버튼 조건부 렌더링 */}
+            {isMobile && showCreateButton && (
                 <div className="h-20">
                     <Button
                         onClick={() => setIsModalOpen(true)}
@@ -94,6 +93,7 @@ export default function CardSection({ cards }: CardSectionProps) {
                     </Button>
                 </div>
             )}
+
             {isModalOpen && (
                 <PanpalModal
                     onClose={() => setIsModalOpen(false)}
