@@ -71,10 +71,10 @@ export default function Nav() {
                                 팬팔 찾기
                             </p>
                         </Link>
-                        <Link href="/wishList" className="flex">
+                        <Link href="/wishlist" className="flex">
                             <p
                                 className={navLink({
-                                    active: pathname === '/wishList',
+                                    active: pathname === '/wishlist',
                                 })}
                             >
                                 찜한 팬팔
