@@ -8,6 +8,8 @@ import { NavDesktopIcon, NavMobileIcon } from '@/assets';
 import { cva } from 'class-variance-authority';
 import Profile from '@/components/ui/Profile';
 import { useGetUser, useLogout } from '@/hooks/queries/useAuth';
+
+//pathname === '/wishList', 로 변경 -> 기존으로 들어가면 상세페이지 경로랑 겹침
 const navLink = cva('relative w-auto md:w-15 h-5 md:h-6 transition-colors', {
     variants: {
         active: {
@@ -69,10 +71,10 @@ export default function Nav() {
                                 팬팔 찾기
                             </p>
                         </Link>
-                        <Link href="/panpal/wishList" className="flex">
+                        <Link href="/wishList" className="flex">
                             <p
                                 className={navLink({
-                                    active: pathname === '/panpal/wishList',
+                                    active: pathname === '/wishList',
                                 })}
                             >
                                 찜한 팬팔

@@ -1,13 +1,15 @@
 'use client';
 import DetailPageComment from './DetailPageComment';
 import DetailPageParticipation from './DetailPageParticipation';
+import GoogleMap from './GoogleMap';
 
+// 상세내용 , 장소 위도 경도 넘겨주기 
 export default function DetailPageDescription() {
     return (
-        <div className='xl:flex xl:gap-6'>
+        <div className="xl:flex xl:gap-6">
             <div>
-                <div className="w-full bg-amber-300 mt-6 sm:mt-10 xl:mt-12 flex flex-col gap-10 sm:gap-12 px-4 sm:px-6">
-                    <p className="bg-red-300 w-full flex flex-col gap-3 sm:gap-5">
+                <div className="w-full mt-6 sm:mt-10 xl:mt-12 flex flex-col gap-10 sm:gap-12 px-4 sm:px-6">
+                    <p className=" w-full flex flex-col gap-3 sm:gap-5">
                         <span className="text-lg font-semibold text-white">
                             상세내용
                         </span>
@@ -20,12 +22,13 @@ export default function DetailPageDescription() {
                             귀가는 개별로 진행해주셔야 해요.
                         </span>
                     </p>
-                    <div className="bg-red-300 w-full h-80 flex flex-col gap-3 sm:gap-5">
+                    <div className=" w-full h-80 flex flex-col gap-3 sm:gap-5">
                         <p className="text-lg font-semibold text-white h-7">
                             장소
                         </p>
                         <div className="w-full h-70 bg-gray-800 rounded-[20px]">
-                            위도경도 주소값받으면 api이용해서지도{' '}
+          
+                            <GoogleMap lat={37.5665} lng={126.978} />
                         </div>
                     </div>
                 </div>

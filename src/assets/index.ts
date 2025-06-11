@@ -29,6 +29,9 @@ import DeleteIcon from '@public/icons/deleteIcon.svg';
 import SearchIcon from '@public/icons/search.svg';
 import BigTitleIcon from '@public/icons/bigLogo.svg';
 import MikeIcon from '@public/icons/mike.svg';
+import Lock from '@public/icons/lock.svg';
+import CommentArrow from '@public/icons/commentArrow.svg';
+
 export {
     CheckIcon,
     AlarmIcon,
@@ -61,4 +64,6 @@ export {
     SearchIcon,
     BigTitleIcon,
     MikeIcon,
+    Lock,
+    CommentArrow,
 };
