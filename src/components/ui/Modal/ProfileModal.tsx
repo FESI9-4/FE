@@ -86,6 +86,7 @@ export default function EditProfileModal({
                     <div className="flex flex-col gap-6 h-41">
                         <Profile
                             size="large"
+                            
                             edit={true}
                             image={previewImage}
                             editButtonOnClick={handleImageClick}

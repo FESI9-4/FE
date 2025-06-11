@@ -21,7 +21,7 @@ export default function Profile({
     editButtonOnClick,
 }: ProfileProps) {
     const imageClass = cva(
-        'relative bg-gray-800 rounded-full overflow-hidden',
+        'relative bg-gray-800 rounded-full overflow-hidden ',
         {
             variants: {
                 size: {

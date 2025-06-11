@@ -64,46 +64,7 @@
         font-family: var(--font-family-sans);
     }
 }
-
-.custom-scrollbar::-webkit-scrollbar {
-    width: 18px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: #5e6066;
-    border-radius: 100px;
-    border: 6px solid #2b2c30;
-}
-
-/* textarea 스크롤바 스타일 */
-.custom-textarea-scrollbar::-webkit-scrollbar {
-    width: 6px;
-    appearance: none;
-}
-
-.custom-textarea-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
-    margin-top: 12px; /* mt-3 = 12px */
-    margin-bottom: 12px; /* mb-3 = 12px */
-}
-
-.custom-textarea-scrollbar::-webkit-scrollbar-thumb {
-    background-color: var(--color-gray-600);
-    min-height: 45px;
-    max-height: 45px;
-    border-radius: 12px; /* rounded-lg */
-    flex-shrink: 0;
-    background-clip: padding-box;
-}
-/* datepicker custom scrollbar */
-.custom-scrollbar-datepicker::-webkit-scrollbar {
-    @apply !w-1 !rounded-full;
-}
-.custom-scrollbar-datepicker::-webkit-scrollbar-thumb {
-    @apply !bg-gray-600 !rounded-full !h-[98px];
-}
-/* datepicker custom style */
-/*팝업 컨테이너*/
+*팝업 컨테이너*/
 .react-datepicker-popper {
     @apply !font-sans !bg-gray-800 md:!bg-gray-900 !w-fit !border-0 !rounded-2xl;
 }
@@ -208,13 +169,7 @@
 .react-datepicker__triangle::before {
     display: none !important;
 }
-/* datepicker custom scrollbar */
-.custom-scrollbar-datepicker::-webkit-scrollbar {
-    @apply !w-1 !rounded-full;
-}
-.custom-scrollbar-datepicker::-webkit-scrollbar-thumb {
-    @apply !bg-gray-600 !rounded-full !h-[98px];
-}
+
 /* datepicker custom style */
 /*팝업 컨테이너*/
 .react-datepicker-popper {
