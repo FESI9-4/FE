@@ -6,7 +6,6 @@ import { NextResponse } from 'next/server';
 export async function POST(request: Request) {
     const requestData = await request.json();
     const cookieStore = await cookies();
-
     // 개발환경에서 직접 모킹 처리
     if (process.env.NODE_ENV === 'development') {
         //로그인 요청일 때 mock 처리

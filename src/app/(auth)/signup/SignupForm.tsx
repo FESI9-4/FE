@@ -7,18 +7,18 @@ import { useSignup } from '@/hooks/queries/useAuth';
 import { useRouter } from 'next/navigation';
 import { SignupFormData } from '@/types/form';
 import { ApiResponse } from '@/types/auth';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function SignupForm() {
     const router = useRouter();
     const isMobile = useMediaQuery('(max-width: 768px)');
     const [isDuplicateUserId, setIsDuplicateUserId] = useState(false);
+    const { mutate: signup } = useSignup();
     const { register, handleSubmit, formState, setError, watch } =
         useForm<SignupFormData>({
             mode: 'onBlur',
             reValidateMode: 'onBlur',
         });
-    const { mutate: signup } = useSignup();
     const onSubmit: SubmitHandler<SignupFormData> = (data) => {
         signup(
             {
@@ -42,7 +42,13 @@ export default function SignupForm() {
             }
         );
     };
-
+    const watchedUserId = watch('userId');
+    // 이메일이 변경될 때마다 중복 상태 초기화
+    useEffect(() => {
+        if (isDuplicateUserId) {
+            setIsDuplicateUserId(false);
+        }
+    }, [watchedUserId, isDuplicateUserId]);
     return (
         <div className="flex flex-col justify-center items-center gap-[14px] px-4 py-8 sm:py-8 sm:px-[54px] sm:mt-0 mt-[50px]">
             <form

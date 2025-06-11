@@ -20,6 +20,14 @@ export const mockUser = [
         password: '12345678',
         description: '안녕하세요 test2 입니다',
     },
+    {
+        userId: 'test3@test.com',
+        nickName: 'test3',
+        img: 'https://randomuser.me/api/portraits/women/77.jpg',
+        wistLikeCount: 10,
+        password: '12345678',
+        description: '안녕하세요 test3 입니다',
+    },
 ];
 // export const loginHandlers = [
 //     http.post(`${BASE_URL}/api/auth/login`, async ({ request }) => {
