@@ -1,30 +1,15 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { ConcertCardProps } from '@/types/concert';
 
-export interface EventCardProps {
-    id: number;
-    title: string;
-    location: string;
-    startDate: string;
-    endDate: string;
-    imageUrl: string;
-}
-
-const formatDate = (dateStr: string) => {
-    const year = dateStr.substring(0, 4);
-    const month = dateStr.substring(4, 6);
-    const day = dateStr.substring(6, 8);
-    return `${year}. ${month}. ${day}.`;
-};
-
-export function EventCard({
+export function ConcertCard({
     id,
     title,
     location,
     startDate,
     endDate,
     imageUrl,
-}: EventCardProps) {
+}: ConcertCardProps) {
     return (
         <Link
             href={`/concert/${id}`}
@@ -45,7 +30,7 @@ export function EventCard({
                     </div>
                     <div className="text-gray-400 font-medium">{location}</div>
                     <div className="text-gray-200 font-normal pt-2 sm:pt-0">
-                        {formatDate(startDate)} - {formatDate(endDate)}
+                        {startDate} - {endDate}
                     </div>
                 </div>
             </div>
