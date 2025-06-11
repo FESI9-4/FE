@@ -31,4 +31,5 @@ export interface User {
     nickName: string;
     img?: string;
     wistLikeCount?: number;
+    description?: string;
 }

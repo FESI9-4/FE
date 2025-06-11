@@ -1,7 +1,6 @@
 // api/authApi.ts
 import {
     LoginRequest,
-    StoreTokenResponse,
     UserResponse,
     SignupRequest,
     ApiResponse,
@@ -42,21 +41,26 @@ export const authApi = {
             method: 'GET',
         });
     },
-    // 액세스 토큰 api route로 쿠키 설정
-    storeAccessToken: async (accessToken: string) => {
-        return customFetcher<StoreTokenResponse, { accessToken: string }>(
-            `${BASE_URL}/store-token`,
-            {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: { accessToken },
-            }
-        );
-    },
     // 쿠키 삭제
     clearCookie: async () => {
         return customFetcher<Response, void>(`${BASE_URL}/clear-cookie`, {
             method: 'POST',
         });
+    },
+    test: async () => {
+        return customFetcher<ApiResponse<{ test: string }>, void>(
+            `${BASE_URL}/test`,
+            {
+                method: 'GET',
+            }
+        );
+    },
+    test2: async () => {
+        return customFetcher<ApiResponse<{ test: string }>, void>(
+            `${BASE_URL}/test2`,
+            {
+                method: 'GET',
+            }
+        );
     },
 };
