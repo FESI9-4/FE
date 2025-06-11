@@ -35,7 +35,7 @@ export default function BaseModal({
 
     return createPortal(
         <div
-            className="fixed inset-0 bg-[#00000099] backdrop-blur-sm flex items-center justify-center z-50"
+            className="fixed inset-0 bg-[#00000099] backdrop-blur-sm flex items-center justify-center z-51"
             onClick={onClose}
         >
             <div

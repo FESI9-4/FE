@@ -12,26 +12,26 @@ const PlaceAutoCompleteInput: React.FC<PlaceAutoCompleteInputProps> = ({
     onPlaceSelect,
 }) => {
     const inputRef = useRef<HTMLInputElement>(null);
-    const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(
-        null
-    );
+    const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
 
-    // updatePacPosition 함수 useCallback으로 선언
     const updatePacPosition = useCallback(() => {
-        const pac = document.querySelector(
-            '.pac-container'
-        ) as HTMLElement | null;
-        if (!pac || !inputRef.current) return;
+        const pac = document.querySelector('.pac-container') as HTMLElement | null;
+        const input = inputRef.current;
+        const modalRoot = document.getElementById('modal-root');
 
-        const rect = inputRef.current.getBoundingClientRect();
+        if (!pac || !input) return;
 
-        pac.style.position = 'fixed';
-        pac.style.top = `${rect.bottom}px`;
-        pac.style.left = `${rect.left}px`;
+        if (modalRoot && !modalRoot.contains(pac)) {
+            modalRoot.appendChild(pac);
+        }
+
+        const rect = input.getBoundingClientRect();
+        pac.style.position = 'absolute';
+        pac.style.top = `${rect.bottom + window.scrollY}px`;
+        pac.style.left = `${rect.left + window.scrollX}px`;
         pac.style.width = `${rect.width}px`;
-        pac.style.zIndex = '9999';
+        pac.style.zIndex = '51';
     }, []);
-    // 드롭다운 스크롤 시 같이 움직이는 현상 방지
 
     useEffect(() => {
         const currentInput = inputRef.current;
@@ -64,20 +64,20 @@ const PlaceAutoCompleteInput: React.FC<PlaceAutoCompleteInputProps> = ({
                 const lng = place.geometry.location.lng();
                 const address = place.formatted_address || '';
 
-                console.log('선택 주소:', address);
-                console.log('위도:', lat);
-                console.log('경도:', lng);
-
                 onPlaceSelect(lat, lng, address);
-                //TODO 팬팔 모달로 전달 ...처리
             });
 
+    
             currentInput.addEventListener('focus', updatePacPosition);
             window.addEventListener('scroll', updatePacPosition, true);
             window.addEventListener('resize', updatePacPosition);
         });
 
+
         return () => {
+            const pac = document.querySelector('.pac-container') as HTMLElement | null;
+            if (pac) pac.remove();
+
             if (currentInput) {
                 currentInput.removeEventListener('focus', updatePacPosition);
             }
