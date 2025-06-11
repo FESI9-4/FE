@@ -8,7 +8,6 @@ import { MSWComponent } from '@/components/providers/MSWComponent';
 export const metadata: Metadata = {
     title: 'FanPal',
     description: '',
-    viewport: 'width=device-width, initial-scale=1',
     icons: {
         icon: '/icons/navMobile.svg',
     },
