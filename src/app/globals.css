@@ -65,19 +65,15 @@
     }
 }
 
-
 #modal-root .custom-scrollbar::-webkit-scrollbar {
     width: 18px;
 }
-
 
 #modal-root .custom-scrollbar::-webkit-scrollbar-thumb {
     background-color: #5e6066;
     border-radius: 100px;
     border: 6px solid #2b2c30;
 }
-
-
 
 /* textarea 스크롤바 스타일 */
 body:not(#modal-root) .custom-textarea-scrollbar::-webkit-scrollbar {
