@@ -4,6 +4,7 @@ import Button from '@/components/ui/Button';
 import Profile from '@/components/ui/Profile';
 import { EditNoBgIcon, Heart, ThreeHeart } from '@/assets';
 import { useEffect, useState } from 'react';
+import { useGetUser } from '@/hooks/queries/useAuth';
 
 // 왜 반응형을 조건부 렌더링으로 했냐면 피그마 시안에 있는 div 구조가 아예 바뀌어서...
 
@@ -19,12 +20,7 @@ export default function ProfileSection({
     handlePasswordModal,
     handleEditProfileModal,
 }: ProfileSectionProps) {
-    const user = {
-        id: 'user123',
-        nickname: '재형',
-        profileImage: 'https://randomuser.me/api/portraits/men/75.jpg',
-        description: '안녕하세요 정재형입니다',
-    };
+    const { data: user } = useGetUser();
     const [isMdUp, setIsMdUp] = useState(false);
 
     useEffect(() => {
@@ -44,7 +40,7 @@ export default function ProfileSection({
                         <div className="w-full h-16 flex justify-between">
                             <Profile
                                 size="large"
-                                image={user?.profileImage || ''}
+                                image={user?.img || ''}
                             ></Profile>
                             <Button
                                 size="small"
@@ -57,7 +53,7 @@ export default function ProfileSection({
                         </div>
                         <div className="h-8 flex items-center overflow-hidden">
                             <p className="text-xl font-semibold h-7 text-white ">
-                                {user?.nickname}
+                                {user?.nickName}
                             </p>
                             <button
                                 onClick={handleEditProfileModal}
@@ -84,12 +80,9 @@ export default function ProfileSection({
             <div className="h-45 flex flex-col justify-between w-full">
                 <div className="h-16 w-full flex items-center gap-4 justify-between">
                     <div className="flex items-center gap-4">
-                        <Profile
-                            size="large"
-                            image={user?.profileImage || ''}
-                        />
+                        <Profile size="large" image={user?.img || ''} />
                         <p className="text-lg font-semibold h-7 text-white overflow-hidden">
-                            {user?.nickname}
+                            {user?.nickName}
                         </p>
                     </div>
 
