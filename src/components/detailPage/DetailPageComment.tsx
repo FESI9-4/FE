@@ -95,7 +95,6 @@ export default function DetailPageComment() {
                             <span className="text-xs font-normal text-gray-100">
                                 비밀글로 등록
                             </span>
-                            
                         </div>
                     </div>
 

@@ -3,7 +3,7 @@ import DetailPageComment from './DetailPageComment';
 import DetailPageParticipation from './DetailPageParticipation';
 import GoogleMap from './GoogleMap';
 
-// 상세내용 , 장소 위도 경도 넘겨주기 
+// 상세내용 , 장소 위도 경도 넘겨주기
 export default function DetailPageDescription() {
     return (
         <div className="xl:flex xl:gap-6">
@@ -27,7 +27,6 @@ export default function DetailPageDescription() {
                             장소
                         </p>
                         <div className="w-full h-70 bg-gray-800 rounded-[20px]">
-          
                             <GoogleMap lat={37.5665} lng={126.978} />
                         </div>
                     </div>
