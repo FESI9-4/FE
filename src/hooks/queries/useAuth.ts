@@ -1,32 +1,37 @@
 // hooks/useAuth.ts
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { LoginRequest, SignupRequest } from '@/types/auth';
+import { LoginRequest, LoginResponse, SignupRequest } from '@/types/auth';
 import { authApi } from '@/utils/apis/authApi';
 import { useAuthStore } from '@/store/authStore';
+import { fetchInstance } from '@/utils/apis/fetchInstance';
 
 export const useLogin = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: async (loginData: LoginRequest) => {
-            const response = await authApi.login(loginData);
-            const data = await response.json();
-            const authHeader = response.headers.get('Authorization');
-            const accessToken = authHeader?.replace('Bearer ', '') || null;
+            const response = await fetchInstance<LoginResponse, LoginRequest>(
+                '/api/auth/store-token',
+                {
+                    method: 'POST',
+                    body: loginData,
+                }
+            );
+            const { accessToken, data: user } = response;
+
             return {
-                data,
                 accessToken,
+                user,
             };
         },
         onSuccess: async (result) => {
             // ✅ 데이터 처리
-            if (result.data.data) {
-                queryClient.setQueryData(['user'], result.data.data);
+            if (result.user) {
+                queryClient.setQueryData(['user'], result.user);
             }
             if (result.accessToken) {
                 // ✅ 액세스 토큰 저장
                 const { setAccessToken } = useAuthStore.getState();
                 setAccessToken(result.accessToken);
-                await authApi.storeAccessToken(result.accessToken);
             }
         },
         onError: (error) => {
@@ -68,5 +73,29 @@ export const useSignup = () => {
             const response = await authApi.signup(signupData);
             return response;
         },
+    });
+};
+export const useTest = () => {
+    const accessToken = useAuthStore((state) => state.accessToken);
+    return useQuery({
+        queryKey: ['test'],
+        queryFn: async () => {
+            const response = await authApi.test();
+            const data = response.data;
+            return data;
+        },
+        enabled: !!accessToken,
+    });
+};
+export const useTest2 = () => {
+    const accessToken = useAuthStore((state) => state.accessToken);
+    return useQuery({
+        queryKey: ['test2'],
+        queryFn: async () => {
+            const response = await authApi.test2();
+            const data = response.data;
+            return data;
+        },
+        enabled: !!accessToken,
     });
 };

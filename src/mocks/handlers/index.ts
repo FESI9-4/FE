@@ -1,15 +1,17 @@
 import {
-    loginHandlers,
     logoutHandlers,
     signupHandlers,
     userHandlers,
     refreshHandlers,
+    testHandlers,
+    testHandlers2,
 } from './auths';
 
 export const handlers = [
-    ...loginHandlers,
     ...logoutHandlers,
     ...signupHandlers,
     ...userHandlers,
     ...refreshHandlers,
+    ...testHandlers,
+    ...testHandlers2,
 ];
