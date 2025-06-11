@@ -89,7 +89,6 @@ export const clientFetcher = async <TResponse, TRequest>(
             try {
                 // 토큰 갱신 완료까지 기다림
                 const newAccessToken = await refreshPromise;
-
                 // 새로 발급받은 액세스 토큰으로 원래 요청 재요청
                 headers.set('Authorization', `Bearer ${newAccessToken}`);
                 const retryResponse = await fetchInstance<TResponse, TRequest>(
