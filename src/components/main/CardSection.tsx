@@ -13,7 +13,7 @@ import {
 
 interface CardSectionProps {
     cards: Card[];
-    showCreateButton?: boolean;
+    showCreateButton?: boolean; // 팬팔 만들기 버튼 보일지 여부
 }
 
 export default function CardSection({
@@ -82,6 +82,7 @@ export default function CardSection({
                 )}
             </div>
 
+            {/* ✅ 팬팔 만들기 버튼 조건부 렌더링 */}
             {isMobile && showCreateButton && (
                 <div className="h-20">
                     <Button
