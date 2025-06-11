@@ -15,7 +15,6 @@ export const clientFetcher = async <TResponse, TRequest>(
 
     if (!isPublic) {
         const token = authStore.accessToken;
-        console.log('clientFetcher token', url, token);
         if (token) {
             headers.set('Authorization', `Bearer ${token}`);
         }
