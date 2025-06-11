@@ -1,9 +1,7 @@
 'use client';
 
-import { ReactNode, useRef } from 'react';
+import { ReactNode, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-
-//TODO 해쉬라우터 적용
 
 interface BaseModalProps {
     onClose: () => void;
@@ -17,8 +15,14 @@ export default function BaseModal({
     fullScreenOnMobile = false,
 }: BaseModalProps) {
     const modalRef = useRef<HTMLDivElement>(null);
+    // 모달이 열릴 때 body 스크롤 잠금
+    useEffect(() => {
+        document.body.style.overflow = 'hidden';
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, []);
 
-    //피그마 시안은 테블릿 이상부터 고정값인데... 높이가 너무 높아서 비율로 수정
     const modalClass = fullScreenOnMobile
         ? 'w-full h-full sm:w-130 sm:h-[784px] xl:h-[784px]'
         : '';

@@ -18,7 +18,7 @@ export default function EditButton({
                     width={size === 'large' ? 32 : 18}
                     className="fill-gray-800 text-green-400" // text-green-400에 덮어져서 svg구조 수정  custom 변수
                     style={{
-                        '--icon-path-color': '#1F2937', 
+                        '--icon-path-color': '#1F2937',
                     }}
                 />
             ) : (
