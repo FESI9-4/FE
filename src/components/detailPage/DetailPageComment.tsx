@@ -48,7 +48,7 @@ export default function DetailPageComment() {
     } = useForm<FormData>();
 
     const onSubmit: SubmitHandler<FormData> = (data) => {
-        console.log('💬 제출된 댓글:', data.comment);
+        console.log(' 제출된 댓글:', data.comment);
     };
 
     return (
@@ -76,7 +76,7 @@ export default function DetailPageComment() {
                             register={register}
                             rules={{
                                 minLength: {
-                                    value: 5,
+                                    value: 3,
                                     message: '3글자 이상 입력하세요',
                                 },
                                 maxLength: {
