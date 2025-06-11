@@ -54,7 +54,7 @@ export default function TapSeciton({
                     같이 해요
                 </Tab>
             </div>
-            <div className="w-full h-9 sm:h-12 xl:h-10 flex sm:justify-between sm:items-center min-w-94">
+            <div className="w-full h-9 sm:h-12 xl:h-10 flex sm:justify-between sm:items-center ">
                 <div className="flex">
                     <div
                         className={cn(
