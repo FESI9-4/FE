@@ -27,18 +27,17 @@ export default async function RootLayout({
 }) {
     const cookieStore = await cookies();
     const accessToken = cookieStore.get('accessToken')?.value;
-
     return (
         <html lang="ko">
             <body className="bg-[#14151A]">
-                <ClientAuthProvider initialAccessToken={accessToken}>
-                    <MSWComponent>
+                <MSWComponent>
+                    <ClientAuthProvider initialAccessToken={accessToken}>
                         <QueryProvider>
                             <Nav />
                             {children}
                         </QueryProvider>
-                    </MSWComponent>
-                </ClientAuthProvider>
+                    </ClientAuthProvider>
+                </MSWComponent>
                 <div id="modal-root" />
             </body>
         </html>

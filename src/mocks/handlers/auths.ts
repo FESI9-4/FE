@@ -1,9 +1,9 @@
 import { http, HttpResponse } from 'msw';
-import { LoginRequest, LoginResponse, SignupRequest } from '@/types/auth';
+import { SignupRequest } from '@/types/auth';
 import { getCookie } from '@/utils/cookies';
 
 const BASE_URL = 'http://localhost:3000'; // 추후 백엔드 서버로 변경
-const mockUser = [
+export const mockUser = [
     {
         userId: 'test@test.com',
         nickName: 'test',
@@ -21,97 +21,98 @@ const mockUser = [
         description: '안녕하세요 test2 입니다',
     },
 ];
-export const loginHandlers = [
-    http.post(`${BASE_URL}/api/auth/login`, async ({ request }) => {
-        const loginData = (await request.json()) as LoginRequest;
+// export const loginHandlers = [
+//     http.post(`${BASE_URL}/api/auth/login`, async ({ request }) => {
+//         console.log('🔍 === 로그인 핸들러 시작 ===');
+//         const loginData = (await request.json()) as LoginRequest;
 
-        if (
-            mockUser.some(
-                (user) =>
-                    user.userId === loginData.userId &&
-                    user.password === loginData.password
-            )
-        ) {
-            // 🎯 실제 JWT처럼 만료시간을 가진 토큰 생성
-            const accessPayload = {
-                userId: loginData.userId,
-                nickName: mockUser.find(
-                    (user) => user.userId === loginData.userId
-                )?.nickName,
-                role: 'user',
-                iat: Math.floor(Date.now() / 1000), // 발급 시간
-                exp: Math.floor(Date.now() / 1000) + 30, // 🎯 30초 후 만료
-            };
-            const refreshPayload = {
-                userId: loginData.userId,
-                nickName: mockUser.find(
-                    (user) => user.userId === loginData.userId
-                )?.nickName,
-                type: 'refresh',
-                iat: Math.floor(Date.now() / 1000),
-                exp: Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60, // 🎯 7일 후 만료
-            };
+//         if (
+//             mockUser.some(
+//                 (user) =>
+//                     user.userId === loginData.userId &&
+//                     user.password === loginData.password
+//             )
+//         ) {
+//             // 🎯 실제 JWT처럼 만료시간을 가진 토큰 생성
+//             const accessPayload = {
+//                 userId: loginData.userId,
+//                 nickName: mockUser.find(
+//                     (user) => user.userId === loginData.userId
+//                 )?.nickName,
+//                 role: 'user',
+//                 iat: Math.floor(Date.now() / 1000), // 발급 시간
+//                 exp: Math.floor(Date.now() / 1000) + 30, // 🎯 30초 후 만료
+//             };
+//             const refreshPayload = {
+//                 userId: loginData.userId,
+//                 nickName: mockUser.find(
+//                     (user) => user.userId === loginData.userId
+//                 )?.nickName,
+//                 type: 'refresh',
+//                 iat: Math.floor(Date.now() / 1000),
+//                 exp: Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60, // 🎯 7일 후 만료
+//             };
 
-            // JWT 형태로 만들기 (header.payload.signature)
-            const header = { alg: 'HS256', typ: 'JWT' };
-            const mockAccessToken =
-                btoa(JSON.stringify(header)) +
-                '.' +
-                btoa(JSON.stringify(accessPayload)) +
-                '.' +
-                'mock-signature';
-            const mockRefreshToken =
-                btoa(JSON.stringify(header)) +
-                '.' +
-                btoa(JSON.stringify(refreshPayload)) +
-                '.' +
-                'mock-signature';
+//             // JWT 형태로 만들기 (header.payload.signature)
+//             const header = { alg: 'HS256', typ: 'JWT' };
+//             const mockAccessToken =
+//                 btoa(JSON.stringify(header)) +
+//                 '.' +
+//                 btoa(JSON.stringify(accessPayload)) +
+//                 '.' +
+//                 'mock-signature';
+//             const mockRefreshToken =
+//                 btoa(JSON.stringify(header)) +
+//                 '.' +
+//                 btoa(JSON.stringify(refreshPayload)) +
+//                 '.' +
+//                 'mock-signature';
 
-            const mockResponse: LoginResponse = {
-                statusCode: 200,
-                message: '로그인 성공',
-                data: {
-                    userId: loginData.userId,
-                    nickName:
-                        mockUser.find(
-                            (user) => user.userId === loginData.userId
-                        )?.nickName || '',
-                    img:
-                        mockUser.find(
-                            (user) => user.userId === loginData.userId
-                        )?.img || '',
-                    wistLikeCount:
-                        mockUser.find(
-                            (user) => user.userId === loginData.userId
-                        )?.wistLikeCount || 0,
-                    description:
-                        mockUser.find(
-                            (user) => user.userId === loginData.userId
-                        )?.description || '',
-                },
-            };
+//             const mockResponse: LoginResponse = {
+//                 statusCode: 200,
+//                 message: '로그인 성공',
+//                 data: {
+//                     userId: loginData.userId,
+//                     nickName:
+//                         mockUser.find(
+//                             (user) => user.userId === loginData.userId
+//                         )?.nickName || '',
+//                     img:
+//                         mockUser.find(
+//                             (user) => user.userId === loginData.userId
+//                         )?.img || '',
+//                     wistLikeCount:
+//                         mockUser.find(
+//                             (user) => user.userId === loginData.userId
+//                         )?.wistLikeCount || 0,
+//                     description:
+//                         mockUser.find(
+//                             (user) => user.userId === loginData.userId
+//                         )?.description || '',
+//                 },
+//             };
 
-            // 🎯 실제 만료시간을 가진 JWT 토큰 반환
-            return HttpResponse.json(mockResponse, {
-                status: 200,
-                headers: {
-                    Authorization: `Bearer ${mockAccessToken}`,
-                    'Set-Cookie': `refreshToken=${mockRefreshToken}; Path=/; Max-Age=604800; SameSite=Lax`,
-                },
-            });
-        }
+//             // 🎯 실제 만료시간을 가진 JWT 토큰 반환
+//             return HttpResponse.json(mockResponse, {
+//                 status: 200,
+//                 headers: {
+//                     Authorization: `Bearer ${mockAccessToken}`,
+//                     'Set-Cookie': `refreshToken=${mockRefreshToken}; Path=/; Max-Age=604800; SameSite=Lax`,
+//                 },
+//             });
+//         }
 
-        return HttpResponse.json(
-            {
-                statusCode: 401,
-                message: '이메일 또는 비밀번호가 잘못되었습니다.',
-            },
-            {
-                status: 401,
-            }
-        );
-    }),
-];
+//         return HttpResponse.json(
+//             {
+//                 statusCode: 401,
+//                 message: '이메일 또는 비밀번호가 잘못되었습니다.',
+//             },
+//             {
+//                 status: 401,
+//             }
+//         );
+//     }),
+// ];
 export const logoutHandlers = [
     http.post(`${BASE_URL}/api/auth/logout`, async () => {
         console.log('logoutHandlers 호출');
@@ -167,6 +168,7 @@ export const userHandlers = [
     http.get(`${BASE_URL}/api/auth/user`, async ({ request }) => {
         const authHeader = request.headers.get('Authorization');
         const token = authHeader?.replace('Bearer ', '');
+        console.log('userHandlers 호출');
 
         // 🎯 JWT 만료시간 검증
         try {
@@ -306,6 +308,93 @@ export const refreshHandlers = [
                         'Content-Type': 'application/json',
                     },
                 }
+            );
+        }
+    }),
+];
+export const testHandlers = [
+    http.get(`${BASE_URL}/api/auth/test`, async ({ request }) => {
+        const authHeader = request.headers.get('Authorization');
+        const token = authHeader?.replace('Bearer ', '');
+        console.log('testHandlers1 호출');
+        // 🎯 JWT 만료시간 검증
+        try {
+            const payload = JSON.parse(atob(token?.split('.')[1] || ''));
+            const currentTime = Math.floor(Date.now() / 1000);
+            console.log(
+                '🔍 토큰 만료시간:',
+                new Date(payload.exp * 1000).toLocaleString()
+            );
+            console.log('🔍 현재 시간:', new Date().toLocaleString());
+
+            // 토큰 만료 확인
+            if (payload.exp < currentTime) {
+                console.log('🚨 토큰 만료됨!');
+                throw new Error('Token expired');
+            }
+
+            console.log('✅ 토큰 유효함');
+
+            // ✅ 성공 응답
+            return HttpResponse.json({
+                statusCode: 200,
+                message: '유저 정보 조회 성공',
+                data: {
+                    test: 'test',
+                },
+            });
+        } catch (error) {
+            console.log('🚨 토큰 검증 실패:', error);
+            return HttpResponse.json(
+                {
+                    statusCode: 401,
+                    message: '유효하지 않거나 만료된 액세스 토큰입니다',
+                },
+                { status: 401 }
+            );
+        }
+    }),
+];
+export const testHandlers2 = [
+    http.get(`${BASE_URL}/api/auth/test2`, async ({ request }) => {
+        const authHeader = request.headers.get('Authorization');
+        const token = authHeader?.replace('Bearer ', '');
+        console.log('testHandlers2 호출');
+        // 🎯 JWT 만료시간 검증
+        try {
+            const payload = JSON.parse(atob(token?.split('.')[1] || ''));
+            const currentTime = Math.floor(Date.now() / 1000);
+
+            console.log(
+                '🔍 토큰 만료시간:',
+                new Date(payload.exp * 1000).toLocaleString()
+            );
+            console.log('🔍 현재 시간:', new Date().toLocaleString());
+
+            // 토큰 만료 확인
+            if (payload.exp < currentTime) {
+                console.log('🚨 토큰 만료됨!');
+                throw new Error('Token expired');
+            }
+
+            console.log('✅ 토큰 유효함');
+
+            // ✅ 성공 응답
+            return HttpResponse.json({
+                statusCode: 200,
+                message: '유저 정보 조회 성공',
+                data: {
+                    test: 'test2',
+                },
+            });
+        } catch (error) {
+            console.log('🚨 토큰 검증 실패:', error);
+            return HttpResponse.json(
+                {
+                    statusCode: 401,
+                    message: '유효하지 않거나 만료된 액세스 토큰입니다',
+                },
+                { status: 401 }
             );
         }
     }),
