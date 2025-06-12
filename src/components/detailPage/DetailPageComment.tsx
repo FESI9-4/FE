@@ -9,35 +9,7 @@ interface FormData {
 const apiResponse = {
     statusCode: 200,
     message: '댓글 리스트 호출 성공',
-    data: [
-        {
-            commentId: 187060166021779456,
-            content: '부모1 내용',
-            parentCommentId: 187060166021779456,
-            writerId: 1231414314,
-            deleted: false,
-            createdAt: '2025-05-31T04:30:18.995+00:00',
-            secret: true,
-        },
-        {
-            commentId: 187060197298704384,
-            content: '부모1 자식 내용',
-            parentCommentId: 187060166021779456,
-            writerId: 1231414312,
-            deleted: false,
-            createdAt: '2025-05-31T04:30:26.449+00:00',
-            secret: true,
-        },
-        {
-            commentId: 117060166021779451,
-            content: '부모2 내용',
-            parentCommentId: 117060166021779451,
-            writerId: 1231414313,
-            deleted: false,
-            createdAt: '2025-05-31T04:30:18.995+00:00',
-            secret: false,
-        },
-    ],
+    data: [],
 };
 
 export default function DetailPageComment() {
@@ -52,7 +24,7 @@ export default function DetailPageComment() {
     };
 
     return (
-        <div className="flex flex-col ">
+        <div className="flex flex-col">
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 className="w-full h-72 sm:h-61.25 mt-10 sm:mt-12 px-4 sm:px-6 flex flex-col gap-3 sm:gap-5 "
@@ -118,23 +90,31 @@ export default function DetailPageComment() {
             <div className="px-4 w-full  h-6">
                 <div className="border-t border-gray-800 h-1"></div>
             </div>
-            <div className="flex flex-col gap-5">
-                <div className="h-100  border-b border-gray-800 px-4 ">
-                    <CommentList
-                        comments={apiResponse.data}
-                        currentUserId={1231414314}
-                        dropdown={
-                            <Dropdown
-                                options={['수정하기', '삭제하기']}
-                                placeholder="메뉴"
-                                showPlaceholderInMenu={false}
-                                iconType="comment"
-                                onSelect={(value) => {
-                                    console.log('선택된 메뉴:', value);
-                                }}
-                            />
-                        }
-                    />
+
+            <div className="flex flex-col gap-5 pb-17 sm:pb-10">
+                <div className="min-h-32 border-b border-gray-800 px-4 py-6">
+                    {apiResponse.data.length > 0 ? (
+                        <CommentList
+                            comments={apiResponse.data}
+                            currentUserId={1231414314}
+                            dropdown={
+                                <Dropdown
+                                    options={['수정하기', '삭제하기']}
+                                    placeholder="메뉴"
+                                    showPlaceholderInMenu={false}
+                                    iconType="comment"
+                                    onSelect={(value) => {
+                                        console.log('선택된 메뉴:', value);
+                                    }}
+                                />
+                            }
+                        />
+                    ) : (
+                        <div className="flex flex-col items-center justify-center h-40 sm:h-52.5 font-medium text-gray-500 text-sm">
+                            <p>아직 올라온 질문이 없어요.</p>
+                            <p>궁금한 게 있다면 가장 먼저 물어보세요!.</p>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
