@@ -72,6 +72,21 @@ export default function SignupForm() {
                                 error={formState.errors.nickName as FieldError}
                                 rules={{
                                     required: '닉네임을 입력해주세요',
+                                    pattern: {
+                                        value: /^[a-zA-Z0-9]+$/,
+                                        message:
+                                            '닉네임은 영문 또는 숫자만 입력해주세요.',
+                                    },
+                                    minLength: {
+                                        value: 3,
+                                        message:
+                                            '닉네임은 3자 이상이어야 합니다.',
+                                    },
+                                    maxLength: {
+                                        value: 5,
+                                        message:
+                                            '닉네임은 5자 이하이어야 합니다.',
+                                    },
                                 }}
                             />
                             <Input
@@ -108,10 +123,20 @@ export default function SignupForm() {
                                 error={formState.errors.password as FieldError}
                                 rules={{
                                     required: '비밀번호를 입력해주세요',
+                                    pattern: {
+                                        value: /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$]).{8,16}$/,
+                                        message:
+                                            '비밀번호는 영문, 숫자, 특수문자(!@#$)를 포함해야 합니다.',
+                                    },
                                     minLength: {
                                         value: 8,
                                         message:
                                             '비밀번호는 8자 이상이어야 합니다.',
+                                    },
+                                    maxLength: {
+                                        value: 16,
+                                        message:
+                                            '비밀번호는 16자 이하이어야 합니다.',
                                     },
                                 }}
                             />
