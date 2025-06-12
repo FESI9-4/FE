@@ -10,6 +10,8 @@ export async function GET(req: NextRequest) {
         const eddate = searchParams.get('eddate');
         const capge = searchParams.get('capge');
         const rows = searchParams.get('rows');
+        const signgucode = searchParams.get('signgucode');
+        const signgucodeQuery = signgucode ? `&signgucode=${signgucode}` : '';
 
         if (!stdate || !eddate || !capge || !rows) {
             return NextResponse.json(
@@ -19,7 +21,7 @@ export async function GET(req: NextRequest) {
         }
 
         const response = await fetch(
-            `${BASE_URL}?service=${SERVICE_KEY}&stdate=${stdate}&eddate=${eddate}&cpage=${capge}&rows=${rows}&shcate=CCCD`
+            `${BASE_URL}?service=${SERVICE_KEY}&stdate=${stdate}&eddate=${eddate}&cpage=${capge}&rows=${rows}&shcate=CCCD${signgucodeQuery}`
         );
         const data = await response.text();
         return NextResponse.json(data);
