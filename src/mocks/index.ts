@@ -1,4 +1,10 @@
 export async function initMocks() {
+<<<<<<< HEAD
+=======
+    // 개발 환경이 아니라면 실행 X
+     console.log('NODE_ENV:', process.env.NODE_ENV); 
+
+>>>>>>> dcdd34f (feat: 카테고리 영역 api test 완료)
     if (process.env.NODE_ENV !== 'development') return;
 
     if (typeof window === 'undefined') {

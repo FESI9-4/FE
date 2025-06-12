@@ -1,6 +1,6 @@
 import { setupWorker } from 'msw/browser';
 import { postsHandlers } from './handlers/posts';
 import { handlers } from './handlers';
+import { boardHandlers } from './handlers/boards'; 
 
-// 브라우저에서 MSW 실행
-export const worker = setupWorker(...postsHandlers, ...handlers);
+export const worker = setupWorker(...postsHandlers, ...handlers, ...boardHandlers);

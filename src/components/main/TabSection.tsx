@@ -8,20 +8,26 @@ import { Tab, Button, PanpalModal } from '@/components/ui';
 import { cn } from '@/utils/cn';
 
 type TapSectionProps = {
+    activeTab: number;
+    setActiveTab: (tab: number) => void;
+    selectedCategory: string;
+    setSelectedCategory: (category: string) => void;
     showCreateButton?: boolean;
 };
 
-export default function TapSeciton({
+export default function TapSection({
+    activeTab,
+    setActiveTab,
+    selectedCategory,
+    setSelectedCategory,
     showCreateButton = true,
 }: TapSectionProps) {
-    const [activeTab, setActiveTab] = useState<number>(0);
-    const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const isDesktop = useMediaQuery('(min-width: 1280px)');
     const isTablet = useMediaQuery(
         '(min-width: 640px) and (max-width: 1279px)'
     );
     const currentCategory = CATEGORY_DATA[activeTab];
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
         <div
@@ -34,10 +40,7 @@ export default function TapSeciton({
                 <Tab
                     icon={<GoTogetherIcon width={24} height={24} />}
                     active={activeTab === 0}
-                    onClick={() => {
-                        setActiveTab(0);
-                        setSelectedCategory('ALL');
-                    }}
+                    onClick={() => setActiveTab(0)}
                     className="w-full"
                 >
                     같이 가요
@@ -45,10 +48,7 @@ export default function TapSeciton({
                 <Tab
                     icon={<DoTogetherIcon width={24} height={24} />}
                     active={activeTab === 1}
-                    onClick={() => {
-                        setActiveTab(1);
-                        setSelectedCategory('ALL');
-                    }}
+                    onClick={() => setActiveTab(1)}
                     className="w-full"
                 >
                     같이 해요
@@ -112,6 +112,7 @@ export default function TapSeciton({
                     </Button>
                 </div>
             )}
+
             {isModalOpen && (
                 <PanpalModal
                     onClose={() => setIsModalOpen(false)}
