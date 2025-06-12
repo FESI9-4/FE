@@ -1,4 +1,15 @@
-export type Card = {
+export type BoardParams = {
+  bigCategory: string;
+  smallCategory?: string;
+  location?: string;
+  date?: number;
+  sort: 'recent' | 'deadline' | 'person';
+  sortAsc: boolean;
+  lastArticleId: number;
+  limit: number;
+};
+
+export type Article = { 
     article_id: number;
     title: string;
     location: string;
@@ -15,4 +26,9 @@ export type Card = {
     created_at: number;
 };
 
-// Article이랑 중복이긴한데 나중에 하나로 묶어야할듯합니다 코드 병합되고나서 ..
+
+export type BoardApiResponse = {
+  statusCode: number;
+  message: string;
+  data: Article[];
+};

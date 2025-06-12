@@ -6,6 +6,8 @@ import { initMocks } from '@/mocks';
 export const MSWComponent = ({ children }: { children: React.ReactNode }) => {
     const [mswReady, setMswReady] = useState(false);
     useEffect(() => {
+         console.log('MSWComponent 마운트, mswReady:', mswReady)
+         
         const init = async () => {
             await initMocks();
             setMswReady(true);
