@@ -63,7 +63,7 @@ export default function SignupForm() {
                         <div className="flex flex-col gap-6">
                             <Input
                                 type="text"
-                                placeholder="닉네임"
+                                placeholder="닉네임을 입력해주세요"
                                 label="닉네임"
                                 name="nickName"
                                 labelClassName="text-sm mb-2 w-fit font-semibold leading-5"
