@@ -17,7 +17,7 @@ export type Article = {
     deadline: number;
     current_person: number;
     max_person: number;
-    openStatus: 'waiting' | 'finished' | 'progressing'; // API 명세서에는 개설 확정, 개설 대기, 개설 취소 인데 ? 우선 카드 섹션 로직에 이렇게 잡혀있어서..
+    openStatus: 'waiting' | 'finished' | 'progressing';
     wish_list: boolean;
     image: string;
     create_user: string;
