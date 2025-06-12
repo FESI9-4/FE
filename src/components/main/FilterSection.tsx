@@ -1,9 +1,9 @@
 'use client';
 
 import Dropdown from '../ui/Dropdown';
-import { useState } from 'react';
 
 const regions = [
+    '전체',
     '서울',
     '경기',
     '인천',
@@ -23,23 +23,43 @@ const regions = [
     '제주',
 ];
 
-const sortOptions = ['참여인원', '생성일'];
+const sortOptions = [
+    { label: '생성일', value: 'recent' },
+    { label: '마감일', value: 'deadline' },
+    { label: '참여인원', value: 'person' },
+];
 
-export default function FilterSection() {
-    const [selectedRegion, setSelectedRegion] = useState<string | undefined>();
-    const [selectedSortOption, setSelectedSortOption] = useState<
-        string | undefined
-    >();
-    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+interface FilterSectionProps {
+    selectedRegion: string;
+    setSelectedRegion: (value: string) => void;
+    selectedDate: Date | null;
+    setSelectedDate: (value: Date | null) => void;
+    selectedSortOption: 'recent' | 'deadline' | 'person';
+    setSelectedSortOption: (value: 'recent' | 'deadline' | 'person') => void;
+    setSortAsc: (asc: boolean) => void;
+}
 
+export default function FilterSection({
+    selectedRegion,
+    setSelectedRegion,
+    selectedDate,
+    setSelectedDate,
+    selectedSortOption,
+    setSelectedSortOption,
+    setSortAsc,
+}: FilterSectionProps) {
     const today = new Date();
     const maxDate = new Date(today.getTime() + 1000 * 60 * 60 * 24 * 30);
 
-    const handleSortSelect = (value: string, order?: 'asc' | 'desc') => {
-        console.log('선택된 정렬:', value, '순서:', order);
-        setSelectedSortOption(value);
+    const handleSortSelect = (label: string) => {
+        const option = sortOptions.find((opt) => opt.label === label);
+        if (option) {
+            setSelectedSortOption(
+                option.value as 'recent' | 'deadline' | 'person'
+            );
+            setSortAsc(false); // 기본은 내림차순
+        }
     };
-
     return (
         <div className="w-full h-10 flex justify-between">
             <div className="flex gap-4">
@@ -47,9 +67,8 @@ export default function FilterSection() {
                     options={regions}
                     selected={selectedRegion}
                     onSelect={setSelectedRegion}
-                    placeholder="지역 전체"
                     iconType="arrow"
-                    showPlaceholderInMenu
+                    showPlaceholderInMenu={false}
                 />
                 <Dropdown
                     options={[]}
@@ -66,12 +85,15 @@ export default function FilterSection() {
             </div>
             <div>
                 <Dropdown
-                    options={sortOptions}
-                    selected={selectedSortOption}
+                    options={sortOptions.map((opt) => opt.label)}
+                    selected={
+                        sortOptions.find(
+                            (opt) => opt.value === selectedSortOption
+                        )?.label
+                    }
                     onSelect={handleSortSelect}
-                    placeholder="마감임박"
                     iconType="sort"
-                    showPlaceholderInMenu
+                    showPlaceholderInMenu={false}
                 />
             </div>
         </div>

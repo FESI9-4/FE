@@ -9,20 +9,29 @@ import { Card } from '@/types/card';
 export default function Home() {
     const [activeTab, setActiveTab] = useState<number>(0);
     const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
+    const [selectedRegion, setSelectedRegion] = useState<string>('전체');
+    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+    const [selectedSortOption, setSelectedSortOption] = useState<
+        'recent' | 'deadline' | 'person'
+    >('recent');
+
+    const [sortAsc, setSortAsc] = useState<boolean>(false);
+
     const [articles, setArticles] = useState<Card[]>([]);
 
     useEffect(() => {
         async function fetchArticles() {
             const bigCategory = CATEGORY_DATA[activeTab].id;
+
             try {
                 const response = await boardApi.getArticles({
                     bigCategory,
                     smallCategory:
                         selectedCategory === 'ALL' ? '' : selectedCategory,
-                    location: 'seoul',
-                    date: Date.now(),
-                    sort: 'recent',
-                    sortAsc: false,
+                    location: selectedRegion === '전체' ? '' : selectedRegion,
+                    date: selectedDate ? selectedDate.getTime() : Date.now(),
+                    sort: selectedSortOption,
+                    sortAsc,
                     lastArticleId: 0,
                     limit: 10,
                 });
@@ -34,9 +43,15 @@ export default function Home() {
         }
 
         fetchArticles();
-    }, [activeTab, selectedCategory]);
+    }, [
+        activeTab,
+        selectedCategory,
+        selectedRegion,
+        selectedDate,
+        selectedSortOption,
+        sortAsc,
+    ]);
 
-    // activeTab 바뀌면 selectedCategory 초기화
     useEffect(() => {
         setSelectedCategory('ALL');
     }, [activeTab]);
@@ -51,7 +66,15 @@ export default function Home() {
                     setSelectedCategory={setSelectedCategory}
                     showCreateButton={true}
                 />
-                <FilterSection />
+                <FilterSection
+                    selectedRegion={selectedRegion}
+                    setSelectedRegion={setSelectedRegion}
+                    selectedDate={selectedDate}
+                    setSelectedDate={setSelectedDate}
+                    selectedSortOption={selectedSortOption}
+                    setSelectedSortOption={setSelectedSortOption}
+                    setSortAsc={setSortAsc}
+                />
                 <CardSection cards={articles} />
             </div>
         </div>

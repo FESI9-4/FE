@@ -1,15 +1,15 @@
 export type BoardParams = {
-  bigCategory: string;
-  smallCategory?: string;
-  location?: string;
-  date?: number;
-  sort: 'recent' | 'deadline' | 'person';
-  sortAsc: boolean;
-  lastArticleId: number;
-  limit: number;
+    bigCategory: string;
+    smallCategory?: string;
+    location?: string;
+    date?: number;
+    sort: 'recent' | 'deadline' | 'person';
+    sortAsc: boolean;
+    lastArticleId: number;
+    limit: number;
 };
 
-export type Article = { 
+export type Article = {
     article_id: number;
     title: string;
     location: string;
@@ -26,9 +26,8 @@ export type Article = {
     created_at: number;
 };
 
-
 export type BoardApiResponse = {
-  statusCode: number;
-  message: string;
-  data: Article[];
+    statusCode: number;
+    message: string;
+    data: Article[];
 };

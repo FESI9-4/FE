@@ -45,7 +45,10 @@ export default function CardSection({
                     <div className="flex flex-col gap-10 sm:gap-10 xl:gap-16 w-full ">
                         <div className="flex- flex-col gap-3 min-h-100 sm:min-h-160 xl:min-h-80">
                             {currentCards.map((card) => (
-                                <Link key={card.article_id} href={`/panpal/${card.article_id}`}>
+                                <Link
+                                    key={card.article_id}
+                                    href={`/panpal/${card.article_id}`}
+                                >
                                     <CardList
                                         title={card.title}
                                         location={card.location}
