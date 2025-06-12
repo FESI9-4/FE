@@ -11,7 +11,7 @@ export default function DetailPageDescription() {
                 <div className="w-full mt-6 sm:mt-10 xl:mt-12 flex flex-col gap-10 sm:gap-12 px-4 sm:px-6">
                     <p className="w-full flex flex-col gap-3 sm:gap-5">
                         <span className="text-lg font-semibold text-white">
-                            상세내용
+                            상세내용
                         </span>
                         <span className="text-gray-300 text-sm">
                             2025년 1월 7일 콘서트 가시는 분들!저 포함해서 몇몇
@@ -24,7 +24,7 @@ export default function DetailPageDescription() {
                     </p>
                     <div className="w-full h-80 flex flex-col gap-3 sm:gap-5">
                         <p className="text-lg font-semibold text-white h-7">
-                            장소
+                            장소
                         </p>
                         <div className="w-full h-70 bg-gray-800 rounded-[20px]">
                             <GoogleMap lat={37.5665} lng={126.978} />
