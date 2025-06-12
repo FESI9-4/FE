@@ -9,7 +9,7 @@ export default function DetailPageDescription() {
         <div className="xl:flex xl:gap-6">
             <div>
                 <div className="w-full mt-6 sm:mt-10 xl:mt-12 flex flex-col gap-10 sm:gap-12 px-4 sm:px-6">
-                    <p className=" w-full flex flex-col gap-3 sm:gap-5">
+                    <p className="w-full flex flex-col gap-3 sm:gap-5">
                         <span className="text-lg font-semibold text-white">
                             상세내용
                         </span>
@@ -22,7 +22,7 @@ export default function DetailPageDescription() {
                             귀가는 개별로 진행해주셔야 해요.
                         </span>
                     </p>
-                    <div className=" w-full h-80 flex flex-col gap-3 sm:gap-5">
+                    <div className="w-full h-80 flex flex-col gap-3 sm:gap-5">
                         <p className="text-lg font-semibold text-white h-7">
                             장소
                         </p>
