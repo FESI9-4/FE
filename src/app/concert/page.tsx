@@ -1,77 +1,52 @@
 'use client';
-
-import { ConcertCardList } from '@/components/concert';
-import { PaginationButton } from '@/components/ui';
-import { useEffect, useState } from 'react';
-import { getConcertList, findTotalCount } from '@/utils/apis/concert';
-import { Concert } from '@/types/concert';
-import { useQueryClient } from '@tanstack/react-query';
-import { useQuery } from '@tanstack/react-query';
+import Dropdown from '@/components/ui/Dropdown';
+import CardContainer from '@/components/concert/CardContainer';
+import { useState } from 'react';
 
 export default function ConcertPage() {
-    const [currentPage, setCurrentPage] = useState(1);
-    const queryClient = useQueryClient();
+    const [selectedOption, setSelectedOption] = useState('지역');
     const startDate = '20250601';
     const endDate = '20250630';
-
-    const {
-        data: concertList,
-        isLoading,
-        isError,
-    } = useQuery<Concert[]>({
-        queryKey: ['concerts', currentPage],
-        queryFn: () => getConcertList(currentPage, startDate, endDate),
-        staleTime: 1000 * 60 * 1,
-    });
-
-    const {
-        data: totalCount,
-        isLoading: totalCountLoading,
-        isError: totalCountError,
-    } = useQuery<number>({
-        queryKey: ['totalCount', startDate, endDate],
-        queryFn: () => findTotalCount(startDate, endDate),
-    });
-
-    useEffect(() => {
-        if (totalCount && currentPage <= totalCount - 2) {
-            const nextPage = currentPage + 1;
-            queryClient.prefetchQuery({
-                queryKey: ['concerts', nextPage],
-                queryFn: () => getConcertList(nextPage, startDate, endDate),
-            });
-        }
-    }, [currentPage, queryClient, totalCount]);
-
-    if (isLoading || totalCountLoading) {
-        return (
-            <div className="flex justify-center items-center min-h-screen">
-                <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
-            </div>
-        );
-    }
-
-    if (isError || totalCountError) {
-        return (
-            <div className="flex justify-center items-center min-h-screen">
-                <div className="text-red-500">
-                    데이터를 불러오는데 실패했습니다.
-                </div>
-            </div>
-        );
-    }
+    const options = [
+        '서울',
+        '부산',
+        '대구',
+        '경기',
+        '인천',
+        '강원',
+        '광주',
+        '대전',
+        '울산',
+        '세종',
+        '충남',
+        '충북',
+        '전남',
+        '전북',
+        '경남',
+        '경북',
+        '제주',
+    ];
 
     return (
-        <div className="flex flex-col justify-center items-center gap-17 pt-25 w-full">
-            {concertList && <ConcertCardList concertResponse={concertList} />}
-            {totalCount && (
-                <PaginationButton
-                    currentPage={currentPage}
-                    totalPages={totalCount}
-                    onPageChange={setCurrentPage}
-                    size="large"
+        <div className="flex justify-center items-center pt-25 w-full">
+            <div className="flex flex-col gap-5 max-w-[1122px] w-fit">
+                <div className="text-2xl text-white font-semibold p-3">
+                    공연 목록
+                </div>
+                <div className="w-23 flex justify-end">
+                    <Dropdown
+                        options={options}
+                        selected={selectedOption}
+                        onSelect={setSelectedOption}
+                        placeholder="지역"
+                    />
+                </div>
+                <CardContainer
+                    startDate={startDate}
+                    endDate={endDate}
+                    location={selectedOption}
                 />
-            )}
+            </div>
         </div>
     );
 }
