@@ -29,7 +29,10 @@ export default function Home() {
                     smallCategory:
                         selectedCategory === 'ALL' ? '' : selectedCategory,
                     location: selectedRegion === '전체' ? '' : selectedRegion,
-                    date: selectedDate ? selectedDate.getTime() : Date.now(),
+                    date: selectedDate
+                        ? Math.floor(selectedDate.getTime() / 1000)
+                        : Math.floor(Date.now() / 1000),
+
                     sort: selectedSortOption,
                     sortAsc,
                     lastArticleId: 0,
