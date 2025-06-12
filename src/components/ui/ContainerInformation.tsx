@@ -3,6 +3,8 @@ import ContainerProgress from './ContainerProgress';
 import { useState } from 'react';
 import Like from './Like';
 
+// 인터페이스도 나중에 전체 통일해야할듯? 다 다르게 구성되어서 ... 지금 중복된 타입이 너무많음 Card.ts, Article... 추후 리팩토링 작업때 하면 좋을듯
+
 interface ContainerInformationProps {
     create_user: string;
     title: string;
