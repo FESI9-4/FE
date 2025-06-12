@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { Loader } from '@googlemaps/js-api-loader';
+import loader from '@/utils/googleMapsLoader';
 
 interface MapProps {
     lat: number;
@@ -13,25 +13,19 @@ export default function GoogleMap({ lat, lng, zoom = 15 }: MapProps) {
     const mapRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const loader = new Loader({
-            apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
-            version: 'weekly',
-            libraries: ['places', 'marker'],
-        });
+        if (!mapRef.current) return;
 
-        loader.load().then(async () => {
-            if (!mapRef.current) return;
-
-            const map = new google.maps.Map(mapRef.current, {
+        loader.importLibrary('maps').then(async () => {
+            const map = new google.maps.Map(mapRef.current!, {
                 center: { lat, lng },
                 zoom,
+                 mapId: 'map',
             });
 
-            const { Marker } = (await google.maps.importLibrary(
-                'marker'
-            )) as google.maps.MarkerLibrary;
+            const { AdvancedMarkerElement } =
+                await google.maps.importLibrary('marker');
 
-            new Marker({
+            new AdvancedMarkerElement({
                 position: { lat, lng },
                 map,
             });
