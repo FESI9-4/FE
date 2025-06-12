@@ -1,23 +1,20 @@
 import { http, HttpResponse } from 'msw';
 import { Card } from '@/types/card';
 
-// 현재 날짜 기준으로 실제 날짜 생성
 const today = new Date();
 
-// 날짜 생성 함수
 const getDateAfterDays = (days: number) => {
     const date = new Date(today);
     date.setDate(date.getDate() + days);
-    return date.getTime()/1000; // 밀리초 반환
+    return date.getTime() / 1000;
 };
 
 const getDateBeforeDays = (days: number) => {
     const date = new Date(today);
     date.setDate(date.getDate() - days);
-    return date.getTime()/1000; // 밀리초 반환
+    return date.getTime() / 1000;
 };
 
-// --- GO_TYPE 목데이터 (현재 기준 + 1~60일 이내) ---
 const goTypeArticlesMap: Record<string, Card[]> = {
     BUSRENTAL_TYPE: [
         {
@@ -129,7 +126,6 @@ const goTypeArticlesMap: Record<string, Card[]> = {
     ],
 };
 
-// --- DOING_TYPE 목데이터 ---
 const doingTypeArticlesMap: Record<string, Card[]> = {
     TOGETHER_TYPE: [
         {
@@ -264,25 +260,21 @@ export const boardHandlers = [
             }
         }
 
-        // lastArticleId 필터링
         articles = articles.filter(
             (article) => article.article_id > lastArticleId
         );
 
-        // location 필터링
         if (location && location !== '') {
             articles = articles.filter((article) =>
                 article.location.includes(location)
             );
         }
 
-        // date 필터링 (선택한 날짜 이후의 게시글만)
         if (date) {
             const filterDate = parseInt(date);
             articles = articles.filter((article) => article.date >= filterDate);
         }
 
-        // 정렬 처리
         if (sort) {
             articles.sort((a, b) => {
                 let comp = 0;
@@ -297,7 +289,6 @@ export const boardHandlers = [
             });
         }
 
-        // limit 적용
         articles = articles.slice(0, limit);
 
         return HttpResponse.json({
