@@ -1,4 +1,4 @@
-export type Card = { 
+export type Card = {
     article_id: number;
     title: string;
     location: string;
@@ -15,4 +15,4 @@ export type Card = {
     created_at: number;
 };
 
-// Article이랑 중복이긴한데 나중에 하나로 묶어야할듯합니다 코드 병합되고나서 
+// Article이랑 중복이긴한데 나중에 하나로 묶어야할듯합니다 코드 병합되고나서
