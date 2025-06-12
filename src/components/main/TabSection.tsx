@@ -5,10 +5,10 @@ import { useState } from 'react';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { CATEGORY_DATA } from '@/types/categories';
 import { Tab, Button, PanpalModal } from '@/components/ui';
-import { cn } from '@/utils/cn'; 
+import { cn } from '@/utils/cn';
 
 type TapSectionProps = {
-    showCreateButton?: boolean; 
+    showCreateButton?: boolean;
 };
 
 export default function TapSeciton({
@@ -27,7 +27,7 @@ export default function TapSeciton({
         <div
             className={cn(
                 'w-full h-23 sm:h-31 flex justify-center flex-col gap-5 sm:gap-10 xl:gap-5 xl:items-center min-w-94',
-                showCreateButton ? 'sm:h-31 xl:h-53' : 'sm:h-20 xl:h-24' 
+                showCreateButton ? 'sm:h-31 xl:h-53' : 'sm:h-20 xl:h-24'
             )}
         >
             <div className="w-full h-12 flex xl:w-70">
