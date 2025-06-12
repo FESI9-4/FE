@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useCallback } from 'react';
-import { Loader } from '@googlemaps/js-api-loader';
+import loader from '@/utils/googleMapsLoader';
 import { SearchIcon } from '@/assets';
 
 interface PlaceAutoCompleteInputProps {
@@ -39,12 +39,6 @@ const PlaceAutoCompleteInput: React.FC<PlaceAutoCompleteInputProps> = ({
 
     useEffect(() => {
         const currentInput = inputRef.current;
-
-        const loader = new Loader({
-            apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
-            version: 'weekly',
-            libraries: ['places'],
-        });
 
         loader.importLibrary('places').then(() => {
             if (!currentInput || autocompleteRef.current) return;
