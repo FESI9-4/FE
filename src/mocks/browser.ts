@@ -1,6 +1,10 @@
 import { setupWorker } from 'msw/browser';
 import { postsHandlers } from './handlers/posts';
 import { handlers } from './handlers';
-import { boardHandlers } from './handlers/boards'; 
+import { boardHandlers } from './handlers/boards';
 
-export const worker = setupWorker(...postsHandlers, ...handlers, ...boardHandlers);
+export const worker = setupWorker(
+    ...postsHandlers,
+    ...handlers,
+    ...boardHandlers
+);
