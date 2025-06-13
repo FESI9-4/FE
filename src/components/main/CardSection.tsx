@@ -46,22 +46,22 @@ export default function CardSection({
                         <div className="flex- flex-col gap-3 min-h-100 sm:min-h-160 xl:min-h-80">
                             {currentCards.map((card) => (
                                 <Link
-                                    key={card.article_id}
-                                    href={`/panpal/${card.article_id}`}
+                                    key={card.articleId}
+                                    href={`/panpal/${card.articleId}`}
                                 >
                                     <CardList
                                         title={card.title}
                                         location={card.location}
                                         date={card.date}
-                                        deadline={card.deadline}
-                                        currentPerson={card.current_person}
-                                        maxPerson={card.max_person}
+                                        deadline={card.deadLine}
+                                        currentPerson={card.currentPerson}
+                                        maxPerson={card.maxPerson}
                                         openStatus={card.openStatus}
-                                        wishList={card.wish_list}
+                                        wishList={card.wishList}
                                         image={card.image}
-                                        createdUser={card.create_user}
+                                        createdUser={card.createUser}
                                         createdUserProfileImg={
-                                            card.create_user_profile_img
+                                            card.createUserProfileImg
                                         }
                                     />
                                 </Link>
