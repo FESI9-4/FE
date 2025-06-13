@@ -68,7 +68,7 @@ export default function TapSection({
                         전체
                     </div>
 
-                    {currentCategory.smallCategory.map((item) => (
+                    {currentCategory?.smallCategory?.map((item) => (
                         <div
                             key={item.id}
                             className={cn(

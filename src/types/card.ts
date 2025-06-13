@@ -11,7 +11,7 @@ export type Card = {
     image: string;
     createUser: string;
     createUserProfileImg: string;
-    useStatus: '모임 예정' | '모임 완료';
+    useStatus: 'UPCOMING' | 'COMPLETED';
     createdAt: number;
 };
 
