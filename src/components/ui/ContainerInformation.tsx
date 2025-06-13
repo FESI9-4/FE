@@ -1,14 +1,15 @@
-import { ProfileIcon } from '@/assets/index';
+import Profile from '@/components/ui/Profile';
 import ContainerProgress from './ContainerProgress';
 import { useState } from 'react';
 import Like from './Like';
 import dateConverter from '@/utils/dateConverter';
 
 interface ContainerInformationProps {
-    create_user: string;
+    createUser: string;
+    createUserProfileImgUrl: string;
     title: string;
     location: string;
-    date: number; 
+    date: number;
     deadLine: number;
     minPerson: number;
     maxPerson: number;
@@ -19,7 +20,8 @@ interface ContainerInformationProps {
 }
 
 export default function ContainerInformaiton({
-    create_user,
+    createUser,
+    createUserProfileImgUrl,
     title,
     location,
     date,
@@ -31,9 +33,8 @@ export default function ContainerInformaiton({
     articleId,
     openStatus,
 }: ContainerInformationProps) {
-    // 날짜 변환 유틸로 변환 (korea: "yyyy년 M월 d일 HH:mm" 형식)
     const formattedDate = dateConverter(date, 'korea');
-    const formattedLimitedDate = dateConverter(deadLine, 'korea-short');
+    const formattedLimitedDate = dateConverter(deadLine, 'korea');
 
     const [liked, setLiked] = useState(wishList);
 
@@ -75,8 +76,8 @@ export default function ContainerInformaiton({
                         </span>
                     </div>
                     <div className="h-6 flex gap-2 items-center">
-                        <ProfileIcon width={32} height={32} />
-                        <span className="h-5 text-gray-300">{create_user}</span>
+                        <Profile size="small" image={createUserProfileImgUrl} />
+                        <span className="h-5 text-gray-300">{createUser}</span>
                     </div>
                 </div>
                 <div className="h-13 sm:h-14 flex flex-col gap-1 sm:gap-2">

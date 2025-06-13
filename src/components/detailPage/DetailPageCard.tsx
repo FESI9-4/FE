@@ -5,11 +5,11 @@ import Image from 'next/image';
 import { HandIcon } from '@/assets';
 import Tag from '@/components/ui/Tag';
 
-
 interface DetailPageCardProps {
     articleImageUrl: string;
     openStatus: 'waiting' | 'finished' | 'progressing';
     createUser: string;
+    createUserProfileImgUrl: string;
     title: string;
     location: string;
     date: number;
@@ -25,6 +25,7 @@ export default function DetailPageCard({
     articleImageUrl,
     openStatus,
     createUser,
+    createUserProfileImgUrl,
     title,
     location,
     date,
@@ -60,7 +61,8 @@ export default function DetailPageCard({
                 </div>
                 <div className="px-3 h-56.7 sm:w-full sm:h-85">
                     <ContainerInformaiton
-                        create_user={createUser}
+                        createUser={createUser}
+                        createUserProfileImgUrl={createUserProfileImgUrl}
                         title={title}
                         location={location}
                         date={date}
