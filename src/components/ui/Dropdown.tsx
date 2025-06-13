@@ -18,6 +18,10 @@ interface DropdownProps {
     onDateChange?: (date: Date | null) => void;
     minDate?: Date;
     maxDate?: Date;
+    range?: boolean;
+    startDate?: Date | null;
+    endDate?: Date | null;
+    onRangeChange?: (start: Date | null, end: Date | null) => void;
 }
 
 const dropdownVariants = {
@@ -106,6 +110,9 @@ function useDropdown({
     iconType = 'arrow',
     selectedDate,
     onDateChange,
+    startDate,
+    endDate,
+    onRangeChange,
 }: Required<
     Pick<
         DropdownProps,
@@ -115,12 +122,17 @@ function useDropdown({
         | 'iconType'
         | 'selectedDate'
         | 'onDateChange'
+        | 'startDate'
+        | 'endDate'
+        | 'onRangeChange'
     >
 >) {
     const [isOpen, setIsOpen] = useState(false);
     const [hovered, setHovered] = useState<string | null>(null);
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
     const dropdownRef = useRef<HTMLDivElement>(null);
+    const today = useRef(startDate).current;
+    const endDay = useRef(endDate).current;
 
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
@@ -160,12 +172,19 @@ function useDropdown({
         closeDropdown();
     };
 
+    const handleRangeConfirm = (start: Date | null, end: Date | null) => {
+        onRangeChange?.(start, end);
+        closeDropdown();
+    };
+
     const handleOptionMouseEnter = (option: string) => setHovered(option);
     const handleOptionMouseLeave = () => setHovered(null);
 
     const getTextColor = () => {
         if (iconType === 'date') {
-            return selectedDate ? 'text-white' : 'text-gray-500';
+            return selectedDate || startDate !== today || endDate !== endDay
+                ? 'text-white'
+                : 'text-gray-500';
         }
         if (!selected || selected === placeholder) return 'text-gray-500';
         return 'text-white';
@@ -175,6 +194,12 @@ function useDropdown({
         if (iconType === 'date') {
             if (selectedDate) {
                 return `${selectedDate.getMonth() + 1}월 ${selectedDate.getDate()}일`;
+            } else if (
+                startDate &&
+                endDate &&
+                (startDate !== today || endDate !== endDay)
+            ) {
+                return `${startDate.getMonth() + 1}월 ${startDate.getDate()}일 ~ ${endDate.getMonth() + 1}월 ${endDate.getDate()}일`;
             }
             return placeholder;
         }
@@ -197,8 +222,10 @@ function useDropdown({
         textColor: getTextColor(),
         displayText: getDisplayText(),
         toggleDropdown,
+        closeDropdown,
         handleSelect,
         handleDateConfirm,
+        handleRangeConfirm,
         handleOptionMouseEnter,
         handleOptionMouseLeave,
         getOptionState,
@@ -217,6 +244,10 @@ export default function Dropdown({
     onDateChange,
     minDate,
     maxDate,
+    range = false,
+    startDate,
+    endDate,
+    onRangeChange,
 }: DropdownProps) {
     const {
         isOpen,
@@ -225,18 +256,23 @@ export default function Dropdown({
         textColor,
         displayText,
         toggleDropdown,
+        closeDropdown,
         handleSelect,
         handleDateConfirm,
+        handleRangeConfirm,
         handleOptionMouseEnter,
         handleOptionMouseLeave,
         getOptionState,
     } = useDropdown({
-        selected,
+        selected: selected ?? '',
         onSelect: onSelect ?? (() => {}),
         placeholder,
         iconType,
-        selectedDate,
-        onDateChange,
+        selectedDate: selectedDate ?? null,
+        onDateChange: onDateChange ?? (() => {}),
+        onRangeChange: onRangeChange ?? (() => {}),
+        startDate: startDate ?? null,
+        endDate: endDate ?? null,
     });
 
     const IconComponent = (() => {
@@ -250,10 +286,15 @@ export default function Dropdown({
         <div className="absolute z-10 top-full mt-1 ml-[-60px] sm:ml-0">
             <CalendarOnly
                 selectedDate={selectedDate || null}
-                onChange={() => {}}
-                onConfirm={handleDateConfirm}
+                onChange={onDateChange ?? (() => {})}
+                onConfirm={range ? handleRangeConfirm : handleDateConfirm}
                 minDate={minDate}
                 maxDate={maxDate}
+                range={range}
+                startDate={startDate}
+                endDate={endDate}
+                onRangeChange={onRangeChange}
+                onReset={closeDropdown}
             />
         </div>
     );
