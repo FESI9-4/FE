@@ -72,7 +72,7 @@ export default function CardContainer({
             {concertList && concertList[0] ? (
                 <ConcertCardList concertResponse={concertList} />
             ) : (
-                <div className="flex flex-col justify-center items-center min-w-[1060px]">
+                <div className="flex flex-col justify-center items-center xl:min-w-[1060px] min-w-screen">
                     <BlankScreen
                         text={`아직공연 목록이 없어요. \n 곧 멋진 공연이 찾아올 거예요!`}
                         image="/images/mike.png"
