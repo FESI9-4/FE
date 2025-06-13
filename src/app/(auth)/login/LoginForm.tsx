@@ -6,12 +6,14 @@ import useMediaQuery from '@/hooks/useMediaQuery';
 import { useLogin } from '@/hooks/queries/useAuth';
 import { useRouter } from 'next/navigation';
 import { LoginFormData } from '@/types/form';
+import { useEffect, useState } from 'react';
 
 export default function LoginForm() {
-    const { register, handleSubmit, formState } = useForm<LoginFormData>({
-        mode: 'onBlur',
-        reValidateMode: 'onBlur',
-    });
+    const { register, handleSubmit, formState, setError, watch } =
+        useForm<LoginFormData>({
+            mode: 'onBlur',
+            reValidateMode: 'onBlur',
+        });
     const router = useRouter();
     const { mutate: login } = useLogin();
     const isMobile = useMediaQuery('(max-width: 768px)');
@@ -21,8 +23,28 @@ export default function LoginForm() {
             onSuccess: () => {
                 router.push('/mypage');
             },
+            onError: () => {
+                setError('userId', {
+                    message: '아이디 또는 비밀번호가 일치하지 않습니다.',
+                });
+                setError('password', {
+                    message: '아이디 또는 비밀번호가 일치하지 않습니다.',
+                });
+            },
         });
     };
+    const [isAutoFilled, setIsAutoFilled] = useState(false);
+    const watchUserId = watch('userId');
+    const watchPassword = watch('password');
+
+    // 자동완성 감지
+    useEffect(() => {
+        if (watchUserId && watchPassword) {
+            setIsAutoFilled(true);
+        } else {
+            setIsAutoFilled(false);
+        }
+    }, [watchUserId, watchPassword]);
 
     return (
         <div className="flex flex-col justify-center items-center gap-[14px] px-4 pb-8 sm:py-8 sm:px-[54px]">
@@ -47,11 +69,8 @@ export default function LoginForm() {
                                 error={formState.errors.userId as FieldError}
                                 rules={{
                                     required: '이메일을 입력해주세요',
-                                    pattern: {
-                                        value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                                        message: '이메일 형식에 맞지 않습니다.',
-                                    },
                                 }}
+                                autoComplete="on"
                             />
                             <Input
                                 type="password"
@@ -64,12 +83,8 @@ export default function LoginForm() {
                                 error={formState.errors.password as FieldError}
                                 rules={{
                                     required: '비밀번호를 입력해주세요',
-                                    minLength: {
-                                        value: 8,
-                                        message:
-                                            '비밀번호는 8자 이상이어야 합니다.',
-                                    },
                                 }}
+                                autoComplete="on"
                             />
                             <div className="flex justify-center">
                                 <Link
@@ -84,7 +99,7 @@ export default function LoginForm() {
                             <Button
                                 type="submit"
                                 className="w-full mb-6"
-                                disabled={!formState.isValid}
+                                disabled={!formState.isValid && !isAutoFilled}
                             >
                                 로그인
                             </Button>

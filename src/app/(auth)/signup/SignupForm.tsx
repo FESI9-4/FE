@@ -80,12 +80,12 @@ export default function SignupForm() {
                                     minLength: {
                                         value: 3,
                                         message:
-                                            '닉네임은 3자 이상이어야 합니다.',
+                                            '닉네임은 3자 이상 10자 이하이어야 합니다.',
                                     },
                                     maxLength: {
-                                        value: 5,
+                                        value: 10,
                                         message:
-                                            '닉네임은 5자 이하이어야 합니다.',
+                                            '닉네임은 3자 이상 10자 이하이어야 합니다.',
                                     },
                                 }}
                             />
@@ -131,12 +131,12 @@ export default function SignupForm() {
                                     minLength: {
                                         value: 8,
                                         message:
-                                            '비밀번호는 8자 이상이어야 합니다.',
+                                            '비밀번호는 8자 이상 16자 이하이어야 합니다.',
                                     },
                                     maxLength: {
                                         value: 16,
                                         message:
-                                            '비밀번호는 16자 이하이어야 합니다.',
+                                            '비밀번호는 8자 이상 16자 이하이어야 합니다.',
                                     },
                                 }}
                             />
@@ -152,7 +152,7 @@ export default function SignupForm() {
                                     formState.errors.passwordCheck as FieldError
                                 }
                                 rules={{
-                                    required: '비밀번호 확인을 입력해주세요',
+                                    required: '비밀번호을 한번 더 입력해주세요',
                                     validate: {
                                         passwordCheck: (value) =>
                                             value === watch('password') ||
