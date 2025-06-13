@@ -1,45 +1,45 @@
+'use client';
+import DetailPageComment from './DetailPageComment';
+import DetailPageParticipation from './DetailPageParticipation';
+import GoogleMap from './GoogleMap';
 
-    'use client';
-    import DetailPageComment from './DetailPageComment';
-    import DetailPageParticipation from './DetailPageParticipation';
-    import GoogleMap from './GoogleMap';
+interface DetailPageDescriptionProps {
+    description: string;
+    latitude: number;
+    longitude: number;
+    articleId: number;
+}
 
-    interface DetailPageDescriptionProps {
-        description: string;
-        latitude: number;
-        longitude: number;
-    }
-
-    export default function DetailPageDescription({
-        description,
-        latitude,
-        longitude,
-    }: DetailPageDescriptionProps) {
-        return (
-            <div className="xl:flex xl:gap-6 ">
-                <div>
-                    <div className="w-full mt-6 sm:mt-10 xl:mt-12 flex flex-col gap-10 sm:gap-12 px-4 sm:px-6">
-                        <p className="w-full flex flex-col gap-3 sm:gap-5">
-                            <span className="text-lg font-semibold text-white">
-                                상세내용
-                            </span>
-                            <span className="text-gray-300 text-sm min-w-148">
-                                {description}
-                            </span>
+export default function DetailPageDescription({
+    description,
+    latitude,
+    longitude,
+    articleId,
+}: DetailPageDescriptionProps) {
+    return (
+        <div className="xl:flex xl:gap-6 ">
+            <div>
+                <div className="w-full mt-6 sm:mt-10 xl:mt-12 flex flex-col gap-10 sm:gap-12 px-4 sm:px-6">
+                    <p className="w-full flex flex-col gap-3 sm:gap-5">
+                        <span className="text-lg font-semibold text-white">
+                            상세내용
+                        </span>
+                        <span className="text-gray-300 text-sm min-w-148">
+                            {description}
+                        </span>
+                    </p>
+                    <div className="w-full h-80 flex flex-col gap-3 sm:gap-5">
+                        <p className="text-lg font-semibold text-white h-7">
+                            장소
                         </p>
-                        <div className="w-full h-80 flex flex-col gap-3 sm:gap-5">
-                            <p className="text-lg font-semibold text-white h-7">
-                                장소
-                            </p>
-                            <div className="w-full h-70 bg-gray-800 rounded-[20px]">
-                                <GoogleMap lat={latitude} lng={longitude} />
-                            </div>
+                        <div className="w-full h-70 bg-gray-800 rounded-[20px]">
+                            <GoogleMap lat={latitude} lng={longitude} />
                         </div>
                     </div>
-                    <DetailPageComment />
                 </div>
-                <DetailPageParticipation />
+                <DetailPageComment id={articleId} />
             </div>
-        );
-    }
-
+            <DetailPageParticipation />
+        </div>
+    );
+}

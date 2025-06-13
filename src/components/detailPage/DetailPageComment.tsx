@@ -7,6 +7,10 @@ interface FormData {
     comment: string;
 }
 
+interface DetailPageCommentProps {
+    id: number | string; // 혹은 id 타입에 맞게 조정
+}
+
 //데이터에서 커멘트 받아오는게 아니라 여기서 따로 해당 id 만 받아서 api요청해서 조회해야함.
 
 const apiResponse = {
@@ -15,7 +19,7 @@ const apiResponse = {
     data: [],
 };
 
-export default function DetailPageComment() {
+export default function DetailPageComment({ id }: DetailPageCommentProps) {
     const {
         register,
         handleSubmit,
@@ -24,6 +28,7 @@ export default function DetailPageComment() {
 
     const onSubmit: SubmitHandler<FormData> = (data) => {
         console.log(' 제출된 댓글:', data.comment);
+        console.log(id); // api 사용할때 ,,
     };
 
     return (
@@ -37,7 +42,7 @@ export default function DetailPageComment() {
                     <div className="h-45.5 w-full  flex flex-col justify-between">
                         <div className="h-6 w-full   flex justify-between">
                             <div className="h-full gap-2 flex items-center">
-                                <Profile size="small"></Profile>
+                                <Profile size="small" />
                                 <p className="text-sm font-normal text-gray-300">
                                     재형이
                                 </p>
