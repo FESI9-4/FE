@@ -34,3 +34,6 @@ export const userApi = {
 // const user = await userApi.getUser(1);
 // const updatedUser = await userApi.updateUser(1, { username: 'newName' });
 // await userApi.deleteUser(1);
+
+
+// wishlike 찜하기, 해제 

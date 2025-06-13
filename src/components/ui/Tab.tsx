@@ -6,6 +6,7 @@ interface TabProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     icon?: React.ReactNode;
     active: boolean;
 }
+// TODO 쿼리 파라미터로 새로고침시에도 유지되게 리팩토링
 
 export default function Tab({ children, icon, active, ...props }: TabProps) {
     const divClassName = cva(
