@@ -45,8 +45,8 @@ export default function ConcertPage() {
     ];
 
     return (
-        <div className="flex justify-center items-center pt-25 w-full">
-            <div className="flex flex-col gap-5 max-w-[1122px] w-fit">
+        <div className="flex justify-center items-center pt-25 w-full px-4">
+            <div className="flex flex-col gap-5 max-w-[1122px]">
                 <div className="text-2xl text-white font-semibold p-3">
                     공연 목록
                 </div>

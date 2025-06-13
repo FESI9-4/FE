@@ -53,14 +53,14 @@ export default function CardContainer({
 
     if (isLoading || totalCountLoading) {
         return (
-            <div className="flex justify-center items-center min-h-screen min-w-[1060px]">
+            <div className="flex justify-center items-center min-h-screen xl:min-w-[1060px] min-w-screen">
                 <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
             </div>
         );
     }
     if (isError || totalCountError) {
         return (
-            <div className="flex justify-center items-center min-h-screen">
+            <div className="flex justify-center items-center min-h-screen min-w-screen">
                 <div className="text-red-500">
                     데이터를 불러오는데 실패했습니다.
                 </div>
@@ -68,12 +68,15 @@ export default function CardContainer({
         );
     }
     return (
-        <div className="flex flex-col gap-17 justify-center items-center ">
+        <div className="flex flex-col gap-17 justify-center items-center">
             {concertList && concertList[0] ? (
                 <ConcertCardList concertResponse={concertList} />
             ) : (
-                <div className="flex justify-center items-center min-w-[1060px]">
-                    <BlankScreen text="검색 결과가 없습니다." />
+                <div className="flex flex-col justify-center items-center min-w-[1060px]">
+                    <BlankScreen
+                        text={`아직공연 목록이 없어요. \n 곧 멋진 공연이 찾아올 거예요!`}
+                        image="/images/mike.png"
+                    />
                 </div>
             )}
             {totalCount && (

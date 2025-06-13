@@ -16,7 +16,7 @@ export function ConcertCard({
             className="xl:w-64 sm:w-52 xl:px-3 xl:pt-3 xl:pb-8 p-2 hover:cursor-pointer hover:bg-gray-900 active:opacity-50"
         >
             <div className="flex sm:flex-col flex-row sm:gap-6 gap-3">
-                <div className="relative xl:h-75 sm:h-61 h-30 sm:w-full w-25 items-center justify-center">
+                <div className="relative xl:h-75 sm:h-61 h-30 sm:w-full w-25 items-center justify-center flex-shrink-0">
                     <Image
                         src={imageUrl}
                         alt={title}
