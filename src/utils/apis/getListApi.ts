@@ -1,9 +1,8 @@
-import { BoardApiResponse, BoardParams } from '@/types/board';
-
+import { getListApiResponse, getListApiParams } from '@/types/board';
 import { customFetcher } from '@/utils/apis/customFetcher';
 
 export const getListApi = {
-    getArticles: async (params: BoardParams): Promise<BoardApiResponse> => {
+    getArticles: async (params: getListApiParams): Promise<getListApiResponse> => {
         const query = new URLSearchParams({
             bigCategory: params.bigCategory,
             ...(params.smallCategory && {
@@ -17,7 +16,7 @@ export const getListApi = {
             limit: params.limit.toString(),
         });
 
-        return customFetcher<BoardApiResponse, undefined>(
+        return customFetcher<getListApiResponse, undefined>(
             `/api/board?${query.toString()}`,
             {
                 method: 'GET',

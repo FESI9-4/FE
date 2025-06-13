@@ -19,7 +19,7 @@ export default function GoogleMap({ lat, lng, zoom = 15 }: MapProps) {
             const map = new google.maps.Map(mapRef.current!, {
                 center: { lat, lng },
                 zoom,
-                 mapId: 'map',
+                mapId: 'map',
             });
 
             const { AdvancedMarkerElement } =
