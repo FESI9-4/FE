@@ -5,8 +5,25 @@ import { useState } from 'react';
 
 export default function ConcertPage() {
     const [selectedOption, setSelectedOption] = useState('지역');
-    const startDate = '20250601';
-    const endDate = '20250630';
+    const [startDate, setStartDate] = useState<Date | null>(new Date());
+    const today = new Date();
+    const lastDayOfMonth = new Date(
+        today.getFullYear(),
+        today.getMonth() + 1,
+        0
+    );
+    const [endDate, setEndDate] = useState<Date | null>(lastDayOfMonth);
+
+    const handleDateRangeChange = (start: Date | null, end: Date | null) => {
+        if (start === null && end === null) {
+            setStartDate(today);
+            setEndDate(lastDayOfMonth);
+        } else {
+            setStartDate(start);
+            setEndDate(end);
+        }
+    };
+
     const options = [
         '서울',
         '부산',
@@ -33,17 +50,44 @@ export default function ConcertPage() {
                 <div className="text-2xl text-white font-semibold p-3">
                     공연 목록
                 </div>
-                <div className="w-23 flex justify-end">
-                    <Dropdown
-                        options={options}
-                        selected={selectedOption}
-                        onSelect={setSelectedOption}
-                        placeholder="지역"
-                    />
+                <div className="flex ">
+                    <div>
+                        <Dropdown
+                            options={options}
+                            selected={selectedOption}
+                            onSelect={setSelectedOption}
+                            placeholder="지역"
+                        />
+                    </div>
+                    <div>
+                        <Dropdown
+                            options={[]}
+                            placeholder="공연 기간"
+                            iconType="date"
+                            range={true}
+                            startDate={startDate}
+                            endDate={endDate}
+                            onRangeChange={handleDateRangeChange}
+                        />
+                    </div>
                 </div>
                 <CardContainer
-                    startDate={startDate}
-                    endDate={endDate}
+                    startDate={
+                        startDate
+                            ? startDate
+                                  .toISOString()
+                                  .split('T')[0]
+                                  .replace(/-/g, '')
+                            : '20250601'
+                    }
+                    endDate={
+                        endDate
+                            ? endDate
+                                  .toISOString()
+                                  .split('T')[0]
+                                  .replace(/-/g, '')
+                            : '20250630'
+                    }
                     location={selectedOption}
                 />
             </div>

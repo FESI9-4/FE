@@ -40,7 +40,7 @@ export default function CardContainer({
         if (totalCount && currentPage <= totalCount - 2) {
             const nextPage = currentPage + 1;
             queryClient.prefetchQuery({
-                queryKey: ['concerts', nextPage, location],
+                queryKey: ['concerts', nextPage, location, startDate, endDate],
                 queryFn: () =>
                     getConcertList(nextPage, startDate, endDate, location),
             });

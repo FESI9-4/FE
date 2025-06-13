@@ -56,7 +56,6 @@ export const getConcertList = async (
         8,
         location
     );
-    console.log(`concertList: ${data}`);
     return Array.isArray(data) ? data : [data];
 };
 
@@ -115,6 +114,5 @@ export const findTotalCount = async (
     }
 
     const totalCount = Math.ceil(((totalPages - 1) * 100 + lastValidData) / 8);
-    console.log(`totalCount: ${totalCount}`);
     return totalCount;
 };
