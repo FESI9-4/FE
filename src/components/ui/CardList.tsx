@@ -16,8 +16,8 @@ interface CardListProps {
     openStatus: 'waiting' | 'finished' | 'progressing';
     wishList: boolean;
     image: string;
-    createdUser: string;
-    createdUserProfileImg: string;
+    createUser: string;
+    createUserProfileImg: string;
 }
 
 export default function CardList({
@@ -30,8 +30,8 @@ export default function CardList({
     openStatus,
     wishList,
     image,
-    createdUser,
-    createdUserProfileImg,
+    createUser,
+    createUserProfileImg,
 }: CardListProps) {
     const convertedDate = dateConverter(Number(date), 'korea');
     const convertedDeadline = dateConverter(Number(deadline), 'korea-short');
@@ -77,9 +77,9 @@ export default function CardList({
                         <div className="flex gap-2 text-sm text-gray-400 items-center">
                             <Profile
                                 size="small"
-                                image={createdUserProfileImg}
+                                image={createUserProfileImg}
                             />
-                            <p>{createdUser}</p>
+                            <p>{createUser}</p>
                         </div>
                     </div>
                     <div>

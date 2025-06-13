@@ -2,7 +2,9 @@ import { getListApiResponse, getListApiParams } from '@/types/board';
 import { customFetcher } from '@/utils/apis/customFetcher';
 
 export const getListApi = {
-    getArticles: async (params: getListApiParams): Promise<getListApiResponse> => {
+    getArticles: async (
+        params: getListApiParams
+    ): Promise<getListApiResponse> => {
         const query = new URLSearchParams({
             bigCategory: params.bigCategory,
             ...(params.smallCategory && {
