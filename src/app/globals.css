@@ -170,7 +170,7 @@ body:not(#modal-root) .custom-scrollbar-datepicker::-webkit-scrollbar-thumb {
 
 /* 일반 날짜 호버 - disabled와 selected가 아닌 경우만 */
 .react-datepicker__day:hover:not(.react-datepicker__day--selected):not(
-        .react-datepicker__day--disabled
+        ` .react-datepicker__day--disabled
     ):not(.react-datepicker__day--range-start):not(
         .react-datepicker__day--range-end
     ):not(.react-datepicker__day--selecting-range-start):not(
