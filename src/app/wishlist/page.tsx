@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { TabSection, FilterSection, CardSection } from '@/components/main';
 import { useGetList } from '@/hooks/queries/useGetList';
 
+
 export default function WishList() {
     const [activeTab, setActiveTab] = useState<number>(0);
     const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
@@ -26,6 +27,9 @@ export default function WishList() {
     useEffect(() => {
         setSelectedCategory('ALL');
     }, [activeTab]);
+
+     const wishListArticles = articles.filter(article => article.wishList === true);
+
     return (
         <div>
             <div className="w-full px-10 h-21 hidden sm:block sm:pt-24 xl:pt-28 max-w-249 m-auto ">
@@ -56,7 +60,7 @@ export default function WishList() {
                         setSelectedSortOption={setSelectedSortOption}
                         setSortAsc={setSortAsc}
                     />
-                    <CardSection showCreateButton={false} cards={articles} />
+                    <CardSection showCreateButton={false} cards={wishListArticles} />
                 </div>
             </div>
         </div>
