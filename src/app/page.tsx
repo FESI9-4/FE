@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { TabSection, FilterSection, CardSection } from '@/components/main';
-import { useArticles } from '@/hooks/queries/useBoard';
+import { useGetList } from '@/hooks/queries/useGetList';
 
 export default function Home() {
     const [activeTab, setActiveTab] = useState<number>(0);
@@ -14,7 +14,7 @@ export default function Home() {
     >('recent');
     const [sortAsc, setSortAsc] = useState<boolean>(false);
 
-    const { data: articles = [] } = useArticles({
+    const { data: articles = [] } = useGetList({
         activeTab,
         selectedCategory,
         selectedRegion,
