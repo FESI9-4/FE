@@ -6,6 +6,9 @@ import CommentList from './CommentList';
 interface FormData {
     comment: string;
 }
+
+//데이터에서 커멘트 받아오는게 아니라 여기서 따로 해당 id 만 받아서 api요청해서 조회해야함.
+
 const apiResponse = {
     statusCode: 200,
     message: '댓글 리스트 호출 성공',
