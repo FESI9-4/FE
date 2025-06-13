@@ -59,8 +59,8 @@ export default function CardSection({
                                         openStatus={card.openStatus}
                                         wishList={card.wishList}
                                         image={card.image}
-                                        createdUser={card.createUser}
-                                        createdUserProfileImg={
+                                        createUser={card.createUser}
+                                        createUserProfileImg={
                                             card.createUserProfileImg
                                         }
                                     />
