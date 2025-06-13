@@ -110,6 +110,9 @@ function useDropdown({
     iconType = 'arrow',
     selectedDate,
     onDateChange,
+    startDate,
+    endDate,
+    onRangeChange,
 }: Required<
     Pick<
         DropdownProps,
@@ -119,7 +122,6 @@ function useDropdown({
         | 'iconType'
         | 'selectedDate'
         | 'onDateChange'
-        | 'range'
         | 'startDate'
         | 'endDate'
         | 'onRangeChange'
@@ -262,15 +264,15 @@ export default function Dropdown({
         handleOptionMouseLeave,
         getOptionState,
     } = useDropdown({
-        selected,
+        selected: selected ?? '',
         onSelect: onSelect ?? (() => {}),
         placeholder,
         iconType,
-        selectedDate,
-        onDateChange,
-        onRangeChange,
-        startDate,
-        endDate,
+        selectedDate: selectedDate ?? null,
+        onDateChange: onDateChange ?? (() => {}),
+        onRangeChange: onRangeChange ?? (() => {}),
+        startDate: startDate ?? null,
+        endDate: endDate ?? null,
     });
 
     const IconComponent = (() => {
