@@ -1,4 +1,6 @@
 'use client';
+
+import { useState } from 'react';
 import { Button, InputText, Profile, Dropdown } from '../ui';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import CommentList from './CommentList';
@@ -25,6 +27,8 @@ export default function DetailPageComment({ id }: DetailPageCommentProps) {
         handleSubmit,
         formState: { errors },
     } = useForm<FormData>();
+
+    const [secret, setSecret] = useState(false);
 
     const onSubmit: SubmitHandler<FormData> = (data) => {
         console.log(' 제출된 댓글:', data.comment);
@@ -70,6 +74,8 @@ export default function DetailPageComment({ id }: DetailPageCommentProps) {
                         <div className="h-6 w-23.25 flex justify-between items-center">
                             <input
                                 type="checkbox"
+                                checked={secret}
+                                onChange={(e) => setSecret(e.target.checked)}
                                 className="appearance-none w-4.5 h-4.5 rounded-md bg-gray-800 checked:bg-green-500 checked:ring-1 checked:ring-offset-1 checked:shadow-[inset_0_0_0_4px_white]"
                             />
                             <span className="text-xs font-normal text-gray-100">
