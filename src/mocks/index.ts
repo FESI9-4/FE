@@ -1,4 +1,7 @@
 export async function initMocks() {
+    // 개발 환경이 아니라면 실행 X
+    console.log('NODE_ENV:', process.env.NODE_ENV);
+
     if (process.env.NODE_ENV !== 'development') return;
 
     if (typeof window === 'undefined') {
