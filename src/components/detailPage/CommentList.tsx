@@ -1,8 +1,7 @@
 import React from 'react';
 import { Profile } from '../ui';
 import { Lock, CommentArrow } from '@/assets';
-
-// ?? 프로필 이미지 url은 어디서? api 명세서에 없던데 ?물어봐야할듯
+import { Dropdown } from '../ui'; 
 
 type CommentType = {
     commentId: number;
@@ -10,7 +9,7 @@ type CommentType = {
     parentCommentId: number;
     writerId: number;
     deleted: boolean;
-    createdAt: string;
+    createdAt: number;
     secret: boolean;
     children?: CommentType[];
 };
@@ -18,10 +17,17 @@ type CommentType = {
 type CommentProps = {
     comment: CommentType;
     currentUserId: number;
-    dropdown?: React.ReactNode;
     level?: number;
+    onSelectMenu?: (commentId: number, action: string) => void;
 };
 
+type CommentListProps = {
+    comments: CommentType[];
+    currentUserId: number;
+    onSelectMenu?: (commentId: number, action: string) => void;
+};
+
+// 댓글을 트리 구조로 변환하는 함수
 function buildCommentTree(comments: CommentType[]): CommentType[] {
     const commentMap = new Map<number, CommentType>();
     const rootComments: CommentType[] = [];
@@ -46,17 +52,18 @@ function buildCommentTree(comments: CommentType[]): CommentType[] {
     return rootComments;
 }
 
+// 단일 댓글 항목 컴포넌트
 function CommentItem({
     comment,
     currentUserId,
-    dropdown,
     level = 0,
+    onSelectMenu,
 }: CommentProps) {
     const isAuthor = comment.writerId === currentUserId;
 
     const content = (
         <div className={`ml-${level * 4} mb-4`}>
-            <div className="flex justify-between gap-4 p-3 rounded-lg shadow-sm relative ">
+            <div className="flex justify-between gap-4 p-3 rounded-lg shadow-sm relative">
                 {level > 0 && (
                     <div className="hidden sm:block absolute -left-5">
                         <CommentArrow />
@@ -96,7 +103,19 @@ function CommentItem({
                     </div>
                 </div>
 
-                <div className="flex items-start">{dropdown}</div>
+                <div className="flex items-start">
+                    {isAuthor && onSelectMenu && (
+                        <Dropdown
+                            options={['수정하기', '삭제하기']}
+                            placeholder="메뉴"
+                            showPlaceholderInMenu={false}
+                            iconType="comment"
+                            onSelect={(action) =>
+                                onSelectMenu(comment.commentId, action)
+                            }
+                        />
+                    )}
+                </div>
             </div>
 
             {comment.children && comment.children.length > 0 && (
@@ -106,8 +125,8 @@ function CommentItem({
                             key={child.commentId}
                             comment={child}
                             currentUserId={currentUserId}
-                            dropdown={dropdown}
                             level={level + 1}
+                            onSelectMenu={onSelectMenu}
                         />
                     ))}
                 </div>
@@ -122,15 +141,12 @@ function CommentItem({
     );
 }
 
+// 댓글 리스트 컴포넌트
 export default function CommentList({
     comments,
     currentUserId,
-    dropdown,
-}: {
-    comments: CommentType[];
-    currentUserId: number;
-    dropdown?: React.ReactNode;
-}) {
+    onSelectMenu,
+}: CommentListProps) {
     const commentTree = buildCommentTree(comments);
 
     return (
@@ -140,7 +156,7 @@ export default function CommentList({
                     key={comment.commentId}
                     comment={comment}
                     currentUserId={currentUserId}
-                    dropdown={dropdown}
+                    onSelectMenu={onSelectMenu}
                 />
             ))}
         </div>

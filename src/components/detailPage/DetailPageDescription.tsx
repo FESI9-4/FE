@@ -8,6 +8,9 @@ interface DetailPageDescriptionProps {
     latitude: number;
     longitude: number;
     articleId: number;
+    createUser: string;
+    createUserProfileImgUrl: string;
+    createdAt: number;
 }
 
 export default function DetailPageDescription({
@@ -15,6 +18,9 @@ export default function DetailPageDescription({
     latitude,
     longitude,
     articleId,
+    createUser,
+    createUserProfileImgUrl,
+    createdAt,
 }: DetailPageDescriptionProps) {
     return (
         <div className="xl:flex xl:gap-6 ">
@@ -37,9 +43,14 @@ export default function DetailPageDescription({
                         </div>
                     </div>
                 </div>
-                <DetailPageComment id={articleId} />
+                <DetailPageComment
+                    id={articleId}
+                    createUser={createUser}
+                    createUserProfileImgUrl={createUserProfileImgUrl}
+                    createdAt={createdAt}
+                />
             </div>
-            <DetailPageParticipation />
+            <DetailPageParticipation articleId={articleId} />
         </div>
     );
 }
