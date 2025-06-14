@@ -33,7 +33,7 @@ export const detailHandlers = [
                 description: '같이 콘서트 가실분',
                 date: getDateAfterDays(5),
                 deadLine: getDateAfterDays(10),
-                created_at: getDateBeforeDays(4),
+                createdAt: getDateBeforeDays(4),
                 minPerson: 5,
                 currentPerson: 5,
                 maxPerson: 10,

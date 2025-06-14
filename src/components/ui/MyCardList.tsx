@@ -15,10 +15,11 @@ interface CardListProps {
     currentPerson: number;
     maxPerson: number;
     openStatus: 'waiting' | 'finished' | 'progressing' | 'canceled';
+    //마찬가지
     image: string;
-    createdUser: string;
-    createdUserProfileImg: string;
-    useStatus: 'schedule' | 'done';
+    createdUser: string; // createUser 통일
+    createdUserProfileImg: string; // 마찬가지
+    useStatus: 'schedule' | 'done'; // 얘도 모든 파일에서 통일해야할듯
     buttonOnClick: () => void;
 }
 

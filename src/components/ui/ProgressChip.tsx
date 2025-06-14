@@ -2,6 +2,7 @@ import { CheckIcon } from '@/assets';
 import { cva } from 'class-variance-authority';
 
 interface ProgressChipProps {
+    // 이것도 api상에서는 3가지로만 주는데 4개로 받을건지, 아님 캔슬을 지울건지 얘기를 해 야할듯
     openStatus: 'waiting' | 'finished' | 'progressing' | 'canceled';
     children: React.ReactNode;
 }

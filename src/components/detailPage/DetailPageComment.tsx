@@ -1,38 +1,98 @@
 'use client';
 
 import { useState } from 'react';
-import { Button, InputText, Profile, Dropdown } from '../ui';
+import { Button, InputText, Profile } from '../ui';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import CommentList from './CommentList';
+import { commentApi } from '@/utils/apis/commentApi';
+import { useMutation } from '@tanstack/react-query';
+import dateConverter from '@/utils/dateConverter';
+
+//수정하기 삭제하기 보이는거 결국 드롭다운이 열리는거 본인이어야지 이게 열려야함... 지금은 아무나 막열리지만 그로직을 추가해야할듯? 댓글아이디랑 
+//지금 받은 사용자아디랑 같은지 
+
+// 그리고 해당 댓글에서 작성자뜨는로직이 잘못됨 글의 작성자랑 비교를해야하는데.. Id값을 
+
+// 드롭다운을 그리고, 대댓글달기 이것도열어줘야지..
+// 팬팔 참여하기 api 작성하고 상태로 관리해서 버튼ui 다르게하고 취소하기도 만들기
+
+// 본인 아이디 즉 , 작성자면 랜더링을 다르게해야함.. 주최자페이지
 
 interface FormData {
     comment: string;
 }
 
 interface DetailPageCommentProps {
-    id: number | string; // 혹은 id 타입에 맞게 조정
+    id: number;
+    createUser: string;
+    createUserProfileImgUrl: string;
+    createdAt: number;
 }
-
-//데이터에서 커멘트 받아오는게 아니라 여기서 따로 해당 id 만 받아서 api요청해서 조회해야함.
 
 const apiResponse = {
     statusCode: 200,
     message: '댓글 리스트 호출 성공',
-    data: [],
+    data: [
+        {
+            commentId: 187060166021779456,
+            content: '부모1 내용',
+            parentCommentId: 187060166021779456,
+            writerId: 1231414314,
+            deleted: false,
+            createdAt: 1764558626449,
+            secret: false,
+        },
+        {
+            commentId: 187060197298704384,
+            content: '부모1 자식 내용',
+            parentCommentId: 187060166021779456,
+            writerId: 1231414314,
+            deleted: false,
+            createdAt: 1764558626449,
+            secret: true,
+        },
+    ],
 };
 
-export default function DetailPageComment({ id }: DetailPageCommentProps) {
+export default function DetailPageComment({
+    id,
+    createUser,
+    createUserProfileImgUrl,
+    createdAt,
+}: DetailPageCommentProps) {
     const {
         register,
         handleSubmit,
         formState: { errors },
+        reset,
     } = useForm<FormData>();
 
     const [secret, setSecret] = useState(false);
+    const formattedDate = dateConverter(Math.floor(createdAt), 'utc');
+    console.log('createdAt:', formattedDate);
+
+    const mutation = useMutation({
+        mutationFn: (body: {
+            parentCommentId: number | null;
+            secret: boolean;
+            content: string;
+        }) => commentApi.postCommentByArticleId(Number(id), body),
+        onSuccess: () => {
+            console.log('댓글 작성 성공');
+            reset();       // 작성 후 입력 폼 초기화
+            setSecret(false);
+        },
+        onError: (error) => {
+            console.error('댓글 작성 실패:', error);
+        },
+    });
 
     const onSubmit: SubmitHandler<FormData> = (data) => {
-        console.log(' 제출된 댓글:', data.comment);
-        console.log(id); // api 사용할때 ,,
+        mutation.mutate({
+            parentCommentId: null,
+            secret: secret,
+            content: data.comment,
+        });
     };
 
     return (
@@ -43,18 +103,22 @@ export default function DetailPageComment({ id }: DetailPageCommentProps) {
             >
                 <p className="text-lg font-semibold text-white">Q&A</p>
                 <div className="w-full h-55.5 sm:h-45.5 flex flex-col sm:flex-row items-end sm:items-center sm:gap-5">
-                    <div className="h-45.5 w-full  flex flex-col justify-between">
-                        <div className="h-6 w-full   flex justify-between">
+                    <div className="h-45.5 w-full flex flex-col justify-between">
+                        <div className="h-6 w-full flex justify-between">
                             <div className="h-full gap-2 flex items-center">
-                                <Profile size="small" />
+                                <Profile
+                                    size="small"
+                                    image={createUserProfileImgUrl}
+                                />
                                 <p className="text-sm font-normal text-gray-300">
-                                    재형이
+                                    {createUser}
                                 </p>
                             </div>
                             <p className="text-sm font-medium text-gray-600 h-5">
-                                2025. 01. 01.
+                                {formattedDate}
                             </p>
                         </div>
+
                         <InputText
                             name="comment"
                             register={register}
@@ -71,6 +135,7 @@ export default function DetailPageComment({ id }: DetailPageCommentProps) {
                             className="h-27.5"
                             placeholder="내용을 입력해주세요"
                         />
+
                         <div className="h-6 w-23.25 flex justify-between items-center">
                             <input
                                 type="checkbox"
@@ -84,24 +149,26 @@ export default function DetailPageComment({ id }: DetailPageCommentProps) {
                         </div>
                     </div>
 
-                    <div className="w-26.25 h-10 sm:mb-15 ">
+                    <div className="w-26.25 h-10 sm:mb-15 flex gap-2">
                         <Button
                             styled="outline"
                             type="submit"
                             size="small"
-                            className="h-full truncate "
+                            className="h-full truncate"
                         >
                             문의하기
                         </Button>
                     </div>
                 </div>
+
                 {errors.comment && (
                     <p className="text-red-500 text-xs mt-1">
                         {errors.comment.message}
                     </p>
                 )}
             </form>
-            <div className="px-4 w-full  h-6">
+
+            <div className="px-4 w-full h-6">
                 <div className="border-t border-gray-800 h-1"></div>
             </div>
 
@@ -111,22 +178,19 @@ export default function DetailPageComment({ id }: DetailPageCommentProps) {
                         <CommentList
                             comments={apiResponse.data}
                             currentUserId={1231414314}
-                            dropdown={
-                                <Dropdown
-                                    options={['수정하기', '삭제하기']}
-                                    placeholder="메뉴"
-                                    showPlaceholderInMenu={false}
-                                    iconType="comment"
-                                    onSelect={(value) => {
-                                        console.log('선택된 메뉴:', value);
-                                    }}
-                                />
-                            }
+                            onSelectMenu={(commentId, action) => {
+                                if (action === '삭제하기') {
+                                    console.log(
+                                        '삭제 기능 여기에 구현 예정:',
+                                        commentId
+                                    );
+                                }
+                            }}
                         />
                     ) : (
                         <div className="flex flex-col items-center justify-center h-40 sm:h-52.5 font-medium text-gray-500 text-sm">
                             <p>아직 올라온 질문이 없어요.</p>
-                            <p>궁금한 게 있다면 가장 먼저 물어보세요!.</p>
+                            <p>궁금한 게 있다면 가장 먼저 물어보세요!</p>
                         </div>
                     )}
                 </div>

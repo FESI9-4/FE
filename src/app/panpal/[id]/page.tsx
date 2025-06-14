@@ -14,6 +14,9 @@ export default async function PanpalDetailPage({ params }: PageProps) {
         latitude: data.latitude,
         longitude: data.longitude,
         articleId: id,
+        createUser: data.createUser,
+        createUserProfileImgUrl: data.createUserProfileImgUrl,
+        createdAt: data.createdAt,
     };
 
     const cardProps = {
@@ -34,7 +37,7 @@ export default async function PanpalDetailPage({ params }: PageProps) {
         articleId: id,
         createUserProfileImgUrl: data.createUserProfileImgUrl,
     };
-
+    console.log(data.createdAt);
     return (
         <div className="w-full pt-6 sm:pt-5 xl:pt-8 flex flex-col justify-center min-w-98 min-h-screen max-w-249 m-auto xl:flex-row">
             <div className="w-full flex flex-col mt-8 sm:mt-16 xl:mt-18.25 sm:px-6">
