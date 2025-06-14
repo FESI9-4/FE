@@ -8,10 +8,10 @@ import { commentApi } from '@/utils/apis/commentApi';
 import { useMutation } from '@tanstack/react-query';
 import dateConverter from '@/utils/dateConverter';
 
-//수정하기 삭제하기 보이는거 결국 드롭다운이 열리는거 본인이어야지 이게 열려야함... 지금은 아무나 막열리지만 그로직을 추가해야할듯? 댓글아이디랑 
-//지금 받은 사용자아디랑 같은지 
+//수정하기 삭제하기 보이는거 결국 드롭다운이 열리는거 본인이어야지 이게 열려야함... 지금은 아무나 막열리지만 그로직을 추가해야할듯? 댓글아이디랑
+//지금 받은 사용자아디랑 같은지
 
-// 그리고 해당 댓글에서 작성자뜨는로직이 잘못됨 글의 작성자랑 비교를해야하는데.. Id값을 
+// 그리고 해당 댓글에서 작성자뜨는로직이 잘못됨 글의 작성자랑 비교를해야하는데.. Id값을
 
 // 드롭다운을 그리고, 대댓글달기 이것도열어줘야지..
 // 팬팔 참여하기 api 작성하고 상태로 관리해서 버튼ui 다르게하고 취소하기도 만들기
@@ -24,8 +24,6 @@ interface FormData {
 
 interface DetailPageCommentProps {
     id: number;
-    createUser: string;
-    createUserProfileImgUrl: string;
     createdAt: number;
 }
 
@@ -56,8 +54,7 @@ const apiResponse = {
 
 export default function DetailPageComment({
     id,
-    createUser,
-    createUserProfileImgUrl,
+
     createdAt,
 }: DetailPageCommentProps) {
     const {
@@ -79,7 +76,7 @@ export default function DetailPageComment({
         }) => commentApi.postCommentByArticleId(Number(id), body),
         onSuccess: () => {
             console.log('댓글 작성 성공');
-            reset();       // 작성 후 입력 폼 초기화
+            reset(); // 작성 후 입력 폼 초기화
             setSecret(false);
         },
         onError: (error) => {
@@ -94,7 +91,8 @@ export default function DetailPageComment({
             content: data.comment,
         });
     };
-
+    // 이 사용자와 이미지는 얘랑 달라야할텐데?!  결국 현재로그인한 사람의 이미지와  닉네임을가져와야함..  지금 넣은 값은 현재 게시물 작성자의 이미지와 닉네임을 가져온거
+    // 이거 나중에 수정   전역 상태나 API 호출로 로그인 유저 정보
     return (
         <div className="flex flex-col">
             <form
@@ -106,12 +104,9 @@ export default function DetailPageComment({
                     <div className="h-45.5 w-full flex flex-col justify-between">
                         <div className="h-6 w-full flex justify-between">
                             <div className="h-full gap-2 flex items-center">
-                                <Profile
-                                    size="small"
-                                    image={createUserProfileImgUrl}
-                                />
+                                <Profile size="small" />
                                 <p className="text-sm font-normal text-gray-300">
-                                    {createUser}
+                                    나중에전역에서사용자이름이랑이미지 위에넣기
                                 </p>
                             </div>
                             <p className="text-sm font-medium text-gray-600 h-5">

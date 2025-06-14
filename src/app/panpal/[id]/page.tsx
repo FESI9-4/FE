@@ -14,8 +14,6 @@ export default async function PanpalDetailPage({ params }: PageProps) {
         latitude: data.latitude,
         longitude: data.longitude,
         articleId: id,
-        createUser: data.createUser,
-        createUserProfileImgUrl: data.createUserProfileImgUrl,
         createdAt: data.createdAt,
     };
 
