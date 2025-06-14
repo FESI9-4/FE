@@ -8,8 +8,6 @@ interface DetailPageDescriptionProps {
     latitude: number;
     longitude: number;
     articleId: number;
-    createUser: string;
-    createUserProfileImgUrl: string;
     createdAt: number;
 }
 
@@ -18,8 +16,7 @@ export default function DetailPageDescription({
     latitude,
     longitude,
     articleId,
-    createUser,
-    createUserProfileImgUrl,
+
     createdAt,
 }: DetailPageDescriptionProps) {
     return (
@@ -43,12 +40,7 @@ export default function DetailPageDescription({
                         </div>
                     </div>
                 </div>
-                <DetailPageComment
-                    id={articleId}
-                    createUser={createUser}
-                    createUserProfileImgUrl={createUserProfileImgUrl}
-                    createdAt={createdAt}
-                />
+                <DetailPageComment id={articleId} createdAt={createdAt} />
             </div>
             <DetailPageParticipation articleId={articleId} />
         </div>

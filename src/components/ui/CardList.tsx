@@ -10,14 +10,14 @@ interface CardListProps {
     title: string;
     location: string;
     date: number;
-    deadline: number; // deatLine과 혼용중 
+    deadline: number; // deatLine과 혼용중
     currentPerson: number;
     maxPerson: number;
-    openStatus: 'waiting' | 'finished' | 'progressing'; //어던건 4가지 
+    openStatus: 'waiting' | 'finished' | 'progressing'; //어던건 4가지
     wishList: boolean;
     image: string;
     createdUser: string; // createUser와 혼용중
-    createdUserProfileImg: string; // 동일 
+    createdUserProfileImg: string; // 동일
 }
 
 export default function CardList({

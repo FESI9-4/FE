@@ -8,8 +8,8 @@ import { ProgressChip } from '@/components/ui';
 interface ContainerProgressProps {
     max: number;
     current: number;
-    openStatus: 'waiting' | 'finished' | 'progressing'  //이것도  어떤건 4가지 
-    deadline?: string; // deadLine과 혼용됨 
+    openStatus: 'waiting' | 'finished' | 'progressing'; //이것도  어떤건 4가지
+    deadline?: string; // deadLine과 혼용됨
 }
 
 export default function ContainerProgress({

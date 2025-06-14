@@ -1,7 +1,7 @@
 import React from 'react';
 import { Profile } from '../ui';
 import { Lock, CommentArrow } from '@/assets';
-import { Dropdown } from '../ui'; 
+import { Dropdown } from '../ui';
 
 type CommentType = {
     commentId: number;

@@ -12,6 +12,28 @@ interface PostCommentResponse {
     data: string;
 }
 
+interface GetCommentsParams {
+    articleId: number;
+    pageSize: number;
+    lastParentCommentId?: number;
+    lastCommentId?: number;
+}
+interface CommentData {
+    commentId: number;
+    content: string;
+    parentCommentId: number;
+    writerId: number;
+    deleted: boolean;
+    createdAt: string;
+    secret: boolean;
+}
+
+interface GetCommentsResponse {
+    statusCode: number;
+    message: string;
+    data: CommentData[];
+}
+
 export const commentApi = {
     postCommentByArticleId: async (
         articleId: number,
@@ -39,6 +61,42 @@ export const commentApi = {
             {
                 method: 'PATCH',
                 body,
+                auth: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+    },
+
+    getCommentsByArticleId: async ({
+        articleId,
+        pageSize,
+        lastParentCommentId,
+        lastCommentId,
+    }: GetCommentsParams): Promise<GetCommentsResponse> => {
+        let url = `/api/board/${articleId}/comment?pageSize=${pageSize}`;
+
+        if (lastParentCommentId && lastCommentId) {
+            url += `&lastParentCommentId=${lastParentCommentId}&lastCommentId=${lastCommentId}`;
+        }
+
+        return customFetcher<GetCommentsResponse, void>(url, {
+            method: 'GET',
+            auth: true,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+    },
+    deleteCommentById: async (
+        articleId: number,
+        commentId: number
+    ): Promise<PostCommentResponse> => {
+        return customFetcher<PostCommentResponse, void>(
+            `/api/board/${articleId}/comment/${commentId}`,
+            {
+                method: 'DELETE',
                 auth: true,
                 headers: {
                     'Content-Type': 'application/json',
