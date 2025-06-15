@@ -47,10 +47,6 @@ export default function CardContainer({
         }
     }, [currentPage, queryClient, totalCount, startDate, endDate, location]);
 
-    useEffect(() => {
-        setCurrentPage(1);
-    }, [location]);
-
     if (isLoading || totalCountLoading) {
         return (
             <div className="flex justify-center items-center min-h-screen xl:min-w-[1060px] min-w-screen">
