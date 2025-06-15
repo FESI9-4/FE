@@ -7,8 +7,7 @@ interface SmallCategory {
     id: string;
     name: string;
 }
-//박스 셀렉트에 들어강 카테고리 정보
-// 🎯 박스 셀렉터용 카테고리 데이터
+
 export const CATEGORY_DATA: Category[] = [
     {
         id: 'GO_TYPE',
