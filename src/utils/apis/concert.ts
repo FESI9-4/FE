@@ -31,7 +31,7 @@ const fetcherConcert = async (
             ? `&signgucode=${locationCode[location as keyof typeof locationCode]}`
             : '';
     const response = await fetch(
-        `/api/concert?stdate=${startDate}&eddate=${endDate}&capge=${currentPage}&rows=${rows}${signgucode}`
+        `/api/concert?stdate=${startDate}&eddate=${endDate}&cpage=${currentPage}&rows=${rows}${signgucode}`
     );
     const data = await response.text();
     const parser = new XMLParser({
@@ -57,6 +57,18 @@ export const getConcertList = async (
         location
     );
     return Array.isArray(data) ? data : [data];
+};
+
+export const getConcertDetail = async (id: string) => {
+    const response = await fetch(`/api/concert?id=${id}`);
+    const data = await response.text();
+    const parser = new XMLParser({
+        ignoreAttributes: false,
+        attributeNamePrefix: '@_',
+        textNodeName: '_text',
+    });
+    const jsData = parser.parse(data);
+    return jsData?.dbs?.db || null;
 };
 
 export const findTotalCount = async (
