@@ -47,18 +47,29 @@ export interface ConcertDetail {
     prfruntime: string;
     prfstate: string;
     relates: {
-        relate: {
-            relatenm: string;
-            relateurl: string;
-            _text: string;
-        }[];
+        relate:
+            | {
+                  relatenm: string;
+                  relateurl: string;
+                  _text: string;
+              }[]
+            | {
+                  relatenm: string;
+                  relateurl: string;
+                  _text: string;
+              };
         _text: string;
     };
     sty: string;
-    styurls: {
-        styurl: string;
-        _text: string;
-    }[];
+    styurls:
+        | {
+              styurl: string[];
+              _text: string;
+          }
+        | {
+              styurl: string;
+              _text: string;
+          };
     ticket: string;
     updatedate: string;
     visit: string;
