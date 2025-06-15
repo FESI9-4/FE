@@ -6,22 +6,19 @@ const SERVICE_KEY = process.env.NEXT_PUBLIC_KOPIS_SERVICE_KEY;
 export async function GET(req: NextRequest) {
     try {
         const searchParams = req.nextUrl.searchParams;
-        const stdate = searchParams.get('stdate');
-        const eddate = searchParams.get('eddate');
-        const capge = searchParams.get('capge');
-        const rows = searchParams.get('rows');
-        const signgucode = searchParams.get('signgucode');
-        const signgucodeQuery = signgucode ? `&signgucode=${signgucode}` : '';
+        const queryString = searchParams.toString();
 
-        if (!stdate || !eddate || !capge || !rows) {
-            return NextResponse.json(
-                { error: 'Missing required parameters' },
-                { status: 400 }
+        if (searchParams.get('id')) {
+            const id = searchParams.get('id');
+            const response = await fetch(
+                `${BASE_URL}/${id}?service=${SERVICE_KEY}&${queryString}`
             );
+            const data = await response.text();
+            return NextResponse.json(data);
         }
 
         const response = await fetch(
-            `${BASE_URL}?service=${SERVICE_KEY}&stdate=${stdate}&eddate=${eddate}&cpage=${capge}&rows=${rows}&shcate=CCCD${signgucodeQuery}`
+            `${BASE_URL}?service=${SERVICE_KEY}&${queryString}`
         );
         const data = await response.text();
         return NextResponse.json(data);
