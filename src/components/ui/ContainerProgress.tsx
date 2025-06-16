@@ -8,15 +8,15 @@ import { ProgressChip } from '@/components/ui';
 interface ContainerProgressProps {
     max: number;
     current: number;
-    openStatus: 'waiting' | 'finished' | 'progressing'; //이것도  어떤건 4가지
-    deadline?: string; // deadLine과 혼용됨
+    openStatus: 'waiting' | 'finished' | 'progressing' | 'canceled';
+    deadLine?: string;
 }
 
 export default function ContainerProgress({
     max,
     current,
     openStatus,
-    deadline,
+    deadLine,
 }: ContainerProgressProps) {
     const progress = `${((current / max) * 100).toFixed(0)}%`;
     const className = cva('h-2 rounded-md border-none', {
@@ -25,6 +25,7 @@ export default function ContainerProgress({
                 waiting: 'bg-gray-300',
                 progressing: 'bg-green-400',
                 finished: 'bg-green-800',
+                cancled: '', // 임시값
             },
         },
         defaultVariants: {
@@ -53,10 +54,10 @@ export default function ContainerProgress({
                     <ProgressChip openStatus={openStatus}>
                         모집마감
                     </ProgressChip>
-                ) : deadline ? (
+                ) : deadLine ? (
                     <div className="flex gap-2 items-center justify-center">
                         <div className="text-green-400">마감</div>
-                        <div>{deadline}</div>
+                        <div>{deadLine}</div>
                     </div>
                 ) : null}
             </div>

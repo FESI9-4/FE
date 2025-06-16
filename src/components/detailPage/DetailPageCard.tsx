@@ -7,7 +7,7 @@ import Tag from '@/components/ui/Tag';
 
 interface DetailPageCardProps {
     articleImageUrl: string;
-    openStatus: 'waiting' | 'finished' | 'progressing';
+    openStatus: 'waiting' | 'finished' | 'progressing' | 'canceled';
     createUser: string;
     createUserProfileImgUrl: string;
     title: string;

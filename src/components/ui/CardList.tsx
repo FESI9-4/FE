@@ -10,21 +10,21 @@ interface CardListProps {
     title: string;
     location: string;
     date: number;
-    deadline: number; // deatLine과 혼용중
+    deadLine: number;
     currentPerson: number;
     maxPerson: number;
-    openStatus: 'waiting' | 'finished' | 'progressing'; //어던건 4가지
+    openStatus: 'waiting' | 'finished' | 'progressing' | 'canceled';
     wishList: boolean;
     image: string;
-    createdUser: string; // createUser와 혼용중
-    createdUserProfileImg: string; // 동일
+    createUser: string;
+    createUserProfileImg: string;
 }
 
 export default function CardList({
     title,
     location,
     date,
-    deadline,
+    deadLine,
     currentPerson,
     maxPerson,
     openStatus,
@@ -34,7 +34,7 @@ export default function CardList({
     createUserProfileImg,
 }: CardListProps) {
     const convertedDate = dateConverter(Number(date), 'korea');
-    const convertedDeadline = dateConverter(Number(deadline), 'korea-short');
+    const convertedDeadLine = dateConverter(Number(deadLine), 'korea-short');
 
     // 박수 아이콘 white 적용안됨 전에 프로플 에디트도 됐다가 안된거 같은데 svg 파일 문젠거같음 체크해봐야할듯 원인파악
     return (
@@ -91,7 +91,7 @@ export default function CardList({
                     current={currentPerson}
                     max={maxPerson}
                     openStatus={openStatus}
-                    deadline={convertedDeadline}
+                    deadLine={convertedDeadLine}
                 />
             </div>
         </div>

@@ -39,7 +39,7 @@ export default function DetailPageDescription({
                         </div>
                     </div>
                 </div>
-                <DetailPageComment id={articleId} createUser={createUser} /> 
+                <DetailPageComment id={articleId} createUser={createUser} />
             </div>
             <DetailPageParticipation articleId={articleId} />
         </div>
