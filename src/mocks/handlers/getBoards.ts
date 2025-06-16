@@ -32,7 +32,7 @@ const goTypeArticlesMap: Record<string, Card[]> = {
             openStatus: 'finished',
             wishList: false,
             image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb',
-            useStatus: '모임 예정',
+            useStatus: 'UPCOMING',
         },
         {
             articleId: 4,
@@ -49,7 +49,7 @@ const goTypeArticlesMap: Record<string, Card[]> = {
             openStatus: 'waiting',
             wishList: true,
             image: 'https://images.unsplash.com/photo-1494526585095-c41746248156',
-            useStatus: '모임 예정',
+            useStatus: 'UPCOMING',
         },
     ],
     COMPANION_TYPE: [
@@ -68,7 +68,7 @@ const goTypeArticlesMap: Record<string, Card[]> = {
             openStatus: 'waiting',
             wishList: true,
             image: 'https://images.unsplash.com/photo-1470770841072-f978cf4d019e',
-            useStatus: '모임 예정',
+            useStatus: 'UPCOMING',
         },
         {
             articleId: 5,
@@ -85,7 +85,7 @@ const goTypeArticlesMap: Record<string, Card[]> = {
             openStatus: 'waiting',
             wishList: false,
             image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d',
-            useStatus: '모임 예정',
+            useStatus: 'UPCOMING',
         },
     ],
     AFTERPARTY_TYPE: [
@@ -104,7 +104,7 @@ const goTypeArticlesMap: Record<string, Card[]> = {
             openStatus: 'waiting',
             wishList: false,
             image: 'https://images.unsplash.com/photo-1472653431158-6364773b2a56',
-            useStatus: '모임 예정',
+            useStatus: 'UPCOMING',
         },
         {
             articleId: 6,
@@ -121,7 +121,7 @@ const goTypeArticlesMap: Record<string, Card[]> = {
             openStatus: 'waiting',
             wishList: true,
             image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d',
-            useStatus: '모임 예정',
+            useStatus: 'UPCOMING',
         },
     ],
 };
@@ -143,7 +143,7 @@ const doingTypeArticlesMap: Record<string, Card[]> = {
             openStatus: 'progressing',
             wishList: false,
             image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4',
-            useStatus: '모임 예정',
+            useStatus: 'UPCOMING',
         },
         {
             articleId: 107,
@@ -160,7 +160,7 @@ const doingTypeArticlesMap: Record<string, Card[]> = {
             openStatus: 'progressing',
             wishList: true,
             image: 'https://images.unsplash.com/photo-1494526585095-c41746248156',
-            useStatus: '모임 예정',
+            useStatus: 'UPCOMING',
         },
     ],
     BIRTHDAY_TYPE: [
@@ -179,7 +179,7 @@ const doingTypeArticlesMap: Record<string, Card[]> = {
             openStatus: 'progressing',
             wishList: true,
             image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb',
-            useStatus: '모임 예정',
+            useStatus: 'UPCOMING',
         },
     ],
     ONLINE_TYPE: [
@@ -198,7 +198,7 @@ const doingTypeArticlesMap: Record<string, Card[]> = {
             openStatus: 'waiting',
             wishList: false,
             image: 'https://images.unsplash.com/photo-1531058020387-3be344556be6',
-            useStatus: '모임 예정',
+            useStatus: 'UPCOMING',
         },
     ],
     TOUR_TYPE: [
@@ -217,12 +217,12 @@ const doingTypeArticlesMap: Record<string, Card[]> = {
             openStatus: 'waiting',
             wishList: true,
             image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4',
-            useStatus: '모임 예정',
+            useStatus: 'UPCOMING',
         },
     ],
 };
 
-export const boardHandlers = [
+export const getBoardHandlers = [
     http.get('http://localhost:3000/api/board', async ({ request }) => {
         const url = new URL(request.url);
         const bigCategory = url.searchParams.get('bigCategory');
