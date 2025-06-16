@@ -6,6 +6,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import CommentList from './CommentList';
 import dateConverter from '@/utils/dateConverter';
 import { useCommentQuery } from '@/hooks/queries/useComments';
+import { useGetUser } from '@/hooks/queries/useAuth';
 
 interface FormData {
     comment: string;
@@ -13,7 +14,7 @@ interface FormData {
 
 interface DetailPageCommentProps {
     id: number;
-    createdAt: number;
+    createUser: string;
 }
 
 type CommentMode = 'new' | 'edit' | 'reply';
@@ -27,7 +28,7 @@ interface CommentModeState {
 
 export default function DetailPageComment({
     id,
-    createdAt,
+    
 }: DetailPageCommentProps) {
     const {
         register,
@@ -42,9 +43,11 @@ export default function DetailPageComment({
         mode: 'new',
     });
 
-    const formattedDate = dateConverter(Math.floor(createdAt), 'utc');
+    const formattedDate = dateConverter(Math.floor(Date.now() / 1000), 'utc');
+
     const observerRef = useRef<HTMLDivElement>(null);
     const formRef = useRef<HTMLFormElement>(null);
+    const { data: user } = useGetUser();
 
     const {
         commentsData,
@@ -189,9 +192,9 @@ export default function DetailPageComment({
                     <div className="h-45.5 w-full flex flex-col justify-between">
                         <div className="h-6 w-full flex justify-between">
                             <div className="h-full gap-2 flex items-center">
-                                <Profile size="small" />
+                                <Profile size="small" image={user?.img} />
                                 <p className="text-sm font-normal text-gray-300">
-                                    나중에전역에서사용자이름이랑이미지 위에넣기
+                                    {user?.nickName}
                                 </p>
                             </div>
                             <p className="text-sm font-medium text-gray-600 h-5">

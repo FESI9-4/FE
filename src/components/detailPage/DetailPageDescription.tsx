@@ -2,13 +2,14 @@
 import DetailPageComment from './DetailPageComment';
 import DetailPageParticipation from './DetailPageParticipation';
 import GoogleMap from './GoogleMap';
+import { useGetUser } from '@/hooks/queries/useAuth';
 
 interface DetailPageDescriptionProps {
     description: string;
     latitude: number;
     longitude: number;
     articleId: number;
-    createdAt: number;
+    createUser: string;
 }
 
 export default function DetailPageDescription({
@@ -16,9 +17,10 @@ export default function DetailPageDescription({
     latitude,
     longitude,
     articleId,
-
-    createdAt,
+    createUser, // 비교해야지... user...id랑 ㅇㅋㅇㅋ 
 }: DetailPageDescriptionProps) {
+    const { data: user } = useGetUser();
+    console.log(user?.userId) //비교해서 같으면 조건부렌더링을할거고 이건 저 하위에서할거니간 넘겨주기만하면됨. 
     return (
         <div className="xl:flex xl:gap-6 ">
             <div>
@@ -40,7 +42,7 @@ export default function DetailPageDescription({
                         </div>
                     </div>
                 </div>
-                <DetailPageComment id={articleId} createdAt={createdAt} />
+                <DetailPageComment id={articleId} createUser={createUser} />
             </div>
             <DetailPageParticipation articleId={articleId} />
         </div>
