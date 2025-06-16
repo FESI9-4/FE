@@ -1,23 +1,26 @@
 // api/authApi.ts
 import {
-    LoginRequest,
+    LoginRequestDto,
     UserResponse,
-    SignupRequest,
     ApiResponse,
+    SignupMemberRequestDto,
+    SignupMemberResponseDto,
+    ApiFailure,
+    LoginResponseResponseDto,
 } from '@/types/auth';
 import { customFetcher } from '@/utils/apis/customFetcher';
-import { fetchInstance } from './fetchInstance';
-const BASE_URL = '/api/auth';
+const BASE_URL = '/api/proxy';
 export const authApi = {
     // 로그인
-    login: async (loginData: LoginRequest) => {
-        return customFetcher<Response, LoginRequest>(`${BASE_URL}/login`, {
+    login: async (loginData: LoginRequestDto) => {
+        return customFetcher<
+            ApiResponse<LoginResponseResponseDto> | ApiFailure,
+            LoginRequestDto
+        >(`${BASE_URL}/login`, {
             method: 'POST',
             body: loginData,
-            returnFullResponse: true, // 이 옵션으로 Response 객체 받음
         });
     },
-
     // 로그아웃
     logout: async () => {
         return customFetcher<Response, void>(`${BASE_URL}/logout`, {
@@ -25,21 +28,24 @@ export const authApi = {
         });
     },
     // 회원가입
-    signup: async (signupData: SignupRequest) => {
-        return fetchInstance<ApiResponse<void>, SignupRequest>(
-            `${BASE_URL}/signup`,
-            {
-                method: 'POST',
-                body: signupData,
-            }
-        );
+    signup: async (signupData: SignupMemberRequestDto) => {
+        return customFetcher<
+            ApiResponse<SignupMemberResponseDto> | ApiFailure,
+            SignupMemberRequestDto
+        >(`${BASE_URL}/signup`, {
+            method: 'POST',
+            body: signupData,
+        });
     },
 
     // 유저 정보 조회
     getUser: async () => {
-        return customFetcher<UserResponse, void>(`${BASE_URL}/user`, {
-            method: 'GET',
-        });
+        return customFetcher<UserResponse, void>(
+            `http://localhost:3000/api/auth/user`,
+            {
+                method: 'GET',
+            }
+        );
     },
     // 쿠키 삭제
     clearCookie: async () => {

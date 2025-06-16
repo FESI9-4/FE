@@ -4,7 +4,6 @@ import { FieldError, SubmitHandler, useForm } from 'react-hook-form';
 import { Button, Input } from '@/components/ui';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { useLogin } from '@/hooks/queries/useAuth';
-import { useRouter } from 'next/navigation';
 import { LoginFormData } from '@/types/form';
 import { useEffect, useState } from 'react';
 
@@ -14,37 +13,46 @@ export default function LoginForm() {
             mode: 'onBlur',
             reValidateMode: 'onBlur',
         });
-    const router = useRouter();
     const { mutate: login } = useLogin();
     const isMobile = useMediaQuery('(max-width: 768px)');
     const onSubmit: SubmitHandler<LoginFormData> = (data) => {
         //로그인 요청
-        login(data, {
-            onSuccess: () => {
-                router.push('/mypage');
+        login(
+            {
+                email: data.email,
+                password: data.password,
             },
-            onError: () => {
-                setError('userId', {
-                    message: '아이디 또는 비밀번호가 일치하지 않습니다.',
-                });
-                setError('password', {
-                    message: '아이디 또는 비밀번호가 일치하지 않습니다.',
-                });
-            },
-        });
+            {
+                onSuccess: () => {
+                    window.location.href = '/mypage';
+                    return;
+                },
+                onError: () => {
+                    setError('email', {
+                        message: '아이디 또는 비밀번호가 일치하지 않습니다.',
+                    });
+                    setError('password', {
+                        message: '아이디 또는 비밀번호가 일치하지 않습니다.',
+                    });
+                },
+            }
+        );
     };
     const [isAutoFilled, setIsAutoFilled] = useState(false);
-    const watchUserId = watch('userId');
+    const watchEmail = watch('email');
     const watchPassword = watch('password');
 
     // 자동완성 감지
     useEffect(() => {
-        if (watchUserId && watchPassword) {
+        if (watchEmail && watchPassword) {
             setIsAutoFilled(true);
         } else {
             setIsAutoFilled(false);
         }
-    }, [watchUserId, watchPassword]);
+    }, [watchEmail, watchPassword]);
+
+    // 버튼 활성화 조건 개선
+    const isButtonEnabled = formState.isValid || isAutoFilled;
 
     return (
         <div className="flex flex-col justify-center items-center gap-[14px] px-4 pb-8 sm:py-8 sm:px-[54px]">
@@ -62,11 +70,11 @@ export default function LoginForm() {
                                 type="text"
                                 placeholder="이메일을 입력해주세요"
                                 label="아이디"
-                                name="userId"
+                                name="email"
                                 labelClassName="text-sm mb-2 w-fit font-semibold leading-5"
                                 size={!isMobile ? 'large' : 'small'}
                                 register={register}
-                                error={formState.errors.userId as FieldError}
+                                error={formState.errors.email as FieldError}
                                 rules={{
                                     required: '이메일을 입력해주세요',
                                 }}
@@ -99,7 +107,7 @@ export default function LoginForm() {
                             <Button
                                 type="submit"
                                 className="w-full mb-6"
-                                disabled={!formState.isValid && !isAutoFilled}
+                                disabled={!isButtonEnabled}
                             >
                                 로그인
                             </Button>

@@ -1,6 +1,5 @@
 import { http, HttpResponse } from 'msw';
-import { SignupRequest } from '@/types/auth';
-import { getCookie } from '@/utils/cookies';
+import { SignupMemberRequestDto } from '@/types/auth';
 
 const BASE_URL = 'http://localhost:3000'; // 추후 백엔드 서버로 변경
 export const mockUser = [
@@ -140,7 +139,7 @@ export const logoutHandlers = [
 ];
 export const signupHandlers = [
     http.post(`${BASE_URL}/api/auth/signup`, async ({ request }) => {
-        const signupData = (await request.json()) as SignupRequest;
+        const signupData = (await request.json()) as SignupMemberRequestDto;
         if (mockUser.some((user) => user.userId === signupData.userId)) {
             return HttpResponse.json(
                 {
@@ -174,15 +173,14 @@ export const signupHandlers = [
 ];
 export const userHandlers = [
     http.get(`${BASE_URL}/api/auth/user`, async ({ request }) => {
+        console.log('userHandlers 호출');
         const authHeader = request.headers.get('Authorization');
         const token = authHeader?.replace('Bearer ', '');
-        console.log('userHandlers 호출');
 
         // 🎯 JWT 만료시간 검증
         try {
             const payload = JSON.parse(atob(token?.split('.')[1] || ''));
             const currentTime = Math.floor(Date.now() / 1000);
-
             console.log(
                 '🔍 토큰 만료시간:',
                 new Date(payload.exp * 1000).toLocaleString()
@@ -227,99 +225,99 @@ export const userHandlers = [
         }
     }),
 ];
-export const refreshHandlers = [
-    http.post(`${BASE_URL}/api/auth/refresh`, async () => {
-        console.log('🔍 === 리프레쉬 핸들러 시작 ===');
-        const refreshToken = getCookie('refreshToken');
+// export const refreshHandlers = [
+//     http.post(`${BASE_URL}/api/auth/refresh`, async (request) => {
+//         console.log('🔍 === 리프레쉬 핸들러 시작 ===');
+//         const cookieHeader = request.headers.get('Cookie');
+//         const refreshToken = cookieHeader?.split(';')[0].split('=')[1];
+//         console.log('🔑 추출된 리프레쉬 토큰:', refreshToken);
 
-        console.log('🔑 추출된 리프레쉬 토큰:', refreshToken);
+//         if (!refreshToken) {
+//             console.error('❌ 리프레쉬 토큰이 없습니다');
 
-        if (!refreshToken) {
-            console.error('❌ 리프레쉬 토큰이 없습니다');
+//             // 🎯 명확한 401 응답 반환
+//             return HttpResponse.json(
+//                 {
+//                     statusCode: 401,
+//                     message: '리프레쉬 토큰이 없습니다.',
+//                 },
+//                 {
+//                     status: 401,
+//                     headers: {
+//                         'Content-Type': 'application/json',
+//                     },
+//                 }
+//             );
+//         }
 
-            // 🎯 명확한 401 응답 반환
-            return HttpResponse.json(
-                {
-                    statusCode: 401,
-                    message: '리프레쉬 토큰이 없습니다.',
-                },
-                {
-                    status: 401,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            );
-        }
+//         // JWT 검증
+//         try {
+//             const payload = JSON.parse(atob(refreshToken.split('.')[1]));
+//             const currentTime = Math.floor(Date.now() / 1000);
 
-        // JWT 검증
-        try {
-            const payload = JSON.parse(atob(refreshToken.split('.')[1]));
-            const currentTime = Math.floor(Date.now() / 1000);
+//             console.log(
+//                 '🕐 리프레쉬 토큰 만료시간:',
+//                 new Date(payload.exp * 1000).toLocaleString()
+//             );
+//             console.log('🕐 현재 시간:', new Date().toLocaleString());
 
-            console.log(
-                '🕐 리프레쉬 토큰 만료시간:',
-                new Date(payload.exp * 1000).toLocaleString()
-            );
-            console.log('🕐 현재 시간:', new Date().toLocaleString());
+//             if (payload.exp < currentTime) {
+//                 console.error('❌ 리프레쉬 토큰이 만료되었습니다');
+//                 throw new Error('Refresh token expired');
+//             }
 
-            if (payload.exp < currentTime) {
-                console.error('❌ 리프레쉬 토큰이 만료되었습니다');
-                throw new Error('Refresh token expired');
-            }
+//             console.log('✅ 리프레쉬 토큰 검증 통과');
 
-            console.log('✅ 리프레쉬 토큰 검증 통과');
+//             // 새 액세스 토큰 생성
+//             const newAccessPayload = {
+//                 userId: payload.userId,
+//                 nickName: payload.nickName,
+//                 role: 'user',
+//                 iat: Math.floor(Date.now() / 1000),
+//                 exp: Math.floor(Date.now() / 1000) + 60, // 1분 후 만료
+//             };
 
-            // 새 액세스 토큰 생성
-            const newAccessPayload = {
-                userId: payload.userId,
-                nickName: payload.nickName,
-                role: 'user',
-                iat: Math.floor(Date.now() / 1000),
-                exp: Math.floor(Date.now() / 1000) + 60, // 1분 후 만료
-            };
+//             const header = { alg: 'HS256', typ: 'JWT' };
+//             const newAccessToken =
+//                 btoa(JSON.stringify(header)) +
+//                 '.' +
+//                 btoa(JSON.stringify(newAccessPayload)) +
+//                 '.' +
+//                 'mock-signature';
 
-            const header = { alg: 'HS256', typ: 'JWT' };
-            const newAccessToken =
-                btoa(JSON.stringify(header)) +
-                '.' +
-                btoa(JSON.stringify(newAccessPayload)) +
-                '.' +
-                'mock-signature';
+//             console.log('✅ 새 JWT 액세스 토큰 생성:', newAccessToken);
 
-            console.log('✅ 새 JWT 액세스 토큰 생성:', newAccessToken);
+//             return HttpResponse.json(
+//                 {
+//                     statusCode: 200,
+//                     message: '리프레쉬 토큰으로 액세스 토큰 재발급 성공',
+//                 },
+//                 {
+//                     headers: {
+//                         Authorization: `Bearer ${newAccessToken}`,
+//                         'Content-Type': 'application/json',
+//                     },
+//                 }
+//             );
+//         } catch (error) {
+//             console.error('❌ 리프레쉬 토큰 검증 실패:', error);
 
-            return HttpResponse.json(
-                {
-                    statusCode: 200,
-                    message: '리프레쉬 토큰으로 액세스 토큰 재발급 성공',
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${newAccessToken}`,
-                        'Content-Type': 'application/json',
-                    },
-                }
-            );
-        } catch (error) {
-            console.error('❌ 리프레쉬 토큰 검증 실패:', error);
-
-            // 🎯 명확한 401 응답 반환
-            return HttpResponse.json(
-                {
-                    statusCode: 401,
-                    message: '유효하지 않거나 만료된 리프레쉬 토큰입니다.',
-                },
-                {
-                    status: 401,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            );
-        }
-    }),
-];
+//             // 🎯 명확한 401 응답 반환
+//             return HttpResponse.json(
+//                 {
+//                     statusCode: 401,
+//                     message: '유효하지 않거나 만료된 리프레쉬 토큰입니다.',
+//                 },
+//                 {
+//                     status: 401,
+//                     headers: {
+//                         'Content-Type': 'application/json',
+//                     },
+//                 }
+//             );
+//         }
+//     }),
+// ];
 export const testHandlers = [
     http.get(`${BASE_URL}/api/auth/test`, async ({ request }) => {
         const authHeader = request.headers.get('Authorization');
