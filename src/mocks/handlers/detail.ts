@@ -53,5 +53,7 @@ export const detailHandlers = [
                 useStatus: 'COMPLETED',
             },
         });
+        
     }),
+    
 ];
