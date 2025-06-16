@@ -27,6 +27,7 @@ interface FileInputProps<TFormValues extends FieldValues = FieldValues>
     labelClassName?: string; //라벨 클래스
     errorMessageClass?: string; //에러 메시지 클래스
     buttonText?: string; //버튼 텍스트
+    onFileChange?: (files?: FileList) => void;
 }
 //파일 인풋 대체 div 클래스
 export const fileInputVariants = cva(
