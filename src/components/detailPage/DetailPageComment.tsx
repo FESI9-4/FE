@@ -4,12 +4,9 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { Button, InputText, Profile } from '../ui';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import CommentList from './CommentList';
-import { commentApi } from '@/utils/apis/commentApi';
-import { useMutation, useInfiniteQuery } from '@tanstack/react-query';
 import dateConverter from '@/utils/dateConverter';
+import { useCommentQuery } from '@/hooks/queries/useComments';
 
-// 대댓글기능
-//수정하기 기능
 interface FormData {
     comment: string;
 }
@@ -19,7 +16,6 @@ interface DetailPageCommentProps {
     createdAt: number;
 }
 
-// 댓글 모드 타입 정의
 type CommentMode = 'new' | 'edit' | 'reply';
 
 interface CommentModeState {
@@ -43,133 +39,32 @@ export default function DetailPageComment({
 
     const [secret, setSecret] = useState(false);
     const [commentMode, setCommentMode] = useState<CommentModeState>({
-        mode: 'new'
+        mode: 'new',
     });
-    
+
     const formattedDate = dateConverter(Math.floor(createdAt), 'utc');
     const observerRef = useRef<HTMLDivElement>(null);
     const formRef = useRef<HTMLFormElement>(null);
 
-    // 무한스크롤을 위한 useInfiniteQuery (실제 API 사용)
     const {
-        data: commentsData,
+        commentsData,
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
         isLoading,
         isError,
         refetch,
-    } = useInfiniteQuery({
-        queryKey: ['comments', id],
-        queryFn: async ({
-            pageParam,
-        }: {
-            pageParam: { lastCommentId?: number; lastParentCommentId?: number };
-        }) => {
-            try {
-                const response = await commentApi.getCommentsByArticleId({
-                    articleId: id,
-                    pageSize: 3,
-                    lastParentCommentId: pageParam.lastParentCommentId,
-                    lastCommentId: pageParam.lastCommentId,
-                });
-                return response;
-            } catch (error) {
-                console.error('댓글 로딩 실패:', error);
-                throw error;
-            }
-        },
-        getNextPageParam: (lastPage) => {
-            // 데이터가 없거나 페이지 사이즈보다 적으면 더 이상 페이지가 없음
-            if (
-                !lastPage.data ||
-                lastPage.data.length === 0 ||
-                lastPage.data.length < 3
-            ) {
-                return undefined;
-            }
-
-            const lastComment = lastPage.data[lastPage.data.length - 1];
-            return {
-                lastParentCommentId: lastComment.parentCommentId,
-                lastCommentId: lastComment.commentId,
-            };
-        },
-        initialPageParam: { lastCommentId: 0, lastParentCommentId: 0 },
-        retry: 1,
-        staleTime: 1000 * 60 * 5, // 5분간 캐시 유지
-    });
-
-    // 댓글 작성/수정 mutation
-    const mutation = useMutation({
-        mutationFn: async (body: {
-            parentCommentId: number | null;
-            secret: boolean;
-            content: string;
-        }) => {
-            try {
-                if (commentMode.mode === 'edit' && commentMode.targetCommentId) {
-                    // 수정 API 호출
-                    const response = await commentApi.patchCommentByArticleId(
-                        Number(id),
-                        {
-                            commentID: commentMode.targetCommentId,
-                            secret: body.secret,
-                            content: body.content
-                        }
-                    );
-                    return response;
-                } else {
-                    // 새 댓글/대댓글 작성 API 호출
-                    const response = await commentApi.postCommentByArticleId(
-                        Number(id),
-                        body
-                    );
-                    return response;
-                }
-            } catch (error) {
-                console.error('댓글 작성/수정 실패:', error);
-                throw error;
-            }
-        },
-        onSuccess: () => {
-            console.log('댓글 작성/수정 성공');
+        mutation,
+        deleteMutation,
+    } = useCommentQuery({
+        articleId: id,
+        onCommentSuccess: () => {
             reset();
             setSecret(false);
-            setCommentMode({ mode: 'new' }); // 모드 초기화
-            refetch(); // 댓글 목록 새로고침
-        },
-        onError: (error) => {
-            console.error('댓글 작성/수정 실패:', error);
-            // 에러 토스트 등을 여기에 추가할 수 있습니다
+            setCommentMode({ mode: 'new' });
         },
     });
 
-    // 댓글 삭제 mutation
-    const deleteMutation = useMutation({
-        mutationFn: async (commentId: number) => {
-            try {
-                const response = await commentApi.deleteCommentById(
-                    Number(id),
-                    commentId
-                );
-                return response;
-            } catch (error) {
-                console.error('댓글 삭제 실패:', error);
-                throw error;
-            }
-        },
-        onSuccess: () => {
-            console.log('댓글 삭제 성공');
-            refetch(); // 댓글 목록 새로고침
-        },
-        onError: (error) => {
-            console.error('댓글 삭제 실패:', error);
-            // 에러 토스트 등을 여기에 추가할 수 있습니다
-        },
-    });
-
-    // Intersection Observer를 사용한 무한스크롤
     const handleObserver = useCallback(
         (entries: IntersectionObserverEntry[]) => {
             const [target] = entries;
@@ -194,70 +89,55 @@ export default function DetailPageComment({
     }, [handleObserver]);
 
     const onSubmit: SubmitHandler<FormData> = (data) => {
-        const parentCommentId = commentMode.mode === 'reply' ? commentMode.parentCommentId : null;
-        
+        const parentCommentId =
+            commentMode.mode === 'reply' ? commentMode.parentCommentId : null;
+
         mutation.mutate({
             parentCommentId: parentCommentId || null,
             secret: secret,
             content: data.comment,
+            mode: commentMode.mode === 'reply' ? 'new' : commentMode.mode,
+            commentId: commentMode.targetCommentId,
         });
     };
 
-    // 댓글 수정 시작 핸들러
     const handleEditComment = (commentId: number, content: string) => {
         setCommentMode({
             mode: 'edit',
             targetCommentId: commentId,
-            originalContent: content
+            originalContent: content,
         });
         setValue('comment', content);
-        // 댓글 입력 폼으로 스크롤
         setTimeout(() => {
-            formRef.current?.scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'start' 
-            });
+            formRef.current?.scrollIntoView({ behavior: 'smooth' });
         }, 100);
     };
 
-    // 대댓글 작성 시작 핸들러
     const handleReplyComment = (parentCommentId: number) => {
-        setCommentMode({
-            mode: 'reply',
-            parentCommentId: parentCommentId
-        });
+        setCommentMode({ mode: 'reply', parentCommentId });
         setValue('comment', '');
-        // 댓글 입력 폼으로 스크롤
         setTimeout(() => {
-            formRef.current?.scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'start' 
-            });
+            formRef.current?.scrollIntoView({ behavior: 'smooth' });
         }, 100);
     };
 
-    // 댓글 삭제 핸들러
     const handleDeleteComment = (commentId: number) => {
         if (window.confirm('댓글을 삭제하시겠습니까?')) {
             deleteMutation.mutate(commentId);
         }
     };
 
-    // 취소 핸들러
     const handleCancel = () => {
         setCommentMode({ mode: 'new' });
         reset();
         setSecret(false);
     };
 
-    // 모든 페이지의 댓글을 하나의 배열로 합치기
     const allComments = commentsData?.pages.flatMap((page) => page.data) || [];
 
-    // 현재 모드에 따른 UI 텍스트 결정
     const getSubmitButtonText = () => {
-        if (mutation.isPending) {
+        if (mutation.isPending)
             return commentMode.mode === 'edit' ? '수정중...' : '등록중...';
-        }
         return commentMode.mode === 'edit' ? '수정하기' : '문의하기';
     };
 
@@ -288,10 +168,12 @@ export default function DetailPageComment({
             <form
                 ref={formRef}
                 onSubmit={handleSubmit(onSubmit)}
-                className="w-full h-72 sm:h-61.25 mt-10 sm:mt-12 px-4 sm:px-6 flex flex-col gap-3 sm:gap-5 "
+                className="w-full h-72 sm:h-61.25 mt-10 sm:mt-12 px-4 sm:px-6 flex flex-col gap-3 sm:gap-5"
             >
                 <div className="flex items-center justify-between">
-                    <p className="text-lg font-semibold text-white">{getHeaderText()}</p>
+                    <p className="text-lg font-semibold text-white">
+                        {getHeaderText()}
+                    </p>
                     {commentMode.mode !== 'new' && (
                         <button
                             type="button"
@@ -302,7 +184,7 @@ export default function DetailPageComment({
                         </button>
                     )}
                 </div>
-                
+
                 <div className="w-full h-55.5 sm:h-45.5 flex flex-col sm:flex-row items-end sm:items-center sm:gap-5">
                     <div className="h-45.5 w-full flex flex-col justify-between">
                         <div className="h-6 w-full flex justify-between">
@@ -392,23 +274,24 @@ export default function DetailPageComment({
                         <>
                             <CommentList
                                 comments={allComments}
-                                currentUserId={1231414314} // 실제 사용자 ID로 변경 필요
+                                currentUserId={1231414314}
                                 onSelectMenu={(commentId, action) => {
-                                    if (action === '삭제하기') {
+                                    const comment = allComments.find(
+                                        (c) => c.commentId === commentId
+                                    );
+                                    if (!comment) return;
+                                    if (action === '삭제하기')
                                         handleDeleteComment(commentId);
-                                    } else if (action === '수정하기') {
-                                        // 해당 댓글의 내용을 찾아서 수정 모드로 전환
-                                        const comment = allComments.find(c => c.commentId === commentId);
-                                        if (comment) {
-                                            handleEditComment(commentId, comment.content);
-                                        }
-                                    } else if (action === '댓글달기') {
+                                    else if (action === '수정하기')
+                                        handleEditComment(
+                                            commentId,
+                                            comment.content
+                                        );
+                                    else if (action === '댓글달기')
                                         handleReplyComment(commentId);
-                                    }
                                 }}
                             />
 
-                            {/* 무한스크롤 트리거 요소 */}
                             <div ref={observerRef} className="h-4 w-full">
                                 {isFetchingNextPage && (
                                     <div className="flex justify-center items-center py-4">

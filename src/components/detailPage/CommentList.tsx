@@ -27,7 +27,6 @@ type CommentListProps = {
     onSelectMenu?: (commentId: number, action: string) => void;
 };
 
-// 댓글을 트리 구조로 변환하는 함수
 function buildCommentTree(comments: CommentType[]): CommentType[] {
     const commentMap = new Map<number, CommentType>();
     const rootComments: CommentType[] = [];
@@ -52,7 +51,6 @@ function buildCommentTree(comments: CommentType[]): CommentType[] {
     return rootComments;
 }
 
-// 단일 댓글 항목 컴포넌트
 function CommentItem({
     comment,
     currentUserId,
@@ -61,7 +59,6 @@ function CommentItem({
 }: CommentProps) {
     const isAuthor = comment.writerId === currentUserId;
 
-    // 드롭다운 옵션 결정
     const getDropdownOptions = () => {
         if (isAuthor) {
             return ['댓글달기', '수정하기', '삭제하기'];
