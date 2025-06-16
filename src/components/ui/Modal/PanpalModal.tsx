@@ -5,6 +5,8 @@ import BaseModal from '@/components/ui/Modal';
 import { DeleteIcon } from '@/assets/index';
 import PlaceAutoCompleteInput from './PlaceAutoCompleteInput';
 import { CATEGORY_DATA } from '@/types/categories';
+import { imageUploadApi } from '@/utils/apis/imgS3Api';
+import { createBoardApi } from '@/utils/apis/createFanfalApi';
 
 import {
     InputText,
@@ -18,7 +20,22 @@ import {
 
 interface PanpalModalProps {
     onClose: () => void;
-    onSubmit: (data: FormData) => void;
+    onSubmit: (data: BoardRequest) => void;
+}
+
+// 예시 타입 정의 (src/types/board.ts 등에서 관리)
+export interface BoardRequest {
+    title: string;
+    roadNameAddress: string;
+    latitude: number;
+    longitude: number;
+    imageKey?: string;
+    description: string;
+    smallCategory: string;
+    date: number;
+    deadline: number;
+    minPerson: number;
+    maxPerson: number;
 }
 
 interface FormData {
@@ -31,8 +48,8 @@ interface FormData {
     };
     file?: FileList;
     category: string;
-    startDate?: string;
-    endDate?: string;
+    startDate?: Date;
+    endDate?: Date;
     minApplicants?: number;
     maxApplicants?: number;
 }
@@ -52,11 +69,62 @@ export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
         },
     });
 
-    const onFormSubmit = (data: FormData) => {
-        onSubmit(data);
-    };
-
     const startDate = watch('startDate');
+
+    const onFormSubmit = async (data: FormData) => {
+        let imageKey = '';
+
+        if (data.file && data.file.length > 0) {
+            const file = data.file[0];
+            try {
+                const res = await imageUploadApi.getUploadUrl({
+                    fileName: file.name,
+                });
+                const { preSignedUrl, key } = res.data;
+
+                await fetch(preSignedUrl, {
+                    method: 'PUT',
+                    body: file,
+                    headers: { 'Content-Type': file.type },
+                });
+
+                imageKey = key;
+            } catch (error) {
+                console.error('이미지 업로드 실패:', error);
+                alert('이미지 업로드에 실패했습니다.');
+                return;
+            }
+        }
+
+        const payload = {
+            title: data.name,
+            roadNameAddress: data.location.address,
+            latitude: data.location.lat,
+            longitude: data.location.lng,
+            imageKey,
+            description: data.detail,
+            smallCategory: data.category.split(',')[0], // 필요 시 enum 변환
+            date: data.startDate ? data.startDate.getTime() : 0, // timestamp number 로 변환
+            deadline: data.endDate ? data.endDate.getTime() : 0,
+            minPerson: data.minApplicants ?? 0,
+            maxPerson: data.maxApplicants ?? 0,
+        };
+
+        try {
+            const response = await createBoardApi.postBoard(payload);
+
+            if (response.statusCode === 200) {
+                alert('팬팔이 성공적으로 만들어졌습니다!');
+                onSubmit(payload); // 부모에게 성공한 데이터 전달
+                onClose(); // 모달 닫기
+            } else {
+                alert(`오류: ${response.message}`);
+            }
+        } catch (error) {
+            console.error('API 요청 실패:', error);
+            alert('서버와 통신 중 오류가 발생했습니다.');
+        }
+    };
 
     return (
         <BaseModal onClose={onClose} fullScreenOnMobile>
@@ -73,7 +141,7 @@ export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
                     <form
                         id="panpal-form"
                         onSubmit={handleSubmit(onFormSubmit)}
-                        className="flex-1 overflow-y-auto sm:max-h-[750px] px-4 mt-6 flex flex-col gap-6 "
+                        className="flex-1 overflow-y-auto sm:max-h-[750px] px-4 mt-6 flex flex-col gap-6"
                     >
                         <div className="flex flex-col gap-2 h-19">
                             <p className="text-sm font-semibold h-6">
@@ -161,9 +229,7 @@ export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
                                 categories={CATEGORY_DATA}
                                 register={register}
                                 name="category"
-                                rules={{
-                                    required: '서비스를 선택해주세요.',
-                                }}
+                                rules={{ required: '서비스를 선택해주세요.' }}
                                 error={errors.category}
                             />
                         </div>
@@ -173,39 +239,35 @@ export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
                                 <p className="text-sm font-semibold h-6">
                                     팬팔 날짜
                                 </p>
-                                <div className="h-11">
-                                    <DateInput
-                                        name="startDate"
-                                        control={control}
-                                        type="datetime-local"
-                                        minDate={new Date()}
-                                        isStartDate={true}
-                                        error={errors.startDate}
-                                        placeholder="시작 날짜를 선택해주세요"
-                                        size="small"
-                                    />
-                                </div>
+                                <DateInput
+                                    name="startDate"
+                                    control={control}
+                                    type="datetime-local"
+                                    minDate={new Date()}
+                                    isStartDate={true}
+                                    error={errors.startDate}
+                                    placeholder="시작 날짜를 선택해주세요"
+                                    size="small"
+                                />
                             </div>
                             <div className="h-18">
                                 <p className="text-sm font-semibold h-6">
                                     마감 날짜
                                 </p>
-                                <div className="h-11">
-                                    <DateInput<FormData>
-                                        name="endDate"
-                                        control={control}
-                                        type="datetime-local"
-                                        minDate={
-                                            startDate
-                                                ? new Date(startDate)
-                                                : new Date()
-                                        }
-                                        isStartDate={false}
-                                        error={errors.endDate}
-                                        placeholder="마감 날짜를 선택해주세요"
-                                        size="small"
-                                    />
-                                </div>
+                                <DateInput<FormData>
+                                    name="endDate"
+                                    control={control}
+                                    type="datetime-local"
+                                    minDate={
+                                        startDate
+                                            ? new Date(startDate)
+                                            : new Date()
+                                    }
+                                    isStartDate={false}
+                                    error={errors.endDate}
+                                    placeholder="마감 날짜를 선택해주세요"
+                                    size="small"
+                                />
                             </div>
                         </div>
 
@@ -224,14 +286,12 @@ export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
                                         rules={{
                                             required:
                                                 '모집 정원을 입력해주세요',
-                                            validate: (value) => {
-                                                const num = Number(value);
-                                                return (
-                                                    (Number.isInteger(num) &&
-                                                        num > 0) ||
-                                                    '1 이상의 정수를 입력해주세요'
-                                                );
-                                            },
+                                            validate: (value) =>
+                                                Number.isInteger(
+                                                    Number(value)
+                                                ) && Number(value) > 0
+                                                    ? true
+                                                    : '1 이상의 정수를 입력해주세요',
                                         }}
                                         size="small"
                                     />
@@ -248,14 +308,12 @@ export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
                                         rules={{
                                             required:
                                                 '모집 정원을 입력해주세요',
-                                            validate: (value) => {
-                                                const num = Number(value);
-                                                return (
-                                                    (Number.isInteger(num) &&
-                                                        num > 0) ||
-                                                    '1 이상의 정수를 입력해주세요'
-                                                );
-                                            },
+                                            validate: (value) =>
+                                                Number.isInteger(
+                                                    Number(value)
+                                                ) && Number(value) > 0
+                                                    ? true
+                                                    : '1 이상의 정수를 입력해주세요',
                                         }}
                                         size="small"
                                     />
@@ -264,13 +322,7 @@ export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
                         </div>
                     </form>
 
-                    <div
-                        className="
-                            flex justify-center 
-                            px-6 sticky bottom-0 z-50 
-                        items-center
-                        "
-                    >
+                    <div className="flex justify-center px-6 sticky bottom-0 z-50 items-center">
                         <Button size="large" type="submit" form="panpal-form">
                             팬팔 만들기
                         </Button>
