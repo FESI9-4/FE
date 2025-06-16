@@ -26,7 +26,10 @@ interface CommentModeState {
     parentCommentId?: number;
 }
 
-export default function DetailPageComment({ id }: DetailPageCommentProps) {
+export default function DetailPageComment({
+    id,
+    createUser,
+}: DetailPageCommentProps) {
     const {
         register,
         handleSubmit,
@@ -88,24 +91,23 @@ export default function DetailPageComment({ id }: DetailPageCommentProps) {
         return () => observer.disconnect();
     }, [handleObserver]);
 
-const onSubmit: SubmitHandler<FormData> = (data) => {
-    if (!user) {
-        alert('로그인이 필요합니다.');
-        return;
-    }
+    const onSubmit: SubmitHandler<FormData> = (data) => {
+        if (!user) {
+            alert('로그인이 필요합니다.');
+            return;
+        }
 
-    const parentCommentId =
-        commentMode.mode === 'reply' ? commentMode.parentCommentId : null;
+        const parentCommentId =
+            commentMode.mode === 'reply' ? commentMode.parentCommentId : null;
 
-    mutation.mutate({
-        parentCommentId: parentCommentId || null,
-        secret: secret,
-        content: data.comment,
-        mode: commentMode.mode === 'reply' ? 'new' : commentMode.mode,
-        commentId: commentMode.targetCommentId,
-    });
-};
-
+        mutation.mutate({
+            parentCommentId: parentCommentId || null,
+            secret: secret,
+            content: data.comment,
+            mode: commentMode.mode === 'reply' ? 'new' : commentMode.mode,
+            commentId: commentMode.targetCommentId,
+        });
+    };
 
     const handleEditComment = (commentId: number, content: string) => {
         setCommentMode({
@@ -280,7 +282,7 @@ const onSubmit: SubmitHandler<FormData> = (data) => {
                         <>
                             <CommentList
                                 comments={allComments}
-                                currentUserId={user?.userId ?? ''} // string 값으로 들어가는데이제 ?
+                                createUserId={createUser ?? ''}
                                 onSelectMenu={(commentId, action) => {
                                     const comment = allComments.find(
                                         (c) => c.commentId === commentId
