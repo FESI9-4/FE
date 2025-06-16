@@ -26,10 +26,7 @@ interface CommentModeState {
     parentCommentId?: number;
 }
 
-export default function DetailPageComment({
-    id,
-    
-}: DetailPageCommentProps) {
+export default function DetailPageComment({ id }: DetailPageCommentProps) {
     const {
         register,
         handleSubmit,
@@ -91,18 +88,24 @@ export default function DetailPageComment({
         return () => observer.disconnect();
     }, [handleObserver]);
 
-    const onSubmit: SubmitHandler<FormData> = (data) => {
-        const parentCommentId =
-            commentMode.mode === 'reply' ? commentMode.parentCommentId : null;
+const onSubmit: SubmitHandler<FormData> = (data) => {
+    if (!user) {
+        alert('로그인이 필요합니다.');
+        return;
+    }
 
-        mutation.mutate({
-            parentCommentId: parentCommentId || null,
-            secret: secret,
-            content: data.comment,
-            mode: commentMode.mode === 'reply' ? 'new' : commentMode.mode,
-            commentId: commentMode.targetCommentId,
-        });
-    };
+    const parentCommentId =
+        commentMode.mode === 'reply' ? commentMode.parentCommentId : null;
+
+    mutation.mutate({
+        parentCommentId: parentCommentId || null,
+        secret: secret,
+        content: data.comment,
+        mode: commentMode.mode === 'reply' ? 'new' : commentMode.mode,
+        commentId: commentMode.targetCommentId,
+    });
+};
+
 
     const handleEditComment = (commentId: number, content: string) => {
         setCommentMode({
@@ -277,7 +280,7 @@ export default function DetailPageComment({
                         <>
                             <CommentList
                                 comments={allComments}
-                                currentUserId={1231414314}
+                                currentUserId={user?.userId ?? ''} // string 값으로 들어가는데이제 ?
                                 onSelectMenu={(commentId, action) => {
                                     const comment = allComments.find(
                                         (c) => c.commentId === commentId

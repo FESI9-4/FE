@@ -6,6 +6,7 @@ import useMediaQuery from '@/hooks/useMediaQuery';
 import { cn } from '@/utils/cn';
 import LoginModal from '@/components/ui/Modal/LoginModal';
 import { useFanFalMutations } from '@/hooks/queries/useFanFalMutations';
+import { useGetUser } from '@/hooks/queries/useAuth';
 
 interface DetailPageParticipationProps {
     articleId: number;
@@ -17,10 +18,10 @@ export default function DetailPageParticipation({
     const isDesktop = useMediaQuery('(min-width: 1279px)');
     const isTablet = useMediaQuery('(min-width: 640px)');
     const [isParticipated, setIsParticipated] = useState(false);
-    const [isLoggedIn] = useState(true); // 임시 로그인 상태
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-
     const { joinMutation, cancelMutation } = useFanFalMutations();
+    const { data: user } = useGetUser();
+    const isLoggedIn = Boolean(user); // isLoggedin 훅 만들어도 좋을듯합니다
 
     const handleParticipateClick = () => {
         if (!isLoggedIn) {

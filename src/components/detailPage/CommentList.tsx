@@ -7,7 +7,7 @@ type CommentType = {
     commentId: number;
     content: string;
     parentCommentId: number;
-    writerId: number;
+    writerId: string;
     deleted: boolean;
     createdAt: number;
     secret: boolean;
@@ -16,14 +16,14 @@ type CommentType = {
 
 type CommentProps = {
     comment: CommentType;
-    currentUserId: number;
+    currentUserId: string;
     level?: number;
     onSelectMenu?: (commentId: number, action: string) => void;
 };
 
 type CommentListProps = {
     comments: CommentType[];
-    currentUserId: number;
+    currentUserId: string;
     onSelectMenu?: (commentId: number, action: string) => void;
 };
 
