@@ -14,7 +14,7 @@ export default async function PanpalDetailPage({ params }: PageProps) {
         latitude: data.latitude,
         longitude: data.longitude,
         articleId: id,
-        createdAt: data.createdAt,
+        createUser: data.createUser,
     };
 
     const cardProps = {
