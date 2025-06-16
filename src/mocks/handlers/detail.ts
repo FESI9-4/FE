@@ -24,7 +24,7 @@ export const detailHandlers = [
             message: '성공',
             data: {
                 articleId,
-                createUser: '재형',
+                createUser: '재형', // createUser는 결국사용자nickname임,
                 createUserProfileImgUrl: 'https://picsum.photos/40?random=4',
                 title: `게시글 ${articleId}`,
                 location: '건대입구',

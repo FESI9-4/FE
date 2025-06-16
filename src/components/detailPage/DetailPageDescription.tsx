@@ -2,7 +2,6 @@
 import DetailPageComment from './DetailPageComment';
 import DetailPageParticipation from './DetailPageParticipation';
 import GoogleMap from './GoogleMap';
-import { useGetUser } from '@/hooks/queries/useAuth';
 
 interface DetailPageDescriptionProps {
     description: string;
@@ -19,9 +18,6 @@ export default function DetailPageDescription({
     articleId,
     createUser,
 }: DetailPageDescriptionProps) {
-    const { data: user } = useGetUser();
-    console.log(user?.userId); //비교해서 같으면 조건부렌더링을할거고 이건 저 하위에서할거니간 넘겨주기만하면됨.
-    // 결국 userId가없다면 로그인이 안된거니깐 -> 문의하기 눌렀을때 로그인으로 이동 시키고, 참여하기 눌렀을때도 로그인으로 이동시키면 되겠다
     return (
         <div className="xl:flex xl:gap-6 ">
             <div>
@@ -43,7 +39,7 @@ export default function DetailPageDescription({
                         </div>
                     </div>
                 </div>
-                <DetailPageComment id={articleId} createUser={createUser} />
+                <DetailPageComment id={articleId} createUser={createUser} /> 
             </div>
             <DetailPageParticipation articleId={articleId} />
         </div>

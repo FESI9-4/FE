@@ -25,9 +25,9 @@ const mockComments: Array<{
 }> = [
     {
         commentId: 1870,
-        content: '첫 번째 댓글입니다. 정말 좋은 글이네요!',
+        content: '제가 작성한 글이므로 떠야합니다!',
         parentCommentId: 1870,
-        writerId: 'test',
+        writerId: '재형',
         deleted: false,
         createdAt: getDateBeforeDays(2),
         secret: false,

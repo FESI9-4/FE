@@ -16,14 +16,14 @@ type CommentType = {
 
 type CommentProps = {
     comment: CommentType;
-    currentUserId: string;
+    createUserId: string;
     level?: number;
     onSelectMenu?: (commentId: number, action: string) => void;
 };
 
 type CommentListProps = {
     comments: CommentType[];
-    currentUserId: string;
+    createUserId: string;
     onSelectMenu?: (commentId: number, action: string) => void;
 };
 
@@ -53,11 +53,11 @@ function buildCommentTree(comments: CommentType[]): CommentType[] {
 
 function CommentItem({
     comment,
-    currentUserId,
+    createUserId,
     level = 0,
     onSelectMenu,
 }: CommentProps) {
-    const isAuthor = comment.writerId === currentUserId;
+    const isAuthor = comment.writerId === createUserId; 
 
     const getDropdownOptions = () => {
         if (isAuthor) {
@@ -130,7 +130,7 @@ function CommentItem({
                         <CommentItem
                             key={child.commentId}
                             comment={child}
-                            currentUserId={currentUserId}
+                            createUserId={createUserId}
                             level={level + 1}
                             onSelectMenu={onSelectMenu}
                         />
@@ -150,7 +150,7 @@ function CommentItem({
 // 댓글 리스트 컴포넌트
 export default function CommentList({
     comments,
-    currentUserId,
+    createUserId,
     onSelectMenu,
 }: CommentListProps) {
     const commentTree = buildCommentTree(comments);
@@ -161,7 +161,7 @@ export default function CommentList({
                 <CommentItem
                     key={comment.commentId}
                     comment={comment}
-                    currentUserId={currentUserId}
+                    createUserId={createUserId}
                     onSelectMenu={onSelectMenu}
                 />
             ))}
