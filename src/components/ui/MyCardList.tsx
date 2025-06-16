@@ -15,11 +15,10 @@ interface CardListProps {
     currentPerson: number;
     maxPerson: number;
     openStatus: 'waiting' | 'finished' | 'progressing' | 'canceled';
-    //마찬가지
     image: string;
-    createdUser: string; // createUser 통일
-    createdUserProfileImg: string; // 마찬가지
-    useStatus: 'schedule' | 'done'; // 얘도 모든 파일에서 통일해야할듯
+    createUser: string;
+    createUserProfileImg: string;
+    useStatus: 'UPCOMING' | 'COMPLETED'; 
     buttonOnClick: () => void;
 }
 
@@ -31,8 +30,8 @@ export default function CardList({
     maxPerson,
     openStatus,
     image,
-    createdUser,
-    createdUserProfileImg,
+    createUser,
+    createUserProfileImg,
     useStatus,
     buttonOnClick,
 }: CardListProps) {
@@ -42,8 +41,8 @@ export default function CardList({
         {
             variants: {
                 useStatus: {
-                    done: '',
-                    schedule: '',
+                    COMPLETED: '',
+                    UPCOMING: '',
                 },
                 openStatus: {
                     waiting: '',
@@ -54,17 +53,17 @@ export default function CardList({
             },
             compoundVariants: [
                 {
-                    useStatus: ['schedule', 'done'],
+                    useStatus: ['UPCOMING', 'COMPLETED'],
                     openStatus: 'canceled',
                     className: 'text-gray-600',
                 },
                 {
-                    useStatus: 'done',
+                    useStatus: 'COMPLETED',
                     openStatus: ['waiting', 'finished', 'progressing'],
                     className: 'text-gray-600',
                 },
                 {
-                    useStatus: 'schedule',
+                    useStatus: 'UPCOMING',
                     openStatus: ['waiting', 'finished', 'progressing'],
                     className: 'text-white',
                 },
@@ -93,7 +92,7 @@ export default function CardList({
                 <div className="flex flex-row gap-3 sm:flex-col justify-between items-end sm:items-stretch">
                     <div className="flex sm:h-fit h-7 order-2 sm:order-1">
                         <ChipState status={useStatus}>
-                            {useStatus === 'schedule'
+                            {useStatus === 'UPCOMING'
                                 ? '이용 예정'
                                 : '이용 완료'}
                         </ChipState>
@@ -122,9 +121,9 @@ export default function CardList({
                         <div className="flex gap-2 text-sm text-gray-400 items-center font-normal ">
                             <Profile
                                 size="small"
-                                image={createdUserProfileImg}
+                                image={createUserProfileImg}
                             />
-                            <div>{createdUser}</div>
+                            <div>{createUser}</div>
                         </div>
                     </div>
                 </div>
@@ -142,14 +141,14 @@ export default function CardList({
                                 {currentPerson} / {maxPerson}
                             </div>
                         </div>
-                        {useStatus === 'schedule' && (
+                        {useStatus === 'UPCOMING' && (
                             <ProgressChip openStatus={openStatus}>
                                 개설확정
                             </ProgressChip>
                         )}
                     </div>
                     <div className="flex sm:w-48 w-full">
-                        {useStatus === 'schedule' &&
+                        {useStatus === 'UPCOMING' &&
                             (openStatus === 'canceled' ? (
                                 <Button
                                     size="large"

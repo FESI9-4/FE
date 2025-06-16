@@ -57,7 +57,7 @@ function CommentItem({
     level = 0,
     onSelectMenu,
 }: CommentProps) {
-    const isAuthor = comment.writerId === createUserId; 
+    const isAuthor = comment.writerId === createUserId;
 
     const getDropdownOptions = () => {
         if (isAuthor) {

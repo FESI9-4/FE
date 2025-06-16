@@ -21,7 +21,7 @@ export interface DetailApiResponse {
         }[];
         wishList: boolean;
         articleImageUrl: string;
-        openStatus: 'waiting' | 'finished' | 'progressing';
+        openStatus: 'waiting' | 'finished' | 'progressing' | 'canceled';
         useStatus: 'UPCOMING' | 'COMPLETED';
     };
 }
