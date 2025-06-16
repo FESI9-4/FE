@@ -31,11 +31,16 @@ export default async function RootLayout({
 
     const cookieStore = await cookies();
     const accessToken = cookieStore.get('accessToken')?.value;
+    const refreshToken = cookieStore.get('refreshToken')?.value;
+    const hasRefreshToken = refreshToken ? true : false;
     return (
         <html lang="ko">
             <body className="bg-[#14151A]">
                 <MSWComponent>
-                    <ClientAuthProvider initialAccessToken={accessToken}>
+                    <ClientAuthProvider
+                        initialAccessToken={accessToken}
+                        hasRefreshToken={hasRefreshToken}
+                    >
                         <QueryProvider>
                             <Nav />
                             {children}

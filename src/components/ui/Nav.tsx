@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import useMediaQuery from '@/hooks/useMediaQuery';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { NavDesktopIcon, NavMobileIcon } from '@/assets';
 //import { useWishlistStore } from '@/store/wishlistStore';
 import { cva } from 'class-variance-authority';
@@ -35,11 +35,10 @@ export default function Nav() {
     const isDesktop = useMediaQuery('(min-width: 768px)');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const pathname = usePathname();
-    const router = useRouter();
     const handleLogout = () => {
         logout(undefined, {
             onSuccess: () => {
-                router.push('/login');
+                //router.push('/login');
             },
         });
     };

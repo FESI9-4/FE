@@ -1,46 +1,22 @@
 // hooks/useAuth.ts
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { LoginRequest, LoginResponse, SignupRequest } from '@/types/auth';
+import { LoginRequestDto, SignupMemberRequestDto } from '@/types/auth';
 import { authApi } from '@/utils/apis/authApi';
 import { useAuthStore } from '@/store/authStore';
-import { fetchInstance } from '@/utils/apis/fetchInstance';
 
 export const useLogin = () => {
-    const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: async (loginData: LoginRequest) => {
-            const response = await fetchInstance<LoginResponse, LoginRequest>(
-                '/api/auth/store-token',
-                {
-                    method: 'POST',
-                    body: loginData,
-                }
-            );
-            const { accessToken, data: user } = response;
-
-            return {
-                accessToken,
-                user,
-            };
-        },
-        onSuccess: async (result) => {
-            // ✅ 데이터 처리
-            if (result.user) {
-                queryClient.setQueryData(['user'], result.user);
-            }
-            if (result.accessToken) {
-                // ✅ 액세스 토큰 저장
-                const { setAccessToken } = useAuthStore.getState();
-                setAccessToken(result.accessToken);
-            }
-        },
-        onError: (error) => {
-            console.error('❌ 로그인 실패:', error.message);
+        mutationFn: async (loginData: LoginRequestDto) => {
+            const response = await authApi.login(loginData);
+            return response;
         },
     });
 };
 export const useGetUser = () => {
     const accessToken = useAuthStore((state) => state.accessToken);
+    const hasRefreshToken = useAuthStore((state) => state.hasRefreshToken);
+    const isAuthenticated = !!(accessToken || hasRefreshToken);
+
     return useQuery({
         queryKey: ['user'],
         queryFn: async () => {
@@ -48,8 +24,9 @@ export const useGetUser = () => {
             const data = response.data;
             return data;
         },
-        enabled: !!accessToken,
+        enabled: isAuthenticated,
         staleTime: Infinity,
+        retry: false,
     });
 };
 export const useLogout = () => {
@@ -58,8 +35,8 @@ export const useLogout = () => {
         mutationFn: async () => {
             const { removeAccessToken } = useAuthStore.getState();
             removeAccessToken();
-            await authApi.logout();
-            await authApi.clearCookie();
+            const response = await authApi.logout();
+            console.log('response', response);
         },
         onSuccess: () => {
             queryClient.clear();
@@ -69,7 +46,7 @@ export const useLogout = () => {
 };
 export const useSignup = () => {
     return useMutation({
-        mutationFn: async (signupData: SignupRequest) => {
+        mutationFn: async (signupData: SignupMemberRequestDto) => {
             const response = await authApi.signup(signupData);
             return response;
         },
@@ -77,6 +54,8 @@ export const useSignup = () => {
 };
 export const useTest = () => {
     const accessToken = useAuthStore((state) => state.accessToken);
+    const hasRefreshToken = useAuthStore((state) => state.hasRefreshToken);
+    const isAuthenticated = !!(accessToken || hasRefreshToken);
     return useQuery({
         queryKey: ['test'],
         queryFn: async () => {
@@ -84,11 +63,13 @@ export const useTest = () => {
             const data = response.data;
             return data;
         },
-        enabled: !!accessToken,
+        enabled: isAuthenticated,
     });
 };
 export const useTest2 = () => {
     const accessToken = useAuthStore((state) => state.accessToken);
+    const hasRefreshToken = useAuthStore((state) => state.hasRefreshToken);
+    const isAuthenticated = !!(accessToken || hasRefreshToken);
     return useQuery({
         queryKey: ['test2'],
         queryFn: async () => {
@@ -96,6 +77,6 @@ export const useTest2 = () => {
             const data = response.data;
             return data;
         },
-        enabled: !!accessToken,
+        enabled: isAuthenticated,
     });
 };

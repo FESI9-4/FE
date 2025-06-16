@@ -6,13 +6,12 @@ import useMediaQuery from '@/hooks/useMediaQuery';
 import { useSignup } from '@/hooks/queries/useAuth';
 import { useRouter } from 'next/navigation';
 import { SignupFormData } from '@/types/form';
-import { ApiResponse } from '@/types/auth';
 import { useEffect, useState } from 'react';
 
 export default function SignupForm() {
     const router = useRouter();
     const isMobile = useMediaQuery('(max-width: 768px)');
-    const [isDuplicateUserId, setIsDuplicateUserId] = useState(false);
+    const [isDuplicateEmail, setIsDuplicateEmail] = useState(false);
     const { mutate: signup } = useSignup();
     const { register, handleSubmit, formState, setError, watch } =
         useForm<SignupFormData>({
@@ -22,33 +21,32 @@ export default function SignupForm() {
     const onSubmit: SubmitHandler<SignupFormData> = (data) => {
         signup(
             {
-                userId: data.userId,
+                email: data.email,
                 password: data.password,
-                nickName: data.nickName,
+                nickname: data.nickname,
             },
             {
-                //
-                onSuccess: (response: ApiResponse<void>) => {
-                    if (response.statusCode === 104) {
-                        setError('userId', {
-                            message: response.message,
-                        });
-                        setIsDuplicateUserId(true);
-                    } else {
-                        setIsDuplicateUserId(false);
-                        router.push('/login');
-                    }
+                onSuccess: () => {
+                    router.push('/login');
+                    return;
+                },
+                onError: () => {
+                    setError('email', {
+                        message: '이미 사용 중인 이메일입니다.',
+                    });
+                    setIsDuplicateEmail(true);
+                    return;
                 },
             }
         );
     };
-    const watchedUserId = watch('userId');
+    const watchedEmail = watch('email');
     // 이메일이 변경될 때마다 중복 상태 초기화
     useEffect(() => {
-        if (isDuplicateUserId) {
-            setIsDuplicateUserId(false);
+        if (isDuplicateEmail) {
+            setIsDuplicateEmail(false);
         }
-    }, [watchedUserId, isDuplicateUserId]);
+    }, [watchedEmail, isDuplicateEmail]);
     return (
         <div className="flex flex-col justify-center items-center gap-[14px] px-4 py-8 sm:py-8 sm:px-[54px] sm:mt-0 mt-[50px]">
             <form
@@ -65,27 +63,27 @@ export default function SignupForm() {
                                 type="text"
                                 placeholder="닉네임을 입력해주세요"
                                 label="닉네임"
-                                name="nickName"
+                                name="nickname"
                                 labelClassName="text-sm mb-2 w-fit font-semibold leading-5"
                                 size={!isMobile ? 'large' : 'small'}
                                 register={register}
-                                error={formState.errors.nickName as FieldError}
+                                error={formState.errors.nickname as FieldError}
                                 rules={{
                                     required: '닉네임을 입력해주세요',
                                     pattern: {
-                                        value: /^[a-zA-Z0-9]+$/,
+                                        value: /^[가-힣a-zA-Z0-9]{2,20}$/,
                                         message:
-                                            '닉네임은 영문 또는 숫자만 입력해주세요.',
+                                            '닉네임은 한글, 영문, 숫자만 입력해주세요.',
                                     },
                                     minLength: {
                                         value: 3,
                                         message:
-                                            '닉네임은 3자 이상 10자 이하이어야 합니다.',
+                                            '닉네임은 2자 이상 20자 이하이어야 합니다.',
                                     },
                                     maxLength: {
                                         value: 10,
                                         message:
-                                            '닉네임은 3자 이상 10자 이하이어야 합니다.',
+                                            '닉네임은 2자 이상 20자 이하이어야 합니다.',
                                     },
                                 }}
                             />
@@ -93,11 +91,11 @@ export default function SignupForm() {
                                 type="text"
                                 placeholder="이메일을 입력해주세요"
                                 label="아이디"
-                                name="userId"
+                                name="email"
                                 labelClassName="text-sm mb-2 w-fit font-semibold leading-5"
                                 size={!isMobile ? 'large' : 'small'}
                                 register={register}
-                                error={formState.errors.userId as FieldError}
+                                error={formState.errors.email as FieldError}
                                 rules={{
                                     required: '이메일을 입력해주세요',
                                     pattern: {
@@ -105,8 +103,8 @@ export default function SignupForm() {
                                         message: '이메일 형식에 맞지 않습니다.',
                                     },
                                     validate: {
-                                        duplicateUserId: () =>
-                                            isDuplicateUserId
+                                        duplicateEmail: () =>
+                                            isDuplicateEmail
                                                 ? '이미 사용중인 이메일입니다.'
                                                 : true,
                                     },
@@ -124,19 +122,19 @@ export default function SignupForm() {
                                 rules={{
                                     required: '비밀번호를 입력해주세요',
                                     pattern: {
-                                        value: /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$]).{8,16}$/,
+                                        value: /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$]).{8,20}$/,
                                         message:
                                             '비밀번호는 영문, 숫자, 특수문자(!@#$)를 포함해야 합니다.',
                                     },
                                     minLength: {
                                         value: 8,
                                         message:
-                                            '비밀번호는 8자 이상 16자 이하이어야 합니다.',
+                                            '비밀번호는 8자 이상 20자 이하이어야 합니다.',
                                     },
                                     maxLength: {
                                         value: 16,
                                         message:
-                                            '비밀번호는 8자 이상 16자 이하이어야 합니다.',
+                                            '비밀번호는 8자 이상 20자 이하이어야 합니다.',
                                     },
                                 }}
                             />
