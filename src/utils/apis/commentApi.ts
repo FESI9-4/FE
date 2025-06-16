@@ -24,7 +24,7 @@ interface CommentData {
     parentCommentId: number;
     writerId: number;
     deleted: boolean;
-    createdAt: string;
+    createdAt: number;
     secret: boolean;
 }
 

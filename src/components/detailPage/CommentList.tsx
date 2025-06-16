@@ -61,6 +61,15 @@ function CommentItem({
 }: CommentProps) {
     const isAuthor = comment.writerId === currentUserId;
 
+    // 드롭다운 옵션 결정
+    const getDropdownOptions = () => {
+        if (isAuthor) {
+            return ['댓글달기', '수정하기', '삭제하기'];
+        } else {
+            return ['댓글달기'];
+        }
+    };
+
     const content = (
         <div className={`ml-${level * 4} mb-4`}>
             <div className="flex justify-between gap-4 p-3 rounded-lg shadow-sm relative">
@@ -104,9 +113,9 @@ function CommentItem({
                 </div>
 
                 <div className="flex items-start">
-                    {isAuthor && onSelectMenu && (
+                    {onSelectMenu && (
                         <Dropdown
-                            options={['수정하기', '삭제하기']}
+                            options={getDropdownOptions()}
                             placeholder="메뉴"
                             showPlaceholderInMenu={false}
                             iconType="comment"
