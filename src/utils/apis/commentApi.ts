@@ -22,7 +22,7 @@ interface CommentData {
     commentId: number;
     content: string;
     parentCommentId: number;
-    writerId: number;
+    writerId: string;
     deleted: boolean;
     createdAt: number;
     secret: boolean;

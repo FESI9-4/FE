@@ -18,7 +18,7 @@ const mockComments: Array<{
     commentId: number;
     content: string;
     parentCommentId: number;
-    writerId: number;
+    writerId: string;
     deleted: boolean;
     createdAt: number;
     secret: boolean;
@@ -27,7 +27,7 @@ const mockComments: Array<{
         commentId: 1870,
         content: '첫 번째 댓글입니다. 정말 좋은 글이네요!',
         parentCommentId: 1870,
-        writerId: 1231414314,
+        writerId: 'test',
         deleted: false,
         createdAt: getDateBeforeDays(2),
         secret: false,
@@ -36,7 +36,7 @@ const mockComments: Array<{
         commentId: 1871,
         content: '위 댓글에 대한 답글입니다.',
         parentCommentId: 1870,
-        writerId: 1231414315,
+        writerId: 'test2',
         deleted: false,
         createdAt: getDateBeforeDays(2),
         secret: true,
@@ -45,7 +45,7 @@ const mockComments: Array<{
         commentId: 1872,
         content: '두 번째 댓글입니다. 유익한 정보 감사합니다.',
         parentCommentId: 1872,
-        writerId: 1231414316,
+        writerId: 'test3',
         deleted: false,
         createdAt: getDateBeforeDays(1),
         secret: false,
@@ -54,7 +54,7 @@ const mockComments: Array<{
         commentId: 1873,
         content: '세 번째 댓글입니다. 궁금한 점이 있어서 문의드립니다.',
         parentCommentId: 1873,
-        writerId: 1231414317,
+        writerId: 'test4',
         deleted: false,
         createdAt: getDateBeforeDays(1),
         secret: false,
@@ -63,7 +63,7 @@ const mockComments: Array<{
         commentId: 1874,
         content: '네 번째 댓글입니다. 참여하고 싶습니다!',
         parentCommentId: 1874,
-        writerId: 1231414318,
+        writerId: 'test5',
         deleted: false,
         createdAt: getDateBeforeDays(0),
         secret: false,
@@ -72,7 +72,7 @@ const mockComments: Array<{
         commentId: 1875,
         content: '다섯 번째 댓글입니다. 언제까지 신청 가능한가요?',
         parentCommentId: 1875,
-        writerId: 1231414319,
+        writerId: 'test6',
         deleted: false,
         createdAt: getDateBeforeDays(0),
         secret: true,
@@ -81,7 +81,7 @@ const mockComments: Array<{
         commentId: 1876,
         content: '여섯 번째 댓글입니다. 저도 참여하고 싶어요!',
         parentCommentId: 1876,
-        writerId: 1231414320,
+        writerId: 'test7',
         deleted: false,
         createdAt: getDateBeforeDays(0),
         secret: false,
@@ -90,7 +90,7 @@ const mockComments: Array<{
         commentId: 1877,
         content: '일곱 번째 댓글입니다. 정말 재미있을 것 같네요.',
         parentCommentId: 1877,
-        writerId: 1231414321,
+        writerId: 'test8',
         deleted: false,
         createdAt: getDateBeforeDays(0),
         secret: false,
@@ -205,7 +205,7 @@ export const commentHandlers = [
             }
 
             // 동일
-            if (mockComments[commentIndex].writerId !== 1231414314) {
+            if (mockComments[commentIndex].writerId !== '1231414314') {
                 return HttpResponse.json(
                     {
                         statusCode: 403,
@@ -261,7 +261,7 @@ export const commentHandlers = [
             const targetComment = mockComments[commentIndex];
 
             // 작성자 확인 (실제로는 토큰 검증)
-            if (targetComment.writerId !== 1231414314) {
+            if (targetComment.writerId !== '1231414314') {
                 return HttpResponse.json(
                     {
                         statusCode: 403,
