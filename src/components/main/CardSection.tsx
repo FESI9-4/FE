@@ -13,12 +13,14 @@ import {
 
 interface CardSectionProps {
     cards: Card[];
-    showCreateButton?: boolean; // 팬팔 만들기 버튼 보일지 여부
+    showCreateButton?: boolean;
+    onLike?: (cardId: number, isLiked: boolean) => void;
 }
 
 export default function CardSection({
     cards,
     showCreateButton = true,
+    onLike,
 }: CardSectionProps) {
     const hasCards = cards && cards.length > 0;
     const isMobile = useMediaQuery('(max-width: 639px)');
@@ -36,6 +38,18 @@ export default function CardSection({
     const handlePageChange = (page: number) => {
         if (page < 1 || page > totalPages) return;
         setCurrentPage(page);
+    };
+    const handleLikeClick = (
+        cardId: number,
+        event: React.MouseEvent,
+        isLiked: boolean
+    ) => {
+        event.preventDefault(); // Link 클릭 방지
+        event.stopPropagation(); // 이벤트 버블링 방지
+
+        if (onLike) {
+            onLike(cardId, isLiked);
+        }
     };
 
     return (
@@ -63,6 +77,13 @@ export default function CardSection({
                                         createUserProfileImg={
                                             card.createUserProfileImg
                                         }
+                                        onLikeClick={(event, isLiked) =>
+                                            handleLikeClick(
+                                                card.articleId,
+                                                event,
+                                                isLiked
+                                            )
+                                        }
                                     />
                                 </Link>
                             ))}
@@ -84,7 +105,6 @@ export default function CardSection({
                 )}
             </div>
 
-            {/* ✅ 팬팔 만들기 버튼 조건부 렌더링 */}
             {isMobile && showCreateButton && (
                 <div className="h-20">
                     <Button
