@@ -6,7 +6,6 @@ import { useWishlistStore } from '@/store/wishlistStore';
 import { useGetUser } from '@/hooks/queries/useAuth';
 import { useGetList } from '@/hooks/queries/useGetList';
 
-// TODO 좋아요 로컬스토리지....  버튼
 export default function WishList() {
     const [activeTab, setActiveTab] = useState<number>(0);
     const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
@@ -20,7 +19,7 @@ export default function WishList() {
         (state) => state.likedArticleIds ?? []
     );
 
-    const { data: user } = useGetUser(); // 로그인 여부 판단
+    const { data: user } = useGetUser(); 
     const isLoggedIn = !!user;
 
     const { data: articles = [] } = useGetList({
@@ -41,7 +40,7 @@ export default function WishList() {
     // 로컬(wishlistStore)에서 찜한 아이템 ID
     const localWishedArticles = articles.filter((a) =>
         likedArticleIds.includes(a.articleId)
-    );  
+    );
 
     // 로그인 상태일 경우 둘 다 합쳐서 중복 제거
     const wishListArticles = isLoggedIn

@@ -5,6 +5,7 @@ import { fanfalPartHandlers } from './handlers/fanfalParticipaiton';
 import { getBoardHandlers } from './handlers/getBoards';
 import { imageHandlers } from './handlers/imgS3';
 import { createBoardHandlers } from './handlers/createFanfal';
+import { wishLikeHandlers } from './handlers/like';
 
 export const worker = setupWorker(
     ...handlers,
@@ -12,5 +13,6 @@ export const worker = setupWorker(
     ...fanfalPartHandlers,
     ...getBoardHandlers,
     ...imageHandlers,
-    ...createBoardHandlers
+    ...createBoardHandlers,
+    ...wishLikeHandlers
 );
