@@ -42,7 +42,7 @@ export default function CardSection({
         <div className="flex flex-col items-end gap-12">
             <div className="w-full min-h-110 sm:min-h-190 xl:min-h-145 flex items-center justify-center ">
                 {hasCards ? (
-                    <div className="flex flex-col gap-10 sm:gap-10 xl:gap-16 w-full ">
+                    <div className="flex flex-col gap-10 sm:gap-10 xl:gap-30 w-full ">
                         <div className="flex- flex-col gap-3 min-h-100 sm:min-h-160 xl:min-h-80">
                             {currentCards.map((card) => (
                                 <Link
@@ -53,7 +53,7 @@ export default function CardSection({
                                         title={card.title}
                                         location={card.location}
                                         date={card.date}
-                                        deadline={card.deadLine}
+                                        deadLine={card.deadLine}
                                         currentPerson={card.currentPerson}
                                         maxPerson={card.maxPerson}
                                         openStatus={card.openStatus}
