@@ -36,7 +36,7 @@ const mockComments: Array<{
         commentId: 1871,
         content: '위 댓글에 대한 답글입니다.',
         parentCommentId: 1870,
-        writerId: 'test2',
+        writerId: 'test',
         deleted: false,
         createdAt: getDateBeforeDays(2),
         secret: true,
@@ -157,7 +157,7 @@ export const commentHandlers = [
                 commentId: nextCommentId++,
                 content: body.content,
                 parentCommentId: body.parentCommentId || nextCommentId - 1,
-                writerId: 1231414314, // msw? 현재 사용자로 받아오는건 어떻게 ?
+                writerId: '1231414314', // msw? 현재 사용자로 받아오는건 어떻게 ?
                 deleted: false,
                 createdAt: new Date().getTime(),
                 secret: body.secret,
@@ -205,7 +205,7 @@ export const commentHandlers = [
             }
 
             // 동일
-            if (mockComments[commentIndex].writerId !== '1231414314') {
+            if (mockComments[commentIndex].writerId !== 'test') {
                 return HttpResponse.json(
                     {
                         statusCode: 403,
