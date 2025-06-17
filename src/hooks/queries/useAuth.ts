@@ -8,7 +8,6 @@ export const useLogin = () => {
     return useMutation({
         mutationFn: async (loginData: LoginRequestDto) => {
             const response = await authApi.login(loginData);
-            console.log('response', response);
             return response;
         },
     });

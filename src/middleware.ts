@@ -24,7 +24,7 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL('/login', request.nextUrl));
     }
 
-    //🎯 로그인된 사용자가 guestRoutes 페이 마이페이지로 이동');
+    //🎯 로그인된 사용자가 publicRoutes 페이지로 이동');
     // if (isPublicRoute && isLoggedIn) {
     // console.log('이미 로그인 되어있음');
     // return NextResponse.redirect(new URL('/mypage', request.nextUrl));
