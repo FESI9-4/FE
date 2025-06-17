@@ -2,6 +2,7 @@ import React from 'react';
 import { Profile } from '../ui';
 import { Lock, CommentArrow } from '@/assets';
 import { Dropdown } from '../ui';
+import { useGetUser } from '@/hooks/queries/useAuth';
 
 type CommentType = {
     commentId: number;
@@ -57,10 +58,12 @@ function CommentItem({
     level = 0,
     onSelectMenu,
 }: CommentProps) {
+    const { data: user } = useGetUser();
     const isAuthor = comment.writerId === createUserId;
+    const isMyComment = comment.writerId === user?.nickName;
 
     const getDropdownOptions = () => {
-        if (isAuthor) {
+        if (isMyComment) {
             return ['댓글달기', '수정하기', '삭제하기'];
         } else {
             return ['댓글달기'];
