@@ -44,9 +44,9 @@ export const clientFetcher = async <TResponse, TRequest>(
                             method: 'POST',
                             returnFullResponse: true,
                         });
-                        const newAccessToken = (await refreshResponse.json())
-                            .accessToken;
-                        console.log('clientFetcher', newAccessToken);
+                        const newAccessToken = refreshResponse.headers
+                            .get('Authorization')
+                            ?.replace('Bearer ', '');
                         if (!newAccessToken) {
                             throw new Error('No access token in response');
                         }

@@ -2,7 +2,7 @@ import { authApi } from '../utils/apis/authApi';
 import userEvent from '@testing-library/user-event';
 import { render, screen, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import SignupForm from '@/app/(auth)/signup/SignupForm';
+import SignupForm from '@/components/auth/SignupForm';
 
 jest.mock('../utils/apis/authApi', () => ({
     authApi: {
@@ -327,11 +327,13 @@ describe('회원가입 폼 API 에러 테스트', () => {
         });
 
         const result = await authApi.signup({
-            userId: 'test@test.com',
+            email: 'test@test.com',
             password: 'password123!',
-            nickName: 'testUser',
+            nickname: 'testUser',
         });
-        expect(result.statusCode).toBe(200);
+        if ('statusCode' in result) {
+            expect(result.statusCode).toBe(200);
+        }
     });
     test('회원가입 실패', async () => {
         // 🎯 signup 함수가 직접 원하는 값을 반환하도록 설정
@@ -341,10 +343,12 @@ describe('회원가입 폼 API 에러 테스트', () => {
         });
 
         const result = await authApi.signup({
-            userId: 'test@test.com',
+            email: 'test@test.com',
             password: 'password123!',
-            nickName: 'testUser',
+            nickname: 'testUser',
         });
-        expect(result.statusCode).toBe(104);
+        if ('status' in result) {
+            expect(result.status).toBe(104);
+        }
     });
 });

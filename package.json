@@ -62,7 +62,8 @@
         "prettier": "3.5.3",
         "storybook": "^9.0.4",
         "tailwindcss": "^4",
-        "typescript": "5.8.3"
+        "typescript": "5.8.3",
+        "@tanstack/react-query-devtools": "^5.80.6"
     },
     "msw": {
         "workerDirectory": [

@@ -4,14 +4,19 @@ import { TOKEN_EXPIRY } from '@/config/constants';
 import { fetchInstance } from '@/utils/apis/fetchInstance';
 
 export async function POST() {
+    console.log('refresh 요청');
     const cookieStore = await cookies();
-    console.log('리프레쉬 프록시', cookieStore.get('refreshToken'));
     try {
+        const refreshToken = cookieStore.get('refreshToken')?.value;
         const response = (await fetchInstance('/api/auth/refresh', {
             method: 'POST',
             returnFullResponse: true,
+            headers: {
+                Cookie: `refreshToken=${refreshToken}`,
+            },
         })) as Response;
-
+        const setCookieHeader = response.headers.get('Set-Cookie');
+        const newAuthorizationHeader = response.headers.get('Authorization');
         const newAccessToken = response.headers
             .get('Authorization')
             ?.replace('Bearer ', '');
@@ -27,24 +32,27 @@ export async function POST() {
                 }
             );
         }
-        cookieStore.set('accessToken', newAccessToken, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
-            maxAge: TOKEN_EXPIRY.ACCESS_TOKEN,
-            path: '/',
-        });
-        return NextResponse.json(
-            {
-                message: '리프레쉬 토큰 검증 성공',
-            },
-            {
-                status: 200,
-                headers: {
-                    Authorization: `Bearer ${newAccessToken}`,
+        if (newAccessToken && setCookieHeader && newAuthorizationHeader) {
+            cookieStore.set('accessToken', newAccessToken, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'strict',
+                maxAge: TOKEN_EXPIRY.ACCESS_TOKEN,
+                path: '/',
+            });
+            return NextResponse.json(
+                {
+                    message: '리프레쉬 토큰 검증 성공',
                 },
-            }
-        );
+                {
+                    status: 200,
+                    headers: {
+                        'Set-Cookie': setCookieHeader,
+                        Authorization: newAuthorizationHeader,
+                    },
+                }
+            );
+        }
     } catch (error) {
         console.log('❌ 프록시에서 백엔드 호출 실패:', error);
         return NextResponse.json({

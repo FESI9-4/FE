@@ -1,13 +1,7 @@
 import { FetcherOptions } from '@/types/fetcher';
 
 //const baseURL = 'http://localhost:3000';
-//const baseURL = 'https://api.fanfal.com/';
-export const publicApis = [
-    '/api/auth/login',
-    '/api/auth/signup',
-    '/api/proxy/login',
-    '/api/proxy/signup',
-];
+export const publicApis = ['/api/proxy/login', '/api/proxy/signup'];
 export const internalApis = [
     '/api/proxy/login',
     '/api/proxy/logout',
@@ -51,7 +45,6 @@ export const fetchInstance = async <TResponse, TRequest>(
             credentials: 'include',
             body: options.body ? JSON.stringify(options.body) : undefined,
         });
-        console.log('fetchInstance', response);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }

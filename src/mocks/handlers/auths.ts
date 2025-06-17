@@ -6,7 +6,7 @@ export const mockUser = [
     {
         userId: 'test@test.com',
         nickName: 'test',
-        img: 'https://randomuser.me/api/portraits/men/75.jpg',
+        profileImage: 'https://randomuser.me/api/portraits/men/75.jpg',
         wistLikeCount: 5,
         password: '12345678',
         description: '안녕하세요 test 입니다',
@@ -14,7 +14,7 @@ export const mockUser = [
     {
         userId: 'test2@test.com',
         nickName: 'test2',
-        img: 'https://randomuser.me/api/portraits/men/76.jpg',
+        profileImage: 'https://randomuser.me/api/portraits/men/76.jpg',
         wistLikeCount: 10,
         password: '12345678',
         description: '안녕하세요 test2 입니다',
@@ -22,7 +22,7 @@ export const mockUser = [
     {
         userId: 'test3@test.com',
         nickName: 'test3',
-        img: 'https://randomuser.me/api/portraits/women/77.jpg',
+        profileImage: 'https://randomuser.me/api/portraits/women/77.jpg',
         wistLikeCount: 10,
         password: '12345678',
         description: '안녕하세요 test3 입니다',
@@ -152,9 +152,9 @@ export const signupHandlers = [
             );
         }
         mockUser.push({
-            userId: signupData.userId,
-            nickName: signupData.nickName,
-            img: '',
+            userId: signupData.email,
+            nickName: signupData.nickname,
+            profileImage: '',
             wistLikeCount: 0,
             password: signupData.password,
             description: '',
@@ -200,17 +200,12 @@ export const userHandlers = [
                 statusCode: 200,
                 message: '유저 정보 조회 성공',
                 data: {
-                    userId: payload.userId,
-                    nickName: payload.nickName,
-                    img:
-                        mockUser.find((user) => user.userId === payload.userId)
-                            ?.img || '',
-                    wistLikeCount:
-                        mockUser.find((user) => user.userId === payload.userId)
-                            ?.wistLikeCount || 0,
-                    description:
-                        mockUser.find((user) => user.userId === payload.userId)
-                            ?.description || '',
+                    userId: '사용자',
+                    nickname: '오용자',
+                    profileImage:
+                        'https://randomuser.me/api/portraits/women/93.jpg',
+                    wistLikeCount: 3,
+                    description: '안녕하세요',
                 },
             });
         } catch (error) {

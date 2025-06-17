@@ -107,7 +107,10 @@ export default function Nav() {
                             onClick={toggleDropdown}
                             className="cursor-pointer"
                         >
-                            <Profile size="medium" image={user?.img || ''} />
+                            <Profile
+                                size="medium"
+                                image={user?.profileImage || ''}
+                            />
                         </div>
 
                         {isDropdownOpen && (
