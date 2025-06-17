@@ -8,6 +8,7 @@ import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 import Profile from '@/components/ui/Profile';
 import { useGetUser } from '@/hooks/queries/useAuth';
+import InputText from '../InputText';
 
 interface EditProfileModalProps {
     onClose: () => void;
@@ -74,16 +75,16 @@ export default function EditProfileModal({
 
     return (
         <BaseModal onClose={onClose}>
-            <div className="w-85.75 h-82 md:w-130 md:h-84 flex items-center justify-center">
+            <div className="w-85.75 md:w-130 flex items-center justify-center py-6">
                 <form
                     onSubmit={handleSubmit(handleFormSubmit)}
-                    className="w-73.75 h-70 md:w-118 md:h-72 flex flex-col gap-6"
+                    className="w-73.75 md:w-118 flex flex-col gap-6"
                 >
-                    <div className="flex justify-between h-7 w-full items-center">
+                    <div className="flex justify-between w-full items-center">
                         <p className="text-lg font-semibold">프로필 수정하기</p>
                     </div>
 
-                    <div className="flex flex-col gap-6 h-41">
+                    <div className="flex flex-col gap-6">
                         <Profile
                             size="large"
                             edit={true}
@@ -107,8 +108,8 @@ export default function EditProfileModal({
                         )}
 
                         {/* 닉네임 입력 */}
-                        <div className="h-18 md:h-19 flex flex-col justify-between">
-                            <p className="h-5 md:h-6 text-sm md:text-base font-semibold">
+                        <div className=" flex flex-col justify-between">
+                            <p className="text-sm md:text-base font-semibold">
                                 닉네임
                             </p>
                             <Input
@@ -131,9 +132,25 @@ export default function EditProfileModal({
                                 size="small"
                             />
                         </div>
+                        <div className="flex flex-col justify-between">
+                            <p className="text-sm md:text-base font-semibold">
+                                소개
+                            </p>
+                            <InputText
+                                name="description"
+                                placeholder="소개를 입력해주세요"
+                                className="h-27"
+                                register={register}
+                                rules={{
+                                    required: '소개는 필수 입력입니다.',
+                                }}
+                                error={errors.description as FieldError}
+                                size="small"
+                            />
+                        </div>
                     </div>
 
-                    <div className="flex gap-3 h-10 md:h-12">
+                    <div className="flex gap-3">
                         <Button
                             size="large"
                             type="button"

@@ -4,7 +4,8 @@ import Button from '@/components/ui/Button';
 import Profile from '@/components/ui/Profile';
 import { EditNoBgIcon, Heart, ThreeHeart } from '@/assets';
 import { useEffect, useState } from 'react';
-import { useGetUser } from '@/hooks/queries/useAuth';
+import { mypageApi } from '@/utils/apis/mypage';
+import { useQuery } from '@tanstack/react-query';
 
 // 왜 반응형을 조건부 렌더링으로 했냐면 피그마 시안에 있는 div 구조가 아예 바뀌어서...
 
@@ -20,7 +21,10 @@ export default function ProfileSection({
     handlePasswordModal,
     handleEditProfileModal,
 }: ProfileSectionProps) {
-    const { data: user } = useGetUser();
+    const { data: user } = useQuery({
+        queryKey: ['user'],
+        queryFn: mypageApi.getUser,
+    });
     const [isMdUp, setIsMdUp] = useState(false);
 
     useEffect(() => {
