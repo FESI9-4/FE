@@ -17,7 +17,7 @@ interface CardListProps {
     currentPerson: number;
     maxPerson: number;
     openStatus: 'waiting' | 'finished' | 'progressing' | 'canceled';
-    wishList: boolean;
+    wishList?: boolean;
     image: string;
     createUser: string;
     createUserProfileImg: string;
@@ -38,6 +38,7 @@ export default function CardList({
     createUserProfileImg,
     onLikeClick,
     articleId,
+    wishList,
 }: CardListProps) {
     const { data: user } = useGetUser(); // ← 로그인 정보
     const isLoggedIn = !!user;
@@ -121,7 +122,9 @@ export default function CardList({
                         </div>
                     </div>
                     <div>
-                        <Like like={isLiked} onClick={handleLikeClick} />
+                        {wishList && (
+                            <Like like={isLiked} onClick={handleLikeClick} />
+                        )}
                     </div>
                 </div>
                 <ContainerProgress

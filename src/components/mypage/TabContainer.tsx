@@ -14,8 +14,8 @@ export default function TabContainer() {
     const tabs = ['나의 팬팔', '내가 만든 팬팔', '나의 질문', '나의 답변'];
 
     return (
-        <div className="flex flex-col gap-7.5">
-            <div className="flex overflow-x-auto">
+        <div className="flex flex-col gap-7.5 scrollbar-hide">
+            <div className="flex overflow-x-auto scrollbar-hide">
                 {tabs.map((tab) => (
                     <div key={tab} className="w-full max-w-31 min-w-31">
                         <Tab
