@@ -80,7 +80,9 @@ export default function MyCardListContainer() {
                                     createUser={item.createUser}
                                     createUserProfileImg={item.image}
                                     useStatus={
-                                        item.useStatus as 'schedule' | 'done'
+                                        item.useStatus as
+                                            | 'UPCOMING'
+                                            | 'COMPLETED'
                                     }
                                     buttonOnClick={() => {
                                         if (

@@ -45,7 +45,7 @@ export default function CardListContainer() {
                                     title={item.title}
                                     location={item.location}
                                     date={item.date}
-                                    deadline={item.deadline}
+                                    deadLine={item.deadline}
                                     currentPerson={item.currentPerson}
                                     maxPerson={item.maxPerson}
                                     openStatus={
@@ -59,6 +59,7 @@ export default function CardListContainer() {
                                     createUserProfileImg={
                                         item.createUserProfileImg
                                     }
+                                    articleId={item.fanpal_id}
                                 />
                                 {index !== data?.data.length - 1 && (
                                     <hr className="border-t border-gray-800 pb-3" />
