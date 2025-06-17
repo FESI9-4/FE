@@ -700,12 +700,15 @@ const user = {
     nickName: 'John Doe',
     img: 'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FdEviuJ%2FbtsOntsXvGE%2FTPMqlJDrbVQQ2g5du7bgq1%2Fimg.png',
     description: 'This is a description',
+    password: '1234',
 };
 
 interface MyPageRequestBody {
     lastArticleId?: string;
     limit?: number;
     fanpal_id?: number;
+    currentPassword?: string;
+    newPassword?: string;
 }
 
 export const mypageHandlers = [
@@ -731,6 +734,7 @@ export const mypageHandlers = [
             data: filteredData,
         });
     }),
+
     http.delete('http://localhost:3000/api/mypage', async ({ request }) => {
         const body = (await request.json()) as MyPageRequestBody;
         const { fanpal_id } = body;
@@ -826,6 +830,26 @@ export const mypageHandlers = [
             return HttpResponse.json({
                 totalCount: AnswerListMok.data.length,
                 data: filteredData,
+            });
+        }
+    ),
+
+    http.post(
+        'http://localhost:3000/api/mypage/password',
+        async ({ request }) => {
+            const body = (await request.json()) as MyPageRequestBody;
+            const { currentPassword, newPassword } = body;
+
+            if (currentPassword !== user.password) {
+                return HttpResponse.json({
+                    message: '비밀번호가 일치하지 않습니다.',
+                });
+            }
+
+            user.password = newPassword || '1234';
+
+            return HttpResponse.json({
+                message: 'success',
             });
         }
     ),
