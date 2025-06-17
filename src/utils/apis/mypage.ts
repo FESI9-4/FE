@@ -83,4 +83,23 @@ export const mypageApi = {
             }
         );
     },
+    changePassword: async (data: {
+        currentPassword: string;
+        newPassword: string;
+    }) => {
+        return customFetcher<
+            void,
+            { currentPassword: string; newPassword: string }
+        >('/api/mypage/password', { method: 'POST', body: data });
+    },
+    changeProfile: async (data: {
+        nickname: string;
+        profileImage?: File;
+        description?: string;
+    }) => {
+        return customFetcher<
+            void,
+            { nickname: string; profileImage?: File; description?: string }
+        >('/api/mypage/profile', { method: 'POST', body: data });
+    },
 };

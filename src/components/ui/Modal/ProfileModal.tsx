@@ -12,7 +12,11 @@ import InputText from '../InputText';
 
 interface EditProfileModalProps {
     onClose: () => void;
-    onSubmit: (data: { nickname: string; profileImage?: File }) => void;
+    onSubmit: (data: {
+        nickname: string;
+        profileImage?: File;
+        description?: string;
+    }) => void;
 }
 
 export default function EditProfileModal({
@@ -66,10 +70,12 @@ export default function EditProfileModal({
         console.log('폼 제출 데이터:', {
             nickname: data.nickname,
             profileImage: data.file?.[0],
+            description: data.description,
         });
         onSubmit({
             nickname: data.nickname,
             profileImage: data.file?.[0],
+            description: data.description,
         });
     };
 

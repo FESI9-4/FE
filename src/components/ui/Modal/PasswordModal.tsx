@@ -15,7 +15,7 @@ import {
 
 interface PasswordModalProps {
     onClose: () => void;
-    onSubmit: () => void;
+    onSubmit: (data: { currentPassword: string; newPassword: string }) => void;
 }
 
 export default function PasswordModal({
@@ -40,7 +40,10 @@ export default function PasswordModal({
         }
 
         console.log('비밀번호 변경 정보', data);
-        onSubmit();
+        onSubmit({
+            currentPassword: data.currentPassword,
+            newPassword: data.newPassword,
+        });
     };
 
     return (
