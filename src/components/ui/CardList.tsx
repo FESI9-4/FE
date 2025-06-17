@@ -5,6 +5,7 @@ import ContainerProgress from './ContainerProgress';
 import Like from './Like';
 import Tag from './Tag';
 import { HandIcon } from '@/assets';
+import { useState } from 'react';
 
 interface CardListProps {
     title: string;
@@ -18,6 +19,7 @@ interface CardListProps {
     image: string;
     createUser: string;
     createUserProfileImg: string;
+    onLikeClick?: (event: React.MouseEvent, isLiked: boolean) => void;
 }
 
 export default function CardList({
@@ -32,9 +34,24 @@ export default function CardList({
     image,
     createUser,
     createUserProfileImg,
+    onLikeClick,
 }: CardListProps) {
     const convertedDate = dateConverter(Number(date), 'korea');
     const convertedDeadLine = dateConverter(Number(deadLine), 'korea-short');
+    const [isLiked, setIsLiked] = useState(wishList);
+
+    // 좋아요 클릭 핸들러
+    const handleLikeClick = (event: React.MouseEvent) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const newLikeState = !isLiked;
+        setIsLiked(newLikeState);
+
+        if (onLikeClick) {
+            onLikeClick(event, newLikeState);
+        }
+    };
 
     // 박수 아이콘 white 적용안됨 전에 프로플 에디트도 됐다가 안된거 같은데 svg 파일 문젠거같음 체크해봐야할듯 원인파악
     return (
@@ -84,7 +101,7 @@ export default function CardList({
                         </div>
                     </div>
                     <div>
-                        <Like like={wishList} />
+                      <Like like={isLiked} onClick={handleLikeClick} />
                     </div>
                 </div>
                 <ContainerProgress

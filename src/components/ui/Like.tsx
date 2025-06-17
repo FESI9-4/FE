@@ -26,6 +26,7 @@ export default function Like({ like, onClick, className }: LikeProps) {
         },
     });
 
+
     return (
         <button
             onClick={onClick}
