@@ -236,6 +236,9 @@ export const getBoardHandlers = [
         );
         const limit = parseInt(url.searchParams.get('limit') || '10');
 
+        const authHeader = request.headers.get('Authorization');
+        const isLoggedIn = !!authHeader;
+
         let articles: Card[] = [];
 
         if (bigCategory === 'GO_TYPE') {
@@ -288,6 +291,11 @@ export const getBoardHandlers = [
                 return sortAsc ? comp : -comp;
             });
         }
+
+        articles = articles.map((article) => ({
+            ...article,
+            wishList: isLoggedIn ? article.wishList : false,
+        }));
 
         articles = articles.slice(0, limit);
 

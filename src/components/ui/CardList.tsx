@@ -101,7 +101,7 @@ export default function CardList({
                         </div>
                     </div>
                     <div>
-                      <Like like={isLiked} onClick={handleLikeClick} />
+                        <Like like={isLiked} onClick={handleLikeClick} />
                     </div>
                 </div>
                 <ContainerProgress
