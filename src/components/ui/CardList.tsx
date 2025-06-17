@@ -5,7 +5,7 @@ import ContainerProgress from './ContainerProgress';
 import Like from './Like';
 import Tag from './Tag';
 import { HandIcon } from '@/assets';
-import { useState } from 'react';
+import { useWishlistStore } from '@/store/wishlistStore';
 
 interface CardListProps {
     title: string;
@@ -20,6 +20,7 @@ interface CardListProps {
     createUser: string;
     createUserProfileImg: string;
     onLikeClick?: (event: React.MouseEvent, isLiked: boolean) => void;
+    articleId: number;
 }
 
 export default function CardList({
@@ -30,26 +31,31 @@ export default function CardList({
     currentPerson,
     maxPerson,
     openStatus,
-    wishList,
     image,
     createUser,
     createUserProfileImg,
     onLikeClick,
+    articleId,
 }: CardListProps) {
     const convertedDate = dateConverter(Number(date), 'korea');
     const convertedDeadLine = dateConverter(Number(deadLine), 'korea-short');
-    const [isLiked, setIsLiked] = useState(wishList);
+    const isLiked = useWishlistStore((state) => state.isLiked(articleId));
+    const addLike = useWishlistStore((state) => state.addLike);
+    const removeLike = useWishlistStore((state) => state.removeLike);
 
-    // 좋아요 클릭 핸들러
     const handleLikeClick = (event: React.MouseEvent) => {
         event.preventDefault();
         event.stopPropagation();
 
-        const newLikeState = !isLiked;
-        setIsLiked(newLikeState);
+        if (isLiked) {
+            removeLike(articleId);
+        } else {
+            addLike(articleId);
+        }
 
+        // 필요하다면 외부 전달
         if (onLikeClick) {
-            onLikeClick(event, newLikeState);
+            onLikeClick(event, !isLiked);
         }
     };
 

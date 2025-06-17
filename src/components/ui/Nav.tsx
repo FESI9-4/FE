@@ -4,12 +4,11 @@ import Link from 'next/link';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { usePathname } from 'next/navigation';
 import { NavDesktopIcon, NavMobileIcon } from '@/assets';
-//import { useWishlistStore } from '@/store/wishlistStore';
+import { useWishlistStore } from '@/store/wishlistStore';
 import { cva } from 'class-variance-authority';
 import Profile from '@/components/ui/Profile';
 import { useGetUser, useLogout } from '@/hooks/queries/useAuth';
 
-//pathname === '/wishList', 로 변경 -> 기존으로 들어가면 상세페이지 경로랑 겹침
 const navLink = cva('relative w-auto md:w-15 h-5 md:h-6 transition-colors', {
     variants: {
         active: {
@@ -42,8 +41,8 @@ export default function Nav() {
             },
         });
     };
-    //const wishlistCount = useWishlistStore((state) => state.wishlistCount);
-    //const reset = useWishlistStore((state) => state.reset);
+    const wishlistCount = useWishlistStore((state) => state.wishlistCount);
+    const reset = useWishlistStore((state) => state.reset);
     const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
     return (
         <nav className="fixed w-full h-14 md:h-15 bg-black flex items-center justify-center min-w-85.5 z-53">
@@ -78,11 +77,19 @@ export default function Nav() {
                             >
                                 찜한 팬팔
                             </p>
-                            {(user?.wistLikeCount as number) > 0 && (
-                                <p className="bg-gray-800 ml-1.25 w-6.75 md:mt-0.5 h-5 rounded-2xl text-xs font-semibold flex items-center justify-center">
-                                    {user?.wistLikeCount}
-                                </p>
-                            )}
+                            {isLoggedIn
+                                ? wishlistCount + (user?.wistLikeCount || 0) >
+                                      0 && (
+                                      <p className="bg-gray-800 ml-1.25 w-6.75 md:mt-0.5 h-5 rounded-2xl text-xs font-semibold flex items-center justify-center">
+                                          {wishlistCount +
+                                              (user?.wistLikeCount || 0)}
+                                      </p>
+                                  )
+                                : wishlistCount > 0 && (
+                                      <p className="bg-gray-800 ml-1.25 w-6.75 md:mt-0.5 h-5 rounded-2xl text-xs font-semibold flex items-center justify-center">
+                                          {wishlistCount}
+                                      </p>
+                                  )}
                         </Link>
                         <Link href="/concert">
                             <p
