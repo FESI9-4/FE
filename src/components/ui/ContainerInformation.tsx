@@ -1,8 +1,10 @@
 import Profile from '@/components/ui/Profile';
 import ContainerProgress from './ContainerProgress';
-import { useState } from 'react';
 import Like from './Like';
 import dateConverter from '@/utils/dateConverter';
+import { wishLikeApi } from '@/utils/apis/likeApi';
+import { useGetUser } from '@/hooks/queries/useAuth';
+import { useWishlistStore } from '@/store/wishlistStore';
 
 interface ContainerInformationProps {
     createUser: string;
@@ -29,30 +31,35 @@ export default function ContainerInformaiton({
     minPerson,
     maxPerson,
     currentPerson,
-    wishList,
     articleId,
     openStatus,
 }: ContainerInformationProps) {
+    const { data: user } = useGetUser(); // 로그인 여부 판단
+    const isLoggedIn = !!user;
     const formattedDate = dateConverter(date, 'korea');
     const formattedLimitedDate = dateConverter(deadLine, 'korea');
 
-    const [liked, setLiked] = useState(wishList);
+    const isLiked = useWishlistStore((state) => state.isLiked(articleId));
+    const addLike = useWishlistStore((state) => state.addLike);
+    const removeLike = useWishlistStore((state) => state.removeLike);
 
-    const toggleLike = async () => {
-        const newLiked = !liked;
-        setLiked(newLiked);
-
+    const handleLikeClick = async () => {
         try {
-            if (newLiked) {
-                // TODO: 좋아요 추가 API 호출
-                console.log(`POST /api/wishlist/${articleId}`);
-            } else {
-                // TODO: 좋아요 제거 API 호출
-                console.log(`DELETE /api/wishlist/${articleId}`);
+            if (isLoggedIn) {
+                if (isLiked) {
+                    await wishLikeApi.unlike(articleId);
+                } else {
+                    await wishLikeApi.like([articleId]);
+                }
             }
-        } catch (err) {
-            console.error('좋아요 토글 실패:', err);
-            setLiked(!newLiked);
+
+            if (isLiked) {
+                removeLike(articleId);
+            } else {
+                addLike(articleId);
+            }
+        } catch (error) {
+            console.error('좋아요 토글 실패:', error);
         }
     };
 
@@ -66,8 +73,8 @@ export default function ContainerInformaiton({
                                 {title}
                             </span>
                             <Like
-                                like={liked}
-                                onClick={toggleLike}
+                                like={isLiked}
+                                onClick={handleLikeClick}
                                 className="hidden sm:inline-block"
                             />
                         </div>

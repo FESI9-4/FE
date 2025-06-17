@@ -42,7 +42,7 @@ export default function Nav() {
         });
     };
     const wishlistCount = useWishlistStore((state) => state.wishlistCount);
-    const reset = useWishlistStore((state) => state.reset);
+    //const reset = useWishlistStore((state) => state.reset);
     const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
     return (
         <nav className="fixed w-full h-14 md:h-15 bg-black flex items-center justify-center min-w-85.5 z-53">

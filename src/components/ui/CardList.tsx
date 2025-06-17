@@ -6,6 +6,8 @@ import Like from './Like';
 import Tag from './Tag';
 import { HandIcon } from '@/assets';
 import { useWishlistStore } from '@/store/wishlistStore';
+import { useGetUser } from '@/hooks/queries/useAuth';
+import { wishLikeApi } from '@/utils/apis/likeApi';
 
 interface CardListProps {
     title: string;
@@ -37,25 +39,37 @@ export default function CardList({
     onLikeClick,
     articleId,
 }: CardListProps) {
+    const { data: user } = useGetUser(); // ← 로그인 정보
+    const isLoggedIn = !!user;
     const convertedDate = dateConverter(Number(date), 'korea');
     const convertedDeadLine = dateConverter(Number(deadLine), 'korea-short');
     const isLiked = useWishlistStore((state) => state.isLiked(articleId));
     const addLike = useWishlistStore((state) => state.addLike);
     const removeLike = useWishlistStore((state) => state.removeLike);
 
-    const handleLikeClick = (event: React.MouseEvent) => {
+    const handleLikeClick = async (event: React.MouseEvent) => {
         event.preventDefault();
         event.stopPropagation();
 
-        if (isLiked) {
-            removeLike(articleId);
-        } else {
-            addLike(articleId);
-        }
+        try {
+            if (isLoggedIn) {
+                if (isLiked) {
+                    await wishLikeApi.unlike(articleId);
+                } else {
+                    await wishLikeApi.like([articleId]);
+                }
+            }
 
-        // 필요하다면 외부 전달
-        if (onLikeClick) {
-            onLikeClick(event, !isLiked);
+            // 로컬 store도 항상 업데이트
+            if (isLiked) {
+                removeLike(articleId);
+            } else {
+                addLike(articleId);
+            }
+
+            onLikeClick?.(event, !isLiked);
+        } catch (error) {
+            console.error('찜 처리 중 오류 발생:', error);
         }
     };
 

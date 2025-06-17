@@ -1,1 +1,44 @@
-// 왜 좋아요 배열로 들어감?
+import { customFetcher } from '@/utils/apis/customFetcher';
+
+interface WishLikeResponse {
+    statusCode: number;
+    message: string;
+    data: string;
+}
+
+export const wishLikeApi = {
+    /**
+     * 찜 등록
+     * @param articleIds number[] - 찜할 게시물 ID 리스트
+     */
+    like: async (articleIds: number[]): Promise<WishLikeResponse> => {
+        return customFetcher<WishLikeResponse, { articleIds: number[] }>(
+            '/api/wishLike',
+            {
+                method: 'POST',
+                auth: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: { articleIds },
+            }
+        );
+    },
+
+    /**
+     * 찜 해제
+     * @param articleId number - 해제할 게시물 ID
+     */
+    unlike: async (articleId: number): Promise<WishLikeResponse> => {
+        return customFetcher<WishLikeResponse, void>(
+            `/api/wishLike/${articleId}`,
+            {
+                method: 'DELETE',
+                auth: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+    },
+};
