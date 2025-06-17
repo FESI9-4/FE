@@ -709,6 +709,9 @@ interface MyPageRequestBody {
     fanpal_id?: number;
     currentPassword?: string;
     newPassword?: string;
+    nickname?: string;
+    profileImage?: string;
+    description?: string;
 }
 
 export const mypageHandlers = [
@@ -848,6 +851,23 @@ export const mypageHandlers = [
 
             user.password = newPassword || '1234';
 
+            return HttpResponse.json({
+                message: 'success',
+            });
+        }
+    ),
+
+    http.post(
+        'http://localhost:3000/api/mypage/profile',
+        async ({ request }) => {
+            const body = (await request.json()) as MyPageRequestBody;
+            const { nickname, profileImage, description } = body;
+
+            user.nickName = nickname || 'John Doe';
+            user.img =
+                profileImage ||
+                'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FdEviuJ%2FbtsOntsXvGE%2FPMqlJDrbVQQ2g5du7bgq1%2Fimg.png';
+            user.description = description || 'This is a description';
             return HttpResponse.json({
                 message: 'success',
             });
