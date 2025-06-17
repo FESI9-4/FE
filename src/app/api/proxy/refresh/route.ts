@@ -40,18 +40,13 @@ export async function POST() {
                 maxAge: TOKEN_EXPIRY.ACCESS_TOKEN,
                 path: '/',
             });
-            return NextResponse.json(
-                {
-                    message: '리프레쉬 토큰 검증 성공',
-                },
-                {
-                    status: 200,
-                    headers: {
-                        'Set-Cookie': setCookieHeader,
-                        Authorization: newAuthorizationHeader,
-                    },
-                }
-            );
+            const jsonResponse = NextResponse.json({
+                status: 200,
+                message: '리프레쉬 토큰 검증 성공',
+            });
+            jsonResponse.headers.set('Set-Cookie', setCookieHeader);
+            jsonResponse.headers.set('Authorization', newAuthorizationHeader);
+            return jsonResponse;
         }
     } catch (error) {
         console.log('❌ 프록시에서 백엔드 호출 실패:', error);

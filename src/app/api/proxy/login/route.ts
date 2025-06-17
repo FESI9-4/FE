@@ -21,6 +21,7 @@ export async function POST(request: Request) {
                 .get('Authorization')
                 ?.replace('Bearer ', '');
             const setCookieHeader = response.headers.get('Set-Cookie');
+            console.log('setCookieHeader', setCookieHeader);
 
             if (accessToken && setCookieHeader) {
                 // accessToken만 프록시에서 설정 (refreshToken은 백엔드가 이미 설정함)
@@ -33,17 +34,14 @@ export async function POST(request: Request) {
                 });
 
                 // 백엔드의 Set-Cookie 헤더를 그대로 클라이언트에 전달
-                return NextResponse.json(
-                    {
-                        status: 200,
-                        message: '로그인 성공',
-                    },
-                    {
-                        headers: {
-                            'Set-Cookie': setCookieHeader,
-                        },
-                    }
-                );
+                const jsonResponse = NextResponse.json({
+                    status: 200,
+                    message: '로그인 성공',
+                });
+
+                // Set-Cookie 헤더를 응답에 직접 설정
+                jsonResponse.headers.set('Set-Cookie', setCookieHeader);
+                return jsonResponse;
             } else {
                 console.log('❌ accessToken 또는 cookieHeader가 없음');
             }
