@@ -8,6 +8,7 @@ export const useLogin = () => {
     return useMutation({
         mutationFn: async (loginData: LoginRequestDto) => {
             const response = await authApi.login(loginData);
+            console.log('response', response);
             return response;
         },
     });
@@ -50,33 +51,5 @@ export const useSignup = () => {
             const response = await authApi.signup(signupData);
             return response;
         },
-    });
-};
-export const useTest = () => {
-    const accessToken = useAuthStore((state) => state.accessToken);
-    const hasRefreshToken = useAuthStore((state) => state.hasRefreshToken);
-    const isAuthenticated = !!(accessToken || hasRefreshToken);
-    return useQuery({
-        queryKey: ['test'],
-        queryFn: async () => {
-            const response = await authApi.test();
-            const data = response.data;
-            return data;
-        },
-        enabled: isAuthenticated,
-    });
-};
-export const useTest2 = () => {
-    const accessToken = useAuthStore((state) => state.accessToken);
-    const hasRefreshToken = useAuthStore((state) => state.hasRefreshToken);
-    const isAuthenticated = !!(accessToken || hasRefreshToken);
-    return useQuery({
-        queryKey: ['test2'],
-        queryFn: async () => {
-            const response = await authApi.test2();
-            const data = response.data;
-            return data;
-        },
-        enabled: isAuthenticated,
     });
 };

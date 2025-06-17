@@ -18,7 +18,7 @@ interface CardListProps {
     image: string;
     createUser: string;
     createUserProfileImg: string;
-    useStatus: 'UPCOMING' | 'COMPLETED'; 
+    useStatus: 'UPCOMING' | 'COMPLETED';
     buttonOnClick: () => void;
 }
 

@@ -1,6 +1,6 @@
 export async function initMocks() {
     // 개발 환경이 아니라면 실행 X
-    console.log('NODE_ENV:', process.env.NODE_ENV);
+    //console.log('NODE_ENV:', process.env.NODE_ENV);
 
     if (process.env.NODE_ENV !== 'development') return;
 
@@ -11,6 +11,7 @@ export async function initMocks() {
         const { worker } = await import('./browser');
         await worker.start({
             onUnhandledRequest: 'bypass',
+            quiet: true,
             serviceWorker: {
                 options: {
                     scope: '/',

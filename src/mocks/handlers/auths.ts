@@ -313,90 +313,90 @@ export const userHandlers = [
 //         }
 //     }),
 // ];
-export const testHandlers = [
-    http.get(`${BASE_URL}/api/auth/test`, async ({ request }) => {
-        const authHeader = request.headers.get('Authorization');
-        const token = authHeader?.replace('Bearer ', '');
-        console.log('testHandlers1 호출');
-        // 🎯 JWT 만료시간 검증
-        try {
-            const payload = JSON.parse(atob(token?.split('.')[1] || ''));
-            const currentTime = Math.floor(Date.now() / 1000);
-            console.log(
-                '🔍 토큰 만료시간:',
-                new Date(payload.exp * 1000).toLocaleString()
-            );
-            console.log('🔍 현재 시간:', new Date().toLocaleString());
+// export const testHandlers = [
+//     http.get(`${BASE_URL}/api/auth/test`, async ({ request }) => {
+//         const authHeader = request.headers.get('Authorization');
+//         const token = authHeader?.replace('Bearer ', '');
+//         console.log('testHandlers1 호출');
+//         // 🎯 JWT 만료시간 검증
+//         try {
+//             const payload = JSON.parse(atob(token?.split('.')[1] || ''));
+//             const currentTime = Math.floor(Date.now() / 1000);
+//             console.log(
+//                 '🔍 토큰 만료시간:',
+//                 new Date(payload.exp * 1000).toLocaleString()
+//             );
+//             console.log('🔍 현재 시간:', new Date().toLocaleString());
 
-            // 토큰 만료 확인
-            if (payload.exp < currentTime) {
-                console.log('🚨 토큰 만료됨!');
-                throw new Error('Token expired');
-            }
+//             // 토큰 만료 확인
+//             if (payload.exp < currentTime) {
+//                 console.log('🚨 토큰 만료됨!');
+//                 throw new Error('Token expired');
+//             }
 
-            console.log('✅ 토큰 유효함');
+//             console.log('✅ 토큰 유효함');
 
-            // ✅ 성공 응답
-            return HttpResponse.json({
-                statusCode: 200,
-                message: '유저 정보 조회 성공',
-                data: {
-                    test: 'test',
-                },
-            });
-        } catch (error) {
-            console.log('🚨 토큰 검증 실패:', error);
-            return HttpResponse.json(
-                {
-                    statusCode: 401,
-                    message: '유효하지 않거나 만료된 액세스 토큰입니다',
-                },
-                { status: 401 }
-            );
-        }
-    }),
-];
-export const testHandlers2 = [
-    http.get(`${BASE_URL}/api/auth/test2`, async ({ request }) => {
-        const authHeader = request.headers.get('Authorization');
-        const token = authHeader?.replace('Bearer ', '');
-        console.log('testHandlers2 호출');
-        // 🎯 JWT 만료시간 검증
-        try {
-            const payload = JSON.parse(atob(token?.split('.')[1] || ''));
-            const currentTime = Math.floor(Date.now() / 1000);
+//             // ✅ 성공 응답
+//             return HttpResponse.json({
+//                 statusCode: 200,
+//                 message: '유저 정보 조회 성공',
+//                 data: {
+//                     test: 'test',
+//                 },
+//             });
+//         } catch (error) {
+//             console.log('🚨 토큰 검증 실패:', error);
+//             return HttpResponse.json(
+//                 {
+//                     statusCode: 401,
+//                     message: '유효하지 않거나 만료된 액세스 토큰입니다',
+//                 },
+//                 { status: 401 }
+//             );
+//         }
+//     }),
+// ];
+// export const testHandlers2 = [
+//     http.get(`${BASE_URL}/api/auth/test2`, async ({ request }) => {
+//         const authHeader = request.headers.get('Authorization');
+//         const token = authHeader?.replace('Bearer ', '');
+//         console.log('testHandlers2 호출');
+//         // 🎯 JWT 만료시간 검증
+//         try {
+//             const payload = JSON.parse(atob(token?.split('.')[1] || ''));
+//             const currentTime = Math.floor(Date.now() / 1000);
 
-            console.log(
-                '🔍 토큰 만료시간:',
-                new Date(payload.exp * 1000).toLocaleString()
-            );
-            console.log('🔍 현재 시간:', new Date().toLocaleString());
+//             console.log(
+//                 '🔍 토큰 만료시간:',
+//                 new Date(payload.exp * 1000).toLocaleString()
+//             );
+//             console.log('🔍 현재 시간:', new Date().toLocaleString());
 
-            // 토큰 만료 확인
-            if (payload.exp < currentTime) {
-                console.log('🚨 토큰 만료됨!');
-                throw new Error('Token expired');
-            }
+//             // 토큰 만료 확인
+//             if (payload.exp < currentTime) {
+//                 console.log('🚨 토큰 만료됨!');
+//                 throw new Error('Token expired');
+//             }
 
-            console.log('✅ 토큰 유효함');
+//             console.log('✅ 토큰 유효함');
 
-            // ✅ 성공 응답
-            return HttpResponse.json({
-                statusCode: 200,
-                message: '유저 정보 조회 성공',
-                data: {
-                    test: 'test2',
-                },
-            });
-        } catch (error) {
-            console.log('🚨 토큰 검증 실패:', error);
-            return HttpResponse.json(
-                {
-                    statusCode: 401,
-                    message: '유효하지 않거나 만료된 액세스 토큰입니다',
-                },
-                { status: 401 }
-            );
-        }
-    }),
-];
+//             // ✅ 성공 응답
+//             return HttpResponse.json({
+//                 statusCode: 200,
+//                 message: '유저 정보 조회 성공',
+//                 data: {
+//                     test: 'test2',
+//                 },
+//             });
+//         } catch (error) {
+//             console.log('🚨 토큰 검증 실패:', error);
+//             return HttpResponse.json(
+//                 {
+//                     statusCode: 401,
+//                     message: '유효하지 않거나 만료된 액세스 토큰입니다',
+//                 },
+//                 { status: 401 }
+//             );
+//         }
+//     }),
+// ];
