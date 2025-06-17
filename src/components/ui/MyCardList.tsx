@@ -36,6 +36,17 @@ export default function CardList({
     buttonOnClick,
 }: CardListProps) {
     const convertedDate = dateConverter(date, 'korea');
+
+    // 현재 시간과 이벤트 날짜 비교하여 deadline 계산
+    const now = new Date().getTime();
+    const eventDate = new Date(date).getTime();
+    const timeDiff = eventDate - now;
+    const hoursLeft = Math.floor(timeDiff / (1000 * 60 * 60));
+
+    // 12시간 이내일 때 deadline 표시
+    const deadline =
+        hoursLeft <= 12 && hoursLeft > 0 ? `${hoursLeft}시간 남음` : null;
+
     const userCountClassName = cva(
         'flex py-3 gap-0.5 text-sm items-center font-medium',
         {
@@ -85,7 +96,7 @@ export default function CardList({
                         </div>
                     </div>
                 ) : (
-                    <Tag>오늘 12시 마감</Tag>
+                    deadline && <Tag>{deadline}</Tag>
                 )}
             </div>
             <div className="sm:w-3/4 w-full flex flex-col justify-between pt-6 sm:gap-0 gap-5">
