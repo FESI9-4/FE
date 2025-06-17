@@ -14,7 +14,12 @@ type TapSectionProps = {
     setSelectedCategory: (category: string) => void;
     showCreateButton?: boolean;
 };
-export default function TapSeciton({
+
+export default function TapSection({
+    activeTab,
+    setActiveTab,
+    selectedCategory,
+    setSelectedCategory,
     showCreateButton = true,
 }: TapSectionProps) {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,7 +33,7 @@ export default function TapSeciton({
         <div
             className={cn(
                 'w-full h-23 sm:h-31 flex justify-center flex-col gap-5 sm:gap-10 xl:gap-5 xl:items-center min-w-94',
-                showCreateButton ? 'sm:h-31 xl:h-53' : 'sm:h-20 xl:h-24' // 버튼 없을 때 높이 낮게
+                showCreateButton ? 'sm:h-31 xl:h-53' : 'sm:h-20 xl:h-24'
             )}
         >
             <div className="w-full h-12 flex xl:w-70">

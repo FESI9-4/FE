@@ -16,7 +16,6 @@ export async function POST(request: Request) {
                 body: loginData,
                 returnFullResponse: true,
             })) as Response;
-
             // 로그인 성공시
             const accessToken = response.headers
                 .get('Authorization')

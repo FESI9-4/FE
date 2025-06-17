@@ -1,5 +1,4 @@
-import LoginIllustration from '../LoginIllustration';
-import FindPasswordForm from './FindPasswordForm';
+import { LoginIllustration, FindPasswordForm } from '@/components/auth';
 
 export default function FindPasswordPage() {
     return (

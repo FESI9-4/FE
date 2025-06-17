@@ -1,5 +1,4 @@
-import LoginIllustration from '../LoginIllustration';
-import SignupForm from './SignupForm';
+import { LoginIllustration, SignupForm } from '@/components/auth';
 
 export default function SignupPage() {
     return (
