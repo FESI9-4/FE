@@ -197,7 +197,10 @@ export default function DetailPageComment({
                     <div className="h-45.5 w-full flex flex-col justify-between">
                         <div className="h-6 w-full flex justify-between">
                             <div className="h-full gap-2 flex items-center">
-                                <Profile size="small" image={user?.profileImage} />
+                                <Profile
+                                    size="small"
+                                    image={user?.profileImage}
+                                />
                                 <p className="text-sm font-normal text-gray-300">
                                     {user?.nickname}
                                 </p>
