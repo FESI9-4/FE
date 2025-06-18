@@ -19,7 +19,7 @@ export default function WishList() {
         (state) => state.likedArticleIds ?? []
     );
 
-    const { data: user } = useGetUser(); 
+    const { data: user } = useGetUser();
     const isLoggedIn = !!user;
 
     const { data: articles = [] } = useGetList({

@@ -54,7 +54,7 @@ export default function EditProfileModal({
     const file = watch('file');
     const previewImage = file?.[0]
         ? URL.createObjectURL(file[0])
-        : user?.img || '';
+        : user?.profileImage || '';
 
     const handleImageClick = () => {
         fileInputRef.current?.click();
@@ -121,8 +121,9 @@ export default function EditProfileModal({
                             <Input
                                 type="text"
                                 name="nickname"
-                                placeholder="닉네임을 입력해주세요"
+                                placeholder={user?.nickname || ''}
                                 register={register}
+                                className="placeholder:text-white"
                                 rules={{
                                     required: '닉네임은 필수 입력입니다.',
                                     minLength: {
@@ -144,8 +145,8 @@ export default function EditProfileModal({
                             </p>
                             <InputText
                                 name="description"
-                                placeholder="소개를 입력해주세요"
-                                className="h-27"
+                                placeholder={user?.description || ''}
+                                className="h-27 placeholder:text-white"
                                 register={register}
                                 rules={{
                                     required: '소개는 필수 입력입니다.',
