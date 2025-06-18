@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { usePathname } from 'next/navigation';
@@ -34,6 +34,27 @@ export default function Nav() {
     const isDesktop = useMediaQuery('(min-width: 768px)');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const pathname = usePathname();
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target as Node)
+            ) {
+                setIsDropdownOpen(false);
+            }
+        };
+
+        if (isDropdownOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isDropdownOpen]);
+
     const handleLogout = () => {
         logout(undefined, {
             onSuccess: () => {
@@ -109,7 +130,7 @@ export default function Nav() {
                         </p>
                     </Link>
                 ) : (
-                    <div className="relative">
+                    <div className="relative" ref={dropdownRef}>
                         <div
                             onClick={toggleDropdown}
                             className="cursor-pointer"
@@ -124,14 +145,14 @@ export default function Nav() {
                             <div className="absolute right-0 xl:right-auto mt-1.5 xl:mt-2 w-27.5 bg-gray-700 rounded-xl shadow-xl h-20 z-50 text-white font-medium text-sm xl:w-35.5 xl:h-28 xl:text-base">
                                 <Link
                                     href="/mypage"
-                                    className="h-10 rounded-t-xl xl:h-14 flex items-center justify-center"
+                                    className="h-10 rounded-t-xl xl:h-14 flex items-center justify-center cursor-pointer"
                                 >
                                     <p className="w-32.5 h-10 hover:bg-gray-600 rounded-xl pl-4 flex items-center">
                                         마이페이지
                                     </p>
                                 </Link>
                                 <button
-                                    className="w-full h-10 xl:h-14 rounded-b-xl flex items-center justify-center"
+                                    className="w-full h-10 xl:h-14 rounded-b-xl flex items-center justify-center cursor-pointer"
                                     onClick={handleLogout}
                                 >
                                     <div className="w-32.5 h-10 rounded-xl pl-4 flex hover:bg-gray-600 items-center">
