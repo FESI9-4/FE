@@ -203,14 +203,17 @@ export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
                                 rules={{
                                     validate: {
                                         fileSize: (files) => {
-                                            if (!files) return true;
-                                            if (files instanceof FileList) {
-                                                const maxSize = 5 * 1024 * 1024;
-                                                return (
-                                                    files[0].size <= maxSize ||
-                                                    '파일 크기는 5MB 이하여야 합니다'
-                                                );
+                                            if (!(files instanceof FileList))
+                                                return true; 
+                                            if (files.length === 0) return true;
+
+                                            const maxSize = 5 * 1024 * 1024;
+                                            const file = files[0];
+
+                                            if (file.size > maxSize) {
+                                                return '파일 크기는 5MB 이하여야 합니다';
                                             }
+
                                             return true;
                                         },
                                     },
