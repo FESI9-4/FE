@@ -2,10 +2,8 @@
 
 import { QuestionCard } from '../ui';
 import { BlankScreen } from '@/components/mypage';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { mypageApi } from '@/utils/apis/mypage';
-import { QuestionListResponse } from '@/types/myPage';
 import { useCallback, useRef, useMemo } from 'react';
+import { useGetQuestion } from '@/hooks/queries/useMyPage';
 
 export default function QuestionList() {
     const observerRef = useRef<IntersectionObserver | null>(null);
@@ -17,16 +15,7 @@ export default function QuestionList() {
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
-    } = useInfiniteQuery<QuestionListResponse>({
-        queryKey: ['questionList'],
-        queryFn: ({ pageParam }) =>
-            mypageApi.getQuestion(pageParam as number | null, 10),
-        getNextPageParam: (lastPage) => {
-            if (lastPage.data.length === 0) return undefined;
-            return lastPage.data[lastPage.data.length - 1].comment_id;
-        },
-        initialPageParam: 1,
-    });
+    } = useGetQuestion(null, 10);
 
     const lastElementRef = useCallback(
         (node: HTMLDivElement | null) => {
