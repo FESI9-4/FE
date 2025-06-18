@@ -273,9 +273,22 @@ export const getBoardHandlers = [
             );
         }
 
+        // 날짜 필터링 로직 수정
         if (date) {
             const filterDate = parseInt(date);
-            articles = articles.filter((article) => article.date >= filterDate);
+            
+            // 선택된 날짜의 시작과 끝 시간 계산 (해당 날짜 하루 전체)
+            const selectedDate = new Date(filterDate * 1000);
+            const startOfDay = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate());
+            const endOfDay = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate() + 1);
+            
+            const startTimestamp = Math.floor(startOfDay.getTime() / 1000);
+            const endTimestamp = Math.floor(endOfDay.getTime() / 1000);
+            
+            // 해당 날짜에 속하는 일정만 필터링
+            articles = articles.filter((article) => {
+                return article.date >= startTimestamp && article.date < endTimestamp;
+            });
         }
 
         if (sort) {

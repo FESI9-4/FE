@@ -46,7 +46,7 @@ export const useGetList = ({
                 location: selectedRegion === '전체' ? '' : selectedRegion,
                 date: selectedDate
                     ? Math.floor(selectedDate.getTime() / 1000)
-                    : Math.floor(Date.now() / 1000),
+                    : undefined,
                 sort: selectedSortOption,
                 sortAsc,
                 lastArticleId,
@@ -59,7 +59,6 @@ export const useGetList = ({
         gcTime: 10 * 60 * 1000, // 10분
         retry: 3,
         retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
-        // 탭이나 필터가 변경될 때마다 새로운 데이터를 가져오도록 설정
         refetchOnWindowFocus: false,
         placeholderData: (previousData) => previousData,
     });
