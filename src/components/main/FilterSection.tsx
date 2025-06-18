@@ -86,7 +86,6 @@ export default function FilterSection({
                     selectedDate={selectedDate}
                     onDateChange={(date) => {
                         setSelectedDate(date);
-                        console.log('선택된 날짜:', date);
                     }}
                     minDate={today}
                     maxDate={maxDate}

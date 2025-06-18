@@ -40,9 +40,9 @@ export default function CardList({
     articleId,
     wishList,
 }: CardListProps) {
-    const { data: user } = useGetUser(); 
-    const isLoggedIn = !!user; 
-    const convertedDate = dateConverter(Number(date), 'korea'); // date? 
+    const { data: user } = useGetUser();
+    const isLoggedIn = !!user;
+    const convertedDate = dateConverter(Number(date), 'korea'); // date?
     const convertedDeadLine = dateConverter(Number(deadLine), 'korea-short');
     const isLiked = useWishlistStore((state) => state.isLiked(articleId));
     const addLike = useWishlistStore((state) => state.addLike);
