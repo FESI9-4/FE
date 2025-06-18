@@ -1,5 +1,5 @@
 import { setupWorker } from 'msw/browser';
-import { handlers } from './handlers';
+import { authHandlers } from './handlers';
 import { commentHandlers } from './handlers/comment';
 import { fanfalPartHandlers } from './handlers/fanfalParticipaiton';
 import { getBoardHandlers } from './handlers/getBoards';
@@ -9,7 +9,7 @@ import { wishLikeHandlers } from './handlers/like';
 import { mypageHandlers } from './handlers/mypage';
 
 export const worker = setupWorker(
-    ...handlers,
+    ...authHandlers,
     ...commentHandlers,
     ...fanfalPartHandlers,
     ...getBoardHandlers,

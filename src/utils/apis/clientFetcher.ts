@@ -40,6 +40,7 @@ export const clientFetcher = async <TResponse, TRequest>(
                         const refreshResponse = await fetchInstance<
                             Response,
                             unknown
+                            // msw에서는 '/api/auth/refresh'
                         >('/api/proxy/refresh', {
                             method: 'POST',
                             returnFullResponse: true,
@@ -74,6 +75,7 @@ export const clientFetcher = async <TResponse, TRequest>(
                 authStore.setHasRefreshToken(false);
 
                 try {
+                    // msw에서는 '/api/auth/logout'
                     await fetchInstance('/api/proxy/logout', {
                         method: 'POST',
                     });

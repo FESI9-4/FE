@@ -1,2 +1,14 @@
-import { logoutHandlers, signupHandlers, userHandlers } from './auths';
-export const handlers = [...logoutHandlers, ...signupHandlers, ...userHandlers];
+import {
+    logoutHandlers,
+    signupHandlers,
+    userHandlers,
+    refreshHandlers,
+    loginHandlers,
+} from './auths';
+export const authHandlers = [
+    ...loginHandlers,
+    ...logoutHandlers,
+    ...signupHandlers,
+    ...userHandlers,
+    ...refreshHandlers,
+];

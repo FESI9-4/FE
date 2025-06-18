@@ -1,7 +1,12 @@
 import { FetcherOptions } from '@/types/fetcher';
 
 //const baseURL = 'http://localhost:3000';
-export const publicApis = ['/api/proxy/login', '/api/proxy/signup'];
+export const publicApis = [
+    '/api/proxy/login',
+    '/api/proxy/signup',
+    '/api/auth/login',
+    '/api/auth/signup',
+];
 export const internalApis = [
     '/api/proxy/login',
     '/api/proxy/logout',
@@ -25,7 +30,7 @@ export const fetchInstance = async <TResponse, TRequest>(
         process.env.NEXT_PUBLIC_FRONTEND_URL || 'http://localhost:3000';
     //실제 api 요청
     const BACKEND_URL =
-        process.env.NEXT_PUBLIC_BACKEND_URL || 'https://api.fanfal.com';
+        process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000';
     if (isInternalApi(url)) {
         // 내부 API: Next.js API Routes
         fullUrl = `${FRONTEND_URL}${url}`;
