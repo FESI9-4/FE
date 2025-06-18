@@ -23,13 +23,12 @@ interface PanpalModalProps {
     onSubmit: (data: BoardRequest) => void;
 }
 
-// 예시 타입 정의 (src/types/board.ts 등에서 관리)
 export interface BoardRequest {
     title: string;
     roadNameAddress: string;
     latitude: number;
     longitude: number;
-    imageKey?: string;
+    imageKey: string;
     description: string;
     smallCategory: string;
     date: number;
@@ -46,12 +45,12 @@ interface FormData {
         lng: number;
         address: string;
     };
-    file?: FileList;
+    file: FileList;
     category: string;
-    startDate?: Date;
-    endDate?: Date;
-    minApplicants?: number;
-    maxApplicants?: number;
+    startDate: Date;
+    endDate: Date;
+    minApplicants: number;
+    maxApplicants: number;
 }
 
 export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
@@ -129,7 +128,7 @@ export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
     return (
         <BaseModal onClose={onClose} fullScreenOnMobile>
             <div className="w-full h-screen sm:h-[780px] flex flex-col items-center justify-center px-2 sm:px-6 ">
-                <div className="relative w-full max-w-130 h-full sm:h-[730px] m-4 flex flex-col gap-5">
+                <div className="relative w-full max-w-130 h-full  sm:h-[730px] m-4 flex flex-col gap-5">
                     <div className="flex justify-between items-center px-4 pt-6 h-12 text-lg font-semibold z-10">
                         <p>팬팔 만들기</p>
                         <DeleteIcon
@@ -141,7 +140,7 @@ export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
                     <form
                         id="panpal-form"
                         onSubmit={handleSubmit(onFormSubmit)}
-                        className="flex-1 overflow-y-auto sm:max-h-[750px] px-4 mt-6 flex flex-col gap-6"
+                        className="flex-1 overflow-y-auto sm:max-h-[750px] px-4 mt-6 flex flex-col gap-6 scrollbar-hide"
                     >
                         <div className="flex flex-col gap-2 h-19">
                             <p className="text-sm font-semibold h-6">
