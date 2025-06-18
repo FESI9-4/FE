@@ -3,41 +3,22 @@
 import { MyCardList, PaginationButton } from '@/components/ui';
 import { BlankScreen } from '@/components/mypage';
 import { useState } from 'react';
-import { mypageApi } from '@/utils/apis/mypage';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { MyPageResponse } from '@/types/myPage';
+import {
+    useCancelMypageMutation,
+    useDeleteMypageMutation,
+    useGetMyPage,
+} from '@/hooks/queries/useMyPage';
 
 export default function MyCardListContainer() {
     const [currentPage, setCurrentPage] = useState(1);
     const [lastArticleId, setLastArticleId] = useState<number | null>(null);
-    const queryClient = useQueryClient();
-    const { data, isLoading, isError } = useQuery<MyPageResponse>({
-        queryKey: ['mypage', currentPage],
-        queryFn: () => mypageApi.getMypage(lastArticleId, 4),
-    });
-    const { mutate: deleteMypage } = useMutation({
-        mutationFn: (fanpal_id: number) => mypageApi.deleteMypage(fanpal_id),
-        onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: ['mypage'],
-            });
-        },
-        onError: (error) => {
-            console.error('Delete failed:', error);
-        },
-    });
-
-    const { mutate: cancelMypage } = useMutation({
-        mutationFn: (fanpal_id: number) => mypageApi.cancelMypage(fanpal_id),
-        onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: ['mypage'],
-            });
-        },
-        onError: (error) => {
-            console.error('Cancel failed:', error);
-        },
-    });
+    const { data, isLoading, isError } = useGetMyPage(
+        currentPage,
+        lastArticleId,
+        4
+    );
+    const { mutate: deleteMypage } = useDeleteMypageMutation();
+    const { mutate: cancelMypage } = useCancelMypageMutation();
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);

@@ -4,17 +4,16 @@ import { useState } from 'react';
 import { CardList, PaginationButton } from '@/components/ui';
 import { BlankScreen } from '@/components/mypage';
 import Link from 'next/link';
-import { mypageApi } from '@/utils/apis/mypage';
-import { useQuery } from '@tanstack/react-query';
-import { SelfMypageResponse } from '@/types/myPage';
+import { useGetSelfMypage } from '@/hooks/queries/useMyPage';
 
 export default function CardListContainer() {
     const [currentPage, setCurrentPage] = useState(1);
     const [lastArticleId, setLastArticleId] = useState<number | null>(null);
-    const { data, isLoading, isError } = useQuery<SelfMypageResponse>({
-        queryKey: ['mypageSelf', currentPage],
-        queryFn: () => mypageApi.getSelfMypage(lastArticleId, 4),
-    });
+    const { data, isLoading, isError } = useGetSelfMypage(
+        currentPage,
+        lastArticleId,
+        4
+    );
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);

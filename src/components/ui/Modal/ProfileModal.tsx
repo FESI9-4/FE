@@ -122,10 +122,10 @@ export default function EditProfileModal({
                                 type="text"
                                 name="nickname"
                                 placeholder={user?.nickname || ''}
+                                value={user?.nickname || ''}
                                 register={register}
                                 className="placeholder:text-white"
                                 rules={{
-                                    required: '닉네임은 필수 입력입니다.',
                                     minLength: {
                                         value: 2,
                                         message: '2글자 이상 입력해주세요.',
@@ -148,9 +148,6 @@ export default function EditProfileModal({
                                 placeholder={user?.description || ''}
                                 className="h-27 placeholder:text-white"
                                 register={register}
-                                rules={{
-                                    required: '소개는 필수 입력입니다.',
-                                }}
                                 error={errors.description as FieldError}
                                 size="small"
                             />

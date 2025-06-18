@@ -4,13 +4,16 @@ import { ProfileSection } from '@/components/ui';
 import { useState } from 'react';
 import PasswordModal from '../ui/Modal/PasswordModal';
 import EditProfileModal from '../ui/Modal/ProfileModal';
-import { mypageApi } from '@/utils/apis/mypage';
-import { useQueryClient } from '@tanstack/react-query';
+import {
+    useChangeProfileMutation,
+    useChangePasswordMutation,
+} from '@/hooks/queries/useMyPage';
 
 export default function ProfileContainer() {
     const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
     const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
-    const queryClient = useQueryClient();
+    const changeProfileMutation = useChangeProfileMutation();
+    const changePasswordMutation = useChangePasswordMutation();
 
     const handleOpenPasswordModal = () => {
         setIsPasswordModalOpen(true);
@@ -32,12 +35,8 @@ export default function ProfileContainer() {
         currentPassword: string;
         newPassword: string;
     }) => {
-        console.log('submit');
         setIsPasswordModalOpen(false);
-        mypageApi.changePassword({
-            currentPassword: data.currentPassword,
-            newPassword: data.newPassword,
-        });
+        changePasswordMutation.mutate(data);
     };
 
     const handleSubmitEditProfileModal = (data: {
@@ -45,14 +44,8 @@ export default function ProfileContainer() {
         profileImage?: File;
         description?: string;
     }) => {
-        console.log('submit');
         setIsEditProfileModalOpen(false);
-        mypageApi.changeProfile({
-            nickname: data.nickname,
-            profileImage: data.profileImage,
-            description: data.description,
-        });
-        queryClient.invalidateQueries({ queryKey: ['user'] });
+        changeProfileMutation.mutate(data);
     };
 
     return (
