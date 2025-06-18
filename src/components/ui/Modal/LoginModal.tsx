@@ -24,7 +24,7 @@ export default function LoginModal({ onClose }: LoginModalProps) {
                                 로그인이 필요해요
                             </p>
                             <p className="text-gray-400 text-base font-light flex justify-center">
-                                지금 로그인하고 팬판에 참여해보세요!
+                                지금 로그인하고 팬팔에 참여해보세요!
                             </p>
                         </div>
                     </div>
