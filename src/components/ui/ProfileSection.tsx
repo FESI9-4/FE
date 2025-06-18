@@ -4,13 +4,7 @@ import Button from '@/components/ui/Button';
 import Profile from '@/components/ui/Profile';
 import { EditNoBgIcon, Heart, ThreeHeart } from '@/assets';
 import { useEffect, useState } from 'react';
-import { mypageApi } from '@/utils/apis/mypage';
-import { useQuery } from '@tanstack/react-query';
-
-// 왜 반응형을 조건부 렌더링으로 했냐면 피그마 시안에 있는 div 구조가 아예 바뀌어서...
-
-//TODO 비밀번호 변경 추후 api 연결
-//TODO 닉네임 변경 또한 추후 연결
+import { useGetUser } from '@/hooks/queries/useAuth';
 
 interface ProfileSectionProps {
     handlePasswordModal: () => void;
@@ -21,11 +15,10 @@ export default function ProfileSection({
     handlePasswordModal,
     handleEditProfileModal,
 }: ProfileSectionProps) {
-    const { data: user } = useQuery({
-        queryKey: ['user'],
-        queryFn: mypageApi.getUser,
-    });
+    const { data: user } = useGetUser();
     const [isMdUp, setIsMdUp] = useState(false);
+
+    console.log('user', user);
 
     useEffect(() => {
         const handleResize = () => {
