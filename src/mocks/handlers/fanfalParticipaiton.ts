@@ -13,6 +13,7 @@ export const fanfalPartHandlers = [
         });
     }),
 
+    // 아 이게 참여에대한 취소가 아니다 ?!
     http.delete('http://localhost:3000/api/board/:articleId/fanFal', () => {
         isParticipated = false;
         return HttpResponse.json({

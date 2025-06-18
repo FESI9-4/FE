@@ -1,7 +1,6 @@
 import { http, HttpResponse } from 'msw';
 
 const today = new Date();
-//TODO 구현 해야할 msw - api는 좋아요 버튼(생성,삭제,수정), 참여하기 버튼, 댓글 (생성,조회,수정))
 
 const getDateAfterDays = (days: number) => {
     const date = new Date(today);

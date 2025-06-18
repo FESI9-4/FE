@@ -23,9 +23,18 @@ export default function DetailPageParticipation({
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const { joinMutation, cancelMutation } = useFanFalMutations();
     const { data: user } = useGetUser();
-    const isLoggedIn = Boolean(user); // isLoggedin 훅 만들어도 좋을듯합니다
+    const isLoggedIn = Boolean(user);
+    const handleCopyLink = async () => {
+        try {
+            await navigator.clipboard.writeText(window.location.href);
+            alert('링크가 복사되었습니다!');
+        } catch (err) {
+            alert('복사에 실패했습니다.');
+            console.error('링크 복사 실패:', err);
+        }
+    };
 
-    // 팬팔 취소하기 공유하기 버튼있는데 취소하기 api 없어도 됨 ?
+    // 일단 취소하기 api는 백엔드 답변오면 추가하려고 합니다.
 
     const handleParticipateClick = () => {
         if (!isLoggedIn) {
@@ -51,9 +60,8 @@ export default function DetailPageParticipation({
             });
         }
     };
-    // user.nickname이 createId랑 같으면 조건부 렌더링을 할거임 어느파트를 ? 참여하기 버튼부분을 취소하기와 공유하기 버튼을 ㅅ
+
     const isAdmin = user?.nickname === createUser;
-    //
 
     return (
         <>
@@ -79,13 +87,23 @@ export default function DetailPageParticipation({
                         {isAdmin ? (
                             isDesktop ? (
                                 <div className="flex flex-col gap-3">
-                                    <Button styled="outline">공유하기</Button>
+                                    <Button
+                                        styled="outline"
+                                        onClick={handleCopyLink}
+                                    >
+                                        공유하기
+                                    </Button>
                                     <Button>취소하기</Button>
                                 </div>
                             ) : (
                                 <div className="flex gap-2 w-80.5">
                                     <Button>취소하기</Button>
-                                    <Button styled="outline">공유하기</Button>
+                                    <Button
+                                        styled="outline"
+                                        onClick={handleCopyLink}
+                                    >
+                                        공유하기
+                                    </Button>
                                 </div>
                             )
                         ) : (
@@ -107,7 +125,12 @@ export default function DetailPageParticipation({
                         {isAdmin ? (
                             <div className="flex gap-2 ">
                                 <Button>취소하기</Button>
-                                <Button styled="outline">공유하기</Button>
+                                <Button
+                                    styled="outline"
+                                    onClick={handleCopyLink}
+                                >
+                                    공유하기
+                                </Button>
                             </div>
                         ) : (
                             <Button
