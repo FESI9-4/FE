@@ -15,7 +15,7 @@ export default function BaseModal({
     fullScreenOnMobile = false,
 }: BaseModalProps) {
     const modalRef = useRef<HTMLDivElement>(null);
-    // 모달이 열릴 때 body 스크롤 잠금
+
     useEffect(() => {
         document.body.style.overflow = 'hidden';
         return () => {
@@ -35,7 +35,7 @@ export default function BaseModal({
 
     return createPortal(
         <div
-            className="fixed inset-0 bg-[#00000099] backdrop-blur-sm flex items-center justify-center z-5"
+            className="fixed inset-0 bg-[#00000099] backdrop-blur-sm flex items-center justify-center z-54"
             onClick={onClose}
         >
             <div
