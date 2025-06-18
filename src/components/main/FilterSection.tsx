@@ -24,8 +24,8 @@ const regions = [
 ];
 
 const sortOptions = [
-    { label: '생성일', value: 'recent' },
-    { label: '마감일', value: 'deadline' },
+    { label: '시작일', value: 'recent' },
+    { label: '마감일', value: 'deadLine' },
     { label: '참여인원', value: 'person' },
 ];
 
@@ -34,10 +34,10 @@ interface FilterSectionProps {
     setSelectedRegion: (value: string) => void;
     selectedDate: Date | null;
     setSelectedDate: (value: Date | null) => void;
-    selectedSortOption: 'recent' | 'deadline' | 'person';
-    setSelectedSortOption: (value: 'recent' | 'deadline' | 'person') => void;
+    selectedSortOption: 'recent' | 'deadLine' | 'person';
+    setSelectedSortOption: (value: 'recent' | 'deadLine' | 'person') => void;
     setSortAsc: (asc: boolean) => void;
-    sortAsc: boolean; // 현재 정렬 순서 상태 추가
+    sortAsc: boolean;
 }
 
 export default function FilterSection({
@@ -48,7 +48,7 @@ export default function FilterSection({
     selectedSortOption,
     setSelectedSortOption,
     setSortAsc,
-    sortAsc, // prop 추가
+    sortAsc,
 }: FilterSectionProps) {
     const today = new Date();
     const maxDate = new Date(today.getTime() + 1000 * 60 * 60 * 24 * 30);
@@ -58,7 +58,7 @@ export default function FilterSection({
         if (option) {
             const newSortOption = option.value as
                 | 'recent'
-                | 'deadline'
+                | 'deadLine'
                 | 'person';
 
             if (selectedSortOption === newSortOption) {

@@ -8,7 +8,7 @@ interface UseGetListParams {
     selectedCategory: string;
     selectedRegion: string;
     selectedDate: Date | null;
-    selectedSortOption: 'recent' | 'deadline' | 'person';
+    selectedSortOption: 'recent' | 'deadLine' | 'person';
     sortAsc: boolean;
     lastArticleId?: number;
     limit?: number;
