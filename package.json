@@ -36,6 +36,7 @@
         "react-day-picker": "^9.7.0",
         "react-dom": "^19.1.0",
         "react-hook-form": "^7.57.0",
+        "react-toastify": "^11.0.5",
         "tabbable": "^6.2.0",
         "tailwind-merge": "^3.3.0",
         "tailwind-scrollbar-hide": "^4.0.0",
