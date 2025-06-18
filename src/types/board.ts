@@ -5,7 +5,7 @@ export type getListApiParams = {
     smallCategory?: string;
     location?: string;
     date?: number;
-    sort: 'recent' | 'deadline' | 'person';
+    sort: 'recent' | 'deadLine' | 'person';
     sortAsc: boolean;
     lastArticleId: number;
     limit: number;

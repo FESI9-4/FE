@@ -10,7 +10,7 @@ export default function Home() {
     const [selectedRegion, setSelectedRegion] = useState<string>('전체');
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [selectedSortOption, setSelectedSortOption] = useState<
-        'recent' | 'deadline' | 'person'
+        'recent' | 'deadLine' | 'person'
     >('recent');
     const [sortAsc, setSortAsc] = useState<boolean>(false);
 
@@ -45,7 +45,7 @@ export default function Home() {
                     selectedSortOption={selectedSortOption}
                     setSelectedSortOption={setSelectedSortOption}
                     setSortAsc={setSortAsc}
-                    sortAsc={sortAsc} 
+                    sortAsc={sortAsc}
                 />
                 <CardSection cards={articles} />
             </div>

@@ -133,7 +133,7 @@ const doingTypeArticlesMap: Record<string, Card[]> = {
             createUser: '박지훈',
             createUserProfileImg:
                 'https://randomuser.me/api/portraits/women/35.jpg',
-            title: '팝업스토어 같이 가실 분~',
+            title: '팝업스토어 같이 하실분~',
             location: '서울 마포구',
             date: getDateAfterDays(5),
             deadLine: getDateAfterDays(10),
@@ -150,7 +150,7 @@ const doingTypeArticlesMap: Record<string, Card[]> = {
             createUser: '김하늘',
             createUserProfileImg:
                 'https://randomuser.me/api/portraits/women/44.jpg',
-            title: '경기 용인 팝업스토어 같이 가요',
+            title: '경기 용인 팝업스토어 같이하실분',
             location: '경기 용인시',
             date: getDateAfterDays(7),
             deadLine: getDateAfterDays(12),
@@ -169,7 +169,7 @@ const doingTypeArticlesMap: Record<string, Card[]> = {
             createUser: '최은영',
             createUserProfileImg:
                 'https://randomuser.me/api/portraits/women/35.jpg',
-            title: '생일 카페 같이 가요!',
+            title: '생일 카페 같이해요!',
             location: '서울 송파구',
             date: getDateAfterDays(15),
             deadLine: getDateAfterDays(20),
@@ -188,7 +188,7 @@ const doingTypeArticlesMap: Record<string, Card[]> = {
             createUser: '유재석',
             createUserProfileImg:
                 'https://randomuser.me/api/portraits/men/50.jpg',
-            title: '온라인 콘서트 같이 보실래요?',
+            title: '온라인 콘서트 같이 하실래요?',
             location: '서울 은평구',
             date: getDateAfterDays(12),
             deadLine: getDateAfterDays(17),
@@ -282,7 +282,7 @@ export const getBoardHandlers = [
             articles.sort((a, b) => {
                 let comp = 0;
                 if (sort === 'recent') {
-                    comp = a.createdAt - b.createdAt;
+                    comp = a.date - b.date;
                 } else if (sort === 'deadLine') {
                     comp = a.deadLine - b.deadLine;
                 } else if (sort === 'person') {
