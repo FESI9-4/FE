@@ -6,7 +6,6 @@ import { ClientAuthProvider } from '@/components/providers/ClientAuthProvider';
 import { cookies } from 'next/headers';
 import { MSWComponent } from '@/components/providers/MSWComponent';
 
-
 export const metadata: Metadata = {
     title: 'FanPal',
     description: '',
@@ -46,7 +45,6 @@ export default async function RootLayout({
                         <QueryProvider>
                             <Nav />
                             {children}
-                            
                         </QueryProvider>
                     </ClientAuthProvider>
                 </MSWComponent>

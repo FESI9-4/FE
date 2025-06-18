@@ -113,9 +113,9 @@ export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
             const response = await createBoardApi.postBoard(payload);
 
             if (response.statusCode === 200) {
-                alert('팬팔이 성공적으로 만들어졌습니다!');
-                onSubmit(payload); // 부모에게 성공한 데이터 전달
-                onClose(); // 모달 닫기
+                toast.success('팬팔이 성공적으로 만들어졌습니다!');
+                onSubmit(payload);
+                onClose();
             } else {
                 alert(`오류: ${response.message}`);
             }
@@ -204,7 +204,7 @@ export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
                                     validate: {
                                         fileSize: (files) => {
                                             if (!(files instanceof FileList))
-                                                return true; 
+                                                return true;
                                             if (files.length === 0) return true;
 
                                             const maxSize = 5 * 1024 * 1024;
