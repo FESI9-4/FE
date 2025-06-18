@@ -1,161 +1,161 @@
 name: Frontend CI Pipeline
 
 on:
-  pull_request:
-    branches: [ main ]
-    types: [opened, synchronize, reopened]
+    pull_request:
+        branches: [main]
+        types: [opened, synchronize, reopened]
 
 env:
-  NODE_VERSION: '22.11.0'
+    NODE_VERSION: '22.11.0'
 
 jobs:
-  code-quality:
-    name: Code Quality Check
-    runs-on: ubuntu-latest
+    code-quality:
+        name: Code Quality Check
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+                  cache: 'npm'
 
-      - name: Cache dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+            - name: Cache dependencies
+              uses: actions/cache@v4
+              with:
+                  path: ~/.npm
+                  key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-node-
 
-      - name: Install dependencies
-        run: npm ci
+            - name: Install dependencies
+              run: npm ci
 
-      - name: Run ESLint
-        run: npm run lint
+            - name: Run ESLint
+              run: npm run lint
 
-      - name: Check code formatting
-        run: npm run format:check
+            - name: Check code formatting
+              run: npm run format:check
 
-      - name: TypeScript type check
-        run: npx tsc --noEmit
+            - name: TypeScript type check
+              run: npx tsc --noEmit
 
-  test:
-    name: Run Tests
-    runs-on: ubuntu-latest
-    needs: code-quality
+    test:
+        name: Run Tests
+        runs-on: ubuntu-latest
+        needs: code-quality
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+                  cache: 'npm'
 
-      - name: Install dependencies
-        run: npm ci
+            - name: Install dependencies
+              run: npm ci
 
-      - name: Run unit tests
-        run: npm test -- --coverage --passWithNoTests
+            - name: Run unit tests
+              run: npm test -- --coverage --passWithNoTests
 
-      - name: Upload coverage reports
-        uses: codecov/codecov-action@v4
-        with:
-          file: ./coverage/coverage-final.json
-          fail_ci_if_error: false
+            - name: Upload coverage reports
+              uses: codecov/codecov-action@v4
+              with:
+                  file: ./coverage/coverage-final.json
+                  fail_ci_if_error: false
 
-  build:
-    name: Build Application
-    runs-on: ubuntu-latest
-    needs: code-quality
+    build:
+        name: Build Application
+        runs-on: ubuntu-latest
+        needs: code-quality
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+                  cache: 'npm'
 
-      - name: Install dependencies
-        run: npm ci
+            - name: Install dependencies
+              run: npm ci
 
-      - name: Create .env file
-        run: |
-          echo "NEXT_PUBLIC_BACKEND_URL=https://api.fanfal.com" >> .env.local
-          echo "NEXT_PUBLIC_FRONTEND_URL=http://localhost:3000" >> .env.local
-          echo "NEXT_PUBLIC_KOPIS_SERVICE_KEY=${{ secrets.NEXT_PUBLIC_KOPIS_SERVICE_KEY }}" >> .env.local
-          echo "NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=${{ secrets.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY }}" >> .env.local
+            - name: Create .env file
+              run: |
+                  echo "NEXT_PUBLIC_BACKEND_URL=https://api.fanfal.com" >> .env.local
+                  echo "NEXT_PUBLIC_FRONTEND_URL=http://localhost:3000" >> .env.local
+                  echo "NEXT_PUBLIC_KOPIS_SERVICE_KEY=${{ secrets.NEXT_PUBLIC_KOPIS_SERVICE_KEY }}" >> .env.local
+                  echo "NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=${{ secrets.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY }}" >> .env.local
 
-      - name: Build application
-        run: npm run build
+            - name: Build application
+              run: npm run build
 
-      - name: Check build output
-        run: |
-          if [ -d "out" ]; then
-            echo "✅ Static export successful"
-            ls -la out/
-          elif [ -d ".next" ]; then
-            echo "✅ Next.js build successful"
-            ls -la .next/
-          else
-            echo "❌ Build output not found"
-            exit 1
-          fi
+            - name: Check build output
+              run: |
+                  if [ -d "out" ]; then
+                    echo "✅ Static export successful"
+                    ls -la out/
+                  elif [ -d ".next" ]; then
+                    echo "✅ Next.js build successful"
+                    ls -la .next/
+                  else
+                    echo "❌ Build output not found"
+                    exit 1
+                  fi
 
-  pr-comment:
-    name: PR Summary
-    runs-on: ubuntu-latest
-    needs: [code-quality, test, build]
-    if: always()
+    pr-comment:
+        name: PR Summary
+        runs-on: ubuntu-latest
+        needs: [code-quality, test, build]
+        if: always()
 
-    steps:
-      - name: Comment PR
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-            });
+        steps:
+            - name: Comment PR
+              uses: actions/github-script@v7
+              with:
+                  script: |
+                      const { data: comments } = await github.rest.issues.listComments({
+                        owner: context.repo.owner,
+                        repo: context.repo.repo,
+                        issue_number: context.issue.number,
+                      });
 
-            const botComment = comments.find(comment => 
-              comment.user.type === 'Bot' && comment.body.includes('## CI Results')
-            );
+                      const botComment = comments.find(comment => 
+                        comment.user.type === 'Bot' && comment.body.includes('## CI Results')
+                      );
 
-            const body = `## CI Results
+                      const body = `## CI Results
 
-            | Check | Status |
-            |-------|--------|
-            | Code Quality | ${{ needs.code-quality.result == 'success' && '✅ Passed' || '❌ Failed' }} |
-            | Tests | ${{ needs.test.result == 'success' && '✅ Passed' || '❌ Failed' }} |
-            | Build | ${{ needs.build.result == 'success' && '✅ Passed' || '❌ Failed' }} |
+                      | Check | Status |
+                      |-------|--------|
+                      | Code Quality | ${{ needs.code-quality.result == 'success' && '✅ Passed' || '❌ Failed' }} |
+                      | Tests | ${{ needs.test.result == 'success' && '✅ Passed' || '❌ Failed' }} |
+                      | Build | ${{ needs.build.result == 'success' && '✅ Passed' || '❌ Failed' }} |
 
-            **Commit:** ${{ github.event.pull_request.head.sha }}
-            **Updated:** ${new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}
-            `;
+                      **Commit:** ${{ github.event.pull_request.head.sha }}
+                      **Updated:** ${new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}
+                      `;
 
-            if (botComment) {
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: botComment.id,
-                body
-              });
-            } else {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
-                body
-              });
-            }
+                      if (botComment) {
+                        await github.rest.issues.updateComment({
+                          owner: context.repo.owner,
+                          repo: context.repo.repo,
+                          comment_id: botComment.id,
+                          body
+                        });
+                      } else {
+                        await github.rest.issues.createComment({
+                          owner: context.repo.owner,
+                          repo: context.repo.repo,
+                          issue_number: context.issue.number,
+                          body
+                        });
+                      }
