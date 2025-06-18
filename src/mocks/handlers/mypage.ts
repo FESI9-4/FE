@@ -16,7 +16,7 @@ export const MyCardListMok = {
             createUser: 'foodie123',
             createUserProfileImg:
                 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80',
-            useStatus: 'schedule',
+            useStatus: 'UPCOMING',
         },
         {
             fanpal_id: 2,
@@ -30,7 +30,7 @@ export const MyCardListMok = {
             createUser: 'traveler456',
             createUserProfileImg:
                 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e',
-            useStatus: 'done',
+            useStatus: 'COMPLETED',
         },
         {
             fanpal_id: 3,
@@ -44,7 +44,7 @@ export const MyCardListMok = {
             createUser: 'hiker789',
             createUserProfileImg:
                 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d',
-            useStatus: 'schedule',
+            useStatus: 'UPCOMING',
         },
         {
             fanpal_id: 4,
@@ -58,7 +58,7 @@ export const MyCardListMok = {
             createUser: 'explorer101',
             createUserProfileImg:
                 'https://images.unsplash.com/photo-1494790108377-be9c29b29330',
-            useStatus: 'schedule',
+            useStatus: 'UPCOMING',
         },
         {
             fanpal_id: 5,
@@ -72,7 +72,7 @@ export const MyCardListMok = {
             createUser: 'snowboarder202',
             createUserProfileImg:
                 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e',
-            useStatus: 'schedule',
+            useStatus: 'UPCOMING',
         },
         {
             fanpal_id: 6,
@@ -86,7 +86,7 @@ export const MyCardListMok = {
             createUser: 'culturelover303',
             createUserProfileImg:
                 'https://images.unsplash.com/photo-1534528741775-53994a69daeb',
-            useStatus: 'schedule',
+            useStatus: 'UPCOMING',
         },
         {
             fanpal_id: 7,
@@ -100,7 +100,7 @@ export const MyCardListMok = {
             createUser: 'fisherman404',
             createUserProfileImg:
                 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d',
-            useStatus: 'done',
+            useStatus: 'COMPLETED',
         },
         {
             fanpal_id: 8,
@@ -114,7 +114,7 @@ export const MyCardListMok = {
             createUser: 'historybuff505',
             createUserProfileImg:
                 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d',
-            useStatus: 'schedule',
+            useStatus: 'UPCOMING',
         },
         {
             fanpal_id: 9,
@@ -128,7 +128,7 @@ export const MyCardListMok = {
             createUser: 'trekker606',
             createUserProfileImg:
                 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6',
-            useStatus: 'schedule',
+            useStatus: 'UPCOMING',
         },
         {
             fanpal_id: 10,
@@ -142,7 +142,7 @@ export const MyCardListMok = {
             createUser: 'artlover707',
             createUserProfileImg:
                 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1',
-            useStatus: 'schedule',
+            useStatus: 'UPCOMING',
         },
     ],
 };
