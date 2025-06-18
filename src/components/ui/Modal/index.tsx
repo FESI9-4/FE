@@ -40,7 +40,7 @@ export default function BaseModal({
         >
             <div
                 ref={modalRef}
-                className={`bg-gray-800 text-white rounded-xl overflow-hidden ${modalClass}`}
+                className={`bg-gray-800  text-white rounded-xl overflow-hidden ${modalClass}`}
                 onClick={(e) => e.stopPropagation()}
             >
                 {children}
