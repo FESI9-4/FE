@@ -37,6 +37,7 @@ interface FilterSectionProps {
     selectedSortOption: 'recent' | 'deadline' | 'person';
     setSelectedSortOption: (value: 'recent' | 'deadline' | 'person') => void;
     setSortAsc: (asc: boolean) => void;
+    sortAsc: boolean; // 현재 정렬 순서 상태 추가
 }
 
 export default function FilterSection({
@@ -47,6 +48,7 @@ export default function FilterSection({
     selectedSortOption,
     setSelectedSortOption,
     setSortAsc,
+    sortAsc, // prop 추가
 }: FilterSectionProps) {
     const today = new Date();
     const maxDate = new Date(today.getTime() + 1000 * 60 * 60 * 24 * 30);
@@ -54,10 +56,17 @@ export default function FilterSection({
     const handleSortSelect = (label: string) => {
         const option = sortOptions.find((opt) => opt.label === label);
         if (option) {
-            setSelectedSortOption(
-                option.value as 'recent' | 'deadline' | 'person'
-            );
-            setSortAsc(false); // 기본은 내림차순
+            const newSortOption = option.value as
+                | 'recent'
+                | 'deadline'
+                | 'person';
+
+            if (selectedSortOption === newSortOption) {
+                setSortAsc(!sortAsc);
+            } else {
+                setSelectedSortOption(newSortOption);
+                setSortAsc(false);
+            }
         }
     };
     return (

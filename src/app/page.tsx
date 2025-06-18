@@ -45,6 +45,7 @@ export default function Home() {
                     selectedSortOption={selectedSortOption}
                     setSelectedSortOption={setSelectedSortOption}
                     setSortAsc={setSortAsc}
+                    sortAsc={sortAsc} 
                 />
                 <CardSection cards={articles} />
             </div>
