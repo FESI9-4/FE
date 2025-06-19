@@ -12,7 +12,7 @@ export default function WishList() {
     const [selectedRegion, setSelectedRegion] = useState<string>('전체');
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [selectedSortOption, setSelectedSortOption] = useState<
-        'recent' | 'deadline' | 'person'
+        'recent' | 'deadLine' | 'person'
     >('recent');
     const [sortAsc, setSortAsc] = useState<boolean>(false);
     const likedArticleIds = useWishlistStore(
@@ -81,6 +81,7 @@ export default function WishList() {
                         setSelectedDate={setSelectedDate}
                         selectedSortOption={selectedSortOption}
                         setSelectedSortOption={setSelectedSortOption}
+                        sortAsc={sortAsc}
                         setSortAsc={setSortAsc}
                     />
                     <CardSection
