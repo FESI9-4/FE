@@ -7,7 +7,7 @@ import PlaceAutoCompleteInput from './PlaceAutoCompleteInput';
 import { CATEGORY_DATA } from '@/types/categories';
 import { imageUploadApi } from '@/utils/apis/imgS3Api';
 import { createBoardApi } from '@/utils/apis/createFanfalApi';
-
+import { toast } from 'react-toastify';
 import {
     InputText,
     InputNumber,
@@ -90,7 +90,7 @@ export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
                 imageKey = key;
             } catch (error) {
                 console.error('이미지 업로드 실패:', error);
-                alert('이미지 업로드에 실패했습니다.');
+                toast.error('이미지 업로드에 실패했습니다.');
                 return;
             }
         }
@@ -113,15 +113,15 @@ export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
             const response = await createBoardApi.postBoard(payload);
 
             if (response.statusCode === 200) {
-                alert('팬팔이 성공적으로 만들어졌습니다!');
+                toast.success('팬팔이 성공적으로 만들어졌습니다!');
                 onSubmit(payload);
                 onClose();
             } else {
-                alert(`오류: ${response.message}`);
+                toast.error(`오류: ${response.message}`);
             }
         } catch (error) {
             console.error('API 요청 실패:', error);
-            alert('서버와 통신 중 오류가 발생했습니다.');
+            toast.error('서버와 통신 중 오류가 발생했습니다.');
         }
     };
 
