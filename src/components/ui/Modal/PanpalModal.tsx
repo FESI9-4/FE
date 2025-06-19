@@ -113,7 +113,7 @@ export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
             const response = await createBoardApi.postBoard(payload);
 
             if (response.statusCode === 200) {
-                toast.success('팬팔이 성공적으로 만들어졌습니다!');
+                alert('팬팔이 성공적으로 만들어졌습니다!');
                 onSubmit(payload);
                 onClose();
             } else {
