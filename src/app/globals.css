@@ -220,7 +220,7 @@ body:not(#modal-root) .custom-scrollbar-datepicker::-webkit-scrollbar-thumb {
 
 .pac-container {
     @apply rounded-xl shadow-lg mt-3 bg-gray-700;
-    z-index: 51 !important;
+    z-index: 55 !important;
     border: none !important;
     overflow-y: auto;
     max-height: 250px;
