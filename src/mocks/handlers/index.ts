@@ -4,6 +4,7 @@ import {
     userHandlers,
     refreshHandlers,
     loginHandlers,
+    findPasswordHandlers,
 } from './auths';
 export const authHandlers = [
     ...loginHandlers,
@@ -11,4 +12,5 @@ export const authHandlers = [
     ...signupHandlers,
     ...userHandlers,
     ...refreshHandlers,
+    ...findPasswordHandlers,
 ];

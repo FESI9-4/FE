@@ -6,12 +6,15 @@ export const publicApis = [
     '/api/proxy/signup',
     '/api/auth/login',
     '/api/auth/signup',
+    '/api/auth/findpassword',
 ];
 export const internalApis = [
     '/api/proxy/login',
     '/api/proxy/logout',
     '/api/proxy/signup',
     '/api/proxy/refresh',
+    '/api/auth/findpassword',
+    '/api/auth/user',
 ];
 export const externalApis = [
     '/api/auth/signup',

@@ -1,5 +1,9 @@
 import { http, HttpResponse } from 'msw';
-import { LoginRequestDto, SignupMemberRequestDto } from '@/types/auth';
+import {
+    FindPasswordRequestDto,
+    LoginRequestDto,
+    SignupMemberRequestDto,
+} from '@/types/auth';
 import { mockUser } from '@/__mock__/user';
 import { getCookie, removeCookie, setCookie } from '@/utils/cookies';
 import { TOKEN_EXPIRY } from '@/config/constants';
@@ -238,12 +242,6 @@ export const refreshHandlers = [
                 'mock-signature';
 
             console.log('✅ 새 JWT 액세스 토큰 생성:', newAccessToken);
-            setCookie('accessToken', newAccessToken, {
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: 'strict',
-                maxAge: TOKEN_EXPIRY.ACCESS_TOKEN,
-                path: '/',
-            });
 
             return HttpResponse.json(
                 {
@@ -274,5 +272,31 @@ export const refreshHandlers = [
                 }
             );
         }
+    }),
+];
+export const findPasswordHandlers = [
+    http.post(`${BASE_URL}/api/auth/findpassword`, async ({ request }) => {
+        const findPasswordData =
+            (await request.json()) as FindPasswordRequestDto;
+        if (mockUser.some((user) => user.userId === findPasswordData.email)) {
+            return HttpResponse.json(
+                {
+                    statusCode: 200,
+                    message: '임시 비밀번호 발급 성공',
+                },
+                {
+                    status: 200,
+                }
+            );
+        }
+        return HttpResponse.json(
+            {
+                statusCode: 401,
+                message: '이메일이 존재하지 않습니다.',
+            },
+            {
+                status: 401,
+            }
+        );
     }),
 ];

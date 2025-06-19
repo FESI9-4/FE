@@ -31,6 +31,9 @@ export interface SignupMemberResponseDto {
     nickname: string;
     created_at: string;
 }
+export interface FindPasswordRequestDto {
+    email: string;
+}
 // 회원가입 성공시 데이터
 export interface SignupData {
     member_id: number;
