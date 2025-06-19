@@ -1,11 +1,12 @@
-'use client';
 import { BigTitleIcon, MikeIcon } from '@/assets';
 import { cn } from '@/utils/cn';
 interface LoginIllustrationProps {
     className?: string;
 }
 
-export default function LeftImg({ className }: LoginIllustrationProps) {
+export default function LoginIllustration({
+    className,
+}: LoginIllustrationProps) {
     return (
         <div
             className={cn(
