@@ -14,6 +14,7 @@ export default function PasswordButton({
 }: PasswordButtonProps) {
     return (
         <button
+            tabIndex={-1}
             type="button"
             name={name}
             className={cn(

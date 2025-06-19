@@ -7,6 +7,8 @@ import { useSignup } from '@/hooks/queries/useAuth';
 import { useRouter } from 'next/navigation';
 import { SignupFormData } from '@/types/form';
 import { useEffect, useState } from 'react';
+import { useFormValidation } from '@/hooks/useFormValidation';
+import { toast } from 'react-toastify';
 
 export default function SignupForm() {
     const router = useRouter();
@@ -27,6 +29,7 @@ export default function SignupForm() {
             },
             {
                 onSuccess: () => {
+                    toast.success('회원가입이 완료되었습니다!', {});
                     router.push('/login');
                     return;
                 },
@@ -40,8 +43,12 @@ export default function SignupForm() {
             }
         );
     };
-    const watchedEmail = watch('email');
+    const { isAllFieldsFilled } = useFormValidation<SignupFormData>({
+        watch,
+        fields: ['nickname', 'email', 'password', 'passwordCheck'],
+    });
     // 이메일이 변경될 때마다 중복 상태 초기화
+    const watchedEmail = watch('email');
     useEffect(() => {
         if (isDuplicateEmail) {
             setIsDuplicateEmail(false);
@@ -71,19 +78,19 @@ export default function SignupForm() {
                                 rules={{
                                     required: '닉네임을 입력해주세요',
                                     pattern: {
-                                        value: /^[가-힣a-zA-Z0-9]{2,20}$/,
+                                        value: /^[가-힣a-zA-Z0-9]{2,10}$/,
                                         message:
                                             '닉네임은 한글, 영문, 숫자만 입력해주세요.',
                                     },
                                     minLength: {
-                                        value: 3,
+                                        value: 2,
                                         message:
-                                            '닉네임은 2자 이상 20자 이하이어야 합니다.',
+                                            '닉네임은 2자 이상 10자 이하이어야 합니다.',
                                     },
                                     maxLength: {
                                         value: 10,
                                         message:
-                                            '닉네임은 2자 이상 20자 이하이어야 합니다.',
+                                            '닉네임은 2자 이상 10자 이하이어야 합니다.',
                                     },
                                 }}
                             />
@@ -163,7 +170,7 @@ export default function SignupForm() {
                             <Button
                                 type="submit"
                                 className="w-full mb-6"
-                                disabled={!formState.isValid}
+                                disabled={!isAllFieldsFilled}
                             >
                                 확인
                             </Button>

@@ -7,6 +7,7 @@ import {
     SignupMemberResponseDto,
     ApiFailure,
     LoginResponseResponseDto,
+    FindPasswordRequestDto,
 } from '@/types/auth';
 import { customFetcher } from '@/utils/apis/customFetcher';
 const BASE_URL = '/api/proxy';
@@ -41,11 +42,17 @@ export const authApi = {
     },
     // 유저 정보 조회
     getUser: async () => {
-        return customFetcher<ApiResponse<User>, void>(
-            `http://localhost:3000/api/auth/user`,
-            {
-                method: 'GET',
-            }
-        );
+        return customFetcher<ApiResponse<User>, void>(`/api/auth/user`, {
+            method: 'GET',
+        });
+    },
+    findPassword: async (findPasswordData: FindPasswordRequestDto) => {
+        return customFetcher<
+            ApiResponse<void> | ApiFailure,
+            FindPasswordRequestDto
+        >(`/api/auth/findpassword`, {
+            method: 'POST',
+            body: findPasswordData,
+        });
     },
 };

@@ -4,3 +4,7 @@ export type SignupFormData = SignupMemberRequestDto & {
     passwordCheck: string;
 };
 export type LoginFormData = LoginRequestDto;
+
+export type FindPasswordFormData = {
+    email: string;
+};

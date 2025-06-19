@@ -12,6 +12,7 @@ export const clientFetcher = async <TResponse, TRequest>(
     const authStore = useAuthStore.getState();
     const isPublic = publicApis.includes(url);
     const headers = new Headers(options.headers);
+    console.log('url', url, isPublic);
     if (!isPublic) {
         const token = authStore.accessToken;
         if (token) {

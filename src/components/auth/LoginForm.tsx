@@ -5,7 +5,7 @@ import { Button, Input } from '@/components/ui';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { useLogin } from '@/hooks/queries/useAuth';
 import { LoginFormData } from '@/types/form';
-import { useEffect, useState } from 'react';
+import { useFormValidation } from '@/hooks/useFormValidation';
 
 export default function LoginForm() {
     const { register, handleSubmit, formState, setError, watch } =
@@ -38,24 +38,13 @@ export default function LoginForm() {
             }
         );
     };
-    const [isAutoFilled, setIsAutoFilled] = useState(false);
-    const watchEmail = watch('email');
-    const watchPassword = watch('password');
-
-    // 자동완성 감지
-    useEffect(() => {
-        if (watchEmail && watchPassword) {
-            setIsAutoFilled(true);
-        } else {
-            setIsAutoFilled(false);
-        }
-    }, [watchEmail, watchPassword]);
-
-    // 버튼 활성화 조건 개선
-    const isButtonEnabled = formState.isValid || isAutoFilled;
+    const { isAllFieldsFilled } = useFormValidation<LoginFormData>({
+        watch,
+        fields: ['email', 'password'],
+    });
 
     return (
-        <div className="flex flex-col justify-center items-center gap-[14px] px-4 pb-8 sm:py-8 sm:px-[54px]">
+        <div className="flex flex-col justify-center items-center gap-[14px]">
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 className="w-[311px] sm:w-[500px] xl:w-[402px] h-auto"
@@ -96,6 +85,7 @@ export default function LoginForm() {
                             />
                             <div className="flex justify-center">
                                 <Link
+                                    tabIndex={-1}
                                     href="/findpassword"
                                     className="text-center w-fit text-gray-400 text-sm not-italic font-medium leading-5 underline underline-offset-2"
                                 >
@@ -107,7 +97,7 @@ export default function LoginForm() {
                             <Button
                                 type="submit"
                                 className="w-full mb-6"
-                                disabled={!isButtonEnabled}
+                                disabled={!isAllFieldsFilled}
                             >
                                 로그인
                             </Button>

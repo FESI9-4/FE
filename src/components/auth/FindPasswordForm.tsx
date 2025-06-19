@@ -1,22 +1,39 @@
 'use client';
 import Link from 'next/link';
-import {
-    FieldError,
-    FieldValues,
-    SubmitHandler,
-    useForm,
-} from 'react-hook-form';
+import { FieldError, SubmitHandler, useForm } from 'react-hook-form';
 import { Button, Input } from '@/components/ui';
 import useMediaQuery from '@/hooks/useMediaQuery';
+import { useFormValidation } from '@/hooks/useFormValidation';
+import { FindPasswordFormData } from '@/types/form';
+import { useFindPassword } from '@/hooks/queries/useAuth';
+import { toast } from 'react-toastify';
 
 export default function FindPasswordForm() {
-    const { register, handleSubmit, formState } = useForm<FieldValues>({
-        mode: 'onBlur',
-        reValidateMode: 'onBlur',
+    const { register, handleSubmit, formState, watch, setError } =
+        useForm<FindPasswordFormData>({
+            mode: 'onBlur',
+            reValidateMode: 'onBlur',
+        });
+    const { isAllFieldsFilled } = useFormValidation<FindPasswordFormData>({
+        watch,
+        fields: ['email'],
     });
-
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        console.log(data);
+    const { mutate: findPassword } = useFindPassword();
+    const onSubmit: SubmitHandler<FindPasswordFormData> = (data) => {
+        findPassword(data, {
+            onSuccess: () => {
+                console.log('임시 비밀번호 발급 성공');
+                // 성공 토스트 메시지
+                toast.success('임시 비밀번호를 이메일로 발송했습니다!', {});
+            },
+            onError: () => {
+                // 에러 토스트 메시지
+                toast.error('가입된 이메일이 존재하지 않습니다.', {});
+                setError('email', {
+                    message: '가입된 이메일이 존재하지 않습니다.',
+                });
+            },
+        });
     };
     const isMobile = useMediaQuery('(max-width: 768px)');
 
@@ -36,11 +53,11 @@ export default function FindPasswordForm() {
                                 type="text"
                                 placeholder="가입 시 등록한 이메일을 입력해주세요"
                                 label="이메일"
-                                name="userId"
+                                name="email"
                                 labelClassName="text-sm mb-2 w-fit font-semibold leading-5"
                                 size={!isMobile ? 'large' : 'small'}
                                 register={register}
-                                error={formState.errors.userId as FieldError}
+                                error={formState.errors.email as FieldError}
                                 rules={{
                                     required: '이메일을 입력해주세요',
                                     pattern: {
@@ -54,7 +71,7 @@ export default function FindPasswordForm() {
                             <Button
                                 type="submit"
                                 className="w-full mb-6"
-                                disabled={!formState.isValid}
+                                disabled={!isAllFieldsFilled}
                             >
                                 임시 비밀번호 발급
                             </Button>
