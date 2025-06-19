@@ -1,6 +1,6 @@
-import { LoginRequest, SignupRequest } from './auth';
+import { LoginRequestDto, SignupMemberRequestDto } from './auth';
 
-export type SignupFormData = SignupRequest & {
+export type SignupFormData = SignupMemberRequestDto & {
     passwordCheck: string;
 };
-export type LoginFormData = LoginRequest;
+export type LoginFormData = LoginRequestDto;

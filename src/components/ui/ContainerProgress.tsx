@@ -25,7 +25,7 @@ export default function ContainerProgress({
                 waiting: 'bg-gray-300',
                 progressing: 'bg-green-400',
                 finished: 'bg-green-800',
-                cancled: '', // 임시값
+                canceled: '', // 임시값
             },
         },
         defaultVariants: {

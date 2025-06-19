@@ -2,11 +2,12 @@ import { DetailPageCard, DetailPageDescription } from '@/components/detailPage';
 import { getDetailApi } from '@/utils/apis/getDetailApi';
 
 interface PageProps {
-    params: { id: number };
+    params: Promise<{ id: string }>;
 }
 
 export default async function PanpalDetailPage({ params }: PageProps) {
-    const { id } = await Promise.resolve(params);
+    const { id: idString } = await params;
+    const id = Number(idString);
     const data = await getDetailApi.getDetailById(id);
 
     const descriptionProps = {
