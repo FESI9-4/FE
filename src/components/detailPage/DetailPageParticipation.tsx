@@ -7,6 +7,7 @@ import { cn } from '@/utils/cn';
 import LoginModal from '@/components/ui/Modal/LoginModal';
 import { useFanFalMutations } from '@/hooks/queries/useFanFalMutations';
 import { useGetUser } from '@/hooks/queries/useAuth';
+import { toast } from 'react-toastify';
 
 interface DetailPageParticipationProps {
     articleId: number;
@@ -24,12 +25,13 @@ export default function DetailPageParticipation({
     const { joinMutation, cancelMutation } = useFanFalMutations();
     const { data: user } = useGetUser();
     const isLoggedIn = Boolean(user);
+
     const handleCopyLink = async () => {
         try {
             await navigator.clipboard.writeText(window.location.href);
-            alert('링크가 복사되었습니다!');
+            toast.success('링크가 복사되었습니다!');
         } catch (err) {
-            alert('복사에 실패했습니다.');
+            toast.error('복사에 실패했습니다.');
             console.error('링크 복사 실패:', err);
         }
     };
@@ -46,16 +48,16 @@ export default function DetailPageParticipation({
             cancelMutation.mutate(articleId, {
                 onSuccess: () => setIsParticipated(false),
                 onError: (error: unknown) => {
-                    if (error instanceof Error) alert(error.message);
-                    else alert('참여 취소 실패');
+                    if (error instanceof Error) toast.error(error.message);
+                    else toast.error('참여 취소 실패');
                 },
             });
         } else {
             joinMutation.mutate(articleId, {
                 onSuccess: () => setIsParticipated(true),
                 onError: (error: unknown) => {
-                    if (error instanceof Error) alert(error.message);
-                    else alert('참여 실패');
+                    if (error instanceof Error) toast.error(error.message);
+                    else toast.error('참여 실패');
                 },
             });
         }
