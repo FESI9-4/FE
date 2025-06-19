@@ -66,6 +66,18 @@
     }
 }
 
+/* React Toastify 커스텀 변수 */
+:root {
+    --toastify-icon-color-success: #b9f900 !important; /* green-400 */
+    --toastify-color-progress-success: #b9f900 !important; /* green-400 */
+    --toastify-icon-color-error: #ef4444 !important; /* red-500 */
+    --toastify-color-progress-error: #ef4444 !important; /* red-500 */
+    --toastify-icon-color-warning: #f59e0b !important; /* yellow-500 */
+    --toastify-color-progress-warning: #f59e0b !important; /* yellow-500 */
+    --toastify-icon-color-info: #3b82f6 !important; /* blue-500 */
+    --toastify-color-progress-info: #3b82f6 !important; /* blue-500 */
+}
+
 #modal-root .custom-scrollbar::-webkit-scrollbar {
     width: 18px;
 }

@@ -5,6 +5,8 @@ import QueryProvider from '@/components/providers/QueryProvider';
 import { ClientAuthProvider } from '@/components/providers/ClientAuthProvider';
 import { cookies } from 'next/headers';
 import { MSWComponent } from '@/components/providers/MSWComponent';
+import { Bounce, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const metadata: Metadata = {
     title: 'FanPal',
@@ -45,6 +47,20 @@ export default async function RootLayout({
                         <QueryProvider>
                             <Nav />
                             {children}
+                            <ToastContainer
+                                position="top-right"
+                                autoClose={60 * 30}
+                                hideProgressBar={false}
+                                newestOnTop={false}
+                                closeOnClick
+                                rtl={false}
+                                pauseOnFocusLoss
+                                draggable
+                                pauseOnHover
+                                transition={Bounce}
+                                theme="dark"
+                                toastClassName="!bg-gray-800"
+                            />
                         </QueryProvider>
                     </ClientAuthProvider>
                 </MSWComponent>
