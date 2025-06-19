@@ -241,8 +241,12 @@ export const refreshHandlers = [
                 '.' +
                 'mock-signature';
 
-            console.log('✅ 새 JWT 액세스 토큰 생성:', newAccessToken);
-
+            setCookie('accessToken', newAccessToken, {
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'strict',
+                maxAge: TOKEN_EXPIRY.ACCESS_TOKEN,
+                path: '/',
+            });
             return HttpResponse.json(
                 {
                     statusCode: 200,
