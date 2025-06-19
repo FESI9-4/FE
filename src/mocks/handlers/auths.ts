@@ -282,7 +282,7 @@ export const findPasswordHandlers = [
     http.post(`${BASE_URL}/api/auth/findpassword`, async ({ request }) => {
         const findPasswordData =
             (await request.json()) as FindPasswordRequestDto;
-        if (mockUser.some((user) => user.userId === findPasswordData.email)) {
+        if (mockUser.some((user) => user.email === findPasswordData.email)) {
             return HttpResponse.json(
                 {
                     statusCode: 200,
