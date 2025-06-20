@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import ProgressChip from '@/components/ui/ProgressChip';
 
 const meta: Meta<typeof ProgressChip> = {

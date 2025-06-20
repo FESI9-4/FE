@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import EditButton from '@/components/ui/EditButton';
 
 const meta: Meta<typeof EditButton> = {
