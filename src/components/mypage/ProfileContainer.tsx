@@ -8,6 +8,7 @@ import {
     useChangeProfileMutation,
     useChangePasswordMutation,
 } from '@/hooks/queries/useMyPage';
+import { toast } from 'react-toastify';
 
 export default function ProfileContainer() {
     const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
@@ -36,7 +37,14 @@ export default function ProfileContainer() {
         newPassword: string;
     }) => {
         setIsPasswordModalOpen(false);
-        changePasswordMutation.mutate(data);
+        changePasswordMutation.mutate(data, {
+            onSuccess: () => {
+                toast.success('비밀번호가 변경되었습니다.');
+            },
+            onError: () => {
+                toast.error('비밀번호 변경에 실패했습니다.');
+            },
+        });
     };
 
     const handleSubmitEditProfileModal = (data: {
@@ -45,7 +53,14 @@ export default function ProfileContainer() {
         description?: string;
     }) => {
         setIsEditProfileModalOpen(false);
-        changeProfileMutation.mutate(data);
+        changeProfileMutation.mutate(data, {
+            onSuccess: () => {
+                toast.success('프로필이 변경되었습니다.');
+            },
+            onError: () => {
+                toast.error('프로필 변경에 실패했습니다.');
+            },
+        });
     };
 
     return (

@@ -44,8 +44,8 @@ export default function ProgressChip({
         <div className={textClassName({ openStatus })}>
             {children}
             <CheckIcon
-                width={16}
-                height={16}
+                width={24}
+                height={24}
                 className={iconClassName({ openStatus })}
             />
         </div>

@@ -116,7 +116,7 @@ export default function ConcertDetailPage() {
                     </div>
                 </div>
                 <hr className="border-t border-gray-800" />
-                <div className="flex xl:flex-row flex-col gap-8 xl:items-start items-center">
+                <div className="flex xl:flex-row flex-col gap-8 xl:items-start items-center xl:pb-0 pb-26">
                     <div className="relative w-fit">
                         {Array.isArray(data?.styurls.styurl) ? (
                             data?.styurls.styurl.map((item, index) => (
