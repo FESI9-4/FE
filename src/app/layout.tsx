@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
-import 'react-toastify/dist/ReactToastify.css';
 import Nav from '@/components/ui/Nav';
 import QueryProvider from '@/components/providers/QueryProvider';
 import { ClientAuthProvider } from '@/components/providers/ClientAuthProvider';
