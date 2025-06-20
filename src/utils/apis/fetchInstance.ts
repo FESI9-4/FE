@@ -11,7 +11,6 @@ export const publicApis = [
 export const internalApis = [
     '/api/proxy/login',
     '/api/proxy/logout',
-    '/api/proxy/signup',
     '/api/proxy/refresh',
     '/api/auth/findpassword',
     '/api/auth/user',
