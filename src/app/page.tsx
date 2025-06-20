@@ -14,7 +14,7 @@ export default function Home() {
     >('recent');
     const [sortAsc, setSortAsc] = useState<boolean>(false);
 
-    const { data: articles = [] } = useGetList({
+    const { data: articles = [], isLoading } = useGetList({
         activeTab,
         selectedCategory,
         selectedRegion,
@@ -47,7 +47,7 @@ export default function Home() {
                     setSortAsc={setSortAsc}
                     sortAsc={sortAsc}
                 />
-                <CardSection cards={articles} />
+                <CardSection cards={articles} isLoading={isLoading} />
             </div>
         </div>
     );

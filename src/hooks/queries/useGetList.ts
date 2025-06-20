@@ -2,6 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import { getListApi } from '@/utils/apis/getListApi';
 import { CATEGORY_DATA } from '@/types/categories';
 import { Card } from '@/types/card';
+import { getDetailApi } from '@/utils/apis/getDetailApi';
+import { DetailApiResponse } from '@/types/detail';
 
 interface UseGetListParams {
     activeTab: number;
@@ -64,4 +66,14 @@ export const useGetList = ({
     });
 
     return queryResult;
+};
+
+export const useGetDetail = ({ id }: { id: number }) => {
+    return useQuery<DetailApiResponse['data']>({
+        queryKey: ['articles', id],
+        queryFn: async () => {
+            const response = await getDetailApi.getDetailById(id);
+            return response;
+        },
+    });
 };

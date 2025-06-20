@@ -9,16 +9,19 @@ import {
     CardList,
     PaginationButton,
     PanpalModal,
+    CustomSkeleton,
 } from '@/components/ui';
 
 interface CardSectionProps {
     cards: Card[];
     showCreateButton?: boolean;
+    isLoading?: boolean;
 }
 
 export default function CardSection({
     cards,
     showCreateButton = true,
+    isLoading = false,
 }: CardSectionProps) {
     const hasCards = cards && cards.length > 0;
     const isMobile = useMediaQuery('(max-width: 639px)');
@@ -37,6 +40,16 @@ export default function CardSection({
         if (page < 1 || page > totalPages) return;
         setCurrentPage(page);
     };
+
+    if (isLoading) {
+        return (
+            <div className="flex flex-col items-end gap-12">
+                <div className="w-full min-h-110 sm:min-h-190 xl:min-h-145 flex items-center justify-center">
+                    <CustomSkeleton layout="fanpal" count={4} />
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="flex flex-col items-end gap-12">
