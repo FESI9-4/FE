@@ -35,7 +35,7 @@ export const authApi = {
         return customFetcher<
             ApiResponse<SignupMemberResponseDto> | ApiFailure,
             SignupMemberRequestDto
-        >(`${BASE_URL}/signup`, {
+        >(`/api/auth/signup`, {
             method: 'POST',
             body: signupData,
         });

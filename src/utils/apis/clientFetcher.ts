@@ -12,7 +12,6 @@ export const clientFetcher = async <TResponse, TRequest>(
     const authStore = useAuthStore.getState();
     const isPublic = publicApis.includes(url);
     const headers = new Headers(options.headers);
-    console.log('url', url, isPublic);
     if (!isPublic) {
         const token = authStore.accessToken;
         if (token) {
@@ -34,7 +33,6 @@ export const clientFetcher = async <TResponse, TRequest>(
             !isPublic
         ) {
             try {
-                console.log('🔄 클라이언트 패처에서 토큰 갱신 시도');
                 // 이미 갱신 중이면 기존 Promise 기다리기
                 if (!refreshPromise) {
                     refreshPromise = (async () => {
