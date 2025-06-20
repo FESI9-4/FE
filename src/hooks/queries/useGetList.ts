@@ -14,6 +14,7 @@ interface UseGetListParams {
     sortAsc: boolean;
     lastArticleId?: number;
     limit?: number;
+    page?: number;
 }
 
 export const useGetList = ({
@@ -25,6 +26,7 @@ export const useGetList = ({
     sortAsc,
     lastArticleId = 0,
     limit = 10,
+    page = 1,
 }: UseGetListParams) => {
     const queryResult = useQuery({
         queryKey: [
@@ -37,6 +39,7 @@ export const useGetList = ({
             sortAsc,
             lastArticleId,
             limit,
+            page,
         ],
         queryFn: async (): Promise<Card[]> => {
             const bigCategory = CATEGORY_DATA[activeTab].id;
@@ -53,6 +56,7 @@ export const useGetList = ({
                 sortAsc,
                 lastArticleId,
                 limit,
+                page
             });
 
             return response.data;

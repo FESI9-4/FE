@@ -7,7 +7,7 @@ interface BoardRequest {
     longitude: number;
     imageKey: string;
     description: string;
-    smallCategory: string; // enum?
+    smallCategory: string;  
     date: number;
     deadline: number;
     minPerson: number;
