@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { CardList, PaginationButton } from '@/components/ui';
+import { CardList, CustomSkeleton, PaginationButton } from '@/components/ui';
 import { BlankScreen } from '@/components/mypage';
 import Link from 'next/link';
 import { useGetSelfMypage } from '@/hooks/queries/useMyPage';
@@ -20,7 +20,7 @@ export default function CardListContainer() {
         setLastArticleId((page - 1) * 4);
     };
 
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) return <CustomSkeleton layout="fanpal" count={4} />;
     if (isError) return <div>Error</div>;
 
     return (

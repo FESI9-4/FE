@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { PaginationButton } from '../ui';
+import { PaginationButton, CustomSkeleton } from '../ui';
 import ConcertCardList from './ConcertCardList';
 import { useQueryClient } from '@tanstack/react-query';
 import { getConcertList } from '@/utils/apis/concert';
@@ -39,15 +39,10 @@ export default function CardContainer({
         }
     }, [currentPage, queryClient, totalCount, startDate, endDate, location]);
 
-    console.log(concertList, totalCount);
-
     if (isLoading || totalCountLoading) {
-        return (
-            <div className="flex justify-center items-center min-h-screen xl:min-w-[1060px] min-w-screen">
-                <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
-            </div>
-        );
+        return <CustomSkeleton layout="concert" count={8} />;
     }
+
     if (isError || totalCountError) {
         return (
             <div className="flex justify-center items-center min-h-screen xl:min-w-[1060px] min-w-screen">

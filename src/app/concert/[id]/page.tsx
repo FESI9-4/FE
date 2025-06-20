@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/components/ui';
+import { Button, CustomSkeleton } from '@/components/ui';
 import { getConcertDetail } from '@/utils/apis/concert';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
@@ -26,10 +26,9 @@ export default function ConcertDetailPage() {
         queryKey: ['concertDetail', id],
         queryFn: () => getConcertDetail(id as string),
     });
-    console.log(data);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <CustomSkeleton layout="detail" />;
     }
     if (isError) {
         return <div>Error</div>;

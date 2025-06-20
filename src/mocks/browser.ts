@@ -7,6 +7,7 @@ import { imageHandlers } from './handlers/imgS3';
 import { createBoardHandlers } from './handlers/createFanfal';
 import { wishLikeHandlers } from './handlers/like';
 import { mypageHandlers } from './handlers/mypage';
+import { detailHandlers } from './handlers/detail';
 
 export const worker = setupWorker(
     ...authHandlers,
@@ -16,5 +17,6 @@ export const worker = setupWorker(
     ...imageHandlers,
     ...createBoardHandlers,
     ...wishLikeHandlers,
-    ...mypageHandlers
+    ...mypageHandlers,
+    ...detailHandlers
 );

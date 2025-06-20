@@ -1,6 +1,6 @@
 'use client';
 
-import { AnswerCard } from '../ui';
+import { AnswerCard, CustomSkeleton } from '../ui';
 import { BlankScreen } from '@/components/mypage';
 import { useRef, useCallback, useMemo } from 'react';
 import { useGetAnswer } from '@/hooks/queries/useMyPage';
@@ -40,7 +40,7 @@ export default function AnswerList() {
         return data?.pages.flatMap((page) => page.data) || [];
     }, [data?.pages]);
 
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) return <CustomSkeleton layout="comment" count={6} />;
     if (isError) return <div>Error</div>;
 
     const toDay = Date.now() / 1000;

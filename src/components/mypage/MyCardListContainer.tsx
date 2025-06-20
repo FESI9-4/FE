@@ -1,6 +1,6 @@
 'use client';
 
-import { MyCardList, PaginationButton } from '@/components/ui';
+import { CustomSkeleton, MyCardList, PaginationButton } from '@/components/ui';
 import { BlankScreen } from '@/components/mypage';
 import { useState } from 'react';
 import {
@@ -25,7 +25,7 @@ export default function MyCardListContainer() {
         setLastArticleId((page - 1) * 4);
     };
 
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) return <CustomSkeleton layout="fanpal" count={4} />;
     if (isError) return <div>Error</div>;
 
     console.log('data', data);
