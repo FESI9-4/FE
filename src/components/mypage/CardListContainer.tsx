@@ -59,6 +59,7 @@ export default function CardListContainer() {
                                         item.createUserProfileImg
                                     }
                                     articleId={item.fanpal_id}
+                                    wishList={false}
                                 />
                                 {index !== data?.data.length - 1 && (
                                     <hr className="border-t border-gray-800 pb-3" />
