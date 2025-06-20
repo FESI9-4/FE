@@ -32,7 +32,7 @@ export const imageUploadApi = {
                 method: 'POST',
                 body: params,
                 headers: {
-                    'Content-Type': 'application/json', 
+                    'Content-Type': 'application/json',
                 },
             }
         );
