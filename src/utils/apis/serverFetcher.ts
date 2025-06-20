@@ -10,7 +10,6 @@ export const serverFetcher = async <TResponse, TRequest>(
     const cookieStore = await cookies();
     const isPublic = publicApis.includes(url);
     const headers = new Headers(options.headers);
-
     if (!isPublic) {
         const token = cookieStore.get('accessToken')?.value;
         if (token) {

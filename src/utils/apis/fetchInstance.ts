@@ -7,6 +7,7 @@ export const publicApis = [
     '/api/auth/login',
     '/api/auth/signup',
     '/api/auth/findpassword',
+    '/api/board',
 ];
 export const internalApis = [
     '/api/proxy/login',
@@ -20,6 +21,9 @@ export const externalApis = [
     '/api/auth/login',
     '/api/auth/logout',
     '/api/auth/refresh',
+    '/api/board',
+    '/api/images/postImage',
+    '/api/images/getImage',
 ];
 export const fetchInstance = async <TResponse, TRequest>(
     url: string,
@@ -33,6 +37,7 @@ export const fetchInstance = async <TResponse, TRequest>(
     //실제 api 요청
     const BACKEND_URL =
         process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000';
+
     if (isInternalApi(url)) {
         // 내부 API: Next.js API Routes
         fullUrl = `${FRONTEND_URL}${url}`;
@@ -66,19 +71,31 @@ export const fetchInstance = async <TResponse, TRequest>(
 };
 
 function isInternalApi(url: string): boolean {
+    const urlPath = url.split('?')[0];
     return internalApis.some((pattern) => {
         if (pattern.endsWith('/')) {
-            return url.startsWith(pattern);
+            return urlPath.startsWith(pattern);
         }
-        return url === pattern;
+        return urlPath === pattern;
     });
 }
 
 function isExternalApi(url: string): boolean {
+    const urlPath = url.split('?')[0]; // 쿼리 제거는 여기서 했지만
     return externalApis.some((pattern) => {
         if (pattern.endsWith('/')) {
-            return url.startsWith(pattern);
+            return urlPath.startsWith(pattern);
         }
-        return url === pattern;
+        return urlPath === pattern || urlPath.startsWith(pattern + '/');
     });
 }
+
+export const isPublicApi = (url: string) => {
+    const urlPath = url.split('?')[0];
+    return publicApis.some((pattern) => {
+        if (pattern.endsWith('/')) {
+            return urlPath.startsWith(pattern);
+        }
+        return urlPath === pattern;
+    });
+};

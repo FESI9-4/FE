@@ -10,7 +10,14 @@ export const clientFetcher = async <TResponse, TRequest>(
     options: FetcherOptions<TRequest> = {}
 ): Promise<TResponse> => {
     const authStore = useAuthStore.getState();
-    const isPublic = publicApis.includes(url);
+    const isPublic = publicApis.some((pattern) => {
+        const urlPath = url.split('?')[0];
+        if (pattern.endsWith('/')) {
+            return urlPath.startsWith(pattern);
+        }
+        return urlPath === pattern;
+    });
+
     const headers = new Headers(options.headers);
     if (!isPublic) {
         const token = authStore.accessToken;
