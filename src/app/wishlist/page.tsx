@@ -22,7 +22,7 @@ export default function WishList() {
     const { data: user } = useGetUser();
     const isLoggedIn = !!user;
 
-    const { data: articles = [] } = useGetList({
+    const { data: articles = [], isLoading } = useGetList({
         activeTab,
         selectedCategory,
         selectedRegion,
@@ -87,6 +87,7 @@ export default function WishList() {
                     <CardSection
                         showCreateButton={false}
                         cards={wishListArticles}
+                        isLoading={isLoading}
                     />
                 </div>
             </div>
