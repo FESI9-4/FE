@@ -13,5 +13,15 @@ const config: StorybookConfig = {
         options: {},
     },
     staticDirs: ['../public'],
+    viteFinal: async (config) => {
+        // SVG를 컴포넌트로 처리하기 위한 설정
+        if (config.define) {
+            config.define['process.env.NODE_ENV'] = JSON.stringify(
+                process.env.NODE_ENV
+            );
+        }
+
+        return config;
+    },
 };
 export default config;
