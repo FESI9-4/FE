@@ -18,7 +18,7 @@ export default function FindPasswordForm() {
         watch,
         fields: ['email'],
     });
-    const { mutate: findPassword } = useFindPassword();
+    const { mutate: findPassword, isPending } = useFindPassword();
     const onSubmit: SubmitHandler<FindPasswordFormData> = (data) => {
         findPassword(data, {
             onSuccess: () => {
@@ -71,7 +71,7 @@ export default function FindPasswordForm() {
                             <Button
                                 type="submit"
                                 className="w-full mb-6"
-                                disabled={!isAllFieldsFilled}
+                                disabled={!isAllFieldsFilled || isPending}
                             >
                                 임시 비밀번호 발급
                             </Button>

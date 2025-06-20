@@ -14,7 +14,7 @@ export default function SignupForm() {
     const router = useRouter();
     const isMobile = useMediaQuery('(max-width: 768px)');
     const [isDuplicateEmail, setIsDuplicateEmail] = useState(false);
-    const { mutate: signup } = useSignup();
+    const { mutate: signup, isPending } = useSignup();
     const { register, handleSubmit, formState, setError, watch } =
         useForm<SignupFormData>({
             mode: 'onBlur',
@@ -170,7 +170,7 @@ export default function SignupForm() {
                             <Button
                                 type="submit"
                                 className="w-full mb-6"
-                                disabled={!isAllFieldsFilled}
+                                disabled={!isAllFieldsFilled || isPending}
                             >
                                 확인
                             </Button>
