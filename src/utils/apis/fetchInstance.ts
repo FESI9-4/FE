@@ -26,6 +26,9 @@ export const externalApis = [
     '/api/board/',
     '/api/board',
     '/api/myPage/user',
+    '/api/board',
+    '/api/images/postImage',
+    '/api/images/getImage',
 ];
 export const fetchInstance = async <TResponse, TRequest>(
     url: string,
@@ -36,6 +39,7 @@ export const fetchInstance = async <TResponse, TRequest>(
         process.env.NEXT_PUBLIC_FRONTEND_URL || 'http://localhost:3000';
     const BACKEND_URL =
         process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000';
+
     if (isInternalApi(url)) {
         // 내부 API: Next.js API Routes
         fullUrl = `${FRONTEND_URL}${url}`;
@@ -107,3 +111,5 @@ function isExternalApi(url: string): boolean {
         return urlPath === pattern || urlPath.startsWith(pattern + '/');
     });
 }
+
+
