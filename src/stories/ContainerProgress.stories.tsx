@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import ContainerProgress from '@/components/ui/ContainerProgress';
 
 const meta: Meta<typeof ContainerProgress> = {
@@ -35,7 +35,7 @@ const meta: Meta<typeof ContainerProgress> = {
             options: ['waiting', 'progressing', 'finished'],
             description: '모집 상태',
         },
-        deadline: {
+        deadLine: {
             control: { type: 'text' },
             description: '마감 시간 (선택사항)',
         },
@@ -55,7 +55,7 @@ export const Default: Story = {
         max: 10,
         current: 7,
         openStatus: 'progressing',
-        deadline: '12시간 후',
+        deadLine: '12시간 후',
     },
 };
 
@@ -77,7 +77,7 @@ export const AllStates: Story = {
                                 max={10}
                                 current={3}
                                 openStatus="waiting"
-                                deadline="2일 후"
+                                deadLine="2일 후"
                             />
                         </div>
                         <div className="p-4 rounded-lg">
@@ -107,7 +107,7 @@ export const AllStates: Story = {
                                 max={10}
                                 current={7}
                                 openStatus="progressing"
-                                deadline="12시간 후"
+                                deadLine="12시간 후"
                             />
                         </div>
                         <div className="p-4 rounded-lg">
@@ -118,7 +118,7 @@ export const AllStates: Story = {
                                 max={20}
                                 current={18}
                                 openStatus="progressing"
-                                deadline="3시간 후"
+                                deadLine="3시간 후"
                             />
                         </div>
                     </div>
@@ -167,7 +167,7 @@ export const AllStates: Story = {
                                 max={4}
                                 current={2}
                                 openStatus="progressing"
-                                deadline="6시간 후"
+                                deadLine="6시간 후"
                             />
                         </div>
                         <div className="p-4 rounded-lg">
@@ -178,7 +178,7 @@ export const AllStates: Story = {
                                 max={500}
                                 current={350}
                                 openStatus="progressing"
-                                deadline="2일 후"
+                                deadLine="2일 후"
                             />
                         </div>
                     </div>
@@ -198,7 +198,7 @@ export const AllStates: Story = {
                                 max={100}
                                 current={5}
                                 openStatus="waiting"
-                                deadline="1주일 후"
+                                deadLine="1주일 후"
                             />
                         </div>
                         <div className="p-4 rounded-lg">
@@ -209,7 +209,7 @@ export const AllStates: Story = {
                                 max={20}
                                 current={19}
                                 openStatus="progressing"
-                                deadline="30분 후"
+                                deadLine="30분 후"
                             />
                         </div>
                     </div>

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import ChipState from '@/components/ui/ChipState';
 
 const meta: Meta<typeof ChipState> = {
@@ -34,7 +34,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
     args: {
         children: '오늘 12시 마감',
-        status: 'schedule',
+        status: 'UPCOMING',
     },
 };
 
@@ -49,8 +49,8 @@ export const AllStates: Story = {
                 flexWrap: 'wrap',
             }}
         >
-            <ChipState status="schedule">오늘 12시 마감</ChipState>
-            <ChipState status="done">모집 완료</ChipState>
+            <ChipState status="UPCOMING">오늘 12시 마감</ChipState>
+            <ChipState status="COMPLETED">모집 완료</ChipState>
         </div>
     ),
 };

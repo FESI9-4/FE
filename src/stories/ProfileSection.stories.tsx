@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import Button from '@/components/ui/Button';
 import Profile from '@/components/ui/Profile';
 import { EditNoBgIcon, Heart, ThreeHeart } from '@/assets';

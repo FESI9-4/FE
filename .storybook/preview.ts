@@ -1,7 +1,11 @@
-import type { Preview } from '@storybook/nextjs-vite';
+import type { Preview } from '@storybook/nextjs';
+import { initialize, mswLoader } from 'msw-storybook-addon';
 import '../src/app/globals.css';
 
+initialize();
+
 const preview: Preview = {
+    loaders: [mswLoader],
     parameters: {
         controls: {
             matchers: {
@@ -11,10 +15,14 @@ const preview: Preview = {
         },
         backgrounds: {
             default: 'dark',
-            values: [
+            options: [
                 {
                     name: 'dark',
                     value: '#1a1b1f',
+                },
+                {
+                    name: 'dark-light',
+                    value: '#2b2c30',
                 },
                 {
                     name: 'light',
@@ -22,13 +30,37 @@ const preview: Preview = {
                 },
             ],
         },
+        viewport: {
+            options: {
+                mobile: {
+                    name: 'Mobile',
+                    styles: {
+                        width: '375px',
+                        height: '812px',
+                    },
+                },
+                tablet: {
+                    name: 'Tablet',
+                    styles: {
+                        width: '744px',
+                        height: '1133px',
+                    },
+                },
+                desktop: {
+                    name: 'Desktop',
+                    styles: {
+                        width: '1920px',
+                        height: '1080px',
+                    },
+                },
+            },
+        },
+        layout: 'centered',
         a11y: {
-            // 'todo' - show a11y violations in the test UI only
-            // 'error' - fail CI on a11y violations
-            // 'off' - skip a11y checks entirely
             test: 'todo',
         },
     },
+    tags: ['autodocs'],
 };
 
 export default preview;

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import ContainerInformation from '@/components/ui/ContainerInformation';
 
 const meta: Meta<typeof ContainerInformation> = {
@@ -21,7 +21,7 @@ const meta: Meta<typeof ContainerInformation> = {
     },
     tags: ['autodocs'],
     argTypes: {
-        create_user: {
+        createUser: {
             control: { type: 'text' },
             description: '팬팔 생성자 이름',
         },
@@ -37,7 +37,7 @@ const meta: Meta<typeof ContainerInformation> = {
             control: { type: 'text' },
             description: '진행 날짜 (Unix timestamp 문자열)',
         },
-        limitedDate: {
+        deadLine: {
             control: { type: 'number' },
             description: '모집 마감 날짜 (Unix timestamp)',
         },
@@ -69,11 +69,11 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
     args: {
-        create_user: '팬클럽회장',
+        createUser: '팬클럽회장',
         title: '아이돌 팬미팅',
         location: '서울 강남구',
-        date: String(Math.floor(Date.now() / 1000) + 86400), // 내일
-        limitedDate: Math.floor(Date.now() / 1000) + 43200, // 12시간 후 마감
+        date: Math.floor(Date.now() / 1000) + 86400, // 내일
+        deadLine: Math.floor(Date.now() / 1000) + 43200, // 12시간 후 마감
         minPerson: 5,
         maxPerson: 10,
         currentPerson: 7,
@@ -86,28 +86,32 @@ export const AllStates: Story = {
     render: () => (
         <div className="p-8 flex gap-10 min-h-screen">
             <ContainerInformation
-                create_user="팬클럽회장"
+                createUser="팬클럽회장"
                 title="아이돌 팬미팅"
                 location="서울 강남구"
-                date={String(Math.floor(Date.now() / 1000) + 86400)}
-                limitedDate={Math.floor(Date.now() / 1000) + 43200}
+                date={Math.floor(Date.now() / 1000) + 86400}
+                deadLine={Math.floor(Date.now() / 1000) + 43200}
                 minPerson={5}
                 maxPerson={10}
                 currentPerson={7}
                 wishList={false}
                 articleId={1}
+                createUserProfileImgUrl="https://randomuser.me/api/portraits/women/75.jpg"
+                openStatus="waiting"
             />
             <ContainerInformation
-                create_user="팬클럽회장"
+                createUser="팬클럽회장"
                 title="아이돌 팬미팅"
                 location="서울 강남구"
-                date={String(Math.floor(Date.now() / 1000) + 86400)}
-                limitedDate={Math.floor(Date.now() / 1000) + 43200}
+                date={Math.floor(Date.now() / 1000) + 86400}
+                deadLine={Math.floor(Date.now() / 1000) + 43200}
                 minPerson={5}
                 maxPerson={10}
                 currentPerson={7}
                 wishList={true}
                 articleId={1}
+                createUserProfileImgUrl="https://randomuser.me/api/portraits/women/75.jpg"
+                openStatus="progressing"
             />
         </div>
     ),
