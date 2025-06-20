@@ -41,8 +41,8 @@ export const clientFetcher = async <TResponse, TRequest>(
                         const refreshResponse = await fetchInstance<
                             Response,
                             unknown
-                            // msw에서는 '/api/auth/refresh'
-                        >('/api/proxy/refresh', {
+                            // msw에서는 '/api/auth/refresh' api연동시 '/api/proxy/refresh'
+                        >('/api/auth/refresh', {
                             method: 'POST',
                             returnFullResponse: true,
                         });
@@ -76,8 +76,8 @@ export const clientFetcher = async <TResponse, TRequest>(
                 authStore.setHasRefreshToken(false);
 
                 try {
-                    // msw에서는 '/api/auth/logout'
-                    await fetchInstance('/api/proxy/logout', {
+                    // msw에서는 '/api/auth/logout' api연동시 '/api/proxy/logout'
+                    await fetchInstance('/api/auth/logout', {
                         method: 'POST',
                     });
                 } catch {
