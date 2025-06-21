@@ -42,7 +42,7 @@ export const authApi = {
     },
     // 유저 정보 조회
     getUser: async () => {
-        return customFetcher<ApiResponse<User>, void>(`/api/auth/user`, {
+        return customFetcher<ApiResponse<User>, void>(`/api/myPage/user`, {
             method: 'GET',
         });
     },
