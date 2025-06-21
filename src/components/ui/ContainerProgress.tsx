@@ -8,7 +8,7 @@ import { ProgressChip } from '@/components/ui';
 interface ContainerProgressProps {
     max: number;
     current: number;
-    openStatus: 'waiting' | 'finished' | 'progressing' | 'canceled';
+    openStatus: 'CONFIRMED_STATUS' | 'PENDING_STATUS' | 'CANCELED_STATUS';
     deadLine?: string;
 }
 
@@ -22,14 +22,13 @@ export default function ContainerProgress({
     const className = cva('h-2 rounded-md border-none', {
         variants: {
             openStatus: {
-                waiting: 'bg-gray-300',
-                progressing: 'bg-green-400',
-                finished: 'bg-green-800',
-                canceled: '', // 임시값
+                PENDING_STATUS: 'bg-gray-300',
+                CONFIRMED_STATUS: 'bg-green-400',
+                CANCELED_STATUS: 'bg-green-800',
             },
         },
         defaultVariants: {
-            openStatus: 'waiting',
+            openStatus: 'PENDING_STATUS',
         },
     });
 
@@ -43,14 +42,14 @@ export default function ContainerProgress({
                             {current} / {max}
                         </div>
                     </div>
-                    {openStatus === 'progressing' && (
+                    {openStatus === 'CONFIRMED_STATUS' && (
                         <ProgressChip openStatus={openStatus}>
                             개설확정
                         </ProgressChip>
                     )}
                 </div>
 
-                {openStatus === 'finished' ? (
+                {openStatus === 'CANCELED_STATUS' ? (
                     <ProgressChip openStatus={openStatus}>
                         모집마감
                     </ProgressChip>
