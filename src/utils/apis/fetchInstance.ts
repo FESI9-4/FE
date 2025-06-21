@@ -1,12 +1,19 @@
 import { FetcherOptions } from '@/types/fetcher';
 
 //const baseURL = 'http://localhost:3000';
-export const publicApis = [
-    '/api/proxy/login',
-    '/api/proxy/signup',
-    '/api/auth/login',
-    '/api/auth/signup',
-    '/api/auth/findpassword',
+export const publicApis: { method: string; path: string }[] = [
+    // 프록시를 통한 인증 관련 API
+    { method: 'POST', path: '/api/proxy/login' },
+    { method: 'POST', path: '/api/proxy/signup' },
+
+    // 직접 백엔드 호출 인증 API
+    { method: 'POST', path: '/api/auth/login' },
+    { method: 'POST', path: '/api/auth/signup' },
+    { method: 'POST', path: '/api/auth/findpassword' },
+
+    // 게시글 관련 (GET만 public)
+    { method: 'GET', path: '/api/board' },
+    { method: 'GET', path: '/api/board/' }, // 특정 게시글 조회용
 ];
 export const internalApis = [
     '/api/proxy/login',
@@ -20,6 +27,8 @@ export const externalApis = [
     '/api/auth/login',
     '/api/auth/logout',
     '/api/auth/refresh',
+    '/api/board/',
+    '/api/board',
 ];
 export const fetchInstance = async <TResponse, TRequest>(
     url: string,
@@ -52,6 +61,7 @@ export const fetchInstance = async <TResponse, TRequest>(
             credentials: 'include',
             body: options.body ? JSON.stringify(options.body) : undefined,
         });
+        console.log('response', response);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -64,21 +74,42 @@ export const fetchInstance = async <TResponse, TRequest>(
         throw error;
     }
 };
+// 메서드와 경로를 모두 고려한 isPublicApi 함수
+export const isPublicApi = (url: string, method: string = 'GET') => {
+    console.log('isPublicApi', url, method);
+    const urlPath = url.split('?')[0];
+    const upperMethod = method.toUpperCase();
 
+    return publicApis.some((api) => {
+        // 메서드가 일치하지 않으면 false
+        if (api.method.toUpperCase() !== upperMethod) return false;
+
+        // 경로 패턴 매칭
+        if (api.path.endsWith('/')) {
+            return urlPath.startsWith(api.path);
+        }
+        return urlPath === api.path || urlPath.startsWith(api.path + '/');
+    });
+};
+
+// ✅ 수정: 쿼리 파라미터 제거 추가
 function isInternalApi(url: string): boolean {
+    const urlPath = url.split('?')[0]; // 쿼리 파라미터 제거
     return internalApis.some((pattern) => {
         if (pattern.endsWith('/')) {
-            return url.startsWith(pattern);
+            return urlPath.startsWith(pattern);
         }
-        return url === pattern;
+        return urlPath === pattern;
     });
 }
 
+// ✅ 수정: 쿼리 파라미터 제거 추가
 function isExternalApi(url: string): boolean {
+    const urlPath = url.split('?')[0]; // 쿼리 파라미터 제거
     return externalApis.some((pattern) => {
         if (pattern.endsWith('/')) {
-            return url.startsWith(pattern);
+            return urlPath.startsWith(pattern);
         }
-        return url === pattern;
+        return urlPath === pattern || urlPath.startsWith(pattern + '/');
     });
 }

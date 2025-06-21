@@ -1,5 +1,5 @@
 import { useAuthStore } from '@/store/authStore';
-import { fetchInstance, publicApis } from './fetchInstance';
+import { fetchInstance, isPublicApi } from './fetchInstance';
 import { FetcherOptions } from '@/types/fetcher';
 
 // 토큰 갱신 중복 방지
@@ -10,8 +10,9 @@ export const clientFetcher = async <TResponse, TRequest>(
     options: FetcherOptions<TRequest> = {}
 ): Promise<TResponse> => {
     const authStore = useAuthStore.getState();
-    const isPublic = publicApis.includes(url);
+    const isPublic = isPublicApi(url, options.method);
     const headers = new Headers(options.headers);
+    console.log('isPublic', isPublic);
     if (!isPublic) {
         const token = authStore.accessToken;
         if (token) {
