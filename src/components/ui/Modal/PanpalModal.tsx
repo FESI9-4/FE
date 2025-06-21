@@ -103,11 +103,20 @@ export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
             imageKey,
             description: data.detail,
             smallCategory: data.category.split(',')[0], // 필요 시 enum 변환
-            date: data.startDate ? data.startDate.getTime() : 0, // timestamp number 로 변환
-            deadline: data.endDate ? data.endDate.getTime() : 0,
+            date: data.startDate
+                ? Math.floor(data.startDate.getTime() / 1000)
+                : 0,
+            deadline: data.endDate
+                ? Math.floor(data.endDate.getTime() / 1000)
+                : 0,
             minPerson: data.minApplicants ?? 0,
             maxPerson: data.maxApplicants ?? 0,
         };
+
+        console.log(
+            '[DEBUG] 제출 전 payload:',
+            JSON.stringify(payload, null, 2)
+        );
 
         try {
             const response = await createBoardApi.postBoard(payload);

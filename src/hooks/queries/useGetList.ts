@@ -56,7 +56,7 @@ export const useGetList = ({
                 sortAsc,
                 lastArticleId,
                 limit,
-                page
+                page,
             });
 
             return response.data;
