@@ -55,6 +55,7 @@ export const fetchInstance = async <TResponse, TRequest>(
             credentials: 'include',
             body: options.body ? JSON.stringify(options.body) : undefined,
         });
+        console.log('fetchInstance', response, url);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
