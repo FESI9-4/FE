@@ -26,6 +26,8 @@ interface CommentData {
     deleted: boolean;
     createdAt: number;
     secret: boolean;
+    nickName: string;
+    writerImageUrl: string;
 }
 
 interface GetCommentsResponse {
