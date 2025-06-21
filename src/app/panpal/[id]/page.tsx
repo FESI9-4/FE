@@ -58,7 +58,7 @@ export default function PanpalDetailPage() {
         latitude: data.latitude,
         longitude: data.longitude,
         articleId: id,
-        createUser: data.createUser,
+        createUser: data.nickName,
     };
 
     const cardProps = {
@@ -66,7 +66,7 @@ export default function PanpalDetailPage() {
         date: data.date,
         deadLine: data.deadLine,
         createdAt: data.createdAt,
-        minPerson: data.minPerson,
+        minPerson: data.min_person,
         currentPerson: data.currentPerson,
         maxPerson: data.maxPerson,
         participants: data.participants,
@@ -74,10 +74,10 @@ export default function PanpalDetailPage() {
         articleImageUrl: data.articleImageUrl,
         openStatus: data.openStatus,
         useStatus: data.useStatus,
-        createUser: data.createUser,
+        createUser: data.nickName,
         location: data.location,
         articleId: id,
-        createUserProfileImgUrl: data.createUserProfileImgUrl,
+        createUserProfileImgUrl: data.writerImageUrl,
     };
 
     return (
