@@ -59,6 +59,7 @@ export default function PanpalDetailPage() {
         longitude: data.longitude,
         articleId: id,
         createUser: data.nickName,
+        participants: data.participants
     };
 
     const cardProps = {
