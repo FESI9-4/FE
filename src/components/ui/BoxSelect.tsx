@@ -65,7 +65,7 @@ export default function BoxSelect<
                                     <input
                                         {...register(name, rules)}
                                         type="radio"
-                                        value={service.id} 
+                                        value={service.id}
                                         className="hidden peer sr-only"
                                         id={`${category.id}_${service.id}`}
                                     />
