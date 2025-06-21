@@ -149,3 +149,46 @@ export const Default: Story = {
         minLength: 2,
     },
 };
+export const Password: Story = {
+    args: {
+        label: '비밀번호',
+        placeholder: '이름을 입력해주세요 (2자 이상)',
+        type: 'password',
+        size: 'large',
+        required: true,
+        minLength: 2,
+    },
+};
+export const AllStates: Story = {
+    render: () => (
+        <div className="space-y-8">
+            <div>
+                <InputWrapper
+                    label="이름"
+                    placeholder="이름을 입력해주세요 (2자 이상)"
+                    type="text"
+                    size="large"
+                    required={true}
+                    minLength={2}
+                />
+            </div>
+            <div>
+                <InputWrapper
+                    label="비밀번호"
+                    placeholder="비밀번호를 입력해주세요 (8자 이상)"
+                    type="password"
+                    size="large"
+                    required={true}
+                    minLength={8}
+                />
+            </div>
+        </div>
+    ),
+    parameters: {
+        docs: {
+            description: {
+                story: '다양한 Input 상태를 한 번에 볼 수 있는 스토리입니다.',
+            },
+        },
+    },
+};
