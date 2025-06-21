@@ -17,7 +17,6 @@ export const internalApis = [
     '/api/proxy/logout',
     '/api/proxy/refresh',
     '/api/auth/findpassword',
-    '/api/auth/user',
 ];
 export const externalApis = [
     '/api/auth/signup',
@@ -26,6 +25,7 @@ export const externalApis = [
     '/api/auth/refresh',
     '/api/board/',
     '/api/board',
+    '/api/myPage/user',
 ];
 export const fetchInstance = async <TResponse, TRequest>(
     url: string,
@@ -55,7 +55,6 @@ export const fetchInstance = async <TResponse, TRequest>(
             credentials: 'include',
             body: options.body ? JSON.stringify(options.body) : undefined,
         });
-        console.log('response', response);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
