@@ -2,15 +2,29 @@ import { FetcherOptions } from '@/types/fetcher';
 
 //const baseURL = 'http://localhost:3000';
 export const publicApis: { method: string; path: string }[] = [
+<<<<<<< HEAD
     { method: 'POST', path: '/api/proxy/login' },
     { method: 'POST', path: '/api/proxy/signup' },
 
+=======
+    // 프록시를 통한 인증 관련 API
+    { method: 'POST', path: '/api/proxy/login' },
+    { method: 'POST', path: '/api/proxy/signup' },
+
+    // 직접 백엔드 호출 인증 API
+>>>>>>> 12425cd (feat: 조회, 만들기 테스팅 확인)
     { method: 'POST', path: '/api/auth/login' },
     { method: 'POST', path: '/api/auth/signup' },
     { method: 'POST', path: '/api/auth/findpassword' },
 
+<<<<<<< HEAD
     { method: 'GET', path: '/api/board' },
     { method: 'GET', path: '/api/board/' },
+=======
+    // 게시글 관련 (GET만 public)
+    { method: 'GET', path: '/api/board' },
+    { method: 'GET', path: '/api/board/' }, // 특정 게시글 조회용
+>>>>>>> 12425cd (feat: 조회, 만들기 테스팅 확인)
 ];
 export const internalApis = [
     '/api/proxy/login',
@@ -52,6 +66,16 @@ export const fetchInstance = async <TResponse, TRequest>(
     }
     const headers = new Headers(options.headers);
     headers.set('Content-Type', 'application/json');
+
+    // 바디가 있으면 JSON 문자열로 변환 전 로그 찍기
+    if (options.body) {
+        console.log('[DEBUG] 요청 바디 (원본):', options.body);
+        console.log(
+            '[DEBUG] 요청 바디 (전체 JSON):',
+            JSON.stringify(options.body, null, 2)
+        );
+    }
+
     try {
         const response = await fetch(fullUrl, {
             ...options,
@@ -112,4 +136,23 @@ function isExternalApi(url: string): boolean {
     });
 }
 
+<<<<<<< HEAD
 
+=======
+export const isPublicApi = (url: string, method: string = 'GET') => {
+    console.log('isPublicApi', url, method);
+    const urlPath = url.split('?')[0];
+    const upperMethod = method.toUpperCase();
+
+    return publicApis.some((api) => {
+        // 메서드가 일치하지 않으면 false
+        if (api.method.toUpperCase() !== upperMethod) return false;
+
+        // 경로 패턴 매칭
+        if (api.path.endsWith('/')) {
+            return urlPath.startsWith(api.path);
+        }
+        return urlPath === api.path || urlPath.startsWith(api.path + '/');
+    });
+};
+>>>>>>> 12425cd (feat: 조회, 만들기 테스팅 확인)
