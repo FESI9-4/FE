@@ -46,7 +46,6 @@ export const commentApi = {
             {
                 method: 'POST',
                 body,
-                auth: true,
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -63,7 +62,6 @@ export const commentApi = {
             {
                 method: 'PATCH',
                 body,
-                auth: true,
                 headers: {
                     'Content-Type': 'application/json',
                 },
