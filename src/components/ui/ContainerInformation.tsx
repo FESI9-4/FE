@@ -18,7 +18,7 @@ interface ContainerInformationProps {
     currentPerson: number;
     wishList: boolean;
     articleId: number;
-    openStatus: 'waiting' | 'finished' | 'progressing' | 'canceled';
+    openStatus: 'CONFIRMED_STATUS' | 'PENDING_STATUS' | 'CANCELED_STATUS';
 }
 
 export default function ContainerInformaiton({

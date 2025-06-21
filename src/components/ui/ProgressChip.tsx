@@ -2,8 +2,7 @@ import { CheckIcon } from '@/assets';
 import { cva } from 'class-variance-authority';
 
 interface ProgressChipProps {
-    // 이것도 api상에서는 3가지로만 주는데 4개로 받을건지, 아님 캔슬을 지울건지 얘기를 해 야할듯
-    openStatus: 'waiting' | 'finished' | 'progressing' | 'canceled';
+    openStatus: 'CONFIRMED_STATUS' | 'PENDING_STATUS' | 'CANCELED_STATUS';
     children: React.ReactNode;
 }
 
@@ -16,28 +15,28 @@ export default function ProgressChip({
         {
             variants: {
                 openStatus: {
-                    waiting: 'text-[#fb923c]',
-                    finished: 'text-green-400',
-                    progressing: 'text-green-400',
-                    canceled: 'hidden',
+                    PENDING_STATUS: 'text-[#fb923c]',
+                    CANCELED_STATUS: 'text-green-400',
+                    CONFIRMED_STATUS: 'text-green-400',
+                    //canceled: 'hidden',
                 },
             },
             defaultVariants: {
-                openStatus: 'waiting',
+                openStatus: 'PENDING_STATUS',
             },
         }
     );
     const iconClassName = cva('', {
         variants: {
             openStatus: {
-                waiting: 'hidden',
-                finished: 'text-black fill-green-500',
-                progressing: 'fill-gray-900',
-                canceled: 'hidden',
+                PENDING_STATUS: 'hidden',
+                CANCELED_STATUS: 'text-black fill-green-500',
+                CONFIRMED_STATUS: 'fill-gray-900',
+                //canceled: 'hidden',
             },
         },
         defaultVariants: {
-            openStatus: 'waiting',
+            openStatus: 'PENDING_STATUS',
         },
     });
     return (

@@ -6,11 +6,11 @@ export type Card = {
     deadLine: number;
     currentPerson: number;
     maxPerson: number;
-    openStatus: 'waiting' | 'finished' | 'progressing' | 'canceled';
-    wishList: boolean;
+    openStatus: 'CONFIRMED_STATUS' | 'PENDING_STATUS' | 'CANCELED_STATUS';
+    wish: boolean;
     image: string;
     createUser: string;
     createUserProfileImg: string;
-    useStatus: 'UPCOMING' | 'COMPLETED';
+    useStatus: 'UPCOMING_STATUS' | 'COMPLETED_STATUS';
     createdAt: number;
 };

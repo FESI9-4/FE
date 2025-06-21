@@ -63,7 +63,7 @@ export default function DetailPageParticipation({
         }
     };
 
-    const isAdmin = user?.nickname === createUser;
+    const isAdmin = isLoggedIn && user?.nickname === createUser;
 
     return (
         <>

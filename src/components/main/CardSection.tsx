@@ -57,28 +57,34 @@ export default function CardSection({
                 {hasCards ? (
                     <div className="flex flex-col gap-10 sm:gap-10 xl:gap-30 w-full ">
                         <div className="flex- flex-col gap-3 min-h-100 sm:min-h-160 xl:min-h-80">
-                            {currentCards.map((card) => (
-                                <Link
-                                    key={card.articleId}
-                                    href={`/panpal/${card.articleId}`}
-                                >
-                                    <CardList
-                                        title={card.title}
-                                        location={card.location}
-                                        date={card.date}
-                                        deadLine={card.deadLine}
-                                        currentPerson={card.currentPerson}
-                                        maxPerson={card.maxPerson}
-                                        openStatus={card.openStatus}
-                                        image={card.image}
-                                        createUser={card.createUser}
-                                        createUserProfileImg={
-                                            card.createUserProfileImg
-                                        }
-                                        articleId={card.articleId}
-                                    />
-                                </Link>
-                            ))}
+                            {currentCards.map((card) => {
+                                console.log(
+                                    'card.createUser:',
+                                    card.createUser
+                                );
+                                return (
+                                    <Link
+                                        key={card.articleId}
+                                        href={`/panpal/${card.articleId}`}
+                                    >
+                                        <CardList
+                                            title={card.title}
+                                            location={card.location}
+                                            date={card.date}
+                                            deadLine={card.deadLine}
+                                            currentPerson={card.currentPerson}
+                                            maxPerson={card.maxPerson}
+                                            openStatus={card.openStatus}
+                                            image={card.image}
+                                            createUser={card.createUser}
+                                            createUserProfileImg={
+                                                card.createUserProfileImg
+                                            }
+                                            articleId={card.articleId}
+                                        />
+                                    </Link>
+                                );
+                            })}
                         </div>
 
                         <PaginationButton
