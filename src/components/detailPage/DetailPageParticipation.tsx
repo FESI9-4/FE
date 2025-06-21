@@ -8,6 +8,7 @@ import LoginModal from '@/components/ui/Modal/LoginModal';
 import { useFanFalMutations } from '@/hooks/queries/useFanFalMutations';
 import { useGetUser } from '@/hooks/queries/useAuth';
 import { toast } from 'react-toastify';
+import { useDeleteFanfalMutation } from '@/hooks/queries/useDeleteFanfalMutation';
 
 interface Participant {
     profile_image_url: string;
@@ -17,7 +18,7 @@ interface Participant {
 interface DetailPageParticipationProps {
     articleId: number;
     createUser: string;
-    participants: Participant[]; 
+    participants: Participant[];
 }
 
 export default function DetailPageParticipation({
@@ -25,12 +26,27 @@ export default function DetailPageParticipation({
     createUser,
     participants,
 }: DetailPageParticipationProps) {
+    const { mutate: deleteArticle, isLoading: isDeleting } =
+        useDeleteFanfalMutation();
     const isDesktop = useMediaQuery('(min-width: 1279px)');
     const isTablet = useMediaQuery('(min-width: 640px)');
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const { joinMutation, cancelMutation } = useFanFalMutations();
     const { data: user } = useGetUser();
     const isLoggedIn = Boolean(user);
+
+    const handleDeleteClick = () => {
+        deleteArticle(articleId, {
+            onSuccess: () => {
+                toast.success('게시글이 성공적으로 삭제되었습니다.');
+                // 삭제 성공 후 리다이렉트나 UI 처리 추가 가능
+            },
+            onError: (error: Error) => {
+                toast.error('게시글 삭제에 실패했습니다.');
+                console.error(error);
+            },
+        });
+    };
 
     // 현재 로그인한 사용자가 참여자인지 체크해서 상태 초기화
     const [isParticipated, setIsParticipated] = useState(false);
@@ -119,11 +135,21 @@ export default function DetailPageParticipation({
                                     >
                                         공유하기
                                     </Button>
-                                    <Button>취소하기</Button>
+                                    <Button
+                                        onClick={handleDeleteClick}
+                                        disabled={isDeleting}
+                                    >
+                                        {isDeleting ? '삭제 중...' : '취소하기'}
+                                    </Button>
                                 </div>
                             ) : (
                                 <div className="flex gap-2 w-80.5">
-                                    <Button>취소하기</Button>
+                                    <Button
+                                        onClick={handleDeleteClick}
+                                        disabled={isDeleting}
+                                    >
+                                        {isDeleting ? '삭제 중...' : '취소하기'}
+                                    </Button>
                                     <Button
                                         styled="outline"
                                         onClick={handleCopyLink}
@@ -150,7 +176,12 @@ export default function DetailPageParticipation({
                         <Like />
                         {isAdmin ? (
                             <div className="flex gap-2 ">
-                                <Button>취소하기</Button>
+                                <Button
+                                    onClick={handleDeleteClick}
+                                    disabled={isDeleting}
+                                >
+                                    {isDeleting ? '삭제 중...' : '취소하기'}
+                                </Button>
                                 <Button
                                     styled="outline"
                                     onClick={handleCopyLink}
