@@ -46,7 +46,6 @@ export const clientFetcher = async <TResponse, TRequest>(
         return response;
     } catch (error: unknown) {
         // 🔍 디버깅 코드 4: 에러 상세 정보
-   
 
         if (
             error instanceof Error &&
