@@ -1,6 +1,7 @@
 'use client';
 
 import { DetailPageCard, DetailPageDescription } from '@/components/detailPage';
+import { useEffect } from 'react';
 import { useGetDetail } from '@/hooks/queries/useGetList';
 import CustomSkeleton from '@/components/ui/CustomSkeleton';
 import { useParams } from 'next/navigation';
@@ -9,9 +10,13 @@ export default function PanpalDetailPage() {
     const { id: idString } = useParams();
     const id = Number(idString);
 
-    const { data, isLoading, error } = useGetDetail({
+    const { data, isLoading, error, refetch } = useGetDetail({
         id: isNaN(id) || id <= 0 ? 0 : id,
     });
+
+     useEffect(() => {
+        refetch();
+    }, [id, refetch]);
 
     if (isLoading) {
         return <CustomSkeleton layout="detail" />;
@@ -53,6 +58,7 @@ export default function PanpalDetailPage() {
         );
     }
 
+
     const descriptionProps = {
         description: data.description,
         latitude: data.latitude,
@@ -60,6 +66,7 @@ export default function PanpalDetailPage() {
         articleId: id,
         createUser: data.nickName,
         participants: data.participants,
+        refetch,
     };
 
     const cardProps = {
@@ -79,6 +86,7 @@ export default function PanpalDetailPage() {
         location: data.location,
         articleId: id,
         createUserProfileImgUrl: data.writerImageUrl,
+        refetch,
     };
 
     return (

@@ -19,6 +19,7 @@ interface DetailPageCardProps {
     currentPerson: number;
     wishList: boolean;
     articleId: number;
+    refetch?: () => void;
 }
 
 export default function DetailPageCard({
@@ -35,6 +36,7 @@ export default function DetailPageCard({
     currentPerson,
     wishList,
     articleId,
+    refetch,
 }: DetailPageCardProps) {
     console.log('DetailPageCard minPerson:', minPerson);
     return (
@@ -74,6 +76,7 @@ export default function DetailPageCard({
                         wishList={wishList}
                         articleId={articleId}
                         openStatus={openStatus}
+                        refetch={refetch}
                     />
                 </div>
             </div>

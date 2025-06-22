@@ -21,12 +21,14 @@ interface DetailPageParticipationProps {
     articleId: number;
     createUser: string;
     participants: Participant[];
+    refetch?: () => void;
 }
 
 export default function DetailPageParticipation({
     articleId,
     createUser,
     participants,
+    refetch,
 }: DetailPageParticipationProps) {
     const { mutate: deleteArticle, isPending: isDeleting } =
         useDeleteFanfalMutation();
@@ -80,6 +82,7 @@ export default function DetailPageParticipation({
                 onSuccess: () => {
                     setIsParticipated(false);
                     toast.success('참여가 취소되었습니다.');
+                    refetch?.();
                 },
                 onError: () => toast.error('참여 취소 실패'),
             });
@@ -88,6 +91,7 @@ export default function DetailPageParticipation({
                 onSuccess: () => {
                     setIsParticipated(true);
                     toast.success('참여가 완료되었습니다!');
+                    refetch?.();
                 },
                 onError: () => toast.error('참여 실패'),
             });
