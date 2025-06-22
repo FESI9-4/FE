@@ -55,12 +55,13 @@ export const commentApi = {
 
     patchCommentByArticleId: async (
         articleId: number,
-        body: { commentID: number; secret: boolean; content: string }
+        body: { commentId: number; secret: boolean; content: string }
     ): Promise<PostCommentResponse> => {
         return customFetcher<PostCommentResponse, typeof body>(
             `/api/board/${articleId}/comment`,
             {
                 method: 'PATCH',
+                auth: true,
                 body,
                 headers: {
                     'Content-Type': 'application/json',

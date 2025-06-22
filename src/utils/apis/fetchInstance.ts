@@ -41,8 +41,10 @@ export const externalApis = [
     '/api/board',
     '/api/myPage/user',
     '/api/board',
+    '/api/board/',
     '/api/images/postImage',
     '/api/images/getImage',
+    '/api/wishLike'
 ];
 export const fetchInstance = async <TResponse, TRequest>(
     url: string,
@@ -102,7 +104,7 @@ export const isPublicApi = (url: string, method: string = 'GET') => {
     const urlPath = url.split('?')[0];
     const upperMethod = method.toUpperCase();
 
-    return publicApis.some((api) => {
+    const result = publicApis.some((api) => {
         // 메서드가 일치하지 않으면 false
         if (api.method.toUpperCase() !== upperMethod) return false;
 
@@ -112,6 +114,17 @@ export const isPublicApi = (url: string, method: string = 'GET') => {
         }
         return urlPath === api.path || urlPath.startsWith(api.path + '/');
     });
+
+    // 🔍 결과 로깅 추가
+    console.log('isPublicApi 결과:', {
+        url,
+        method,
+        urlPath,
+        upperMethod,
+        isPublic: result
+    });
+
+    return result;
 };
 
 // ✅ 수정: 쿼리 파라미터 제거 추가

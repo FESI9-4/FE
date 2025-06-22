@@ -12,7 +12,7 @@ export const wishLikeApi = {
      * @param articleIds number[] - 찜할 게시물 ID 리스트
      */
     like: async (articleIds: number[]): Promise<WishLikeResponse> => {
-        return customFetcher<WishLikeResponse, { articleIds: number[] }>(
+        return customFetcher<WishLikeResponse, { article_ids: number[] }>(
             '/api/wishLike',
             {
                 method: 'POST',
@@ -20,7 +20,7 @@ export const wishLikeApi = {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: { articleIds },
+                body: { article_ids: articleIds }, 
             }
         );
     },

@@ -6,7 +6,6 @@ import { DeleteIcon } from '@/assets/index';
 import PlaceAutoCompleteInput from './PlaceAutoCompleteInput';
 import { CATEGORY_DATA } from '@/types/categories';
 import { imageUploadApi } from '@/utils/apis/imgS3Api';
-import { createBoardApi } from '@/utils/apis/createFanfalApi';
 import { toast } from 'react-toastify';
 import {
     InputText,
@@ -17,6 +16,7 @@ import {
     InputFile,
     Button,
 } from '@/components/ui';
+import { useCreateFanfalMutation } from '@/hooks/queries/useCreateFanfalMutation';
 
 interface PanpalModalProps {
     onClose: () => void;
@@ -53,7 +53,7 @@ interface FormData {
     maxApplicants: number;
 }
 
-export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
+export default function PanpalModal({ onClose }: PanpalModalProps) {
     const {
         register,
         handleSubmit,
@@ -69,7 +69,7 @@ export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
     });
 
     const startDate = watch('startDate');
-
+    const { mutate: createFanfal } = useCreateFanfalMutation();
     const onFormSubmit = async (data: FormData) => {
         let imageKey = '';
 
@@ -118,20 +118,16 @@ export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
             JSON.stringify(payload, null, 2)
         );
 
-        try {
-            const response = await createBoardApi.postBoard(payload);
-
-            if (response.statusCode === 200) {
+        createFanfal(payload, {
+            onSuccess: () => {
                 toast.success('팬팔이 성공적으로 만들어졌습니다!');
-                onSubmit(payload);
                 onClose();
-            } else {
-                toast.error(`오류: ${response.message}`);
-            }
-        } catch (error) {
-            console.error('API 요청 실패:', error);
-            toast.error('서버와 통신 중 오류가 발생했습니다.');
-        }
+            },
+            onError: (error) => {
+                console.error('생성 실패:', error);
+                toast.error('팬팔 생성에 실패했습니다.');
+            },
+        });
     };
 
     return (
