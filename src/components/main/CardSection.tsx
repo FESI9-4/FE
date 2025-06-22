@@ -58,10 +58,7 @@ export default function CardSection({
                     <div className="flex flex-col gap-10 sm:gap-10 xl:gap-30 w-full ">
                         <div className="flex- flex-col gap-3 min-h-100 sm:min-h-160 xl:min-h-80">
                             {currentCards.map((card) => {
-                                console.log(
-                                    'card.createUser:',
-                                    card.nickName
-                                );
+                                console.log('card.createUser:', card.nickName);
                                 return (
                                     <Link
                                         key={card.articleId}
