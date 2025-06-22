@@ -5,9 +5,8 @@ import ContainerProgress from './ContainerProgress';
 import Like from './Like';
 import Tag from './Tag';
 import { HandIcon } from '@/assets';
-import { useWishlistStore } from '@/store/wishlistStore';
 import { useGetUser } from '@/hooks/queries/useAuth';
-import { wishLikeApi } from '@/utils/apis/likeApi';
+import { useLike } from '@/hooks/useLike';
 
 interface CardListProps {
     title: string;
@@ -40,40 +39,12 @@ export default function CardList({
     articleId,
     wishList = true,
 }: CardListProps) {
-    console.log(createUser);
     const { data: user } = useGetUser();
     const isLoggedIn = !!user;
-    const convertedDate = dateConverter(Number(date), 'korea'); // date?
+    const { isLiked, toggleLike } = useLike(articleId, { isLoggedIn, onLikeClick });
+
+    const convertedDate = dateConverter(Number(date), 'korea');
     const convertedDeadLine = dateConverter(Number(deadLine), 'korea-short');
-    const isLiked = useWishlistStore((state) => state.isLiked(articleId));
-    const addLike = useWishlistStore((state) => state.addLike);
-    const removeLike = useWishlistStore((state) => state.removeLike);
-
-    const handleLikeClick = async (event: React.MouseEvent) => {
-        event.preventDefault();
-        event.stopPropagation();
-
-        try {
-            if (isLoggedIn) {
-                if (isLiked) {
-                    await wishLikeApi.unlike(articleId);
-                } else {
-                    await wishLikeApi.like([articleId]);
-                }
-            }
-
-            // 로컬 store도 항상 업데이트
-            if (isLiked) {
-                removeLike(articleId);
-            } else {
-                addLike(articleId);
-            }
-
-            onLikeClick?.(event, !isLiked);
-        } catch (error) {
-            console.error('찜 처리 중 오류 발생:', error);
-        }
-    };
 
     const getDeadlineText = () => {
         if (!deadLine) return null;
@@ -147,7 +118,7 @@ export default function CardList({
                     </div>
                     {wishList && (
                         <div>
-                            <Like like={isLiked} onClick={handleLikeClick} />
+                            <Like like={isLiked} onClick={toggleLike} />
                         </div>
                     )}
                 </div>

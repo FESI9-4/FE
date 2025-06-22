@@ -6,6 +6,7 @@ import { ClientAuthProvider } from '@/components/providers/ClientAuthProvider';
 import { cookies } from 'next/headers';
 import { MSWComponent } from '@/components/providers/MSWComponent';
 import { Bounce, ToastContainer } from 'react-toastify';
+import { WishlistAuthSync } from '@/hooks/useWishlistSync';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const metadata: Metadata = {
@@ -45,22 +46,24 @@ export default async function RootLayout({
                         hasRefreshToken={hasRefreshToken}
                     >
                         <QueryProvider>
-                            <Nav />
-                            {children}
-                            <ToastContainer
-                                position="top-right"
-                                autoClose={60 * 30}
-                                hideProgressBar={false}
-                                newestOnTop={false}
-                                closeOnClick
-                                rtl={false}
-                                pauseOnFocusLoss
-                                draggable
-                                pauseOnHover
-                                transition={Bounce}
-                                theme="dark"
-                                toastClassName="!bg-gray-800"
-                            />
+                            <WishlistAuthSync>
+                                <Nav />
+                                {children}
+                                <ToastContainer
+                                    position="top-right"
+                                    autoClose={60 * 30}
+                                    hideProgressBar={false}
+                                    newestOnTop={false}
+                                    closeOnClick
+                                    rtl={false}
+                                    pauseOnFocusLoss
+                                    draggable
+                                    pauseOnHover
+                                    transition={Bounce}
+                                    theme="dark"
+                                    toastClassName="!bg-gray-800"
+                                />
+                            </WishlistAuthSync>
                         </QueryProvider>
                     </ClientAuthProvider>
                 </MSWComponent>

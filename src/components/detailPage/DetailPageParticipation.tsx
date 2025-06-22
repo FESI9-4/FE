@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import { useDeleteFanfalMutation } from '@/hooks/queries/useDeleteFanfalMutation';
 import { useRouter } from 'next/navigation';
 import ConfirmDeleteModal from '@/components/ui/Modal/ConfirmDeleteModal';
+import { useLike } from '@/hooks/useLike';
 
 interface Participant {
     profile_image_url: string;
@@ -40,6 +41,7 @@ export default function DetailPageParticipation({
     const isLoggedIn = Boolean(user);
     const router = useRouter();
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const { isLiked, toggleLike } = useLike(articleId, { isLoggedIn, refetch });
 
     // 현재 로그인한 사용자가 참여자인지 체크해서 상태 초기화
     const [isParticipated, setIsParticipated] = useState(false);
@@ -172,7 +174,7 @@ export default function DetailPageParticipation({
                     </div>
                 ) : (
                     <div className="flex justify-between items-center px-4 gap-5.25">
-                        <Like />
+                        <Like like={isLiked} onClick={toggleLike} />
                         {isAdmin ? (
                             <div className="flex gap-2 ">
                                 <Button

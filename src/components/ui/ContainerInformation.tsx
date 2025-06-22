@@ -2,9 +2,8 @@ import Profile from '@/components/ui/Profile';
 import ContainerProgress from './ContainerProgress';
 import Like from './Like';
 import dateConverter from '@/utils/dateConverter';
-import { wishLikeApi } from '@/utils/apis/likeApi';
 import { useGetUser } from '@/hooks/queries/useAuth';
-import { useWishlistStore } from '@/store/wishlistStore';
+import { useLike } from '@/hooks/useLike'; // ✅ 커스텀 훅 import
 
 interface ContainerInformationProps {
     createUser: string;
@@ -36,35 +35,16 @@ export default function ContainerInformaiton({
     openStatus,
     refetch,
 }: ContainerInformationProps) {
-    const { data: user } = useGetUser(); // 로그인 여부 판단
+    const { data: user } = useGetUser();
     const isLoggedIn = !!user;
+
     const formattedDate = dateConverter(date, 'korea');
     const formattedLimitedDate = dateConverter(deadLine, 'korea');
 
-    const isLiked = useWishlistStore((state) => state.isLiked(articleId));
-    const addLike = useWishlistStore((state) => state.addLike);
-    const removeLike = useWishlistStore((state) => state.removeLike);
-
-    const handleLikeClick = async () => {
-        try {
-            if (isLoggedIn) {
-                if (isLiked) {
-                    await wishLikeApi.unlike(articleId);
-                } else {
-                    await wishLikeApi.like([articleId]);
-                }
-            }
-
-            if (isLiked) {
-                removeLike(articleId);
-            } else {
-                addLike(articleId);
-            }
-            refetch?.();
-        } catch (error) {
-            console.error('좋아요 토글 실패:', error);
-        }
-    };
+    const { isLiked, toggleLike } = useLike(articleId, {
+        isLoggedIn,
+        refetch,
+    });
 
     return (
         <div className="w-full px-2 sm:px-0 h-71 sm:h-85 flex flex-col gap-7 sm:justify-between bg-transparent min-w-52">
@@ -77,7 +57,7 @@ export default function ContainerInformaiton({
                             </span>
                             <Like
                                 like={isLiked}
-                                onClick={handleLikeClick}
+                                onClick={toggleLike}
                                 className="hidden sm:inline-block"
                             />
                         </div>
