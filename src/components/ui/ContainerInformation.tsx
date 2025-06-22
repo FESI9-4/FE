@@ -3,7 +3,7 @@ import ContainerProgress from './ContainerProgress';
 import Like from './Like';
 import dateConverter from '@/utils/dateConverter';
 import { useGetUser } from '@/hooks/queries/useAuth';
-import { useLike } from '@/hooks/useLike'; // ✅ 커스텀 훅 import
+import { useLike } from '@/hooks/useLike';
 
 interface ContainerInformationProps {
     createUser: string;

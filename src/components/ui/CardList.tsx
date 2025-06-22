@@ -41,7 +41,10 @@ export default function CardList({
 }: CardListProps) {
     const { data: user } = useGetUser();
     const isLoggedIn = !!user;
-    const { isLiked, toggleLike } = useLike(articleId, { isLoggedIn, onLikeClick });
+    const { isLiked, toggleLike } = useLike(articleId, {
+        isLoggedIn,
+        onLikeClick,
+    });
 
     const convertedDate = dateConverter(Number(date), 'korea');
     const convertedDeadLine = dateConverter(Number(deadLine), 'korea-short');
