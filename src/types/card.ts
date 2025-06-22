@@ -13,4 +13,6 @@ export type Card = {
     createUserProfileImg: string;
     useStatus: 'UPCOMING_STATUS' | 'COMPLETED_STATUS';
     createdAt: number;
+    nickName: 'string';
+    writerImageUrl: 'string';
 };
