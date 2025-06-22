@@ -20,7 +20,7 @@ export const wishLikeApi = {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: { article_ids: articleIds }, 
+                body: { article_ids: articleIds },
             }
         );
     },

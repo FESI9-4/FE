@@ -44,7 +44,7 @@ export const externalApis = [
     '/api/board/',
     '/api/images/postImage',
     '/api/images/getImage',
-    '/api/wishLike'
+    '/api/wishLike',
 ];
 export const fetchInstance = async <TResponse, TRequest>(
     url: string,
@@ -121,7 +121,7 @@ export const isPublicApi = (url: string, method: string = 'GET') => {
         method,
         urlPath,
         upperMethod,
-        isPublic: result
+        isPublic: result,
     });
 
     return result;

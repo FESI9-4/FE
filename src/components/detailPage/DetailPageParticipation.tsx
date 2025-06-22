@@ -9,6 +9,8 @@ import { useFanFalMutations } from '@/hooks/queries/useFanFalMutations';
 import { useGetUser } from '@/hooks/queries/useAuth';
 import { toast } from 'react-toastify';
 import { useDeleteFanfalMutation } from '@/hooks/queries/useDeleteFanfalMutation';
+import { useRouter } from 'next/navigation';
+import ConfirmDeleteModal from '@/components/ui/Modal/ConfirmDeleteModal';
 
 interface Participant {
     profile_image_url: string;
@@ -34,19 +36,8 @@ export default function DetailPageParticipation({
     const { joinMutation, cancelMutation } = useFanFalMutations();
     const { data: user } = useGetUser();
     const isLoggedIn = Boolean(user);
-
-    const handleDeleteClick = () => {
-        deleteArticle(articleId, {
-            onSuccess: () => {
-                toast.success('게시글이 성공적으로 삭제되었습니다.');
-                // 삭제 성공 후 리다이렉트나 UI 처리 추가 가능
-            },
-            onError: (error: Error) => {
-                toast.error('게시글 삭제에 실패했습니다.');
-                console.error(error);
-            },
-        });
-    };
+    const router = useRouter();
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
     // 현재 로그인한 사용자가 참여자인지 체크해서 상태 초기화
     const [isParticipated, setIsParticipated] = useState(false);
@@ -136,7 +127,9 @@ export default function DetailPageParticipation({
                                         공유하기
                                     </Button>
                                     <Button
-                                        onClick={handleDeleteClick}
+                                        onClick={() =>
+                                            setIsDeleteModalOpen(true)
+                                        }
                                         disabled={isDeleting}
                                     >
                                         {isDeleting ? '삭제 중...' : '취소하기'}
@@ -145,7 +138,9 @@ export default function DetailPageParticipation({
                             ) : (
                                 <div className="flex gap-2 w-80.5">
                                     <Button
-                                        onClick={handleDeleteClick}
+                                        onClick={() =>
+                                            setIsDeleteModalOpen(true)
+                                        }
                                         disabled={isDeleting}
                                     >
                                         {isDeleting ? '삭제 중...' : '취소하기'}
@@ -177,7 +172,7 @@ export default function DetailPageParticipation({
                         {isAdmin ? (
                             <div className="flex gap-2 ">
                                 <Button
-                                    onClick={handleDeleteClick}
+                                    onClick={() => setIsDeleteModalOpen(true)}
                                     disabled={isDeleting}
                                 >
                                     {isDeleting ? '삭제 중...' : '취소하기'}
@@ -207,6 +202,26 @@ export default function DetailPageParticipation({
 
             {isLoginModalOpen && (
                 <LoginModal onClose={() => setIsLoginModalOpen(false)} />
+            )}
+
+            {isDeleteModalOpen && (
+                <ConfirmDeleteModal
+                    onCancel={() => setIsDeleteModalOpen(false)}
+                    onConfirm={() => {
+                        deleteArticle(articleId, {
+                            onSuccess: () => {
+                                toast.success(
+                                    '게시글이 성공적으로 삭제되었습니다.'
+                                );
+                                router.push('/');
+                            },
+                            onError: (error: Error) => {
+                                toast.error('게시글 삭제에 실패했습니다.');
+                                console.error(error);
+                            },
+                        });
+                    }}
+                />
             )}
         </>
     );
