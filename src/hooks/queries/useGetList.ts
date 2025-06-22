@@ -15,6 +15,7 @@ interface UseGetListParams {
     lastArticleId?: number;
     limit?: number;
     page?: number;
+    
 }
 
 export const useGetList = ({
