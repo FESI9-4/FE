@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useRef, useEffect } from 'react';
 import { useWishlistStore } from '@/store/wishlistStore';
@@ -18,16 +18,16 @@ export const useWishlistSync = () => {
         try {
             // 1. 로컬에 있는 찜 목록 가져오기
             const pendingLikes = getPendingLikes();
-            
+
             // 2. 로컬에 찜한 항목이 있다면 서버에 전송
             if (pendingLikes.length > 0) {
                 await wishLikeApi.like(pendingLikes);
             }
-            
+
             // 3. 서버로부터 사용자의 찜 목록을 가져와서 동기화 (선택사항)
             // const serverWishlist = await wishLikeApi.getUserWishlist();
             // syncWithServer(serverWishlist.data);
-            
+
             setInitialized(true);
         } catch (error) {
             console.error('찜 목록 동기화 실패:', error);
@@ -47,8 +47,13 @@ export const useWishlistSync = () => {
 };
 
 // 전역 인증 상태 관리 컴포넌트
-export const WishlistAuthSync = ({ children }: { children: React.ReactNode }) => {
+export const WishlistAuthSync = ({
+    children,
+}: {
+    children: React.ReactNode;
+}) => {
     const { data: user, isLoading } = useGetUser();
+    console.log(user);
     const { handleLogin, handleLogout, isInitialized } = useWishlistSync();
     const prevUser = useRef<typeof user | null>(null);
 
@@ -56,8 +61,8 @@ export const WishlistAuthSync = ({ children }: { children: React.ReactNode }) =>
         if (isLoading) return;
 
         // user가 유효한 로그인 상태인지 확인 (예: id 필드 존재 여부)
-        const isLoggedIn = user && !!user.userId;
-        const wasLoggedIn = prevUser.current && !!prevUser.current.userId;
+        const isLoggedIn = user && !!user.nickName;
+        const wasLoggedIn = prevUser.current && !!prevUser.current.nickName;
 
         // 로그인 처리: 이전에 비로그인 상태였다가 현재 로그인 상태인 경우
         if (isLoggedIn && !wasLoggedIn && !isInitialized) {
