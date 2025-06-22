@@ -60,7 +60,7 @@ export default function CardSection({
                             {currentCards.map((card) => {
                                 console.log(
                                     'card.createUser:',
-                                    card.createUser
+                                    card.nickName
                                 );
                                 return (
                                     <Link
@@ -76,9 +76,9 @@ export default function CardSection({
                                             maxPerson={card.maxPerson}
                                             openStatus={card.openStatus}
                                             image={card.image}
-                                            createUser={card.createUser}
+                                            createUser={card.nickName}
                                             createUserProfileImg={
-                                                card.createUserProfileImg
+                                                card.writerImageUrl
                                             }
                                             articleId={card.articleId}
                                         />

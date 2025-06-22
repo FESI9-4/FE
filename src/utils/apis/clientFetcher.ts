@@ -46,12 +46,7 @@ export const clientFetcher = async <TResponse, TRequest>(
         return response;
     } catch (error: unknown) {
         // 🔍 디버깅 코드 4: 에러 상세 정보
-        console.error('[DEBUG] 요청 실패:', {
-            url,
-            error: error instanceof Error ? error.message : error,
-            isPublic,
-            hasToken: !!authStore.accessToken,
-        });
+   
 
         if (
             error instanceof Error &&

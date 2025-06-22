@@ -13,7 +13,7 @@ export const wishLikeApi = {
      */
     like: async (articleIds: number[]): Promise<WishLikeResponse> => {
         return customFetcher<WishLikeResponse, { article_ids: number[] }>(
-            '/api/wishLike',
+            '/api/wishlike',
             {
                 method: 'POST',
                 auth: true,
@@ -31,7 +31,7 @@ export const wishLikeApi = {
      */
     unlike: async (articleId: number): Promise<WishLikeResponse> => {
         return customFetcher<WishLikeResponse, void>(
-            `/api/wishLike/${articleId}`,
+            `/api/wishlike/${articleId}`,
             {
                 method: 'DELETE',
                 auth: true,

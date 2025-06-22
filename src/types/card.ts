@@ -9,10 +9,8 @@ export type Card = {
     openStatus: 'CONFIRMED_STATUS' | 'PENDING_STATUS' | 'CANCELED_STATUS';
     wish: boolean;
     image: string;
-    createUser: string;
-    createUserProfileImg: string;
     useStatus: 'UPCOMING_STATUS' | 'COMPLETED_STATUS';
     createdAt: number;
-    nickName: 'string';
-    writerImageUrl: 'string';
+    nickName: string;
+    writerImageUrl: string;
 };
