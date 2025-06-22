@@ -169,6 +169,7 @@ export default function DetailPageParticipation({
                             >
                                 {isParticipated ? '참여 취소하기' : '참여하기'}
                             </Button>
+                            
                         )}
                     </div>
                 ) : (

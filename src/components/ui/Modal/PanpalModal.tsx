@@ -253,6 +253,9 @@ export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
                                 <DateInput
                                     name="startDate"
                                     control={control}
+                                    rules={{
+                                        required: '시작 날짜를 선택해주세요',
+                                    }}
                                     type="datetime-local"
                                     minDate={new Date()}
                                     isStartDate={true}
@@ -268,6 +271,9 @@ export default function PanpalModal({ onClose, onSubmit }: PanpalModalProps) {
                                 <DateInput<FormData>
                                     name="endDate"
                                     control={control}
+                                    rules={{
+                                        required: '마감 날짜를 선택해주세요',
+                                    }}
                                     type="datetime-local"
                                     minDate={
                                         startDate
