@@ -1,3 +1,4 @@
+import React from 'react';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
@@ -20,10 +21,10 @@ function SkeletonCard({ layout, cardClass }: SkeletonCardProps) {
                 className={`xl:w-64 sm:w-52 xl:px-3 xl:pt-3 xl:pb-8 p-2 ${cardClass || ''}`}
             >
                 <div className="flex sm:flex-col flex-row sm:gap-6 gap-3">
-                    <div className="relative xl:h-75 sm:h-61 h-30 sm:w-full w-25 flex-shrink-0">
+                    <div className="relative xl:h-75 sm:h-61 h-30 sm:w-full w-25 items-center justify-center flex-shrink-0">
                         <Skeleton className="w-full h-full" />
                     </div>
-                    <div className="flex flex-col gap-1 justify-center w-full">
+                    <div className="flex flex-col gap-1 text-sm justify-center sm:w-full w-60">
                         <Skeleton
                             height={24}
                             className="xl:h-6 sm:h-5 h-4 mb-1"
@@ -32,7 +33,7 @@ function SkeletonCard({ layout, cardClass }: SkeletonCardProps) {
                         <Skeleton
                             height={16}
                             width="85%"
-                            className="sm:mt-0 mt-2"
+                            className="sm:mt-0 mt-2 "
                         />
                     </div>
                 </div>
@@ -249,11 +250,16 @@ export default function CustomSkeleton({
                     <div className="grid sm:grid-cols-4 gap-3">
                         {Array.from({ length: skeletonCount }).map(
                             (_, index) => (
-                                <SkeletonCard
-                                    key={index}
-                                    layout={layout}
-                                    cardClass={cardClass}
-                                />
+                                <React.Fragment key={index}>
+                                    <SkeletonCard
+                                        key={index}
+                                        layout={layout}
+                                        cardClass={cardClass}
+                                    />
+                                    {index !== skeletonCount - 1 && (
+                                        <hr className="border-t border-gray-800 sm:hidden" />
+                                    )}
+                                </React.Fragment>
                             )
                         )}
                     </div>
