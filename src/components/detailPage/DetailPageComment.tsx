@@ -7,6 +7,7 @@ import CommentList from './CommentList';
 import dateConverter from '@/utils/dateConverter';
 import { useCommentQuery } from '@/hooks/queries/useComments';
 import { useGetUser } from '@/hooks/queries/useAuth';
+import LoginModal from '@/components/ui/Modal/LoginModal';
 
 interface FormData {
     comment: string;
@@ -48,6 +49,7 @@ export default function DetailPageComment({
     const observerRef = useRef<HTMLDivElement>(null);
     const formRef = useRef<HTMLFormElement>(null);
     const { data: user } = useGetUser();
+    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
     const {
         commentsData,
@@ -93,7 +95,7 @@ export default function DetailPageComment({
 
     const onSubmit: SubmitHandler<FormData> = (data) => {
         if (!user) {
-            alert('로그인이 필요합니다.');
+            setIsLoginModalOpen(true);
             return;
         }
 
@@ -260,6 +262,10 @@ export default function DetailPageComment({
                     </p>
                 )}
             </form>
+
+            {isLoginModalOpen && (
+                <LoginModal onClose={() => setIsLoginModalOpen(false)} />
+            )}
 
             <div className="px-4 w-full h-6">
                 <div className="border-t border-gray-800 h-1"></div>
