@@ -121,8 +121,8 @@ export default function EditProfileModal({
                             <Input
                                 type="text"
                                 name="nickname"
-                                placeholder={user?.nickname || ''}
-                                value={user?.nickname || ''}
+                                placeholder={user?.nickName || ''}
+                                value={user?.nickName || ''}
                                 register={register}
                                 className="placeholder:text-white"
                                 rules={{
@@ -135,7 +135,7 @@ export default function EditProfileModal({
                                         message: '10글자 이하로 입력해주세요.',
                                     },
                                 }}
-                                error={errors.nickname as FieldError}
+                                error={errors.nickName as FieldError}
                                 size="small"
                             />
                         </div>
