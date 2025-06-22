@@ -2,18 +2,15 @@ import { FetcherOptions } from '@/types/fetcher';
 
 //const baseURL = 'http://localhost:3000';
 export const publicApis: { method: string; path: string }[] = [
-    // 프록시를 통한 인증 관련 API
     { method: 'POST', path: '/api/proxy/login' },
     { method: 'POST', path: '/api/proxy/signup' },
 
-    // 직접 백엔드 호출 인증 API
     { method: 'POST', path: '/api/auth/login' },
     { method: 'POST', path: '/api/auth/signup' },
     { method: 'POST', path: '/api/auth/findpassword' },
 
-    // 게시글 관련 (GET만 public)
     { method: 'GET', path: '/api/board' },
-    { method: 'GET', path: '/api/board/' }, // 특정 게시글 조회용
+    { method: 'GET', path: '/api/board/' },
 ];
 export const internalApis = [
     '/api/proxy/login',
@@ -34,12 +31,9 @@ export const fetchInstance = async <TResponse, TRequest>(
     url: string,
     options: FetcherOptions<TRequest> = {}
 ): Promise<TResponse> => {
-    //const fullUrl = `${baseURL}${url}`;
     let fullUrl: string;
-    //프록시 요청
     const FRONTEND_URL =
         process.env.NEXT_PUBLIC_FRONTEND_URL || 'http://localhost:3000';
-    //실제 api 요청
     const BACKEND_URL =
         process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000';
     if (isInternalApi(url)) {
