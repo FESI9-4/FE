@@ -31,7 +31,7 @@ export const externalApis = [
     '/api/board/',
     '/api/images/postImage',
     '/api/images/getImage',
-    '/api/wishLike',
+    '/api/wishlike',
 ];
 export const fetchInstance = async <TResponse, TRequest>(
     url: string,
@@ -135,4 +135,3 @@ function isExternalApi(url: string): boolean {
         return urlPath === pattern || urlPath.startsWith(pattern + '/');
     });
 }
-

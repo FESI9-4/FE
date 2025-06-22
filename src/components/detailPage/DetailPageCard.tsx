@@ -45,7 +45,11 @@ export default function DetailPageCard({
         const now = new Date();
         const deadlineDate = new Date(deadLine * 1000); // 초 단위 timestamp라 가정
 
-        const nowDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const nowDate = new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate()
+        );
         const deadlineDateOnly = new Date(
             deadlineDate.getFullYear(),
             deadlineDate.getMonth(),

@@ -22,7 +22,7 @@ export default function Home() {
         selectedSortOption,
         sortAsc,
     });
-
+    console.log('articles:', articles);
     useEffect(() => {
         setSelectedCategory('ALL');
     }, [activeTab]);

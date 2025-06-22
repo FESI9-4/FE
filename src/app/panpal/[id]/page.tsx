@@ -14,7 +14,7 @@ export default function PanpalDetailPage() {
         id: isNaN(id) || id <= 0 ? 0 : id,
     });
 
-     useEffect(() => {
+    useEffect(() => {
         refetch();
     }, [id, refetch]);
 
@@ -57,7 +57,6 @@ export default function PanpalDetailPage() {
             </div>
         );
     }
-
 
     const descriptionProps = {
         description: data.description,

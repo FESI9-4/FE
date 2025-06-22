@@ -156,7 +156,6 @@ export default function CardList({
                     max={maxPerson}
                     openStatus={openStatus}
                     deadLine={convertedDeadLine}
-                    
                 />
             </div>
         </div>
