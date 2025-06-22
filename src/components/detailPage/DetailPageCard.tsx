@@ -38,7 +38,32 @@ export default function DetailPageCard({
     articleId,
     refetch,
 }: DetailPageCardProps) {
+    // deadLine을 받아 오늘인지 판단하고 "오늘 xx시 마감" 문자열 반환
+    function getDeadlineText(deadLine: number) {
+        if (!deadLine) return null;
+
+        const now = new Date();
+        const deadlineDate = new Date(deadLine * 1000); // 초 단위 timestamp라 가정
+
+        const nowDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const deadlineDateOnly = new Date(
+            deadlineDate.getFullYear(),
+            deadlineDate.getMonth(),
+            deadlineDate.getDate()
+        );
+
+        if (nowDate.getTime() === deadlineDateOnly.getTime()) {
+            const deadlineHour = deadlineDate.getHours();
+            return `오늘 ${deadlineHour}시 마감`;
+        }
+
+        return null;
+    }
+
+    const deadlineText = getDeadlineText(deadLine);
+
     console.log('DetailPageCard minPerson:', minPerson);
+
     return (
         <div>
             <div className="flex flex-col sm:flex-row sm:px-3 sm:gap-10 gap-6 sm:h-95 sm:items-end">
@@ -59,7 +84,7 @@ export default function DetailPageCard({
                             </div>
                         </div>
                     ) : (
-                        <Tag>오늘 12시 마감</Tag>
+                        deadlineText && <Tag>{deadlineText}</Tag>
                     )}
                 </div>
                 <div className="px-3 h-56.7 sm:w-full sm:h-85">
