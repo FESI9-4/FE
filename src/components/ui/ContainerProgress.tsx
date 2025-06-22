@@ -9,7 +9,7 @@ interface ContainerProgressProps {
     max: number;
     current: number;
     openStatus: 'CONFIRMED_STATUS' | 'PENDING_STATUS' | 'CANCELED_STATUS';
-    deadLine?: string;
+    deadLine?: number;
 }
 
 export default function ContainerProgress({

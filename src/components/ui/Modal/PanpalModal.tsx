@@ -302,9 +302,9 @@ export default function PanpalModal({ onClose }: PanpalModalProps) {
                                             validate: (value) =>
                                                 Number.isInteger(
                                                     Number(value)
-                                                ) && Number(value) > 0
+                                                ) && Number(value) > 1
                                                     ? true
-                                                    : '1 이상의 정수를 입력해주세요',
+                                                    : '2 이상의 정수를 입력해주세요',
                                         }}
                                         size="small"
                                     />

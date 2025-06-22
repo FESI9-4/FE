@@ -19,6 +19,7 @@ interface ContainerInformationProps {
     wishList: boolean;
     articleId: number;
     openStatus: 'CONFIRMED_STATUS' | 'PENDING_STATUS' | 'CANCELED_STATUS';
+    refetch?: () => void;
 }
 
 export default function ContainerInformaiton({
@@ -33,6 +34,7 @@ export default function ContainerInformaiton({
     currentPerson,
     articleId,
     openStatus,
+    refetch,
 }: ContainerInformationProps) {
     const { data: user } = useGetUser(); // 로그인 여부 판단
     const isLoggedIn = !!user;
@@ -58,6 +60,7 @@ export default function ContainerInformaiton({
             } else {
                 addLike(articleId);
             }
+            refetch?.();
         } catch (error) {
             console.error('좋아요 토글 실패:', error);
         }
