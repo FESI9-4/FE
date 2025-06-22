@@ -26,7 +26,7 @@ export default function DetailPageParticipation({
     createUser,
     participants,
 }: DetailPageParticipationProps) {
-    const { mutate: deleteArticle, isLoading: isDeleting } =
+    const { mutate: deleteArticle, isPending: isDeleting } =
         useDeleteFanfalMutation();
     const isDesktop = useMediaQuery('(min-width: 1279px)');
     const isTablet = useMediaQuery('(min-width: 640px)');
@@ -51,15 +51,15 @@ export default function DetailPageParticipation({
     // 현재 로그인한 사용자가 참여자인지 체크해서 상태 초기화
     const [isParticipated, setIsParticipated] = useState(false);
     useEffect(() => {
-        console.log('현재 로그인 유저 닉네임:', user?.nickname);
+        console.log('현재 로그인 유저 닉네임:', user?.nickName);
         console.log(
             '참여자 목록 닉네임:',
             participants.map((p) => p.nickname)
         );
 
-        if (isLoggedIn && user?.nickname) {
+        if (isLoggedIn && user?.nickName) {
             const participated = participants.some(
-                (p) => p.nickname === user.nickname
+                (p) => p.nickname === user.nickName
             );
             console.log('참여 여부:', participated);
             setIsParticipated(participated);
@@ -103,7 +103,7 @@ export default function DetailPageParticipation({
         }
     };
 
-    const isAdmin = isLoggedIn && user?.nickname === createUser;
+    const isAdmin = isLoggedIn && user?.nickName === createUser;
 
     return (
         <>
@@ -169,7 +169,6 @@ export default function DetailPageParticipation({
                             >
                                 {isParticipated ? '참여 취소하기' : '참여하기'}
                             </Button>
-                            
                         )}
                     </div>
                 ) : (

@@ -202,7 +202,7 @@ export default function DetailPageComment({
                                     image={user?.profileImage}
                                 />
                                 <p className="text-sm font-normal text-gray-300">
-                                    {user?.nickname}
+                                    {user?.nickName}
                                 </p>
                             </div>
                             <p className="text-sm font-medium text-gray-600 h-5">

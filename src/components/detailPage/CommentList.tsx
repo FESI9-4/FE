@@ -62,7 +62,7 @@ function CommentItem({
 }: CommentProps) {
     const { data: user } = useGetUser();
     const isAuthor = comment.nickName === createUserId;
-    const isMyComment = comment.nickName === user?.nickname;
+    const isMyComment = comment.nickName === user?.nickName;
 
     const getDropdownOptions = () => {
         if (isMyComment) {
