@@ -27,7 +27,11 @@ export default function ConfirmDeleteModal({
                         </div>
                     </div>
                     <div className="flex gap-3 h-10 md:h-12">
-                        <Button size="large" onClick={onCancel} styled="outline">
+                        <Button
+                            size="large"
+                            onClick={onCancel}
+                            styled="outline"
+                        >
                             취소
                         </Button>
                         <Button size="large" onClick={onConfirm}>
