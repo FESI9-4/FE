@@ -74,7 +74,6 @@ export const fetchInstance = async <TResponse, TRequest>(
             body: options.body ? JSON.stringify(options.body) : undefined,
         });
         if (!response.ok) {
-            console.log(response);
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         //✅ returnFullResponse가 true면 ok 체크 없이 Response 반환
