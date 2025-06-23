@@ -30,7 +30,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
     args: {
-        openStatus: 'waiting',
+        openStatus: 'PENDING_STATUS',
         children: '답변 대기',
     },
 };
@@ -43,7 +43,7 @@ export const AllStates: Story = {
                 <div>
                     <h3 className="text-white text-lg mb-4">답변 대기</h3>
                     <div className="bg-gray-800 p-4 rounded-lg">
-                        <ProgressChip openStatus="waiting">
+                        <ProgressChip openStatus="PENDING_STATUS">
                             답변 대기
                         </ProgressChip>
                     </div>
@@ -53,7 +53,7 @@ export const AllStates: Story = {
                 <div>
                     <h3 className="text-white text-lg mb-4">답변 완료</h3>
                     <div className="bg-gray-800 p-4 rounded-lg">
-                        <ProgressChip openStatus="finished">
+                        <ProgressChip openStatus="CONFIRMED_STATUS">
                             답변 완료
                         </ProgressChip>
                     </div>
@@ -63,7 +63,7 @@ export const AllStates: Story = {
                 <div>
                     <h3 className="text-white text-lg mb-4">진행 중</h3>
                     <div className="bg-gray-800 p-4 rounded-lg">
-                        <ProgressChip openStatus="progressing">
+                        <ProgressChip openStatus="PROGRESSING_STATUS">
                             진행 중
                         </ProgressChip>
                     </div>
@@ -73,7 +73,7 @@ export const AllStates: Story = {
                 <div>
                     <h3 className="text-white text-lg mb-4">취소됨 (숨김)</h3>
                     <div className="bg-gray-800 p-4 rounded-lg">
-                        <ProgressChip openStatus="canceled">
+                        <ProgressChip openStatus="CANCELED_STATUS">
                             취소됨
                         </ProgressChip>
                         <p className="text-gray-400 text-sm mt-2">

@@ -47,10 +47,10 @@ const meta: Meta<typeof MyCardList> = {
         image: {
             control: { type: 'text' },
         },
-        createUser: {
+        nickName: {
             control: { type: 'text' },
         },
-        createUserProfileImg: {
+        writerImageUrl: {
             control: { type: 'text' },
         },
         buttonOnClick: {
@@ -77,12 +77,11 @@ export const Default: Story = {
         date: Math.floor(Date.now() / 1000) + 86400, // 내일
         currentPerson: 8,
         maxPerson: 10,
-        openStatus: 'progressing',
+        openStatus: 'PENDING_STATUS',
         image: 'https://picsum.photos/400/300?random=1',
-        createUser: '팬클럽회장',
-        createUserProfileImg:
-            'https://randomuser.me/api/portraits/women/75.jpg',
-        useStatus: 'UPCOMING',
+        nickName: '팬클럽회장',
+        writerImageUrl: 'https://randomuser.me/api/portraits/women/75.jpg',
+        useStatus: 'UPCOMING_STATUS',
         buttonOnClick: () => console.log('버튼 클릭'),
     },
 };
@@ -102,11 +101,11 @@ export const AllStates: Story = {
                         date={Math.floor(Date.now() / 1000) + 86400}
                         currentPerson={5}
                         maxPerson={8}
-                        openStatus="progressing"
+                        openStatus="PENDING_STATUS"
                         image="https://picsum.photos/400/300?random=2"
-                        createUser="콘서트매니아"
-                        createUserProfileImg="https://randomuser.me/api/portraits/men/32.jpg"
-                        useStatus="UPCOMING"
+                        nickName="콘서트매니아"
+                        writerImageUrl="https://randomuser.me/api/portraits/men/32.jpg"
+                        useStatus="UPCOMING_STATUS"
                         buttonOnClick={() => console.log('참여 취소')}
                     />
                 </div>
@@ -122,11 +121,11 @@ export const AllStates: Story = {
                         date={Math.floor(Date.now() / 1000) + 172800}
                         currentPerson={3}
                         maxPerson={6}
-                        openStatus="waiting"
+                        openStatus="PENDING_STATUS"
                         image="https://picsum.photos/400/300?random=3"
-                        createUser="사인회러버"
-                        createUserProfileImg="https://randomuser.me/api/portraits/women/44.jpg"
-                        useStatus="UPCOMING"
+                        nickName="사인회러버"
+                        writerImageUrl="https://randomuser.me/api/portraits/women/44.jpg"
+                        useStatus="UPCOMING_STATUS"
                         buttonOnClick={() => console.log('참여 취소')}
                     />
                 </div>
@@ -142,11 +141,11 @@ export const AllStates: Story = {
                         date={Math.floor(Date.now() / 1000) + 259200}
                         currentPerson={10}
                         maxPerson={10}
-                        openStatus="finished"
+                        openStatus="CONFIRMED_STATUS"
                         image="https://picsum.photos/400/300?random=4"
-                        createUser="굿즈수집가"
-                        createUserProfileImg="https://randomuser.me/api/portraits/men/67.jpg"
-                        useStatus="UPCOMING"
+                        nickName="굿즈수집가"
+                        writerImageUrl="https://randomuser.me/api/portraits/men/67.jpg"
+                        useStatus="UPCOMING_STATUS"
                         buttonOnClick={() => console.log('참여 취소')}
                     />
                 </div>
@@ -162,11 +161,11 @@ export const AllStates: Story = {
                         date={Math.floor(Date.now() / 1000) + 345600}
                         currentPerson={2}
                         maxPerson={8}
-                        openStatus="canceled"
+                        openStatus="CANCELED_STATUS"
                         image="https://picsum.photos/400/300?random=5"
-                        createUser="해외팬"
-                        createUserProfileImg="https://randomuser.me/api/portraits/women/25.jpg"
-                        useStatus="UPCOMING"
+                        nickName="해외팬"
+                        writerImageUrl="https://randomuser.me/api/portraits/women/25.jpg"
+                        useStatus="UPCOMING_STATUS"
                         buttonOnClick={() => console.log('삭제하기')}
                     />
                 </div>
@@ -180,11 +179,11 @@ export const AllStates: Story = {
                         date={Math.floor(Date.now() / 1000) - 86400} // 어제
                         currentPerson={12}
                         maxPerson={12}
-                        openStatus="finished"
+                        openStatus="CONFIRMED_STATUS"
                         image="https://picsum.photos/400/300?random=6"
-                        createUser="팬미팅조직자"
-                        createUserProfileImg="https://randomuser.me/api/portraits/women/80.jpg"
-                        useStatus="COMPLETED"
+                        nickName="팬미팅조직자"
+                        writerImageUrl="https://randomuser.me/api/portraits/women/80.jpg"
+                        useStatus="COMPLETED_STATUS"
                         buttonOnClick={() => console.log('완료된 활동')}
                     />
                 </div>
