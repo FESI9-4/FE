@@ -37,7 +37,7 @@ export default function AnswerList() {
     );
 
     const allData = useMemo(() => {
-        return data?.pages.flatMap((page) => page.data) || [];
+        return data?.pages.flatMap((page) => page.data.data) || [];
     }, [data?.pages]);
 
     if (isLoading) return <CustomSkeleton layout="comment" count={6} />;
@@ -80,7 +80,9 @@ export default function AnswerList() {
                     </div>
                     <hr className="border-t border-gray-800 pb-3" />
                     <div className="flex flex-col gap-5">
-                        <div>답변 목록 ({data?.pages[0]?.totalCount || 0})</div>
+                        <div>
+                            답변 목록 ({data?.pages[0]?.data.totalCount || 0})
+                        </div>
                         <div className="flex flex-col gap-7">
                             {allData.map((item, index) => (
                                 <div

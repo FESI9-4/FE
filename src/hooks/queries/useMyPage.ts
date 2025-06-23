@@ -10,16 +10,13 @@ import {
     QuestionListResponse,
     SelfMypageResponse,
     AnswerListResponse,
+    ProfileEditRequest,
 } from '@/types/myPage';
 
 export const useChangeProfileMutation = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (data: {
-            nickname: string;
-            profileImage?: File;
-            description?: string;
-        }) => mypageApi.changeProfile(data),
+        mutationFn: (data: ProfileEditRequest) => mypageApi.changeProfile(data),
         onSuccess: () => {
             console.log('프로필 변경 성공');
             queryClient.invalidateQueries({ queryKey: ['user'] });
@@ -43,14 +40,10 @@ export const useChangePasswordMutation = () => {
     });
 };
 
-export const useGetMyPage = (
-    currentPage: number,
-    lastArticleId: number | null,
-    pageSize: number
-) => {
+export const useGetMyPage = (currentPage: number, pageSize: number) => {
     return useQuery<MyPageResponse>({
         queryKey: ['mypage', currentPage],
-        queryFn: () => mypageApi.getMypage(lastArticleId, pageSize),
+        queryFn: () => mypageApi.getMypage(currentPage, pageSize),
     });
 };
 
@@ -80,14 +73,10 @@ export const useCancelMypageMutation = () => {
     });
 };
 
-export const useGetSelfMypage = (
-    currentPage: number,
-    lastArticleId: number | null,
-    pageSize: number
-) => {
+export const useGetSelfMypage = (currentPage: number, pageSize: number) => {
     return useQuery<SelfMypageResponse>({
         queryKey: ['mypageSelf', currentPage],
-        queryFn: () => mypageApi.getSelfMypage(lastArticleId, pageSize),
+        queryFn: () => mypageApi.getSelfMypage(currentPage, pageSize),
     });
 };
 
@@ -110,8 +99,8 @@ export const useGetAnswer = (pageParam: number | null, pageSize: number) => {
         queryFn: ({ pageParam }) =>
             mypageApi.getAnswer(pageParam as number | null, pageSize),
         getNextPageParam: (lastPage) => {
-            if (lastPage.data.length === 0) return undefined;
-            return lastPage.data[lastPage.data.length - 1].fanpal_id;
+            if (lastPage.data.data.length === 0) return undefined;
+            return lastPage.data.data[lastPage.data.data.length - 1].fanpal_id;
         },
         initialPageParam: 1,
     });

@@ -57,13 +57,21 @@ export type Answer = {
 };
 
 export interface MyPageResponse {
-    totalPage: number;
-    data: Card[];
+    data: {
+        data: Card[];
+        totalCount: number;
+    };
+    message: string;
+    statusCode: number;
 }
 
 export interface SelfMypageResponse {
-    totalPage: number;
-    data: SelfCard[];
+    data: {
+        data: SelfCard[];
+        totalCount: number;
+    };
+    message: string;
+    statusCode: number;
 }
 
 export interface QuestionListResponse {
@@ -72,6 +80,19 @@ export interface QuestionListResponse {
 }
 
 export interface AnswerListResponse {
-    totalCount: number;
-    data: Answer[];
+    data: {
+        data: Answer[];
+        totalCount: number;
+    };
+    message: string;
+    statusCode: number;
+}
+
+export interface ProfileEditRequest {
+    userId?: string;
+    nickName?: string;
+    email?: string;
+    information?: string;
+    password?: string;
+    profileImgUrl?: string;
 }
