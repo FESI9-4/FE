@@ -9,7 +9,6 @@ import {
     useChangePasswordMutation,
 } from '@/hooks/queries/useMyPage';
 import { toast } from 'react-toastify';
-import { ProfileEditRequest } from '@/types/myPage';
 import { mypageApi } from '@/utils/apis/mypage';
 
 export default function ProfileContainer() {
@@ -35,9 +34,10 @@ export default function ProfileContainer() {
     };
 
     const handleSubmitPasswordModal = (data: {
-        currentPassword: string;
+        password: string;
         newPassword: string;
     }) => {
+        console.log(data);
         setIsPasswordModalOpen(false);
         changePasswordMutation.mutate(data, {
             onSuccess: () => {
@@ -49,30 +49,32 @@ export default function ProfileContainer() {
         });
     };
 
-    const handleSubmitEditProfileModal = async (data: ProfileEditRequest) => {
+    const handleSubmitEditProfileModal = async (data: {
+        nickName: string;
+        profileImg: File;
+        information: string;
+    }) => {
         setIsEditProfileModalOpen(false);
 
         let profileImageUrl = '';
-        if (data.profileImgUrl && typeof data.profileImgUrl !== 'string') {
-            const response = await mypageApi.postProfileImage(
-                data.profileImgUrl as File
+        if (data.profileImg) {
+            const response = await mypageApi.postProfileImageUrl(
+                data.profileImg
             );
+            console.log(response);
             profileImageUrl = response.data?.preSignedUrl || '';
-            await mypageApi.putProfileImage(
-                data.profileImgUrl as File,
+            const putResponse = await mypageApi.putProfileImage(
+                data.profileImg,
                 profileImageUrl
             );
+            console.log(putResponse);
         }
 
         changeProfileMutation.mutate(
             {
-                userId: data.userId || '',
-                nickName: data.nickName || '',
-                profileImgUrl:
-                    profileImageUrl || (data.profileImgUrl as string) || '',
-                information: data.information || '',
-                password: data.password || '',
-                email: data.email || '',
+                nickName: data.nickName,
+                profileImgUrl: profileImageUrl,
+                information: data.information,
             },
             {
                 onSuccess: () => {

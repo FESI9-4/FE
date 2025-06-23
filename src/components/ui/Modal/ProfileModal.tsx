@@ -9,11 +9,14 @@ import Button from '@/components/ui/Button';
 import Profile from '@/components/ui/Profile';
 import { useGetUser } from '@/hooks/queries/useAuth';
 import InputText from '../InputText';
-import { ProfileEditRequest } from '@/types/myPage';
 
 interface EditProfileModalProps {
     onClose: () => void;
-    onSubmit: (data: ProfileEditRequest) => void;
+    onSubmit: (data: {
+        nickName: string;
+        profileImg: File;
+        information: string;
+    }) => void;
 }
 
 export default function EditProfileModal({
@@ -85,7 +88,7 @@ export default function EditProfileModal({
         });
         onSubmit({
             nickName: data.nickname,
-            profileImgUrl: data.file?.[0],
+            profileImg: data.file?.[0],
             information: data.description,
         });
     };

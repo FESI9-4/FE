@@ -35,7 +35,7 @@ export default function MyCardListContainer() {
                     <div>
                         {data?.data.data.map((item, index) => (
                             <div
-                                key={item?.fanpal_id?.toString() ?? index}
+                                key={item?.articleId?.toString() ?? index}
                                 className="flex flex-col gap-3"
                             >
                                 <MyCardList
@@ -44,30 +44,21 @@ export default function MyCardListContainer() {
                                     date={item.date}
                                     currentPerson={item.currentPerson}
                                     maxPerson={item.maxPerson}
-                                    openStatus={
-                                        item.openStatus as
-                                            | 'waiting'
-                                            | 'finished'
-                                            | 'progressing'
-                                            | 'canceled'
-                                    }
+                                    openStatus={item.openStatus}
                                     image={item.image}
-                                    createUser={item.createUser}
-                                    createUserProfileImg={item.image}
-                                    useStatus={
-                                        item.useStatus as
-                                            | 'UPCOMING'
-                                            | 'COMPLETED'
-                                    }
+                                    nickName={item.createUser}
+                                    writerImageUrl={item.createUserProfileImg}
+                                    useStatus={item.useStatus}
                                     buttonOnClick={() => {
                                         if (
-                                            item.openStatus === 'waiting' ||
-                                            item.openStatus === 'finished' ||
-                                            item.openStatus === 'progressing'
+                                            item.openStatus ===
+                                                'PENDING_STATUS' ||
+                                            item.openStatus ===
+                                                'CONFIRMED_STATUS'
                                         ) {
-                                            cancelMypage(item.fanpal_id);
+                                            cancelMypage(item.articleId);
                                         } else {
-                                            deleteMypage(item.fanpal_id);
+                                            deleteMypage(item.articleId);
                                         }
                                     }}
                                 />

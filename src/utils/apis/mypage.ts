@@ -16,12 +16,13 @@ export const mypageApi = {
             method: 'GET',
         });
     },
-    deleteMypage: async (fanpal_id: number) => {
-        console.log('deleteMypage', fanpal_id);
-        return customFetcher<void, { fanpal_id: number }>('/api/mypage', {
-            method: 'DELETE',
-            body: { fanpal_id },
-        });
+    deleteMypage: async (articleId: number) => {
+        return customFetcher<void, { articleId: number }>(
+            `/api/myPage/${articleId}`,
+            {
+                method: 'DELETE',
+            }
+        );
     },
     getSelfMypage: async (page: number | null, limit: number) => {
         return customFetcher<
@@ -51,34 +52,34 @@ export const mypageApi = {
             method: 'GET',
         });
     },
-    cancelMypage: async (fanpal_id: number) => {
-        console.log('cancelMypage', fanpal_id);
-        return customFetcher<void, { fanpal_id: number }>(
-            '/api/mypage/cancel',
+    cancelMypage: async (articleId: number) => {
+        return customFetcher<void, void>(`/api/board/${articleId}/fanFal`, {
+            method: 'DELETE',
+        });
+    },
+
+    changePassword: async (data: { password: string; newPassword: string }) => {
+        return customFetcher<void, { password: string; newPassword: string }>(
+            '/api/myPage',
             {
-                method: 'POST',
-                body: { fanpal_id },
+                method: 'PUT',
+                body: data,
+                headers: { 'Content-Type': 'application/json' },
             }
         );
     },
 
-    changePassword: async (data: {
-        currentPassword: string;
-        newPassword: string;
-    }) => {
-        return customFetcher<
-            void,
-            { currentPassword: string; newPassword: string }
-        >('/api/mypage/password', { method: 'POST', body: data });
-    },
     changeProfile: async (data: ProfileEditRequest) => {
         return customFetcher<void, ProfileEditRequest>('/api/myPage', {
             method: 'PATCH',
             body: data,
+            headers: {
+                'Content-Type': 'application/json',
+            },
         });
     },
 
-    postProfileImage: async (profileImage: File) => {
+    postProfileImageUrl: async (profileImage: File) => {
         return customFetcher<
             {
                 statusCode: number;
@@ -94,6 +95,9 @@ export const mypageApi = {
         return customFetcher<void, File>(`${url}`, {
             method: 'PUT',
             body: profileImage,
+            headers: {
+                'Content-Type': profileImage.type,
+            },
         });
     },
 };

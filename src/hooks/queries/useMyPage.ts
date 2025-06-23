@@ -12,6 +12,7 @@ import {
     AnswerListResponse,
     ProfileEditRequest,
 } from '@/types/myPage';
+import { toast } from 'react-toastify';
 
 export const useChangeProfileMutation = () => {
     const queryClient = useQueryClient();
@@ -29,7 +30,7 @@ export const useChangeProfileMutation = () => {
 
 export const useChangePasswordMutation = () => {
     return useMutation({
-        mutationFn: (data: { currentPassword: string; newPassword: string }) =>
+        mutationFn: (data: { password: string; newPassword: string }) =>
             mypageApi.changePassword(data),
         onSuccess: () => {
             console.log('비밀번호 변경 성공');
@@ -44,18 +45,21 @@ export const useGetMyPage = (currentPage: number, pageSize: number) => {
     return useQuery<MyPageResponse>({
         queryKey: ['mypage', currentPage],
         queryFn: () => mypageApi.getMypage(currentPage, pageSize),
+        gcTime: 0,
     });
 };
 
 export const useDeleteMypageMutation = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (fanpal_id: number) => mypageApi.deleteMypage(fanpal_id),
+        mutationFn: (articleId: number) => mypageApi.deleteMypage(articleId),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['mypage'] });
+            toast.success('팬팔 삭제가 완료되었습니다.');
         },
         onError: (error) => {
             console.error('팬팔 삭제 실패:', error);
+            toast.error('팬팔 삭제에 실패했습니다.');
         },
     });
 };
@@ -63,12 +67,14 @@ export const useDeleteMypageMutation = () => {
 export const useCancelMypageMutation = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (fanpal_id: number) => mypageApi.cancelMypage(fanpal_id),
+        mutationFn: (articleId: number) => mypageApi.cancelMypage(articleId),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['mypage'] });
+            toast.success('팬팔 취소가 완료되었습니다.');
         },
         onError: (error) => {
             console.error('팬팔 취소 실패:', error);
+            toast.error('팬팔 취소에 실패했습니다.');
         },
     });
 };
@@ -100,7 +106,7 @@ export const useGetAnswer = (pageParam: number | null, pageSize: number) => {
             mypageApi.getAnswer(pageParam as number | null, pageSize),
         getNextPageParam: (lastPage) => {
             if (lastPage.data.data.length === 0) return undefined;
-            return lastPage.data.data[lastPage.data.data.length - 1].fanpal_id;
+            return lastPage.data.data[lastPage.data.data.length - 1].articleId;
         },
         initialPageParam: 1,
     });

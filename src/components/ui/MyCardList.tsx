@@ -7,9 +7,21 @@ import ChipState from './ChipState';
 import { ProgressChip } from '@/components/ui';
 import { cva } from 'class-variance-authority';
 import Button from './Button';
-import { Card } from '@/types/card';
 
-export default function CardList({
+interface MyCardListProps {
+    title: string;
+    location: string;
+    date: number;
+    currentPerson: number;
+    maxPerson: number;
+    openStatus: 'PENDING_STATUS' | 'CONFIRMED_STATUS' | 'CANCELED_STATUS';
+    image: string;
+    nickName: string;
+    writerImageUrl: string;
+    useStatus: 'UPCOMING_STATUS' | 'COMPLETED_STATUS';
+    buttonOnClick: () => void;
+}
+export default function MyCardList({
     title,
     location,
     date,
@@ -21,7 +33,7 @@ export default function CardList({
     writerImageUrl,
     useStatus,
     buttonOnClick,
-}: Card) {
+}: MyCardListProps) {
     const convertedDate = dateConverter(date, 'korea');
 
     // 현재 시간과 이벤트 날짜 비교하여 deadline 계산

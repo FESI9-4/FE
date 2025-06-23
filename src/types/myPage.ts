@@ -1,22 +1,22 @@
 export type Card = {
-    fanpal_id: number;
+    articleId: number;
     title: string;
     location: string;
     date: number; // api 명세서 ...
     deadLine: number;
     currentPerson: number;
     maxPerson: number;
-    openStatus: 'waiting' | 'finished' | 'progressing';
+    openStatus: 'PENDING_STATUS' | 'CONFIRMED_STATUS' | 'CANCELED_STATUS';
     wishList: boolean;
     image: string;
     createUser: string;
     createUserProfileImg: string;
-    useStatus: 'UPCOMING' | 'COMPLETED';
+    useStatus: 'UPCOMING_STATUS' | 'COMPLETED_STATUS';
     createdAt: number;
 };
 
 export type SelfCard = {
-    fanpal_id: number;
+    articleId: number;
     title: string;
     location: string;
     date: number;
@@ -24,10 +24,10 @@ export type SelfCard = {
     createdAt: number;
     currentPerson: number;
     maxPerson: number;
-    openStatus: 'waiting' | 'finished' | 'progressing';
+    openStatus: 'PENDING_STATUS' | 'CONFIRMED_STATUS' | 'CANCELED_STATUS';
     wishList: boolean;
     image: string;
-    useStatus: 'UPCOMING' | 'COMPLETED';
+    useStatus: 'UPCOMING_STATUS' | 'COMPLETED_STATUS';
     createUser: string;
     createUserProfileImg: string;
     totalPage: number;
