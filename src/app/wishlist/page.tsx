@@ -35,7 +35,7 @@ export default function WishList() {
         setSelectedCategory('ALL');
     }, [activeTab]);
 
-    const serverWishedArticles = articles.filter((a) => a.wishList === true);
+    const serverWishedArticles = articles.filter((a) => a.wish === true);
 
     // 로컬(wishlistStore)에서 찜한 아이템 ID
     const localWishedArticles = articles.filter((a) =>

@@ -8,7 +8,11 @@ import { ProgressChip } from '@/components/ui';
 interface ContainerProgressProps {
     max: number;
     current: number;
-    openStatus: 'CONFIRMED_STATUS' | 'PENDING_STATUS' | 'CANCELED_STATUS';
+    openStatus:
+        | 'CONFIRMED_STATUS'
+        | 'PENDING_STATUS'
+        | 'CANCELED_STATUS'
+        | 'DEADLINE_STATUS';
     deadLine?: string;
 }
 
@@ -24,7 +28,8 @@ export default function ContainerProgress({
             openStatus: {
                 PENDING_STATUS: 'bg-gray-300',
                 CONFIRMED_STATUS: 'bg-green-400',
-                CANCELED_STATUS: 'bg-green-800',
+                DEADLINE_STATUS: 'bg-green-800',
+                CANCELED_STATUS: '',
             },
         },
         defaultVariants: {
@@ -49,7 +54,7 @@ export default function ContainerProgress({
                     )}
                 </div>
 
-                {openStatus === 'CANCELED_STATUS' ? (
+                {openStatus === 'DEADLINE_STATUS' ? (
                     <ProgressChip openStatus={openStatus}>
                         모집마감
                     </ProgressChip>

@@ -6,7 +6,11 @@ export type Card = {
     deadLine: number;
     currentPerson: number;
     maxPerson: number;
-    openStatus: 'CONFIRMED_STATUS' | 'PENDING_STATUS' | 'CANCELED_STATUS';
+    openStatus:
+        | 'CONFIRMED_STATUS'
+        | 'PENDING_STATUS'
+        | 'CANCELED_STATUS'
+        | 'DEADLINE_STATUS';
     wish: boolean;
     image: string;
     useStatus: 'UPCOMING_STATUS' | 'COMPLETED_STATUS';
