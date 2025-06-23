@@ -72,31 +72,43 @@ export default function DetailPageParticipation({
             console.error('링크 복사 실패:', err);
         }
     };
-
-    const handleParticipateClick = () => {
+    const handleParticipateClick = async () => {
         if (!isLoggedIn) {
             setIsLoginModalOpen(true);
             return;
         }
 
-        if (isParticipated) {
-            cancelMutation.mutate(articleId, {
-                onSuccess: () => {
-                    setIsParticipated(false);
-                    toast.success('참여가 취소되었습니다.');
-                    refetch?.();
-                },
-                onError: () => toast.error('참여 취소 실패'),
-            });
-        } else {
-            joinMutation.mutate(articleId, {
-                onSuccess: () => {
-                    setIsParticipated(true);
-                    toast.success('참여가 완료되었습니다!');
-                    refetch?.();
-                },
-                onError: () => toast.error('참여 실패'),
-            });
+        try {
+            if (isParticipated) {
+                await cancelMutation.mutateAsync(articleId);
+                setIsParticipated(false);
+                toast.success('참여가 취소되었습니다.');
+
+                refetch?.();
+            } else {
+                await joinMutation.mutateAsync(articleId);
+                setIsParticipated(true);
+                toast.success('참여가 완료되었습니다!');
+
+                refetch?.();
+            }
+        } catch (error) {
+            console.error('참여/취소 처리 중 오류:', error);
+
+            if (isParticipated) {
+                toast.error('참여 취소에 실패했습니다.');
+            } else {
+                toast.error('참여에 실패했습니다.');
+            }
+
+            refetch?.();
+
+            if (user?.nickName) {
+                const serverParticipated = participants.some(
+                    (p) => p.nickname === user.nickName
+                );
+                setIsParticipated(serverParticipated);
+            }
         }
     };
 
@@ -232,3 +244,6 @@ export default function DetailPageParticipation({
         </>
     );
 }
+
+
+
