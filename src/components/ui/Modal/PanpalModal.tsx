@@ -292,7 +292,12 @@ export default function PanpalModal({ onClose }: PanpalModalProps) {
                                             },
                                         }}
                                         type="datetime-local"
-                                
+                                        maxDate={
+                                            startDate
+                                                ? new Date(startDate)
+                                                : new Date()
+                                        }
+                                        minDate={new Date()}
                                         isStartDate={false}
                                         error={errors.endDate}
                                         placeholder="마감 날짜를 선택해주세요"
