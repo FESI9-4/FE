@@ -9,7 +9,7 @@ import {
     useChangePasswordMutation,
 } from '@/hooks/queries/useMyPage';
 import { toast } from 'react-toastify';
-import { mypageApi } from '@/utils/apis/mypage';
+import { imageUploadApi } from '@/utils/apis/imgS3Api';
 
 export default function ProfileContainer() {
     const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
@@ -58,16 +58,24 @@ export default function ProfileContainer() {
 
         let profileImageUrl = '';
         if (data.profileImg) {
-            const response = await mypageApi.postProfileImageUrl(
-                data.profileImg
-            );
-            console.log(response);
-            profileImageUrl = response.data?.preSignedUrl || '';
-            const putResponse = await mypageApi.putProfileImage(
-                data.profileImg,
-                profileImageUrl
-            );
-            console.log(putResponse);
+            try {
+                const res = await imageUploadApi.getUploadUrl({
+                    fileName: data.profileImg.name,
+                });
+                const { preSignedUrl, key } = res.data;
+
+                await fetch(preSignedUrl, {
+                    method: 'PUT',
+                    body: data.profileImg,
+                    headers: { 'Content-Type': data.profileImg.type },
+                });
+
+                profileImageUrl = key;
+            } catch (error) {
+                console.error('이미지 업로드 실패:', error);
+                toast.error('이미지 업로드에 실패했습니다.');
+                return;
+            }
         }
 
         changeProfileMutation.mutate(

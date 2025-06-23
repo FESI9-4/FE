@@ -20,7 +20,7 @@ export type SelfCard = {
     title: string;
     location: string;
     date: number;
-    deadline: number;
+    deadLine: number;
     createdAt: number;
     currentPerson: number;
     maxPerson: number;

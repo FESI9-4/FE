@@ -66,6 +66,17 @@ export const clientFetcher = async <TResponse, TRequest>(
                             method: 'POST',
                             returnFullResponse: true,
                         });
+
+                        // refresh 토큰도 만료된 경우
+                        if (
+                            refreshResponse.status === 401 ||
+                            refreshResponse.status === 403
+                        ) {
+                            authStore.removeAccessToken();
+                            authStore.setHasRefreshToken(false);
+                            throw new Error('Refresh token expired');
+                        }
+
                         const newAccessToken = refreshResponse.headers
                             .get('Authorization')
                             ?.replace('Bearer ', '');
@@ -118,7 +129,10 @@ export const clientFetcher = async <TResponse, TRequest>(
                 } catch {
                     console.error('❌ 쿠키 삭제 실패');
                 }
-                window.location.href = '/login';
+                // 무한 리다이렉트 방지를 위해 현재 URL이 /login이 아닐 때만 리다이렉트
+                if (window.location.pathname !== '/login') {
+                    window.location.href = '/login';
+                }
                 throw new Error('Authentication failed');
             }
         }
