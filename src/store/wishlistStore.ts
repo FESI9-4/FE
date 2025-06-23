@@ -5,7 +5,7 @@ type WishlistState = {
     wishlistCount: number;
     likedArticleIds: number[];
     isInitialized: boolean;
-    isLoading: boolean; // 로딩 상태 추가
+    isLoading: boolean;
     setWishlistCount: (count: number) => void;
     addLike: (articleId: number) => void;
     removeLike: (articleId: number) => void;
@@ -14,7 +14,7 @@ type WishlistState = {
     syncWithServer: (serverLikedIds: number[]) => void;
     getPendingLikes: () => number[];
     setInitialized: (initialized: boolean) => void;
-    setLoading: (loading: boolean) => void; // 로딩 상태 설정
+    setLoading: (loading: boolean) => void;
 };
 
 export const useWishlistStore = create<WishlistState>()(
@@ -52,7 +52,6 @@ export const useWishlistStore = create<WishlistState>()(
                 return get().likedArticleIds.includes(articleId);
             },
 
-            // 로그아웃 시에도 로컬 데이터 보존하도록 수정
             reset: () => set({
                 wishlistCount: 0,
                 likedArticleIds: [],
@@ -60,18 +59,11 @@ export const useWishlistStore = create<WishlistState>()(
                 isLoading: false,
             }),
 
+            // 서버 동기화 로직 개선
             syncWithServer: (serverLikedIds) => {
-                const currentLocalIds = get().likedArticleIds;
-                
-                // 로그인 상태에서는 서버 데이터를 우선
-                // 비로그인 상태에서는 로컬 데이터 유지
-                const mergedIds = get().isInitialized 
-                    ? serverLikedIds 
-                    : [...new Set([...serverLikedIds, ...currentLocalIds])];
-
                 set({
-                    likedArticleIds: mergedIds,
-                    wishlistCount: mergedIds.length,
+                    likedArticleIds: serverLikedIds,
+                    wishlistCount: serverLikedIds.length,
                     isInitialized: true,
                 });
             },

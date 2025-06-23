@@ -6,11 +6,15 @@ import Button from '@/components/ui/Button';
 interface ConfirmDeleteModalProps {
     onCancel: () => void;
     onConfirm: () => void;
+    title?: string;
+    description?: string;
 }
 
 export default function ConfirmDeleteModal({
     onCancel,
     onConfirm,
+    title = '팬팔을 삭제하시겠어요?',
+    description = '삭제된 팬팔은 복구할 수 없어요',
 }: ConfirmDeleteModalProps) {
     return (
         <BaseModal onClose={onCancel}>
@@ -19,10 +23,10 @@ export default function ConfirmDeleteModal({
                     <div className="flex flex-col gap-6 h-41">
                         <div className="h-14 md:h-15 flex flex-col gap-2">
                             <p className="text-white text-lg font-semibold text-center">
-                                팬팔을 삭제하시겠어요?
+                                {title}
                             </p>
                             <p className="text-gray-400 text-base font-light text-center">
-                                삭제된 팬팔은 복구할 수 없어요
+                                {description}
                             </p>
                         </div>
                     </div>
