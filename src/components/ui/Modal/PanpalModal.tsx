@@ -264,23 +264,45 @@ export default function PanpalModal({ onClose }: PanpalModalProps) {
                                 <p className="text-sm font-semibold h-6">
                                     마감 날짜
                                 </p>
-                                <DateInput<FormData>
-                                    name="endDate"
-                                    control={control}
-                                    rules={{
-                                        required: '마감 날짜를 선택해주세요',
-                                    }}
-                                    type="datetime-local"
-                                    minDate={
-                                        startDate
-                                            ? new Date(startDate)
-                                            : new Date()
-                                    }
-                                    isStartDate={false}
-                                    error={errors.endDate}
-                                    placeholder="마감 날짜를 선택해주세요"
-                                    size="small"
-                                />
+                                <div className="h-18">
+                                    <DateInput<FormData>
+                                        name="endDate"
+                                        control={control}
+                                        rules={{
+                                            required:
+                                                '마감 날짜를 선택해주세요',
+                                            validate: (value) => {
+                                                if (
+                                                    !startDate ||
+                                                    !value ||
+                                                    !(value instanceof Date)
+                                                )
+                                                    return true;
+
+                                                const oneHourBefore =
+                                                    startDate.getTime() -
+                                                    60 * 60 * 1000;
+                                                if (
+                                                    value.getTime() >
+                                                    oneHourBefore
+                                                ) {
+                                                    return '마감 날짜는 시작 날짜 최소 1시간 전이어야 합니다.';
+                                                }
+                                                return true;
+                                            },
+                                        }}
+                                        type="datetime-local"
+                                        minDate={
+                                            startDate
+                                                ? new Date(startDate)
+                                                : new Date()
+                                        }
+                                        isStartDate={false}
+                                        error={errors.endDate}
+                                        placeholder="마감 날짜를 선택해주세요"
+                                        size="small"
+                                    />
+                                </div>
                             </div>
                         </div>
 

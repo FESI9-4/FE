@@ -1,7 +1,5 @@
-"use client"
 import { useWishlistStore } from '@/store/wishlistStore';
 import { wishLikeApi } from '@/utils/apis/likeApi';
-import { useState } from 'react';
 
 interface UseLikeOptions {
     isLoggedIn: boolean;
@@ -11,11 +9,11 @@ interface UseLikeOptions {
 
 export const useLike = (articleId: number, options: UseLikeOptions) => {
     const { isLoggedIn, refetch, onLikeClick } = options;
-    const [isProcessing, setIsProcessing] = useState(false);
 
     const isLiked = useWishlistStore((state) => state.isLiked(articleId));
     const addLike = useWishlistStore((state) => state.addLike);
     const removeLike = useWishlistStore((state) => state.removeLike);
+    const isInitialized = useWishlistStore((state) => state.isInitialized);
 
     const toggleLike = async (event?: React.MouseEvent) => {
         if (event) {
@@ -23,48 +21,43 @@ export const useLike = (articleId: number, options: UseLikeOptions) => {
             event.stopPropagation();
         }
 
-        // 중복 클릭 방지
-        if (isProcessing) return;
-        setIsProcessing(true);
+        // 로그인 상태이고 초기화가 완료되지 않은 경우 처리 안함
+        if (isLoggedIn && !isInitialized) {
+            console.warn('찜 목록이 아직 초기화되지 않았습니다.');
+            return;
+        }
 
-        const wasLiked = isLiked; // 현재 상태 저장
+        const wasLiked = isLiked;
 
         try {
-            // 1. 먼저 UI 업데이트 (즉각적인 반응)
+            // 1. 먼저 로컬 상태 업데이트 (UI 반응성)
             if (wasLiked) {
                 removeLike(articleId);
             } else {
                 addLike(articleId);
             }
 
-            // 2. 로그인된 경우만 서버 요청
+            // 2. 로그인 상태일 때만 서버 API 호출
             if (isLoggedIn) {
                 if (wasLiked) {
                     await wishLikeApi.unlike(articleId);
                 } else {
                     await wishLikeApi.like([articleId]);
                 }
-                
-                // 서버 요청 성공 후 데이터 재조회
-                refetch?.();
             }
 
-            // 3. 콜백 실행
+            refetch?.();
             if (event) onLikeClick?.(event, !wasLiked);
-
         } catch (error) {
             console.error('찜 처리 중 오류:', error);
-            
-            // 실패 시 롤백: 원래 상태로 되돌리기
+            // 실패 시 로컬 상태 롤백
             if (wasLiked) {
-                addLike(articleId); // 원래 좋아요 상태였으면 다시 추가
+                addLike(articleId);
             } else {
-                removeLike(articleId); // 원래 좋아요가 아니었으면 다시 제거
+                removeLike(articleId);
             }
-        } finally {
-            setIsProcessing(false);
         }
     };
 
-    return { isLiked, toggleLike, isProcessing };
+    return { isLiked, toggleLike };
 };
