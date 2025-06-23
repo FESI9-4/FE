@@ -17,6 +17,8 @@ export default function CardListContainer() {
     if (isLoading) return <CustomSkeleton layout="fanpal" count={4} />;
     if (isError) return <div>Error</div>;
 
+    console.log(data?.data.data);
+
     return (
         <div>
             {data?.data.data.length === 0 || !data ? (
@@ -38,14 +40,14 @@ export default function CardListContainer() {
                                     title={item.title}
                                     location={item.location}
                                     date={item.date}
-                                    deadLine={item.deadline}
+                                    deadLine={item.deadLine}
                                     currentPerson={item.currentPerson}
                                     maxPerson={item.maxPerson}
                                     openStatus={
                                         item.openStatus as
-                                            | 'waiting'
-                                            | 'finished'
-                                            | 'progressing'
+                                            | 'CONFIRMED_STATUS'
+                                            | 'PENDING_STATUS'
+                                            | 'CANCELED_STATUS'
                                     }
                                     image={item.image}
                                     createUser={item.createUser}

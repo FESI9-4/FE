@@ -17,4 +17,5 @@ export type Card = {
     createdAt: number;
     nickName: string;
     writerImageUrl: string;
+    buttonOnClick?: () => void;
 };

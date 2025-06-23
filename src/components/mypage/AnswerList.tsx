@@ -45,6 +45,8 @@ export default function AnswerList() {
 
     const toDay = Date.now() / 1000;
 
+    console.log(allData);
+
     return (
         <div>
             {allData.length === 0 ? (
@@ -65,15 +67,15 @@ export default function AnswerList() {
                                         item.createdAt >=
                                             toDay - 60 * 60 * 24 || !item.answer
                                 )
-                                .map((item) => (
+                                .map((item, index) => (
                                     <AnswerCard
-                                        key={item.fanpal_id}
+                                        key={index}
                                         title={item.title}
                                         location={item.location}
                                         createdAt={item.createdAt}
                                         comment={item.comment}
                                         answer={item.answer}
-                                        fanpalId={item.fanpal_id}
+                                        articleId={item.articleId}
                                     />
                                 ))}
                         </div>
@@ -84,25 +86,27 @@ export default function AnswerList() {
                             답변 목록 ({data?.pages[0]?.data.totalCount || 0})
                         </div>
                         <div className="flex flex-col gap-7">
-                            {allData.map((item, index) => (
-                                <div
-                                    key={item.fanpal_id}
-                                    ref={
-                                        allData.length === index + 1
-                                            ? lastElementRef
-                                            : null
-                                    }
-                                >
-                                    <AnswerCard
-                                        title={item.title}
-                                        location={item.location}
-                                        createdAt={item.createdAt}
-                                        comment={item.comment}
-                                        answer={item.answer}
-                                        fanpalId={item.fanpal_id}
-                                    />
-                                </div>
-                            ))}
+                            {allData
+                                .filter((item) => item.answer)
+                                .map((item, index) => (
+                                    <div
+                                        key={index}
+                                        ref={
+                                            allData.length === index + 1
+                                                ? lastElementRef
+                                                : null
+                                        }
+                                    >
+                                        <AnswerCard
+                                            title={item.title}
+                                            location={item.location}
+                                            createdAt={item.createdAt}
+                                            comment={item.comment}
+                                            answer={item.answer}
+                                            articleId={item.articleId}
+                                        />
+                                    </div>
+                                ))}
                         </div>
                     </div>
                     {isFetchingNextPage && (
