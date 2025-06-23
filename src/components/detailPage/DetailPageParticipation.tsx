@@ -46,17 +46,11 @@ export default function DetailPageParticipation({
     // 현재 로그인한 사용자가 참여자인지 체크해서 상태 초기화
     const [isParticipated, setIsParticipated] = useState(false);
     useEffect(() => {
-        console.log('현재 로그인 유저 닉네임:', user?.nickName);
-        console.log(
-            '참여자 목록 닉네임:',
-            participants.map((p) => p.nickname)
-        );
-
         if (isLoggedIn && user?.nickName) {
             const participated = participants.some(
                 (p) => p.nickname === user.nickName
             );
-            console.log('참여 여부:', participated);
+
             setIsParticipated(participated);
         } else {
             setIsParticipated(false);
@@ -67,36 +61,45 @@ export default function DetailPageParticipation({
         try {
             await navigator.clipboard.writeText(window.location.href);
             toast.success('링크가 복사되었습니다!');
-        } catch (err) {
+        } catch {
             toast.error('복사에 실패했습니다.');
-            console.error('링크 복사 실패:', err);
         }
     };
-
-    const handleParticipateClick = () => {
+    const handleParticipateClick = async () => {
         if (!isLoggedIn) {
             setIsLoginModalOpen(true);
             return;
         }
 
-        if (isParticipated) {
-            cancelMutation.mutate(articleId, {
-                onSuccess: () => {
-                    setIsParticipated(false);
-                    toast.success('참여가 취소되었습니다.');
-                    refetch?.();
-                },
-                onError: () => toast.error('참여 취소 실패'),
-            });
-        } else {
-            joinMutation.mutate(articleId, {
-                onSuccess: () => {
-                    setIsParticipated(true);
-                    toast.success('참여가 완료되었습니다!');
-                    refetch?.();
-                },
-                onError: () => toast.error('참여 실패'),
-            });
+        try {
+            if (isParticipated) {
+                await cancelMutation.mutateAsync(articleId);
+                setIsParticipated(false);
+                toast.success('참여가 취소되었습니다.');
+
+                refetch?.();
+            } else {
+                await joinMutation.mutateAsync(articleId);
+                setIsParticipated(true);
+                toast.success('참여가 완료되었습니다!');
+
+                refetch?.();
+            }
+        } catch {
+            if (isParticipated) {
+                toast.error('참여 취소에 실패했습니다.');
+            } else {
+                toast.error('참여에 실패했습니다.');
+            }
+
+            refetch?.();
+
+            if (user?.nickName) {
+                const serverParticipated = participants.some(
+                    (p) => p.nickname === user.nickName
+                );
+                setIsParticipated(serverParticipated);
+            }
         }
     };
 

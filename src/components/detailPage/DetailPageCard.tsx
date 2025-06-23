@@ -70,7 +70,6 @@ export default function DetailPageCard({
 
     const deadlineText = getDeadlineText(deadLine);
 
-    console.log('DetailPageCard minPerson:', minPerson);
 
     return (
         <div>

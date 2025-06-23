@@ -18,17 +18,28 @@ export const internalApis = [
     '/api/proxy/logout',
     '/api/proxy/refresh',
     '/api/auth/findpassword',
+    '/api/mypage/question',
+    '/api/wishlike',
 ];
 export const externalApis = [
     '/api/auth/signup',
     '/api/auth/login',
     '/api/auth/logout',
     '/api/auth/refresh',
+    '/api/auth/findpassword',
     '/api/board/',
     '/api/board',
+    '/api/myPage',
+    '/api/myPage/',
     '/api/myPage/user',
-    '/api/board',
-    '/api/board/',
+    '/api/myPage/answer',
+    '/api/myPage/self',
+    '/api/images/postImage',
+    '/api/images/getImage',
+    '/api/myPage',
+    '/api/myPage/{articleId}',
+    '/api/myPage/answer',
+    '/api/myPage/self',
     '/api/images/postImage',
     '/api/images/getImage',
 ];
@@ -49,20 +60,11 @@ export const fetchInstance = async <TResponse, TRequest>(
         // 외부 API: 실제 백엔드
         fullUrl = `${BACKEND_URL}${url}`;
     } else {
-        // 절대 URL이면 그대로 사용
-        fullUrl = url.startsWith('http') ? url : `${FRONTEND_URL}${url}`;
+        // 절대 URL이면 그대로 사용, 그렇지 않으면 백엔드 URL로 라우팅
+        fullUrl = url.startsWith('http') ? url : `${BACKEND_URL}${url}`;
     }
     const headers = new Headers(options.headers);
     headers.set('Content-Type', 'application/json');
-
-    // 바디가 있으면 JSON 문자열로 변환 전 로그 찍기
-    if (options.body) {
-        console.log('[DEBUG] 요청 바디 (원본):', options.body);
-        console.log(
-            '[DEBUG] 요청 바디 (전체 JSON):',
-            JSON.stringify(options.body, null, 2)
-        );
-    }
 
     try {
         const response = await fetch(fullUrl, {
@@ -71,7 +73,6 @@ export const fetchInstance = async <TResponse, TRequest>(
             credentials: 'include',
             body: options.body ? JSON.stringify(options.body) : undefined,
         });
-        console.log('fetchInstance', response, url);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -86,7 +87,6 @@ export const fetchInstance = async <TResponse, TRequest>(
 };
 // 메서드와 경로를 모두 고려한 isPublicApi 함수
 export const isPublicApi = (url: string, method: string = 'GET') => {
-    console.log('isPublicApi', url, method);
     const urlPath = url.split('?')[0];
     const upperMethod = method.toUpperCase();
 
@@ -99,15 +99,6 @@ export const isPublicApi = (url: string, method: string = 'GET') => {
             return urlPath.startsWith(api.path);
         }
         return urlPath === api.path || urlPath.startsWith(api.path + '/');
-    });
-
-    // 🔍 결과 로깅 추가
-    console.log('isPublicApi 결과:', {
-        url,
-        method,
-        urlPath,
-        upperMethod,
-        isPublic: result,
     });
 
     return result;
