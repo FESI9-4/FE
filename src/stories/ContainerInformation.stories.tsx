@@ -16,7 +16,11 @@ interface ContainerInformationProps {
     currentPerson: number;
     wishList: boolean;
     articleId: number;
-    openStatus: 'waiting' | 'finished' | 'progressing' | 'canceled';
+    openStatus:
+        | 'PENDING_STATUS'
+        | 'CONFIRMED_STATUS'
+        | 'PROGRESSING_STATUS'
+        | 'CANCELED_STATUS';
 }
 
 // ContainerInformation과 똑같은 구조의 컴포넌트 (useGetUser 없이)
@@ -194,7 +198,7 @@ export const Default: Story = {
         articleId: 1,
         createUserProfileImgUrl:
             'https://randomuser.me/api/portraits/women/75.jpg',
-        openStatus: 'waiting',
+        openStatus: 'PENDING_STATUS',
     },
 };
 
@@ -213,7 +217,7 @@ export const AllStates: Story = {
                 wishList={false}
                 articleId={1}
                 createUserProfileImgUrl="https://randomuser.me/api/portraits/women/75.jpg"
-                openStatus="waiting"
+                openStatus="PENDING_STATUS"
             />
             <MockContainerInformation
                 createUser="팬클럽회장"
@@ -227,7 +231,7 @@ export const AllStates: Story = {
                 wishList={true}
                 articleId={1}
                 createUserProfileImgUrl="https://randomuser.me/api/portraits/women/75.jpg"
-                openStatus="progressing"
+                openStatus="PROGRESSING_STATUS"
             />
             <MockContainerInformation
                 createUser="팬클럽회장"
@@ -241,7 +245,7 @@ export const AllStates: Story = {
                 wishList={true}
                 articleId={1}
                 createUserProfileImgUrl="https://randomuser.me/api/portraits/women/75.jpg"
-                openStatus="finished"
+                openStatus="CONFIRMED_STATUS"
             />
             <MockContainerInformation
                 createUser="팬클럽회장"
@@ -255,7 +259,7 @@ export const AllStates: Story = {
                 wishList={true}
                 articleId={1}
                 createUserProfileImgUrl="https://randomuser.me/api/portraits/women/75.jpg"
-                openStatus="canceled"
+                openStatus="CANCELED_STATUS"
             />
         </div>
     ),

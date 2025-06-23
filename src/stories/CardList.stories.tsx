@@ -14,7 +14,11 @@ interface CardListProps {
     deadLine: number;
     currentPerson: number;
     maxPerson: number;
-    openStatus: 'waiting' | 'finished' | 'progressing' | 'canceled';
+    openStatus:
+        | 'PENDING_STATUS'
+        | 'CONFIRMED_STATUS'
+        | 'PROGRESSING_STATUS'
+        | 'CANCELED_STATUS';
     wishList?: boolean;
     image: string;
     createUser: string;
@@ -80,7 +84,7 @@ const MockCardList = ({
         <div className="w-full flex flex-col sm:flex-row sm:py-3 sm:pl-3 sm:pr-6 sm:gap-6 gap-0 sm:min-h-67.5 min-h-97 hover:bg-gray-900 active:opacity-50 hover:cursor-pointer">
             <div className="w-full sm:w-1/4 relative h-50 sm:h-auto">
                 <Image src={image} alt="image" fill objectFit="cover" />
-                {openStatus === 'finished' && (
+                {openStatus === 'CONFIRMED_STATUS' && (
                     <div className="absolute bg-black/80 w-full h-full flex flex-col justify-center items-center gap-6">
                         <HandIcon width={32} height={32} />
                         <div className="flex justify-center items-center text-gray-100 text-sm text-center">
@@ -181,7 +185,12 @@ const meta: Meta<typeof MockCardList> = {
         },
         openStatus: {
             control: { type: 'select' },
-            options: ['waiting', 'finished', 'progressing'],
+            options: [
+                'PENDING_STATUS',
+                'CONFIRMED_STATUS',
+                'PROGRESSING_STATUS',
+                'CANCELED_STATUS',
+            ],
             description: '모집 상태',
         },
         wishList: {
@@ -224,7 +233,7 @@ export const Default: Story = {
         deadLine: deadline,
         currentPerson: 2,
         maxPerson: 4,
-        openStatus: 'waiting',
+        openStatus: 'PENDING_STATUS',
         wishList: false,
         image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=300&fit=crop',
         createUser: '아이브팬123',
@@ -247,7 +256,7 @@ export const AllStates: Story = {
                     deadLine={deadline}
                     currentPerson={2}
                     maxPerson={4}
-                    openStatus="waiting"
+                    openStatus="PENDING_STATUS"
                     wishList={false}
                     image="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=300&fit=crop"
                     createUser="아이브팬123"
@@ -265,7 +274,7 @@ export const AllStates: Story = {
                     deadLine={deadline}
                     currentPerson={3}
                     maxPerson={4}
-                    openStatus="progressing"
+                    openStatus="PROGRESSING_STATUS"
                     wishList={true}
                     image="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=400&h=300&fit=crop"
                     createUser="뉴진스러버"
@@ -285,7 +294,26 @@ export const AllStates: Story = {
                     deadLine={deadline}
                     currentPerson={4}
                     maxPerson={4}
-                    openStatus="finished"
+                    openStatus="CONFIRMED_STATUS"
+                    wishList={false}
+                    image="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&h=300&fit=crop"
+                    createUser="르세라핌팬"
+                    createUserProfileImg="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face"
+                    articleId={3}
+                />
+            </div>
+            <div>
+                <h3 style={{ color: 'white', marginBottom: '8px' }}>
+                    모집 취소
+                </h3>
+                <MockCardList
+                    title="르세라핌 콘서트"
+                    location="대구"
+                    date={futureDate}
+                    deadLine={deadline}
+                    currentPerson={4}
+                    maxPerson={4}
+                    openStatus="CANCELED_STATUS"
                     wishList={false}
                     image="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&h=300&fit=crop"
                     createUser="르세라핌팬"

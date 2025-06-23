@@ -35,7 +35,7 @@ const meta: Meta<typeof AnswerCard> = {
             control: { type: 'boolean' },
             description: '답변 완료 여부',
         },
-        fanpalId: {
+        articleId: {
             control: { type: 'number' },
             description: '팬팔 ID',
         },
@@ -57,7 +57,7 @@ export const Default: Story = {
         comment:
             '같이 아이브 콘서트 보러 가실 분 구해요! 혼자 가기 아쉬워서 함께 즐길 수 있는 분을 찾고 있습니다.',
         answer: false,
-        fanpalId: 123,
+        articleId: 123,
     },
 };
 
@@ -70,7 +70,7 @@ export const Answered: Story = {
         comment:
             '같이 아이브 콘서트 보러 가실 분 구해요! 혼자 가기 아쉬워서 함께 즐길 수 있는 분을 찾고 있습니다.',
         answer: true,
-        fanpalId: 123,
+        articleId: 123,
     },
 };
 
@@ -84,7 +84,7 @@ export const AllStates: Story = {
                 createdAt={now}
                 comment="같이 아이브 콘서트 보러 가실 분 구해요! 혼자 가기 아쉬워서 함께 즐길 수 있는 분을 찾고 있습니다."
                 answer={false}
-                fanpalId={123}
+                articleId={123}
             />
 
             <AnswerCard
@@ -93,7 +93,7 @@ export const AllStates: Story = {
                 createdAt={now}
                 comment="같이 아이브 콘서트 보러 가실 분 구해요! 혼자 가기 아쉬워서 함께 즐길 수 있는 분을 찾고 있습니다."
                 answer={true}
-                fanpalId={123}
+                articleId={123}
             />
         </div>
     ),
