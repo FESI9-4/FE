@@ -8,6 +8,7 @@ import dateConverter from '@/utils/dateConverter';
 import { useCommentQuery } from '@/hooks/queries/useComments';
 import { useGetUser } from '@/hooks/queries/useAuth';
 import LoginModal from '@/components/ui/Modal/LoginModal';
+import ConfirmDeleteModal from '@/components/ui/Modal/ConfirmDeleteModal';
 
 interface FormData {
     comment: string;
@@ -50,6 +51,8 @@ export default function DetailPageComment({
     const formRef = useRef<HTMLFormElement>(null);
     const { data: user } = useGetUser();
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [commentToDelete, setCommentToDelete] = useState<number | null>(null);
 
     const {
         commentsData,
@@ -132,15 +135,27 @@ export default function DetailPageComment({
     };
 
     const handleDeleteComment = (commentId: number) => {
-        if (window.confirm('댓글을 삭제하시겠습니까?')) {
-            deleteMutation.mutate(commentId);
-        }
+        setCommentToDelete(commentId);
+        setIsDeleteModalOpen(true);
     };
 
     const handleCancel = () => {
         setCommentMode({ mode: 'new' });
         reset();
         setSecret(false);
+    };
+
+    const onConfirmDelete = () => {
+        if (commentToDelete !== null) {
+            deleteMutation.mutate(commentToDelete);
+            setIsDeleteModalOpen(false);
+            setCommentToDelete(null);
+        }
+    };
+
+    const onCancelDelete = () => {
+        setIsDeleteModalOpen(false);
+        setCommentToDelete(null);
     };
 
     const allComments = commentsData?.pages.flatMap((page) => page.data) || [];
@@ -265,6 +280,14 @@ export default function DetailPageComment({
 
             {isLoginModalOpen && (
                 <LoginModal onClose={() => setIsLoginModalOpen(false)} />
+            )}
+            {isDeleteModalOpen && (
+                <ConfirmDeleteModal
+                    onCancel={onCancelDelete}
+                    onConfirm={onConfirmDelete}
+                    title="댓글을 삭제하시겠어요?"
+                    description="삭제된 댓글은 복구할 수 없어요"
+                />
             )}
 
             <div className="px-4 w-full h-6">

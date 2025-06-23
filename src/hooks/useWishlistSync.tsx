@@ -1,20 +1,23 @@
+// 3. 수정된 useWishlistSync 훅
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useCallback } from 'react';
 import { useWishlistStore } from '@/store/wishlistStore';
 import { wishLikeApi } from '@/utils/apis/likeApi';
 import { useGetUser } from '@/hooks/queries/useAuth';
 
 export const useWishlistSync = () => {
     const getPendingLikes = useWishlistStore((state) => state.getPendingLikes);
-    const reset = useWishlistStore((state) => state.reset);
     const isInitialized = useWishlistStore((state) => state.isInitialized);
     const setInitialized = useWishlistStore((state) => state.setInitialized);
+    const setLoading = useWishlistStore((state) => state.setLoading);
 
     // 로그인 시 호출할 함수
-    const handleLogin = async () => {
+    const handleLogin = useCallback(async () => {
         if (isInitialized) return; // 이미 초기화된 경우 중복 실행 방지
 
+        setLoading(true);
+        
         try {
             // 1. 로컬에 있는 찜 목록 가져오기
             const pendingLikes = getPendingLikes();
@@ -24,20 +27,23 @@ export const useWishlistSync = () => {
                 await wishLikeApi.like(pendingLikes);
             }
 
-            // 3. 서버로부터 사용자의 찜 목록을 가져와서 동기화 (선택사항)
-            // const serverWishlist = await wishLikeApi.getUserWishlist();
-            // syncWithServer(serverWishlist.data);
-
+            // 3. 초기화 완료
             setInitialized(true);
+
         } catch (error) {
             console.error('찜 목록 동기화 실패:', error);
+            // 실패해도 초기화는 진행
+            setInitialized(true);
+        } finally {
+            setLoading(false);
         }
-    };
+    }, [isInitialized, getPendingLikes, setInitialized, setLoading]);
 
     // 로그아웃 시 호출할 함수
-    const handleLogout = () => {
-        reset(); // 로컬 찜 목록 초기화
-    };
+    const handleLogout = useCallback(() => {
+        // 로그아웃 시에는 초기화 상태만 리셋 (로컬 찜 목록은 유지)
+        setInitialized(false);
+    }, [setInitialized]);
 
     return {
         handleLogin,
@@ -46,21 +52,20 @@ export const useWishlistSync = () => {
     };
 };
 
-// 전역 인증 상태 관리 컴포넌트
+// 4. 수정된 WishlistAuthSync 컴포넌트
 export const WishlistAuthSync = ({
     children,
 }: {
     children: React.ReactNode;
 }) => {
     const { data: user, isLoading } = useGetUser();
-    console.log(user);
     const { handleLogin, handleLogout, isInitialized } = useWishlistSync();
     const prevUser = useRef<typeof user | null>(null);
 
     useEffect(() => {
         if (isLoading) return;
 
-        // user가 유효한 로그인 상태인지 확인 (예: id 필드 존재 여부)
+        // user가 유효한 로그인 상태인지 확인
         const isLoggedIn = user && !!user.nickName;
         const wasLoggedIn = prevUser.current && !!prevUser.current.nickName;
 
@@ -78,4 +83,4 @@ export const WishlistAuthSync = ({
     }, [user, isLoading, isInitialized, handleLogin, handleLogout]);
 
     return <>{children}</>;
-};
+}
