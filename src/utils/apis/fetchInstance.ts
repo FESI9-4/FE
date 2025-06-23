@@ -36,6 +36,12 @@ export const externalApis = [
     '/api/myPage/self',
     '/api/images/postImage',
     '/api/images/getImage',
+    '/api/myPage',
+    '/api/myPage/{articleId}',
+    '/api/myPage/answer',
+    '/api/myPage/self',
+    '/api/images/getImage',
+    '/api/images/postImage',
 ];
 export const fetchInstance = async <TResponse, TRequest>(
     url: string,
