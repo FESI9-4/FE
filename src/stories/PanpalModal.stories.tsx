@@ -1,8 +1,22 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import PanpalModal from '@/components/ui/Modal/PanpalModal';
 import { useEffect } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-// PanpalModal을 위한 래퍼 (모달 루트 제공)
+// 스토리북용 QueryClient 생성
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            retry: false,
+            staleTime: Infinity,
+        },
+        mutations: {
+            retry: false,
+        },
+    },
+});
+
+// PanpalModal을 위한 래퍼 (모달 루트 및 QueryClient 제공)
 const PanpalModalWrapper = () => {
     useEffect(() => {
         // 모달 루트가 없으면 생성
@@ -22,10 +36,12 @@ const PanpalModalWrapper = () => {
     }, []);
 
     return (
-        <PanpalModal
-            onClose={() => console.log('모달 닫기')}
-            onSubmit={(data) => console.log('팬팔 생성:', data)}
-        />
+        <QueryClientProvider client={queryClient}>
+            <PanpalModal
+                onClose={() => console.log('모달 닫기')}
+                onSubmit={(data) => console.log('팬팔 생성:', data)}
+            />
+        </QueryClientProvider>
     );
 };
 
@@ -49,6 +65,10 @@ const meta: Meta<typeof PanpalModalWrapper> = {
         },
         nextjs: {
             appDirectory: true,
+        },
+        // MSW 모킹을 위한 설정
+        msw: {
+            handlers: [],
         },
     },
     tags: ['autodocs'],

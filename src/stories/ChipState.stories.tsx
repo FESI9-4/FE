@@ -21,7 +21,7 @@ const meta: Meta<typeof ChipState> = {
         },
         status: {
             control: { type: 'select' },
-            options: ['schedule', 'done'],
+            options: ['UPCOMING_STATUS', 'COMPLETED_STATUS'],
             description: '상태',
         },
     },
@@ -34,7 +34,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
     args: {
         children: '오늘 12시 마감',
-        status: 'UPCOMING',
+        status: 'UPCOMING_STATUS',
     },
 };
 
@@ -49,8 +49,8 @@ export const AllStates: Story = {
                 flexWrap: 'wrap',
             }}
         >
-            <ChipState status="UPCOMING">오늘 12시 마감</ChipState>
-            <ChipState status="COMPLETED">모집 완료</ChipState>
+            <ChipState status="UPCOMING_STATUS">오늘 12시 마감</ChipState>
+            <ChipState status="COMPLETED_STATUS">모집 완료</ChipState>
         </div>
     ),
 };
