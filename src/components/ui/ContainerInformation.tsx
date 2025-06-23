@@ -17,7 +17,11 @@ interface ContainerInformationProps {
     currentPerson: number;
     wishList: boolean;
     articleId: number;
-    openStatus: 'CONFIRMED_STATUS' | 'PENDING_STATUS' | 'CANCELED_STATUS';
+    openStatus:
+        | 'CONFIRMED_STATUS'
+        | 'PENDING_STATUS'
+        | 'CANCELED_STATUS'
+        | 'PROGRESSING_STATUS';
     refetch?: () => void;
 }
 

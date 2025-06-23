@@ -2,7 +2,11 @@ import { CheckIcon } from '@/assets';
 import { cva } from 'class-variance-authority';
 
 interface ProgressChipProps {
-    openStatus: 'CONFIRMED_STATUS' | 'PENDING_STATUS' | 'CANCELED_STATUS';
+    openStatus:
+        | 'CONFIRMED_STATUS'
+        | 'PENDING_STATUS'
+        | 'CANCELED_STATUS'
+        | 'PROGRESSING_STATUS'; // 마감상태로 부탁드림.. 오후 6시에 작업해주신다하셔서 들어오며수정
     children: React.ReactNode;
 }
 
@@ -16,9 +20,9 @@ export default function ProgressChip({
             variants: {
                 openStatus: {
                     PENDING_STATUS: 'text-[#fb923c]',
-                    CANCELED_STATUS: 'text-green-400',
                     CONFIRMED_STATUS: 'text-green-400',
-                    //canceled: 'hidden',
+                    PROGRESSING_STATUS: 'text-green-400',
+                    CANCELED_STATUS: 'hidden',
                 },
             },
             defaultVariants: {
@@ -30,9 +34,9 @@ export default function ProgressChip({
         variants: {
             openStatus: {
                 PENDING_STATUS: 'hidden',
-                CANCELED_STATUS: 'text-black fill-green-500',
-                CONFIRMED_STATUS: 'fill-gray-900',
-                //canceled: 'hidden',
+                CONFIRMED_STATUS: 'text-black fill-green-500',
+                PROGRESSING_STATUS: 'fill-gray-900',
+                CANCELED_STATUS: 'hidden',
             },
         },
         defaultVariants: {

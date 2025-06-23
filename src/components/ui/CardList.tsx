@@ -15,7 +15,11 @@ interface CardListProps {
     deadLine: number;
     currentPerson: number;
     maxPerson: number;
-    openStatus: 'CONFIRMED_STATUS' | 'PENDING_STATUS' | 'CANCELED_STATUS';
+    openStatus:
+        | 'CONFIRMED_STATUS'
+        | 'PENDING_STATUS'
+        | 'CANCELED_STATUS'
+        | 'PROGRESSING_STATUS';
     wishList?: boolean;
     image: string;
     createUser: string;
@@ -78,7 +82,7 @@ export default function CardList({
         <div className="w-full flex flex-col sm:flex-row sm:py-3 sm:pl-3 sm:pr-6 sm:gap-6 gap-0 sm:min-h-67.5 min-h-97 hover:bg-gray-900 active:opacity-50 hover:cursor-pointer">
             <div className="w-full sm:w-1/4 relative h-50 sm:h-auto">
                 <Image src={image} alt="image" fill objectFit="cover" />
-                {openStatus === 'CANCELED_STATUS' && (
+                {openStatus === 'CONFIRMED_STATUS' && (
                     <div className="absolute bg-black/80 w-full h-full flex flex-col justify-center items-center gap-6">
                         <HandIcon width={32} height={32} />
                         <div className="flex justify-center items-center text-gray-100 text-sm text-center">

@@ -7,7 +7,11 @@ import Tag from '@/components/ui/Tag';
 
 interface DetailPageCardProps {
     articleImageUrl: string;
-    openStatus: 'CONFIRMED_STATUS' | 'PENDING_STATUS' | 'CANCELED_STATUS';
+    openStatus:
+        | 'CONFIRMED_STATUS'
+        | 'PENDING_STATUS'
+        | 'CANCELED_STATUS'
+        | 'PROGRESSING_STATUS';
     createUser: string;
     createUserProfileImgUrl: string;
     title: string;
@@ -68,6 +72,7 @@ export default function DetailPageCard({
 
     console.log('DetailPageCard minPerson:', minPerson);
 
+    //TODO 밑에 'CONFIRMED_STATUS' -> 교체해야함 Deadline_status로.
     return (
         <div>
             <div className="flex flex-col sm:flex-row sm:px-3 sm:gap-10 gap-6 sm:h-95 sm:items-end">
@@ -78,7 +83,7 @@ export default function DetailPageCard({
                         fill
                         style={{ objectFit: 'cover' }}
                     />
-                    {openStatus === 'CANCELED_STATUS' ? (
+                    {openStatus === 'CONFIRMED_STATUS' ? (
                         <div className="absolute bg-black/50 w-full h-full flex flex-col justify-center items-center gap-6">
                             <HandIcon className="w-8 h-8 text-gray-600 fill-white" />
                             <div className="flex justify-center items-center text-gray-100 text-sm text-center">
