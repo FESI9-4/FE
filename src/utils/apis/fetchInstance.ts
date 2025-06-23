@@ -31,7 +31,6 @@ export const externalApis = [
     '/api/board/',
     '/api/images/postImage',
     '/api/images/getImage',
-    '/api/wishlike',
 ];
 export const fetchInstance = async <TResponse, TRequest>(
     url: string,
