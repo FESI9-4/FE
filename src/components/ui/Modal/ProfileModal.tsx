@@ -9,6 +9,7 @@ import Button from '@/components/ui/Button';
 import Profile from '@/components/ui/Profile';
 import { useGetUser } from '@/hooks/queries/useAuth';
 import InputText from '../InputText';
+import { ProfileEditRequest } from '@/types/myPage';
 
 interface EditProfileModalProps {
     onClose: () => void;
