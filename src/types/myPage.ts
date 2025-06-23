@@ -48,7 +48,7 @@ export type Question = {
 };
 
 export type Answer = {
-    fanpal_id: number;
+    articleId: number;
     title: string;
     location: string;
     createdAt: number;
