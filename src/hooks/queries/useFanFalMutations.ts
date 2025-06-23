@@ -56,4 +56,3 @@ export function useFanFalMutations() {
 
     return { joinMutation, cancelMutation };
 }
-

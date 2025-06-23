@@ -8,7 +8,7 @@ export async function initMocks() {
         return;
     }
 
-    if (process.env.NODE_ENV !== 'development') return;    // 나중에 msw .. 
+    if (process.env.NODE_ENV !== 'development') return; // 나중에 msw ..
 
     if (typeof window === 'undefined') {
         const { server } = await import('./server');
