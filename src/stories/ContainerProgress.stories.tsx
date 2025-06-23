@@ -32,7 +32,12 @@ const meta: Meta<typeof ContainerProgress> = {
         },
         openStatus: {
             control: { type: 'select' },
-            options: ['waiting', 'progressing', 'finished'],
+            options: [
+                'PENDING_STATUS',
+                'PROGRESSING_STATUS',
+                'CONFIRMED_STATUS',
+                'CANCELED_STATUS',
+            ],
             description: '모집 상태',
         },
         deadLine: {
@@ -54,7 +59,7 @@ export const Default: Story = {
     args: {
         max: 10,
         current: 7,
-        openStatus: 'progressing',
+        openStatus: 'PROGRESSING_STATUS',
         deadLine: '12시간 후',
     },
 };
@@ -66,7 +71,7 @@ export const AllStates: Story = {
                 {/* 모집 대기 */}
                 <div className="space-y-3">
                     <h3 className="text-white text-base font-medium">
-                        모집 대기 (waiting)
+                        모집 대기
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="p-4 rounded-lg">
@@ -76,7 +81,7 @@ export const AllStates: Story = {
                             <ContainerProgress
                                 max={10}
                                 current={3}
-                                openStatus="waiting"
+                                openStatus="PENDING_STATUS"
                                 deadLine="2일 후"
                             />
                         </div>
@@ -87,7 +92,7 @@ export const AllStates: Story = {
                             <ContainerProgress
                                 max={15}
                                 current={3}
-                                openStatus="waiting"
+                                openStatus="PENDING_STATUS"
                             />
                         </div>
                     </div>
@@ -96,7 +101,7 @@ export const AllStates: Story = {
                 {/* 진행 중 */}
                 <div className="space-y-3">
                     <h3 className="text-white text-base font-medium">
-                        진행 중 (progressing)
+                        진행 중
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="p-4 rounded-lg">
@@ -106,7 +111,7 @@ export const AllStates: Story = {
                             <ContainerProgress
                                 max={10}
                                 current={7}
-                                openStatus="progressing"
+                                openStatus="PROGRESSING_STATUS"
                                 deadLine="12시간 후"
                             />
                         </div>
@@ -117,7 +122,7 @@ export const AllStates: Story = {
                             <ContainerProgress
                                 max={20}
                                 current={18}
-                                openStatus="progressing"
+                                openStatus="PROGRESSING_STATUS"
                                 deadLine="3시간 후"
                             />
                         </div>
@@ -127,7 +132,7 @@ export const AllStates: Story = {
                 {/* 모집 완료 */}
                 <div className="space-y-3">
                     <h3 className="text-white text-base font-medium">
-                        모집 완료 (finished)
+                        모집 완료
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="p-4 rounded-lg">
@@ -137,7 +142,7 @@ export const AllStates: Story = {
                             <ContainerProgress
                                 max={12}
                                 current={12}
-                                openStatus="finished"
+                                openStatus="CONFIRMED_STATUS"
                             />
                         </div>
                         <div className="p-4 rounded-lg">
@@ -147,7 +152,7 @@ export const AllStates: Story = {
                             <ContainerProgress
                                 max={25}
                                 current={20}
-                                openStatus="finished"
+                                openStatus="CONFIRMED_STATUS"
                             />
                         </div>
                     </div>
@@ -156,7 +161,7 @@ export const AllStates: Story = {
                 {/* 다양한 규모 */}
                 <div className="space-y-3">
                     <h3 className="text-white text-base font-medium">
-                        다양한 규모
+                        모집 취소
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="p-4 rounded-lg">
@@ -166,50 +171,8 @@ export const AllStates: Story = {
                             <ContainerProgress
                                 max={4}
                                 current={2}
-                                openStatus="progressing"
+                                openStatus="CANCELED_STATUS"
                                 deadLine="6시간 후"
-                            />
-                        </div>
-                        <div className="p-4 rounded-lg">
-                            <p className="text-gray-400 text-xs mb-3">
-                                대규모 모임 (350/500명)
-                            </p>
-                            <ContainerProgress
-                                max={500}
-                                current={350}
-                                openStatus="progressing"
-                                deadLine="2일 후"
-                            />
-                        </div>
-                    </div>
-                </div>
-
-                {/* 극단적인 케이스 */}
-                <div className="space-y-3">
-                    <h3 className="text-white text-base font-medium">
-                        특수 케이스
-                    </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="p-4 rounded-lg">
-                            <p className="text-gray-400 text-xs mb-3">
-                                시작 단계 (5%)
-                            </p>
-                            <ContainerProgress
-                                max={100}
-                                current={5}
-                                openStatus="waiting"
-                                deadLine="1주일 후"
-                            />
-                        </div>
-                        <div className="p-4 rounded-lg">
-                            <p className="text-gray-400 text-xs mb-3">
-                                마감 임박 (95%)
-                            </p>
-                            <ContainerProgress
-                                max={20}
-                                current={19}
-                                openStatus="progressing"
-                                deadLine="30분 후"
                             />
                         </div>
                     </div>
