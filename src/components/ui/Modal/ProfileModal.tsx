@@ -86,10 +86,11 @@ export default function EditProfileModal({
             profileImage: data.file?.[0],
             description: data.description,
         });
+        console.log(data);
         onSubmit({
-            nickName: data.nickname,
+            nickName: data.nickname || user?.nickName,
             profileImg: data.file?.[0],
-            information: data.description,
+            information: data.description || user?.description,
         });
     };
 

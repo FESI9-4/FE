@@ -17,8 +17,6 @@ export default function CardListContainer() {
     if (isLoading) return <CustomSkeleton layout="fanpal" count={4} />;
     if (isError) return <div>Error</div>;
 
-    console.log(data?.data.data);
-
     return (
         <div>
             {data?.data.data.length === 0 || !data ? (
@@ -32,8 +30,8 @@ export default function CardListContainer() {
                     <div>
                         {data?.data.data.map((item, index) => (
                             <Link
-                                key={item.fanpal_id?.toString() ?? index}
-                                href={`/panpal/${item.fanpal_id}`}
+                                key={item.articleId?.toString() ?? index}
+                                href={`/panpal/${item.articleId}`}
                                 className="flex flex-col gap-3"
                             >
                                 <CardList
@@ -54,7 +52,7 @@ export default function CardListContainer() {
                                     createUserProfileImg={
                                         item.createUserProfileImg
                                     }
-                                    articleId={item.fanpal_id}
+                                    articleId={item.articleId}
                                     wishList={false}
                                 />
                                 {index !== data?.data.data.length - 1 && (
