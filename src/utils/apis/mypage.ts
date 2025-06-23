@@ -4,30 +4,16 @@ import {
     SelfMypageResponse,
     QuestionListResponse,
     AnswerListResponse,
+    ProfileEditRequest,
 } from '@/types/myPage';
 
-interface MypageResponse {
-    nickName: string;
-    img: string;
-    description: string;
-}
-
 export const mypageApi = {
-    getUser: async () => {
-        return customFetcher<MypageResponse, void>('/api/user', {
-            method: 'GET',
-        });
-    },
-    getMypage: async (lastArticleId: number | null, limit: number) => {
+    getMypage: async (page: number | null, limit: number) => {
         return customFetcher<
             MyPageResponse,
             { lastArticleId: number | null; limit: number }
-        >('/api/mypage', {
-            method: 'POST',
-            body: {
-                lastArticleId,
-                limit,
-            },
+        >(`/api/myPage?page=${page}&limit=${limit}`, {
+            method: 'GET',
         });
     },
     deleteMypage: async (fanpal_id: number) => {
@@ -37,16 +23,12 @@ export const mypageApi = {
             body: { fanpal_id },
         });
     },
-    getSelfMypage: async (lastArticleId: number | null, limit: number) => {
+    getSelfMypage: async (page: number | null, limit: number) => {
         return customFetcher<
             SelfMypageResponse,
-            { lastArticleId: number | null; limit: number }
-        >('/api/mypage/self', {
-            method: 'POST',
-            body: {
-                lastArticleId,
-                limit,
-            },
+            { page: number | null; limit: number }
+        >(`/api/myPage/self?page=${page}&limit=${limit}`, {
+            method: 'GET',
         });
     },
     getQuestion: async (lastArticleId: number | null, limit: number) => {
@@ -65,12 +47,8 @@ export const mypageApi = {
         return customFetcher<
             AnswerListResponse,
             { lastArticleId: number | null; limit: number }
-        >('/api/mypage/answer', {
-            method: 'POST',
-            body: {
-                lastArticleId,
-                limit,
-            },
+        >(`/api/myPage/answer?lastArticleId=${lastArticleId}&limit=${limit}`, {
+            method: 'GET',
         });
     },
     cancelMypage: async (fanpal_id: number) => {
@@ -83,6 +61,7 @@ export const mypageApi = {
             }
         );
     },
+
     changePassword: async (data: {
         currentPassword: string;
         newPassword: string;
@@ -92,14 +71,29 @@ export const mypageApi = {
             { currentPassword: string; newPassword: string }
         >('/api/mypage/password', { method: 'POST', body: data });
     },
-    changeProfile: async (data: {
-        nickname: string;
-        profileImage?: File;
-        description?: string;
-    }) => {
+    changeProfile: async (data: ProfileEditRequest) => {
+        return customFetcher<void, ProfileEditRequest>('/api/myPage', {
+            method: 'PATCH',
+            body: data,
+        });
+    },
+
+    postProfileImage: async (profileImage: File) => {
         return customFetcher<
-            void,
-            { nickname: string; profileImage?: File; description?: string }
-        >('/api/mypage/profile', { method: 'POST', body: data });
+            {
+                statusCode: number;
+                message: string;
+                data: { preSignedUrl: string; key: string };
+            },
+            { fileName: string }
+        >(`/api/images/postImage?fileName=${profileImage.name}`, {
+            method: 'GET',
+        });
+    },
+    putProfileImage: async (profileImage: File, url: string) => {
+        return customFetcher<void, File>(`${url}`, {
+            method: 'PUT',
+            body: profileImage,
+        });
     },
 };

@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useForm, FieldValues, FieldError } from 'react-hook-form';
 
 import BaseModal from '@/components/ui/Modal';
@@ -9,14 +9,11 @@ import Button from '@/components/ui/Button';
 import Profile from '@/components/ui/Profile';
 import { useGetUser } from '@/hooks/queries/useAuth';
 import InputText from '../InputText';
+import { ProfileEditRequest } from '@/types/myPage';
 
 interface EditProfileModalProps {
     onClose: () => void;
-    onSubmit: (data: {
-        nickname: string;
-        profileImage?: File;
-        description?: string;
-    }) => void;
+    onSubmit: (data: ProfileEditRequest) => void;
 }
 
 export default function EditProfileModal({
@@ -24,6 +21,7 @@ export default function EditProfileModal({
     onSubmit,
 }: EditProfileModalProps) {
     const { data: user } = useGetUser();
+    const [isFileDialogOpen, setIsFileDialogOpen] = useState(false);
 
     const {
         register,
@@ -57,12 +55,25 @@ export default function EditProfileModal({
         : user?.profileImage || '';
 
     const handleImageClick = () => {
-        fileInputRef.current?.click();
+        setIsFileDialogOpen(true);
+
+        setTimeout(() => {
+            fileInputRef.current?.click();
+        }, 50);
     };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setIsFileDialogOpen(false);
         if (e.target.files) {
             setValue('file', e.target.files, { shouldValidate: true });
+        }
+    };
+
+    const handleFileFocus = () => {
+        if (isFileDialogOpen) {
+            setTimeout(() => {
+                setIsFileDialogOpen(false);
+            }, 100);
         }
     };
 
@@ -73,14 +84,20 @@ export default function EditProfileModal({
             description: data.description,
         });
         onSubmit({
-            nickname: data.nickname,
-            profileImage: data.file?.[0],
-            description: data.description,
+            nickName: data.nickname,
+            profileImgUrl: data.file?.[0],
+            information: data.description,
         });
     };
 
+    const handleModalClose = () => {
+        if (!isFileDialogOpen) {
+            onClose();
+        }
+    };
+
     return (
-        <BaseModal onClose={onClose}>
+        <BaseModal onClose={handleModalClose}>
             <div className="w-85.75 md:w-130 flex items-center justify-center py-6">
                 <form
                     onSubmit={handleSubmit(handleFormSubmit)}
@@ -105,6 +122,7 @@ export default function EditProfileModal({
                             accept="image/*"
                             ref={fileInputRef}
                             onChange={handleFileChange}
+                            onFocus={handleFileFocus}
                             className="hidden"
                         />
                         {errors.file && (
@@ -113,7 +131,6 @@ export default function EditProfileModal({
                             </span>
                         )}
 
-                        {/* 닉네임 입력 */}
                         <div className=" flex flex-col justify-between">
                             <p className="text-sm md:text-base font-semibold">
                                 닉네임

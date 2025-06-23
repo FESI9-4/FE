@@ -9,6 +9,8 @@ import {
     useChangePasswordMutation,
 } from '@/hooks/queries/useMyPage';
 import { toast } from 'react-toastify';
+import { ProfileEditRequest } from '@/types/myPage';
+import { mypageApi } from '@/utils/apis/mypage';
 
 export default function ProfileContainer() {
     const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
@@ -47,20 +49,40 @@ export default function ProfileContainer() {
         });
     };
 
-    const handleSubmitEditProfileModal = (data: {
-        nickname: string;
-        profileImage?: File;
-        description?: string;
-    }) => {
+    const handleSubmitEditProfileModal = async (data: ProfileEditRequest) => {
         setIsEditProfileModalOpen(false);
-        changeProfileMutation.mutate(data, {
-            onSuccess: () => {
-                toast.success('프로필이 변경되었습니다.');
+
+        let profileImageUrl = '';
+        if (data.profileImgUrl && typeof data.profileImgUrl !== 'string') {
+            const response = await mypageApi.postProfileImage(
+                data.profileImgUrl as File
+            );
+            profileImageUrl = response.data?.preSignedUrl || '';
+            await mypageApi.putProfileImage(
+                data.profileImgUrl as File,
+                profileImageUrl
+            );
+        }
+
+        changeProfileMutation.mutate(
+            {
+                userId: data.userId || '',
+                nickName: data.nickName || '',
+                profileImgUrl:
+                    profileImageUrl || (data.profileImgUrl as string) || '',
+                information: data.information || '',
+                password: data.password || '',
+                email: data.email || '',
             },
-            onError: () => {
-                toast.error('프로필 변경에 실패했습니다.');
-            },
-        });
+            {
+                onSuccess: () => {
+                    toast.success('프로필이 변경되었습니다.');
+                },
+                onError: () => {
+                    toast.error('프로필 변경에 실패했습니다.');
+                },
+            }
+        );
     };
 
     return (
