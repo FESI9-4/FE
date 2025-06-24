@@ -6,7 +6,7 @@ interface ProgressChipProps {
         | 'CONFIRMED_STATUS'
         | 'PENDING_STATUS'
         | 'CANCELED_STATUS'
-        | 'PROGRESSING_STATUS'; // 마감상태로 부탁드림.. 오후 6시에 작업해주신다하셔서 들어오며수정
+        | 'DEADLINE_STATUS';
     children: React.ReactNode;
 }
 
@@ -20,8 +20,8 @@ export default function ProgressChip({
             variants: {
                 openStatus: {
                     PENDING_STATUS: 'text-[#fb923c]',
+                    DEADLINE_STATUS: 'text-green-400',
                     CONFIRMED_STATUS: 'text-green-400',
-                    PROGRESSING_STATUS: 'text-green-400',
                     CANCELED_STATUS: 'hidden',
                 },
             },
@@ -35,7 +35,7 @@ export default function ProgressChip({
             openStatus: {
                 PENDING_STATUS: 'hidden',
                 CONFIRMED_STATUS: 'text-black fill-green-500',
-                PROGRESSING_STATUS: 'fill-gray-900',
+                DEADLINE_STATUS: 'fill-gray-900',
                 CANCELED_STATUS: 'hidden',
             },
         },

@@ -7,10 +7,10 @@ export type Card = {
     currentPerson: number;
     maxPerson: number;
     openStatus:
-        | 'CONFIRMED_STATUS' // 최소인원 초과 상태
-        | 'PENDING_STATUS' // 대기
-        | 'CANCELED_STATUS' // 취소
-        | 'PROGRESSING_STATUS'; // 최소인원 초과 + 데드라인 -> 요고 6시에 넣어주신다고..
+        | 'CONFIRMED_STATUS'
+        | 'PENDING_STATUS'
+        | 'CANCELED_STATUS'
+        | 'DEADLINE_STATUS';
     wish: boolean;
     image: string;
     useStatus: 'UPCOMING_STATUS' | 'COMPLETED_STATUS';

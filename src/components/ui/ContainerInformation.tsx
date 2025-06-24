@@ -21,7 +21,7 @@ interface ContainerInformationProps {
         | 'CONFIRMED_STATUS'
         | 'PENDING_STATUS'
         | 'CANCELED_STATUS'
-        | 'PROGRESSING_STATUS';
+        | 'DEADLINE_STATUS';
     refetch?: () => void;
 }
 
